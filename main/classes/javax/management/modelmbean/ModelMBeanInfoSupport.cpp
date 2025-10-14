@@ -536,7 +536,7 @@ void ModelMBeanInfoSupport::setDescriptor($Descriptor* inDescriptor$renamed, $St
 	if (inDescriptor == nullptr) {
 		$assign(inDescriptor, $new($DescriptorSupport));
 	}
-	if ((inDescriptorType == nullptr) || (inDescriptorType->isEmpty())) {
+	if ((inDescriptorType == nullptr) || ($nc(inDescriptorType)->isEmpty())) {
 		$assign(inDescriptorType, $cast($String, $nc(inDescriptor)->getFieldValue("descriptorType"_s)));
 		if (inDescriptorType == nullptr) {
 			$nc($JmxProperties::MODELMBEAN_LOGGER)->log($System$Logger$Level::TRACE, $$str({"descriptorType null in both String parameter and Descriptor, defaulting to "_s, ModelMBeanInfoSupport::MMB}));
@@ -549,7 +549,7 @@ void ModelMBeanInfoSupport::setDescriptor($Descriptor* inDescriptor$renamed, $St
 		$assign(inDescriptorName, this->getClassName());
 	}
 	bool found = false;
-	if (inDescriptorType->equalsIgnoreCase(ModelMBeanInfoSupport::MMB)) {
+	if ($nc(inDescriptorType)->equalsIgnoreCase(ModelMBeanInfoSupport::MMB)) {
 		setMBeanDescriptor(inDescriptor);
 		found = true;
 	} else if (inDescriptorType->equalsIgnoreCase(ModelMBeanInfoSupport::ATTR)) {

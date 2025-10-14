@@ -616,7 +616,7 @@ $MonitorNotification* GaugeMonitor::updateNotifications($GaugeMonitor$GaugeMonit
 
 void GaugeMonitor::setDerivedGaugeWithDifference($Number* scanGauge, $GaugeMonitor$GaugeMonitorObservedObject* o) {
 	$synchronized(this) {
-		$var($Number, prev, o->getPreviousScanGauge());
+		$var($Number, prev, $nc(o)->getPreviousScanGauge());
 		$var($Number, der, nullptr);
 		$init($GaugeMonitor$1);
 		switch ($nc($GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->get($nc(($(o->getType())))->ordinal())) {

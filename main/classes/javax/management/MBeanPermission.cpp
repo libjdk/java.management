@@ -517,10 +517,10 @@ bool MBeanPermission::implies($Permission* p) {
 		if (((int32_t)((this->mask | MBeanPermission::QueryNames) & (uint32_t)$nc(that)->mask)) != that->mask) {
 			return false;
 		}
-	} else if (((int32_t)(this->mask & (uint32_t)that->mask)) != that->mask) {
+	} else if (((int32_t)(this->mask & (uint32_t)$nc(that)->mask)) != that->mask) {
 		return false;
 	}
-	if (that->classNamePrefix == nullptr) {
+	if ($nc(that)->classNamePrefix == nullptr) {
 	} else if (this->classNamePrefix == nullptr) {
 		return false;
 	} else if (this->classNameExactMatch) {
@@ -533,14 +533,14 @@ bool MBeanPermission::implies($Permission* p) {
 	} else if (!$nc(that->classNamePrefix)->startsWith(this->classNamePrefix)) {
 		return false;
 	}
-	if (that->member == nullptr) {
+	if ($nc(that)->member == nullptr) {
 	} else if (this->member == nullptr) {
 		return false;
 	} else if ($nc(this->member)->equals("*"_s)) {
 	} else if (!$nc(this->member)->equals(that->member)) {
 		return false;
 	}
-	if (that->objectName == nullptr) {
+	if ($nc(that)->objectName == nullptr) {
 	} else if (this->objectName == nullptr) {
 		return false;
 	} else if (!$nc(this->objectName)->apply(that->objectName)) {

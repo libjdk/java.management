@@ -321,10 +321,10 @@ bool MXBeanIntrospector::canUseOpenInfo($Type* type) {
 	$init(MXBeanIntrospector);
 	if ($instanceOf($GenericArrayType, type)) {
 		return canUseOpenInfo($($nc(($cast($GenericArrayType, type)))->getGenericComponentType()));
-	} else if ($instanceOf($Class, type) && ($cast($Class, type))->isArray()) {
+	} else if ($instanceOf($Class, type) && $nc(($cast($Class, type)))->isArray()) {
 		return canUseOpenInfo(($cast($Class, type))->getComponentType());
 	}
-	return (!($instanceOf($Class, type) && ($cast($Class, type))->isPrimitive()));
+	return (!($instanceOf($Class, type) && $nc(($cast($Class, type)))->isPrimitive()));
 }
 
 $String* MXBeanIntrospector::originalTypeString($Type* type) {

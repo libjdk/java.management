@@ -808,7 +808,7 @@ void RelationSupport::initRoleMap($RoleList* list) {
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "ENTRY {0}"_s, $$new($ObjectArray, {$of(list)}));
 	$synchronized(this->myRoleName2ValueMap) {
 		{
-			$var($Iterator, i$, $nc($(list->asList()))->iterator());
+			$var($Iterator, i$, $nc($($nc(list)->asList()))->iterator());
 			for (; $nc(i$)->hasNext();) {
 				$var($Role, currRole, $cast($Role, i$->next()));
 				{

@@ -189,25 +189,25 @@ void MBeanAnalyzer::initMaps($Class* mbeanType, $MBeanIntrospector* introspector
 					$var($MBeanAnalyzer$AttrMethods, am, $cast($MBeanAnalyzer$AttrMethods, $nc(this->attrMap)->get(attrName)));
 					if (am == nullptr) {
 						$assign(am, $new($MBeanAnalyzer$AttrMethods));
-					} else if (am->getter != nullptr) {
+					} else if ($nc(am)->getter != nullptr) {
 						$var($String, msg, $str({"Attribute "_s, attrName, " has more than one getter"_s}));
 						$throwNew($NotCompliantMBeanException, msg);
 					}
-					$set(am, getter, cm);
+					$set($nc(am), getter, cm);
 					$nc(this->attrMap)->put(attrName, am);
 				} else {
-					bool var$6 = name->startsWith("set"_s);
+					bool var$6 = $nc(name)->startsWith("set"_s);
 					bool var$5 = var$6 && name->length() > 3 && nParams == 1;
 					if (var$5 && m->getReturnType() == $Void::TYPE) {
 						$assign(attrName, name->substring(3));
 						$var($MBeanAnalyzer$AttrMethods, am, $cast($MBeanAnalyzer$AttrMethods, $nc(this->attrMap)->get(attrName)));
 						if (am == nullptr) {
 							$assign(am, $new($MBeanAnalyzer$AttrMethods));
-						} else if (am->setter != nullptr) {
+						} else if ($nc(am)->setter != nullptr) {
 							$var($String, msg, $str({"Attribute "_s, attrName, " has more than one setter"_s}));
 							$throwNew($NotCompliantMBeanException, msg);
 						}
-						$set(am, setter, cm);
+						$set($nc(am), setter, cm);
 						$nc(this->attrMap)->put(attrName, am);
 					} else {
 						$var($List, cms, $cast($List, $nc(this->opMap)->get(name)));
@@ -256,7 +256,7 @@ $List* MBeanAnalyzer::eliminateCovariantMethods($List* startMethods) {
 		}
 	}
 	$var($List, methods, $Util::newList(startMethods));
-	methods->removeAll(overridden);
+	$nc(methods)->removeAll(overridden);
 	return methods;
 }
 

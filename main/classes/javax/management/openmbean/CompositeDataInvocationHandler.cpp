@@ -105,7 +105,7 @@ $Object* CompositeDataInvocationHandler::invoke(Object$* proxy, $Method* method,
 		} else if (methodName->equals("hashCode"_s) && args == nullptr) {
 			return $of($Integer::valueOf($nc(this->compositeData)->hashCode() + 0x43444948));
 		} else {
-			bool var$1 = methodName->equals("equals"_s) && args->length == 1;
+			bool var$1 = methodName->equals("equals"_s) && $nc(args)->length == 1;
 			if (var$1 && $nc($(method->getParameterTypes()))->get(0) == $Object::class$) {
 				return $of($Boolean::valueOf(equals(proxy, args->get(0))));
 			} else {

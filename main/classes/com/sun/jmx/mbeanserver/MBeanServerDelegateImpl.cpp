@@ -204,7 +204,7 @@ $Object* MBeanServerDelegateImpl::getAttribute($String* attribute) {
 }
 
 void MBeanServerDelegateImpl::setAttribute($Attribute* attribute) {
-	$var($String, attname, attribute == nullptr ? ($String*)nullptr : attribute->getName());
+	$var($String, attname, attribute == nullptr ? ($String*)nullptr : $nc(attribute)->getName());
 	if (attname == nullptr) {
 		$var($RuntimeException, r, $new($IllegalArgumentException, "Attribute name cannot be null"_s));
 		$throwNew($RuntimeOperationsException, r, "Exception occurred trying to invoke the setter on the MBean"_s);

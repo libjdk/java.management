@@ -570,7 +570,7 @@ $String* DefaultMXBeanMappingFactory::propertyName($Method* m) {
 				}
 			}
 		}
-	} else if (name->startsWith("get"_s)) {
+	} else if ($nc(name)->startsWith("get"_s)) {
 		$assign(rest, name->substring(3));
 	} else {
 		bool var$2 = name->startsWith("is"_s);
@@ -583,7 +583,7 @@ $String* DefaultMXBeanMappingFactory::propertyName($Method* m) {
 	bool var$4 = var$5 || $nc($(m->getParameterTypes()))->length > 0;
 	$init($Void);
 	bool var$3 = var$4 || m->getReturnType() == $Void::TYPE;
-	if (var$3 || name->equals("getClass"_s)) {
+	if (var$3 || $nc(name)->equals("getClass"_s)) {
 		return nullptr;
 	}
 	return rest;

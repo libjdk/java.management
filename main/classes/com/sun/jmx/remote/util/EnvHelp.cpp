@@ -533,7 +533,7 @@ bool EnvHelp::computeBooleanFromString($String* stringBoolean, bool defaultValue
 	$init(EnvHelp);
 	if (stringBoolean == nullptr) {
 		return defaultValue;
-	} else if (stringBoolean->equalsIgnoreCase("true"_s)) {
+	} else if ($nc(stringBoolean)->equalsIgnoreCase("true"_s)) {
 		return true;
 	} else if (stringBoolean->equalsIgnoreCase("false"_s)) {
 		return false;

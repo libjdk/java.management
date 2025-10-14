@@ -226,12 +226,12 @@ $Object* PerInterface::noSuchMethod($String* msg, Object$* resource, $String* op
 		if (rest != 0) {
 			$assign(methods, this->getters);
 		}
-	} else if (signature->length == 1 && operation->startsWith("set"_s)) {
+	} else if (signature->length == 1 && $nc(operation)->startsWith("set"_s)) {
 		rest = 3;
 		$assign(methods, this->setters);
 	}
 	if (rest != 0) {
-		$var($String, attrName, operation->substring(rest));
+		$var($String, attrName, $nc(operation)->substring(rest));
 		$var($Object, method, $nc(methods)->get(attrName));
 		if (method != nullptr && $nc($($nc(this->introspector)->getName(method)))->equals(operation)) {
 			$var($StringArray, msig, $nc(this->introspector)->getSignature(method));

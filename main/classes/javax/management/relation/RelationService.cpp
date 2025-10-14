@@ -519,7 +519,7 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	bool badRelServFlag = false;
 	if (relServObjName == nullptr) {
 		badRelServFlag = true;
-	} else if (!(relServObjName->equals(this->myObjName))) {
+	} else if (!($nc(relServObjName)->equals(this->myObjName))) {
 		badRelServFlag = true;
 	}
 	if (badRelServFlag) {
@@ -978,7 +978,7 @@ $Map* RelationService::findReferencingRelations($ObjectName* mbeanName, $String*
 						$var($List, currRoleNameList, $cast($List, relId2RoleNamesMap->get(currRelId)));
 						if (roleName == nullptr) {
 							result->put(currRelId, $$new($ArrayList, static_cast<$Collection*>(currRoleNameList)));
-						} else if (currRoleNameList->contains(roleName)) {
+						} else if ($nc(currRoleNameList)->contains(roleName)) {
 							$var($List, dummyList, $new($ArrayList));
 							dummyList->add(roleName);
 							result->put(currRelId, dummyList);

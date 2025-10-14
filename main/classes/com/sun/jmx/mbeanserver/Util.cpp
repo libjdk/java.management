@@ -171,7 +171,7 @@ int32_t Util::hashCode($StringArray* names, $ObjectArray* values) {
 			h = 0;
 		} else if ($instanceOf($ObjectArray, v)) {
 			h = $Arrays::deepHashCode($cast($ObjectArray, v));
-		} else if ($of(v)->getClass()->isArray()) {
+		} else if ($nc($of(v))->getClass()->isArray()) {
 			h = $Arrays::deepHashCode($$new($ObjectArray, {v})) - 31;
 		} else {
 			h = $of(v)->hashCode();

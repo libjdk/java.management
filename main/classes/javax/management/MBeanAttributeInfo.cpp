@@ -272,7 +272,7 @@ $String* MBeanAttributeInfo::attributeType($Method* getter, $Method* setter) {
 		}
 		if (type == nullptr) {
 			type = $nc(params)->get(0);
-		} else if (type != params->get(0)) {
+		} else if (type != $nc(params)->get(0)) {
 			$throwNew($IntrospectionException, "type mismatch between getter and setter"_s);
 		}
 	}

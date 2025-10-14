@@ -303,7 +303,7 @@ bool LazyCompositeData::isTypeMatched($OpenType* ot1, $OpenType* ot2) {
 		if (!isTypeMatched($cast($ArrayType, ot1), $cast($ArrayType, ot2))) {
 			return false;
 		}
-	} else if (!ot1->equals(ot2)) {
+	} else if (!$nc(ot1)->equals(ot2)) {
 		return false;
 	}
 	return true;
