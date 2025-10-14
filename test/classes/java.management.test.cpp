@@ -1,0 +1,48 @@
+#include <java.management.test.h>
+
+#include <java.management.h>
+#include <java.base.h>
+#include <java/lang/ClassEntry.h>
+#include <java/lang/Library.h>
+#include <java/lang/ModuleInfo.h>
+#include <java/lang/ResourceEntry.h>
+#include <jcpp.h>
+
+void java$management$test$PreloadClass(void* eventData) {
+}
+
+void java$management$test$LibEventAction(int32_t eventType, void* eventData) {
+	if (eventType == JCPP_LIB_EVENT_TYPE_PRELOAD_CLASS) {
+		java$management$test$PreloadClass(eventData);
+	}
+	if (eventType == JCPP_LIB_EVENT_TYPE_THREAD_START) {
+		$setCurrentObjectStack();
+	}
+}
+
+$StringArray* java$management$test$GetPackages() {
+	return nullptr;
+}
+
+::java::lang::ClassEntry* java$management$test$GetClassEntry($String* name) {
+	return nullptr;
+}
+
+$bytes* java$management$test$GetResource($String* name) {
+	return nullptr;
+}
+
+void java$management$test::init() {
+	::java$management::init();
+	::java$base::init();
+	::java::lang::Library lib = {
+		"java.management.test", "17.35", "",
+		nullptr,
+		java$management$test$LibEventAction,
+		java$management$test$GetPackages,
+		java$management$test$GetClassEntry,
+		java$management$test$GetResource
+	};
+	$System::addLibrary(&lib);
+	$System::init();
+}

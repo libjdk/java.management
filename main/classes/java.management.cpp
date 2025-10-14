@@ -1,0 +1,1066 @@
+#include <java.management.h>
+
+#include <java.base.h>
+#include <java/lang/ClassEntry.h>
+#include <java/lang/Library.h>
+#include <java/lang/ModuleInfo.h>
+#include <java/lang/ResourceEntry.h>
+#include <jcpp.h>
+#include <module-info>
+
+#include <com/sun/jmx/defaults/JmxProperties.h>
+#include <com/sun/jmx/defaults/ServiceName.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$1.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$2.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$3.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$ListenerWrapper.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$ResourceContext.h>
+#include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$ResourceContext$1.h>
+#include <com/sun/jmx/interceptor/MBeanServerInterceptor.h>
+#include <com/sun/jmx/mbeanserver/ClassLoaderRepositorySupport.h>
+#include <com/sun/jmx/mbeanserver/ClassLoaderRepositorySupport$LoaderEntry.h>
+#include <com/sun/jmx/mbeanserver/ConvertingMethod.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$ArrayMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CollectionMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilder.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor$Constr.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderViaFrom.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderViaProxy.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeBuilderViaSetters.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$CompositeMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$EnumMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$IdentityMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$MXBeanRefMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$Mappings.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$NonNullMXBeanMapping.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$RecordCompositeBuilder.h>
+#include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$TabularMapping.h>
+#include <com/sun/jmx/mbeanserver/DescriptorCache.h>
+#include <com/sun/jmx/mbeanserver/DynamicMBean2.h>
+#include <com/sun/jmx/mbeanserver/GetPropertyAction.h>
+#include <com/sun/jmx/mbeanserver/Introspector.h>
+#include <com/sun/jmx/mbeanserver/Introspector$SimpleIntrospector.h>
+#include <com/sun/jmx/mbeanserver/JavaBeansAccessor.h>
+#include <com/sun/jmx/mbeanserver/JmxMBeanServer.h>
+#include <com/sun/jmx/mbeanserver/JmxMBeanServer$1.h>
+#include <com/sun/jmx/mbeanserver/JmxMBeanServer$2.h>
+#include <com/sun/jmx/mbeanserver/JmxMBeanServer$3.h>
+#include <com/sun/jmx/mbeanserver/JmxMBeanServerBuilder.h>
+#include <com/sun/jmx/mbeanserver/MBeanAnalyzer.h>
+#include <com/sun/jmx/mbeanserver/MBeanAnalyzer$AttrMethods.h>
+#include <com/sun/jmx/mbeanserver/MBeanAnalyzer$MBeanVisitor.h>
+#include <com/sun/jmx/mbeanserver/MBeanAnalyzer$MethodOrder.h>
+#include <com/sun/jmx/mbeanserver/MBeanInstantiator.h>
+#include <com/sun/jmx/mbeanserver/MBeanInstantiator$1.h>
+#include <com/sun/jmx/mbeanserver/MBeanIntrospector.h>
+#include <com/sun/jmx/mbeanserver/MBeanIntrospector$MBeanInfoMaker.h>
+#include <com/sun/jmx/mbeanserver/MBeanIntrospector$MBeanInfoMap.h>
+#include <com/sun/jmx/mbeanserver/MBeanIntrospector$PerInterfaceMap.h>
+#include <com/sun/jmx/mbeanserver/MBeanServerDelegateImpl.h>
+#include <com/sun/jmx/mbeanserver/MBeanSupport.h>
+#include <com/sun/jmx/mbeanserver/MXBeanIntrospector.h>
+#include <com/sun/jmx/mbeanserver/MXBeanLookup.h>
+#include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
+#include <com/sun/jmx/mbeanserver/MXBeanMappingFactory.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy$GetHandler.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy$Handler.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy$InvokeHandler.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy$SetHandler.h>
+#include <com/sun/jmx/mbeanserver/MXBeanProxy$Visitor.h>
+#include <com/sun/jmx/mbeanserver/MXBeanSupport.h>
+#include <com/sun/jmx/mbeanserver/ModifiableClassLoaderRepository.h>
+#include <com/sun/jmx/mbeanserver/NamedObject.h>
+#include <com/sun/jmx/mbeanserver/ObjectInputStreamWithLoader.h>
+#include <com/sun/jmx/mbeanserver/PerInterface.h>
+#include <com/sun/jmx/mbeanserver/PerInterface$InitMaps.h>
+#include <com/sun/jmx/mbeanserver/PerInterface$MethodAndSig.h>
+#include <com/sun/jmx/mbeanserver/Repository.h>
+#include <com/sun/jmx/mbeanserver/Repository$ObjectNamePattern.h>
+#include <com/sun/jmx/mbeanserver/Repository$RegistrationContext.h>
+#include <com/sun/jmx/mbeanserver/SecureClassLoaderRepository.h>
+#include <com/sun/jmx/mbeanserver/StandardMBeanIntrospector.h>
+#include <com/sun/jmx/mbeanserver/StandardMBeanSupport.h>
+#include <com/sun/jmx/mbeanserver/SunJmxMBeanServer.h>
+#include <com/sun/jmx/mbeanserver/Util.h>
+#include <com/sun/jmx/mbeanserver/WeakIdentityHashMap.h>
+#include <com/sun/jmx/mbeanserver/WeakIdentityHashMap$IdentityWeakReference.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$1.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$2.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$3.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$4.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$5.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$BroadcasterQuery.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$BufferListener.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$NamedNotification.h>
+#include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$ShareBuffer.h>
+#include <com/sun/jmx/remote/internal/ArrayQueue.h>
+#include <com/sun/jmx/remote/internal/ClientCommunicatorAdmin.h>
+#include <com/sun/jmx/remote/internal/ClientCommunicatorAdmin$Checker.h>
+#include <com/sun/jmx/remote/internal/ClientListenerInfo.h>
+#include <com/sun/jmx/remote/internal/ClientNotifForwarder.h>
+#include <com/sun/jmx/remote/internal/ClientNotifForwarder$LinearExecutor.h>
+#include <com/sun/jmx/remote/internal/ClientNotifForwarder$NotifFetcher.h>
+#include <com/sun/jmx/remote/internal/ClientNotifForwarder$NotifFetcher$1.h>
+#include <com/sun/jmx/remote/internal/NotificationBuffer.h>
+#include <com/sun/jmx/remote/internal/NotificationBufferFilter.h>
+#include <com/sun/jmx/remote/internal/ServerCommunicatorAdmin.h>
+#include <com/sun/jmx/remote/internal/ServerCommunicatorAdmin$Timeout.h>
+#include <com/sun/jmx/remote/internal/ServerNotifForwarder.h>
+#include <com/sun/jmx/remote/internal/ServerNotifForwarder$1.h>
+#include <com/sun/jmx/remote/internal/ServerNotifForwarder$2.h>
+#include <com/sun/jmx/remote/internal/ServerNotifForwarder$IdAndFilter.h>
+#include <com/sun/jmx/remote/internal/ServerNotifForwarder$NotifForwarderBufferFilter.h>
+#include <com/sun/jmx/remote/security/FileLoginModule.h>
+#include <com/sun/jmx/remote/security/HashedPasswordManager.h>
+#include <com/sun/jmx/remote/security/HashedPasswordManager$UserCredentials.h>
+#include <com/sun/jmx/remote/security/JMXPluggableAuthenticator.h>
+#include <com/sun/jmx/remote/security/JMXPluggableAuthenticator$1.h>
+#include <com/sun/jmx/remote/security/JMXPluggableAuthenticator$2.h>
+#include <com/sun/jmx/remote/security/JMXPluggableAuthenticator$FileLoginConfig.h>
+#include <com/sun/jmx/remote/security/JMXPluggableAuthenticator$JMXCallbackHandler.h>
+#include <com/sun/jmx/remote/security/JMXSubjectDomainCombiner.h>
+#include <com/sun/jmx/remote/security/MBeanServerAccessController.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController$1.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController$2.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController$Access.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController$AccessType.h>
+#include <com/sun/jmx/remote/security/MBeanServerFileAccessController$Parser.h>
+#include <com/sun/jmx/remote/security/NotificationAccessController.h>
+#include <com/sun/jmx/remote/security/SubjectDelegator.h>
+#include <com/sun/jmx/remote/security/SubjectDelegator$1.h>
+#include <com/sun/jmx/remote/util/ClassLoaderWithRepository.h>
+#include <com/sun/jmx/remote/util/ClassLogger.h>
+#include <com/sun/jmx/remote/util/EnvHelp.h>
+#include <com/sun/jmx/remote/util/EnvHelp$SinkOutputStream.h>
+#include <com/sun/jmx/remote/util/OrderClassLoaders.h>
+#include <java/lang/management/BufferPoolMXBean.h>
+#include <java/lang/management/ClassLoadingMXBean.h>
+#include <java/lang/management/CompilationMXBean.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$1.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$10.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$11.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$2.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$3.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$4.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$5.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$6.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$7.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$8.h>
+#include <java/lang/management/DefaultPlatformMBeanProvider$9.h>
+#include <java/lang/management/GarbageCollectorMXBean.h>
+#include <java/lang/management/LockInfo.h>
+#include <java/lang/management/ManagementFactory.h>
+#include <java/lang/management/ManagementFactory$PlatformMBeanFinder.h>
+#include <java/lang/management/ManagementFactory$PlatformMBeanFinder$1.h>
+#include <java/lang/management/ManagementPermission.h>
+#include <java/lang/management/MemoryMXBean.h>
+#include <java/lang/management/MemoryManagerMXBean.h>
+#include <java/lang/management/MemoryNotificationInfo.h>
+#include <java/lang/management/MemoryPoolMXBean.h>
+#include <java/lang/management/MemoryType.h>
+#include <java/lang/management/MemoryUsage.h>
+#include <java/lang/management/MonitorInfo.h>
+#include <java/lang/management/OperatingSystemMXBean.h>
+#include <java/lang/management/PlatformLoggingMXBean.h>
+#include <java/lang/management/PlatformManagedObject.h>
+#include <java/lang/management/RuntimeMXBean.h>
+#include <java/lang/management/ThreadInfo.h>
+#include <java/lang/management/ThreadInfo$1.h>
+#include <java/lang/management/ThreadMXBean.h>
+#include <javax/management/AndQueryExp.h>
+#include <javax/management/Attribute.h>
+#include <javax/management/AttributeChangeNotification.h>
+#include <javax/management/AttributeChangeNotificationFilter.h>
+#include <javax/management/AttributeList.h>
+#include <javax/management/AttributeNotFoundException.h>
+#include <javax/management/AttributeValueExp.h>
+#include <javax/management/BadAttributeValueExpException.h>
+#include <javax/management/BadBinaryOpValueExpException.h>
+#include <javax/management/BadStringOperationException.h>
+#include <javax/management/BetweenQueryExp.h>
+#include <javax/management/BinaryOpValueExp.h>
+#include <javax/management/BinaryRelQueryExp.h>
+#include <javax/management/BooleanValueExp.h>
+#include <javax/management/ClassAttributeValueExp.h>
+#include <javax/management/ConstructorParameters.h>
+#include <javax/management/DefaultLoaderRepository.h>
+#include <javax/management/Descriptor.h>
+#include <javax/management/DescriptorAccess.h>
+#include <javax/management/DescriptorKey.h>
+#include <javax/management/DescriptorRead.h>
+#include <javax/management/DynamicMBean.h>
+#include <javax/management/ImmutableDescriptor.h>
+#include <javax/management/InQueryExp.h>
+#include <javax/management/InstanceAlreadyExistsException.h>
+#include <javax/management/InstanceNotFoundException.h>
+#include <javax/management/InstanceOfQueryExp.h>
+#include <javax/management/IntrospectionException.h>
+#include <javax/management/InvalidApplicationException.h>
+#include <javax/management/InvalidAttributeValueException.h>
+#include <javax/management/JMException.h>
+#include <javax/management/JMRuntimeException.h>
+#include <javax/management/JMX.h>
+#include <javax/management/ListenerNotFoundException.h>
+#include <javax/management/MBeanAttributeInfo.h>
+#include <javax/management/MBeanConstructorInfo.h>
+#include <javax/management/MBeanException.h>
+#include <javax/management/MBeanFeatureInfo.h>
+#include <javax/management/MBeanInfo.h>
+#include <javax/management/MBeanInfo$ArrayGettersSafeAction.h>
+#include <javax/management/MBeanNotificationInfo.h>
+#include <javax/management/MBeanOperationInfo.h>
+#include <javax/management/MBeanParameterInfo.h>
+#include <javax/management/MBeanPermission.h>
+#include <javax/management/MBeanRegistration.h>
+#include <javax/management/MBeanRegistrationException.h>
+#include <javax/management/MBeanServer.h>
+#include <javax/management/MBeanServerBuilder.h>
+#include <javax/management/MBeanServerConnection.h>
+#include <javax/management/MBeanServerDelegate.h>
+#include <javax/management/MBeanServerDelegateMBean.h>
+#include <javax/management/MBeanServerFactory.h>
+#include <javax/management/MBeanServerInvocationHandler.h>
+#include <javax/management/MBeanServerNotification.h>
+#include <javax/management/MBeanServerPermission.h>
+#include <javax/management/MBeanServerPermissionCollection.h>
+#include <javax/management/MBeanTrustPermission.h>
+#include <javax/management/MXBean.h>
+#include <javax/management/MalformedObjectNameException.h>
+#include <javax/management/MatchQueryExp.h>
+#include <javax/management/NotCompliantMBeanException.h>
+#include <javax/management/NotQueryExp.h>
+#include <javax/management/Notification.h>
+#include <javax/management/NotificationBroadcaster.h>
+#include <javax/management/NotificationBroadcasterSupport.h>
+#include <javax/management/NotificationBroadcasterSupport$1.h>
+#include <javax/management/NotificationBroadcasterSupport$ListenerInfo.h>
+#include <javax/management/NotificationBroadcasterSupport$SendNotifJob.h>
+#include <javax/management/NotificationBroadcasterSupport$WildcardListenerInfo.h>
+#include <javax/management/NotificationEmitter.h>
+#include <javax/management/NotificationFilter.h>
+#include <javax/management/NotificationFilterSupport.h>
+#include <javax/management/NotificationListener.h>
+#include <javax/management/NumericValueExp.h>
+#include <javax/management/ObjectInstance.h>
+#include <javax/management/ObjectName.h>
+#include <javax/management/ObjectName$PatternProperty.h>
+#include <javax/management/ObjectName$Property.h>
+#include <javax/management/OperationsException.h>
+#include <javax/management/OrQueryExp.h>
+#include <javax/management/PersistentMBean.h>
+#include <javax/management/QualifiedAttributeValueExp.h>
+#include <javax/management/Query.h>
+#include <javax/management/QueryEval.h>
+#include <javax/management/QueryExp.h>
+#include <javax/management/ReflectionException.h>
+#include <javax/management/RuntimeErrorException.h>
+#include <javax/management/RuntimeMBeanException.h>
+#include <javax/management/RuntimeOperationsException.h>
+#include <javax/management/ServiceNotFoundException.h>
+#include <javax/management/StandardEmitterMBean.h>
+#include <javax/management/StandardMBean.h>
+#include <javax/management/StandardMBean$MBeanInfoSafeAction.h>
+#include <javax/management/StringValueExp.h>
+#include <javax/management/ValueExp.h>
+#include <javax/management/loading/ClassLoaderRepository.h>
+#include <javax/management/loading/DefaultLoaderRepository.h>
+#include <javax/management/loading/MLet.h>
+#include <javax/management/loading/MLet$1.h>
+#include <javax/management/loading/MLetContent.h>
+#include <javax/management/loading/MLetMBean.h>
+#include <javax/management/loading/MLetObjectInputStream.h>
+#include <javax/management/loading/MLetParser.h>
+#include <javax/management/loading/PrivateClassLoader.h>
+#include <javax/management/loading/PrivateMLet.h>
+#include <javax/management/modelmbean/DescriptorSupport.h>
+#include <javax/management/modelmbean/InvalidTargetObjectTypeException.h>
+#include <javax/management/modelmbean/ModelMBean.h>
+#include <javax/management/modelmbean/ModelMBeanAttributeInfo.h>
+#include <javax/management/modelmbean/ModelMBeanConstructorInfo.h>
+#include <javax/management/modelmbean/ModelMBeanInfo.h>
+#include <javax/management/modelmbean/ModelMBeanInfoSupport.h>
+#include <javax/management/modelmbean/ModelMBeanNotificationBroadcaster.h>
+#include <javax/management/modelmbean/ModelMBeanNotificationInfo.h>
+#include <javax/management/modelmbean/ModelMBeanOperationInfo.h>
+#include <javax/management/modelmbean/RequiredModelMBean.h>
+#include <javax/management/modelmbean/RequiredModelMBean$1.h>
+#include <javax/management/modelmbean/RequiredModelMBean$2.h>
+#include <javax/management/modelmbean/RequiredModelMBean$3.h>
+#include <javax/management/modelmbean/RequiredModelMBean$4.h>
+#include <javax/management/modelmbean/RequiredModelMBean$5.h>
+#include <javax/management/modelmbean/RequiredModelMBean$6.h>
+#include <javax/management/modelmbean/XMLParseException.h>
+#include <javax/management/monitor/CounterMonitor.h>
+#include <javax/management/monitor/CounterMonitor$1.h>
+#include <javax/management/monitor/CounterMonitor$CounterMonitorObservedObject.h>
+#include <javax/management/monitor/CounterMonitorMBean.h>
+#include <javax/management/monitor/GaugeMonitor.h>
+#include <javax/management/monitor/GaugeMonitor$1.h>
+#include <javax/management/monitor/GaugeMonitor$GaugeMonitorObservedObject.h>
+#include <javax/management/monitor/GaugeMonitorMBean.h>
+#include <javax/management/monitor/Monitor.h>
+#include <javax/management/monitor/Monitor$1.h>
+#include <javax/management/monitor/Monitor$DaemonThreadFactory.h>
+#include <javax/management/monitor/Monitor$MonitorTask.h>
+#include <javax/management/monitor/Monitor$MonitorTask$1.h>
+#include <javax/management/monitor/Monitor$NumericalType.h>
+#include <javax/management/monitor/Monitor$ObservedObject.h>
+#include <javax/management/monitor/Monitor$SchedulerTask.h>
+#include <javax/management/monitor/MonitorMBean.h>
+#include <javax/management/monitor/MonitorNotification.h>
+#include <javax/management/monitor/MonitorSettingException.h>
+#include <javax/management/monitor/StringMonitor.h>
+#include <javax/management/monitor/StringMonitor$StringMonitorObservedObject.h>
+#include <javax/management/monitor/StringMonitorMBean.h>
+#include <javax/management/openmbean/ArrayType.h>
+#include <javax/management/openmbean/CompositeData.h>
+#include <javax/management/openmbean/CompositeDataInvocationHandler.h>
+#include <javax/management/openmbean/CompositeDataSupport.h>
+#include <javax/management/openmbean/CompositeDataView.h>
+#include <javax/management/openmbean/CompositeType.h>
+#include <javax/management/openmbean/InvalidKeyException.h>
+#include <javax/management/openmbean/InvalidOpenTypeException.h>
+#include <javax/management/openmbean/KeyAlreadyExistsException.h>
+#include <javax/management/openmbean/OpenDataException.h>
+#include <javax/management/openmbean/OpenMBeanAttributeInfo.h>
+#include <javax/management/openmbean/OpenMBeanAttributeInfoSupport.h>
+#include <javax/management/openmbean/OpenMBeanConstructorInfo.h>
+#include <javax/management/openmbean/OpenMBeanConstructorInfoSupport.h>
+#include <javax/management/openmbean/OpenMBeanInfo.h>
+#include <javax/management/openmbean/OpenMBeanInfoSupport.h>
+#include <javax/management/openmbean/OpenMBeanOperationInfo.h>
+#include <javax/management/openmbean/OpenMBeanOperationInfoSupport.h>
+#include <javax/management/openmbean/OpenMBeanParameterInfo.h>
+#include <javax/management/openmbean/OpenMBeanParameterInfoSupport.h>
+#include <javax/management/openmbean/OpenType.h>
+#include <javax/management/openmbean/OpenType$1.h>
+#include <javax/management/openmbean/SimpleType.h>
+#include <javax/management/openmbean/TabularData.h>
+#include <javax/management/openmbean/TabularDataSupport.h>
+#include <javax/management/openmbean/TabularType.h>
+#include <javax/management/relation/InvalidRelationIdException.h>
+#include <javax/management/relation/InvalidRelationServiceException.h>
+#include <javax/management/relation/InvalidRelationTypeException.h>
+#include <javax/management/relation/InvalidRoleInfoException.h>
+#include <javax/management/relation/InvalidRoleValueException.h>
+#include <javax/management/relation/MBeanServerNotificationFilter.h>
+#include <javax/management/relation/Relation.h>
+#include <javax/management/relation/RelationException.h>
+#include <javax/management/relation/RelationNotFoundException.h>
+#include <javax/management/relation/RelationNotification.h>
+#include <javax/management/relation/RelationService.h>
+#include <javax/management/relation/RelationServiceMBean.h>
+#include <javax/management/relation/RelationServiceNotRegisteredException.h>
+#include <javax/management/relation/RelationSupport.h>
+#include <javax/management/relation/RelationSupportMBean.h>
+#include <javax/management/relation/RelationType.h>
+#include <javax/management/relation/RelationTypeNotFoundException.h>
+#include <javax/management/relation/RelationTypeSupport.h>
+#include <javax/management/relation/Role.h>
+#include <javax/management/relation/RoleInfo.h>
+#include <javax/management/relation/RoleInfoNotFoundException.h>
+#include <javax/management/relation/RoleList.h>
+#include <javax/management/relation/RoleNotFoundException.h>
+#include <javax/management/relation/RoleResult.h>
+#include <javax/management/relation/RoleStatus.h>
+#include <javax/management/relation/RoleUnresolved.h>
+#include <javax/management/relation/RoleUnresolvedList.h>
+#include <javax/management/remote/JMXAddressable.h>
+#include <javax/management/remote/JMXAuthenticator.h>
+#include <javax/management/remote/JMXConnectionNotification.h>
+#include <javax/management/remote/JMXConnector.h>
+#include <javax/management/remote/JMXConnectorFactory.h>
+#include <javax/management/remote/JMXConnectorFactory$1.h>
+#include <javax/management/remote/JMXConnectorFactory$2.h>
+#include <javax/management/remote/JMXConnectorFactory$2$1.h>
+#include <javax/management/remote/JMXConnectorFactory$ConnectorFactory.h>
+#include <javax/management/remote/JMXConnectorFactory$ProviderFinder.h>
+#include <javax/management/remote/JMXConnectorProvider.h>
+#include <javax/management/remote/JMXConnectorServer.h>
+#include <javax/management/remote/JMXConnectorServerFactory.h>
+#include <javax/management/remote/JMXConnectorServerMBean.h>
+#include <javax/management/remote/JMXConnectorServerProvider.h>
+#include <javax/management/remote/JMXPrincipal.h>
+#include <javax/management/remote/JMXProviderException.h>
+#include <javax/management/remote/JMXServerErrorException.h>
+#include <javax/management/remote/JMXServiceURL.h>
+#include <javax/management/remote/MBeanServerForwarder.h>
+#include <javax/management/remote/NotificationResult.h>
+#include <javax/management/remote/SubjectDelegationPermission.h>
+#include <javax/management/remote/TargetedNotification.h>
+#include <javax/management/timer/Timer.h>
+#include <javax/management/timer/TimerAlarmClock.h>
+#include <javax/management/timer/TimerAlarmClockNotification.h>
+#include <javax/management/timer/TimerMBean.h>
+#include <javax/management/timer/TimerNotification.h>
+#include <sun/management/BaseOperatingSystemImpl.h>
+#include <sun/management/ClassLoadingImpl.h>
+#include <sun/management/CompilationImpl.h>
+#include <sun/management/CompilerThreadStat.h>
+#include <sun/management/GarbageCollectorImpl.h>
+#include <sun/management/HotspotClassLoading.h>
+#include <sun/management/HotspotClassLoadingMBean.h>
+#include <sun/management/HotspotCompilation.h>
+#include <sun/management/HotspotCompilation$CompilerThreadInfo.h>
+#include <sun/management/HotspotCompilationMBean.h>
+#include <sun/management/HotspotInternal.h>
+#include <sun/management/HotspotInternalMBean.h>
+#include <sun/management/HotspotMemory.h>
+#include <sun/management/HotspotMemoryMBean.h>
+#include <sun/management/HotspotRuntime.h>
+#include <sun/management/HotspotRuntimeMBean.h>
+#include <sun/management/HotspotThread.h>
+#include <sun/management/HotspotThreadMBean.h>
+#include <sun/management/LazyCompositeData.h>
+#include <sun/management/LockInfoCompositeData.h>
+#include <sun/management/ManagementFactoryHelper.h>
+#include <sun/management/ManagementFactoryHelper$1.h>
+#include <sun/management/ManagementFactoryHelper$2.h>
+#include <sun/management/ManagementFactoryHelper$3.h>
+#include <sun/management/ManagementFactoryHelper$LoggingMXBeanAccess.h>
+#include <sun/management/ManagementFactoryHelper$LoggingMXBeanAccess$1.h>
+#include <sun/management/ManagementFactoryHelper$PlatformLoggingImpl.h>
+#include <sun/management/MappedMXBeanType.h>
+#include <sun/management/MappedMXBeanType$ArrayMXBeanType.h>
+#include <sun/management/MappedMXBeanType$BasicMXBeanType.h>
+#include <sun/management/MappedMXBeanType$CompositeDataMXBeanType.h>
+#include <sun/management/MappedMXBeanType$CompositeDataMXBeanType$1.h>
+#include <sun/management/MappedMXBeanType$CompositeDataMXBeanType$2.h>
+#include <sun/management/MappedMXBeanType$EnumMXBeanType.h>
+#include <sun/management/MappedMXBeanType$GenericArrayMXBeanType.h>
+#include <sun/management/MappedMXBeanType$InProgress.h>
+#include <sun/management/MappedMXBeanType$ListMXBeanType.h>
+#include <sun/management/MappedMXBeanType$MapMXBeanType.h>
+#include <sun/management/MemoryImpl.h>
+#include <sun/management/MemoryManagerImpl.h>
+#include <sun/management/MemoryNotifInfoCompositeData.h>
+#include <sun/management/MemoryPoolImpl.h>
+#include <sun/management/MemoryPoolImpl$CollectionSensor.h>
+#include <sun/management/MemoryPoolImpl$PoolSensor.h>
+#include <sun/management/MemoryUsageCompositeData.h>
+#include <sun/management/MethodInfo.h>
+#include <sun/management/MonitorInfoCompositeData.h>
+#include <sun/management/NotificationEmitterSupport.h>
+#include <sun/management/NotificationEmitterSupport$ListenerInfo.h>
+#include <sun/management/RuntimeImpl.h>
+#include <sun/management/Sensor.h>
+#include <sun/management/StackTraceElementCompositeData.h>
+#include <sun/management/ThreadImpl.h>
+#include <sun/management/ThreadInfoCompositeData.h>
+#include <sun/management/ThreadInfoCompositeData$ThreadInfoCompositeTypes.h>
+#include <sun/management/Util.h>
+#include <sun/management/VMManagement.h>
+#include <sun/management/VMManagementImpl.h>
+#include <sun/management/VMManagementImpl$1.h>
+#include <sun/management/counter/AbstractCounter.h>
+#include <sun/management/counter/AbstractCounter$Flags.h>
+#include <sun/management/counter/ByteArrayCounter.h>
+#include <sun/management/counter/Counter.h>
+#include <sun/management/counter/LongArrayCounter.h>
+#include <sun/management/counter/LongCounter.h>
+#include <sun/management/counter/StringCounter.h>
+#include <sun/management/counter/Units.h>
+#include <sun/management/counter/Variability.h>
+#include <sun/management/counter/perf/ByteArrayCounterSnapshot.h>
+#include <sun/management/counter/perf/InstrumentationException.h>
+#include <sun/management/counter/perf/LongArrayCounterSnapshot.h>
+#include <sun/management/counter/perf/LongCounterSnapshot.h>
+#include <sun/management/counter/perf/PerfByteArrayCounter.h>
+#include <sun/management/counter/perf/PerfDataEntry.h>
+#include <sun/management/counter/perf/PerfDataEntry$EntryFieldOffset.h>
+#include <sun/management/counter/perf/PerfDataType.h>
+#include <sun/management/counter/perf/PerfInstrumentation.h>
+#include <sun/management/counter/perf/PerfLongArrayCounter.h>
+#include <sun/management/counter/perf/PerfLongCounter.h>
+#include <sun/management/counter/perf/PerfStringCounter.h>
+#include <sun/management/counter/perf/Prologue.h>
+#include <sun/management/counter/perf/Prologue$PrologueFieldOffset.h>
+#include <sun/management/counter/perf/StringCounterSnapshot.h>
+#include <sun/management/spi/PlatformMBeanProvider.h>
+#include <sun/management/spi/PlatformMBeanProvider$PlatformComponent.h>
+
+#undef JMX
+
+#define $classEntry(name, clazz) {name, clazz::load$, $getMark(clazz)}
+::java::lang::ClassEntry _java$management_classes_[] = {
+	$classEntry("com.sun.jmx.defaults.JmxProperties", ::com::sun::jmx::defaults::JmxProperties),
+	$classEntry("com.sun.jmx.defaults.ServiceName", ::com::sun::jmx::defaults::ServiceName),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$1", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$1),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$2", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$2),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$3", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$3),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$ListenerWrapper", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$ListenerWrapper),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$ResourceContext", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$ResourceContext),
+	$classEntry("com.sun.jmx.interceptor.DefaultMBeanServerInterceptor$ResourceContext$1", ::com::sun::jmx::interceptor::DefaultMBeanServerInterceptor$ResourceContext$1),
+	$classEntry("com.sun.jmx.interceptor.MBeanServerInterceptor", ::com::sun::jmx::interceptor::MBeanServerInterceptor),
+	$classEntry("com.sun.jmx.mbeanserver.ClassLoaderRepositorySupport", ::com::sun::jmx::mbeanserver::ClassLoaderRepositorySupport),
+	$classEntry("com.sun.jmx.mbeanserver.ClassLoaderRepositorySupport$LoaderEntry", ::com::sun::jmx::mbeanserver::ClassLoaderRepositorySupport$LoaderEntry),
+	$classEntry("com.sun.jmx.mbeanserver.ConvertingMethod", ::com::sun::jmx::mbeanserver::ConvertingMethod),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$ArrayMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$ArrayMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CollectionMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CollectionMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilder", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilder),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor$Constr", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor$Constr),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaFrom", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderViaFrom),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaProxy", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderViaProxy),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaSetters", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeBuilderViaSetters),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$CompositeMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$EnumMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$EnumMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$IdentityMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$IdentityMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$MXBeanRefMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$MXBeanRefMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$Mappings", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$Mappings),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$NonNullMXBeanMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$NonNullMXBeanMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$RecordCompositeBuilder", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$RecordCompositeBuilder),
+	$classEntry("com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$TabularMapping", ::com::sun::jmx::mbeanserver::DefaultMXBeanMappingFactory$TabularMapping),
+	$classEntry("com.sun.jmx.mbeanserver.DescriptorCache", ::com::sun::jmx::mbeanserver::DescriptorCache),
+	$classEntry("com.sun.jmx.mbeanserver.DynamicMBean2", ::com::sun::jmx::mbeanserver::DynamicMBean2),
+	$classEntry("com.sun.jmx.mbeanserver.GetPropertyAction", ::com::sun::jmx::mbeanserver::GetPropertyAction),
+	$classEntry("com.sun.jmx.mbeanserver.Introspector", ::com::sun::jmx::mbeanserver::Introspector),
+	$classEntry("com.sun.jmx.mbeanserver.Introspector$SimpleIntrospector", ::com::sun::jmx::mbeanserver::Introspector$SimpleIntrospector),
+	$classEntry("com.sun.jmx.mbeanserver.JavaBeansAccessor", ::com::sun::jmx::mbeanserver::JavaBeansAccessor),
+	$classEntry("com.sun.jmx.mbeanserver.JmxMBeanServer", ::com::sun::jmx::mbeanserver::JmxMBeanServer),
+	$classEntry("com.sun.jmx.mbeanserver.JmxMBeanServer$1", ::com::sun::jmx::mbeanserver::JmxMBeanServer$1),
+	$classEntry("com.sun.jmx.mbeanserver.JmxMBeanServer$2", ::com::sun::jmx::mbeanserver::JmxMBeanServer$2),
+	$classEntry("com.sun.jmx.mbeanserver.JmxMBeanServer$3", ::com::sun::jmx::mbeanserver::JmxMBeanServer$3),
+	$classEntry("com.sun.jmx.mbeanserver.JmxMBeanServerBuilder", ::com::sun::jmx::mbeanserver::JmxMBeanServerBuilder),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanAnalyzer", ::com::sun::jmx::mbeanserver::MBeanAnalyzer),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanAnalyzer$AttrMethods", ::com::sun::jmx::mbeanserver::MBeanAnalyzer$AttrMethods),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanAnalyzer$MBeanVisitor", ::com::sun::jmx::mbeanserver::MBeanAnalyzer$MBeanVisitor),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanAnalyzer$MethodOrder", ::com::sun::jmx::mbeanserver::MBeanAnalyzer$MethodOrder),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanInstantiator", ::com::sun::jmx::mbeanserver::MBeanInstantiator),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanInstantiator$1", ::com::sun::jmx::mbeanserver::MBeanInstantiator$1),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanIntrospector", ::com::sun::jmx::mbeanserver::MBeanIntrospector),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanIntrospector$MBeanInfoMaker", ::com::sun::jmx::mbeanserver::MBeanIntrospector$MBeanInfoMaker),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanIntrospector$MBeanInfoMap", ::com::sun::jmx::mbeanserver::MBeanIntrospector$MBeanInfoMap),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanIntrospector$PerInterfaceMap", ::com::sun::jmx::mbeanserver::MBeanIntrospector$PerInterfaceMap),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanServerDelegateImpl", ::com::sun::jmx::mbeanserver::MBeanServerDelegateImpl),
+	$classEntry("com.sun.jmx.mbeanserver.MBeanSupport", ::com::sun::jmx::mbeanserver::MBeanSupport),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanIntrospector", ::com::sun::jmx::mbeanserver::MXBeanIntrospector),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanLookup", ::com::sun::jmx::mbeanserver::MXBeanLookup),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanMapping", ::com::sun::jmx::mbeanserver::MXBeanMapping),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanMappingFactory", ::com::sun::jmx::mbeanserver::MXBeanMappingFactory),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy", ::com::sun::jmx::mbeanserver::MXBeanProxy),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy$GetHandler", ::com::sun::jmx::mbeanserver::MXBeanProxy$GetHandler),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy$Handler", ::com::sun::jmx::mbeanserver::MXBeanProxy$Handler),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy$InvokeHandler", ::com::sun::jmx::mbeanserver::MXBeanProxy$InvokeHandler),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy$SetHandler", ::com::sun::jmx::mbeanserver::MXBeanProxy$SetHandler),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanProxy$Visitor", ::com::sun::jmx::mbeanserver::MXBeanProxy$Visitor),
+	$classEntry("com.sun.jmx.mbeanserver.MXBeanSupport", ::com::sun::jmx::mbeanserver::MXBeanSupport),
+	$classEntry("com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository", ::com::sun::jmx::mbeanserver::ModifiableClassLoaderRepository),
+	$classEntry("com.sun.jmx.mbeanserver.NamedObject", ::com::sun::jmx::mbeanserver::NamedObject),
+	$classEntry("com.sun.jmx.mbeanserver.ObjectInputStreamWithLoader", ::com::sun::jmx::mbeanserver::ObjectInputStreamWithLoader),
+	$classEntry("com.sun.jmx.mbeanserver.PerInterface", ::com::sun::jmx::mbeanserver::PerInterface),
+	$classEntry("com.sun.jmx.mbeanserver.PerInterface$InitMaps", ::com::sun::jmx::mbeanserver::PerInterface$InitMaps),
+	$classEntry("com.sun.jmx.mbeanserver.PerInterface$MethodAndSig", ::com::sun::jmx::mbeanserver::PerInterface$MethodAndSig),
+	$classEntry("com.sun.jmx.mbeanserver.Repository", ::com::sun::jmx::mbeanserver::Repository),
+	$classEntry("com.sun.jmx.mbeanserver.Repository$ObjectNamePattern", ::com::sun::jmx::mbeanserver::Repository$ObjectNamePattern),
+	$classEntry("com.sun.jmx.mbeanserver.Repository$RegistrationContext", ::com::sun::jmx::mbeanserver::Repository$RegistrationContext),
+	$classEntry("com.sun.jmx.mbeanserver.SecureClassLoaderRepository", ::com::sun::jmx::mbeanserver::SecureClassLoaderRepository),
+	$classEntry("com.sun.jmx.mbeanserver.StandardMBeanIntrospector", ::com::sun::jmx::mbeanserver::StandardMBeanIntrospector),
+	$classEntry("com.sun.jmx.mbeanserver.StandardMBeanSupport", ::com::sun::jmx::mbeanserver::StandardMBeanSupport),
+	$classEntry("com.sun.jmx.mbeanserver.SunJmxMBeanServer", ::com::sun::jmx::mbeanserver::SunJmxMBeanServer),
+	$classEntry("com.sun.jmx.mbeanserver.Util", ::com::sun::jmx::mbeanserver::Util),
+	$classEntry("com.sun.jmx.mbeanserver.WeakIdentityHashMap", ::com::sun::jmx::mbeanserver::WeakIdentityHashMap),
+	$classEntry("com.sun.jmx.mbeanserver.WeakIdentityHashMap$IdentityWeakReference", ::com::sun::jmx::mbeanserver::WeakIdentityHashMap$IdentityWeakReference),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$1", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$1),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$2", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$2),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$3", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$3),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$4", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$4),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$5", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$5),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$BroadcasterQuery", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$BroadcasterQuery),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$BufferListener", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$BufferListener),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$NamedNotification", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$NamedNotification),
+	$classEntry("com.sun.jmx.remote.internal.ArrayNotificationBuffer$ShareBuffer", ::com::sun::jmx::remote::internal::ArrayNotificationBuffer$ShareBuffer),
+	$classEntry("com.sun.jmx.remote.internal.ArrayQueue", ::com::sun::jmx::remote::internal::ArrayQueue),
+	$classEntry("com.sun.jmx.remote.internal.ClientCommunicatorAdmin", ::com::sun::jmx::remote::internal::ClientCommunicatorAdmin),
+	$classEntry("com.sun.jmx.remote.internal.ClientCommunicatorAdmin$Checker", ::com::sun::jmx::remote::internal::ClientCommunicatorAdmin$Checker),
+	$classEntry("com.sun.jmx.remote.internal.ClientListenerInfo", ::com::sun::jmx::remote::internal::ClientListenerInfo),
+	$classEntry("com.sun.jmx.remote.internal.ClientNotifForwarder", ::com::sun::jmx::remote::internal::ClientNotifForwarder),
+	$classEntry("com.sun.jmx.remote.internal.ClientNotifForwarder$LinearExecutor", ::com::sun::jmx::remote::internal::ClientNotifForwarder$LinearExecutor),
+	$classEntry("com.sun.jmx.remote.internal.ClientNotifForwarder$NotifFetcher", ::com::sun::jmx::remote::internal::ClientNotifForwarder$NotifFetcher),
+	$classEntry("com.sun.jmx.remote.internal.ClientNotifForwarder$NotifFetcher$1", ::com::sun::jmx::remote::internal::ClientNotifForwarder$NotifFetcher$1),
+	$classEntry("com.sun.jmx.remote.internal.NotificationBuffer", ::com::sun::jmx::remote::internal::NotificationBuffer),
+	$classEntry("com.sun.jmx.remote.internal.NotificationBufferFilter", ::com::sun::jmx::remote::internal::NotificationBufferFilter),
+	$classEntry("com.sun.jmx.remote.internal.ServerCommunicatorAdmin", ::com::sun::jmx::remote::internal::ServerCommunicatorAdmin),
+	$classEntry("com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout", ::com::sun::jmx::remote::internal::ServerCommunicatorAdmin$Timeout),
+	$classEntry("com.sun.jmx.remote.internal.ServerNotifForwarder", ::com::sun::jmx::remote::internal::ServerNotifForwarder),
+	$classEntry("com.sun.jmx.remote.internal.ServerNotifForwarder$1", ::com::sun::jmx::remote::internal::ServerNotifForwarder$1),
+	$classEntry("com.sun.jmx.remote.internal.ServerNotifForwarder$2", ::com::sun::jmx::remote::internal::ServerNotifForwarder$2),
+	$classEntry("com.sun.jmx.remote.internal.ServerNotifForwarder$IdAndFilter", ::com::sun::jmx::remote::internal::ServerNotifForwarder$IdAndFilter),
+	$classEntry("com.sun.jmx.remote.internal.ServerNotifForwarder$NotifForwarderBufferFilter", ::com::sun::jmx::remote::internal::ServerNotifForwarder$NotifForwarderBufferFilter),
+	$classEntry("com.sun.jmx.remote.security.FileLoginModule", ::com::sun::jmx::remote::security::FileLoginModule),
+	$classEntry("com.sun.jmx.remote.security.HashedPasswordManager", ::com::sun::jmx::remote::security::HashedPasswordManager),
+	$classEntry("com.sun.jmx.remote.security.HashedPasswordManager$UserCredentials", ::com::sun::jmx::remote::security::HashedPasswordManager$UserCredentials),
+	$classEntry("com.sun.jmx.remote.security.JMXPluggableAuthenticator", ::com::sun::jmx::remote::security::JMXPluggableAuthenticator),
+	$classEntry("com.sun.jmx.remote.security.JMXPluggableAuthenticator$1", ::com::sun::jmx::remote::security::JMXPluggableAuthenticator$1),
+	$classEntry("com.sun.jmx.remote.security.JMXPluggableAuthenticator$2", ::com::sun::jmx::remote::security::JMXPluggableAuthenticator$2),
+	$classEntry("com.sun.jmx.remote.security.JMXPluggableAuthenticator$FileLoginConfig", ::com::sun::jmx::remote::security::JMXPluggableAuthenticator$FileLoginConfig),
+	$classEntry("com.sun.jmx.remote.security.JMXPluggableAuthenticator$JMXCallbackHandler", ::com::sun::jmx::remote::security::JMXPluggableAuthenticator$JMXCallbackHandler),
+	$classEntry("com.sun.jmx.remote.security.JMXSubjectDomainCombiner", ::com::sun::jmx::remote::security::JMXSubjectDomainCombiner),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerAccessController", ::com::sun::jmx::remote::security::MBeanServerAccessController),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController", ::com::sun::jmx::remote::security::MBeanServerFileAccessController),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController$1", ::com::sun::jmx::remote::security::MBeanServerFileAccessController$1),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController$2", ::com::sun::jmx::remote::security::MBeanServerFileAccessController$2),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController$Access", ::com::sun::jmx::remote::security::MBeanServerFileAccessController$Access),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController$AccessType", ::com::sun::jmx::remote::security::MBeanServerFileAccessController$AccessType),
+	$classEntry("com.sun.jmx.remote.security.MBeanServerFileAccessController$Parser", ::com::sun::jmx::remote::security::MBeanServerFileAccessController$Parser),
+	$classEntry("com.sun.jmx.remote.security.NotificationAccessController", ::com::sun::jmx::remote::security::NotificationAccessController),
+	$classEntry("com.sun.jmx.remote.security.SubjectDelegator", ::com::sun::jmx::remote::security::SubjectDelegator),
+	$classEntry("com.sun.jmx.remote.security.SubjectDelegator$1", ::com::sun::jmx::remote::security::SubjectDelegator$1),
+	$classEntry("com.sun.jmx.remote.util.ClassLoaderWithRepository", ::com::sun::jmx::remote::util::ClassLoaderWithRepository),
+	$classEntry("com.sun.jmx.remote.util.ClassLogger", ::com::sun::jmx::remote::util::ClassLogger),
+	$classEntry("com.sun.jmx.remote.util.EnvHelp", ::com::sun::jmx::remote::util::EnvHelp),
+	$classEntry("com.sun.jmx.remote.util.EnvHelp$SinkOutputStream", ::com::sun::jmx::remote::util::EnvHelp$SinkOutputStream),
+	$classEntry("com.sun.jmx.remote.util.OrderClassLoaders", ::com::sun::jmx::remote::util::OrderClassLoaders),
+	$classEntry("java.lang.management.BufferPoolMXBean", ::java::lang::management::BufferPoolMXBean),
+	$classEntry("java.lang.management.ClassLoadingMXBean", ::java::lang::management::ClassLoadingMXBean),
+	$classEntry("java.lang.management.CompilationMXBean", ::java::lang::management::CompilationMXBean),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider", ::java::lang::management::DefaultPlatformMBeanProvider),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$1", ::java::lang::management::DefaultPlatformMBeanProvider$1),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$10", ::java::lang::management::DefaultPlatformMBeanProvider$10),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$11", ::java::lang::management::DefaultPlatformMBeanProvider$11),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$2", ::java::lang::management::DefaultPlatformMBeanProvider$2),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$3", ::java::lang::management::DefaultPlatformMBeanProvider$3),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$4", ::java::lang::management::DefaultPlatformMBeanProvider$4),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$5", ::java::lang::management::DefaultPlatformMBeanProvider$5),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$6", ::java::lang::management::DefaultPlatformMBeanProvider$6),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$7", ::java::lang::management::DefaultPlatformMBeanProvider$7),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$8", ::java::lang::management::DefaultPlatformMBeanProvider$8),
+	$classEntry("java.lang.management.DefaultPlatformMBeanProvider$9", ::java::lang::management::DefaultPlatformMBeanProvider$9),
+	$classEntry("java.lang.management.GarbageCollectorMXBean", ::java::lang::management::GarbageCollectorMXBean),
+	$classEntry("java.lang.management.LockInfo", ::java::lang::management::LockInfo),
+	$classEntry("java.lang.management.ManagementFactory", ::java::lang::management::ManagementFactory),
+	$classEntry("java.lang.management.ManagementFactory$PlatformMBeanFinder", ::java::lang::management::ManagementFactory$PlatformMBeanFinder),
+	$classEntry("java.lang.management.ManagementFactory$PlatformMBeanFinder$1", ::java::lang::management::ManagementFactory$PlatformMBeanFinder$1),
+	$classEntry("java.lang.management.ManagementPermission", ::java::lang::management::ManagementPermission),
+	$classEntry("java.lang.management.MemoryMXBean", ::java::lang::management::MemoryMXBean),
+	$classEntry("java.lang.management.MemoryManagerMXBean", ::java::lang::management::MemoryManagerMXBean),
+	$classEntry("java.lang.management.MemoryNotificationInfo", ::java::lang::management::MemoryNotificationInfo),
+	$classEntry("java.lang.management.MemoryPoolMXBean", ::java::lang::management::MemoryPoolMXBean),
+	$classEntry("java.lang.management.MemoryType", ::java::lang::management::MemoryType),
+	$classEntry("java.lang.management.MemoryUsage", ::java::lang::management::MemoryUsage),
+	$classEntry("java.lang.management.MonitorInfo", ::java::lang::management::MonitorInfo),
+	$classEntry("java.lang.management.OperatingSystemMXBean", ::java::lang::management::OperatingSystemMXBean),
+	$classEntry("java.lang.management.PlatformLoggingMXBean", ::java::lang::management::PlatformLoggingMXBean),
+	$classEntry("java.lang.management.PlatformManagedObject", ::java::lang::management::PlatformManagedObject),
+	$classEntry("java.lang.management.RuntimeMXBean", ::java::lang::management::RuntimeMXBean),
+	$classEntry("java.lang.management.ThreadInfo", ::java::lang::management::ThreadInfo),
+	$classEntry("java.lang.management.ThreadInfo$1", ::java::lang::management::ThreadInfo$1),
+	$classEntry("java.lang.management.ThreadMXBean", ::java::lang::management::ThreadMXBean),
+	$classEntry("javax.management.AndQueryExp", ::javax::management::AndQueryExp),
+	$classEntry("javax.management.Attribute", ::javax::management::Attribute),
+	$classEntry("javax.management.AttributeChangeNotification", ::javax::management::AttributeChangeNotification),
+	$classEntry("javax.management.AttributeChangeNotificationFilter", ::javax::management::AttributeChangeNotificationFilter),
+	$classEntry("javax.management.AttributeList", ::javax::management::AttributeList),
+	$classEntry("javax.management.AttributeNotFoundException", ::javax::management::AttributeNotFoundException),
+	$classEntry("javax.management.AttributeValueExp", ::javax::management::AttributeValueExp),
+	$classEntry("javax.management.BadAttributeValueExpException", ::javax::management::BadAttributeValueExpException),
+	$classEntry("javax.management.BadBinaryOpValueExpException", ::javax::management::BadBinaryOpValueExpException),
+	$classEntry("javax.management.BadStringOperationException", ::javax::management::BadStringOperationException),
+	$classEntry("javax.management.BetweenQueryExp", ::javax::management::BetweenQueryExp),
+	$classEntry("javax.management.BinaryOpValueExp", ::javax::management::BinaryOpValueExp),
+	$classEntry("javax.management.BinaryRelQueryExp", ::javax::management::BinaryRelQueryExp),
+	$classEntry("javax.management.BooleanValueExp", ::javax::management::BooleanValueExp),
+	$classEntry("javax.management.ClassAttributeValueExp", ::javax::management::ClassAttributeValueExp),
+	$classEntry("javax.management.ConstructorParameters", ::javax::management::ConstructorParameters),
+	$classEntry("javax.management.DefaultLoaderRepository", ::javax::management::DefaultLoaderRepository),
+	$classEntry("javax.management.Descriptor", ::javax::management::Descriptor),
+	$classEntry("javax.management.DescriptorAccess", ::javax::management::DescriptorAccess),
+	$classEntry("javax.management.DescriptorKey", ::javax::management::DescriptorKey),
+	$classEntry("javax.management.DescriptorRead", ::javax::management::DescriptorRead),
+	$classEntry("javax.management.DynamicMBean", ::javax::management::DynamicMBean),
+	$classEntry("javax.management.ImmutableDescriptor", ::javax::management::ImmutableDescriptor),
+	$classEntry("javax.management.InQueryExp", ::javax::management::InQueryExp),
+	$classEntry("javax.management.InstanceAlreadyExistsException", ::javax::management::InstanceAlreadyExistsException),
+	$classEntry("javax.management.InstanceNotFoundException", ::javax::management::InstanceNotFoundException),
+	$classEntry("javax.management.InstanceOfQueryExp", ::javax::management::InstanceOfQueryExp),
+	$classEntry("javax.management.IntrospectionException", ::javax::management::IntrospectionException),
+	$classEntry("javax.management.InvalidApplicationException", ::javax::management::InvalidApplicationException),
+	$classEntry("javax.management.InvalidAttributeValueException", ::javax::management::InvalidAttributeValueException),
+	$classEntry("javax.management.JMException", ::javax::management::JMException),
+	$classEntry("javax.management.JMRuntimeException", ::javax::management::JMRuntimeException),
+	$classEntry("javax.management.JMX", ::javax::management::JMX),
+	$classEntry("javax.management.ListenerNotFoundException", ::javax::management::ListenerNotFoundException),
+	$classEntry("javax.management.MBeanAttributeInfo", ::javax::management::MBeanAttributeInfo),
+	$classEntry("javax.management.MBeanConstructorInfo", ::javax::management::MBeanConstructorInfo),
+	$classEntry("javax.management.MBeanException", ::javax::management::MBeanException),
+	$classEntry("javax.management.MBeanFeatureInfo", ::javax::management::MBeanFeatureInfo),
+	$classEntry("javax.management.MBeanInfo", ::javax::management::MBeanInfo),
+	$classEntry("javax.management.MBeanInfo$ArrayGettersSafeAction", ::javax::management::MBeanInfo$ArrayGettersSafeAction),
+	$classEntry("javax.management.MBeanNotificationInfo", ::javax::management::MBeanNotificationInfo),
+	$classEntry("javax.management.MBeanOperationInfo", ::javax::management::MBeanOperationInfo),
+	$classEntry("javax.management.MBeanParameterInfo", ::javax::management::MBeanParameterInfo),
+	$classEntry("javax.management.MBeanPermission", ::javax::management::MBeanPermission),
+	$classEntry("javax.management.MBeanRegistration", ::javax::management::MBeanRegistration),
+	$classEntry("javax.management.MBeanRegistrationException", ::javax::management::MBeanRegistrationException),
+	$classEntry("javax.management.MBeanServer", ::javax::management::MBeanServer),
+	$classEntry("javax.management.MBeanServerBuilder", ::javax::management::MBeanServerBuilder),
+	$classEntry("javax.management.MBeanServerConnection", ::javax::management::MBeanServerConnection),
+	$classEntry("javax.management.MBeanServerDelegate", ::javax::management::MBeanServerDelegate),
+	$classEntry("javax.management.MBeanServerDelegateMBean", ::javax::management::MBeanServerDelegateMBean),
+	$classEntry("javax.management.MBeanServerFactory", ::javax::management::MBeanServerFactory),
+	$classEntry("javax.management.MBeanServerInvocationHandler", ::javax::management::MBeanServerInvocationHandler),
+	$classEntry("javax.management.MBeanServerNotification", ::javax::management::MBeanServerNotification),
+	$classEntry("javax.management.MBeanServerPermission", ::javax::management::MBeanServerPermission),
+	$classEntry("javax.management.MBeanServerPermissionCollection", ::javax::management::MBeanServerPermissionCollection),
+	$classEntry("javax.management.MBeanTrustPermission", ::javax::management::MBeanTrustPermission),
+	$classEntry("javax.management.MXBean", ::javax::management::MXBean),
+	$classEntry("javax.management.MalformedObjectNameException", ::javax::management::MalformedObjectNameException),
+	$classEntry("javax.management.MatchQueryExp", ::javax::management::MatchQueryExp),
+	$classEntry("javax.management.NotCompliantMBeanException", ::javax::management::NotCompliantMBeanException),
+	$classEntry("javax.management.NotQueryExp", ::javax::management::NotQueryExp),
+	$classEntry("javax.management.Notification", ::javax::management::Notification),
+	$classEntry("javax.management.NotificationBroadcaster", ::javax::management::NotificationBroadcaster),
+	$classEntry("javax.management.NotificationBroadcasterSupport", ::javax::management::NotificationBroadcasterSupport),
+	$classEntry("javax.management.NotificationBroadcasterSupport$1", ::javax::management::NotificationBroadcasterSupport$1),
+	$classEntry("javax.management.NotificationBroadcasterSupport$ListenerInfo", ::javax::management::NotificationBroadcasterSupport$ListenerInfo),
+	$classEntry("javax.management.NotificationBroadcasterSupport$SendNotifJob", ::javax::management::NotificationBroadcasterSupport$SendNotifJob),
+	$classEntry("javax.management.NotificationBroadcasterSupport$WildcardListenerInfo", ::javax::management::NotificationBroadcasterSupport$WildcardListenerInfo),
+	$classEntry("javax.management.NotificationEmitter", ::javax::management::NotificationEmitter),
+	$classEntry("javax.management.NotificationFilter", ::javax::management::NotificationFilter),
+	$classEntry("javax.management.NotificationFilterSupport", ::javax::management::NotificationFilterSupport),
+	$classEntry("javax.management.NotificationListener", ::javax::management::NotificationListener),
+	$classEntry("javax.management.NumericValueExp", ::javax::management::NumericValueExp),
+	$classEntry("javax.management.ObjectInstance", ::javax::management::ObjectInstance),
+	$classEntry("javax.management.ObjectName", ::javax::management::ObjectName),
+	$classEntry("javax.management.ObjectName$PatternProperty", ::javax::management::ObjectName$PatternProperty),
+	$classEntry("javax.management.ObjectName$Property", ::javax::management::ObjectName$Property),
+	$classEntry("javax.management.OperationsException", ::javax::management::OperationsException),
+	$classEntry("javax.management.OrQueryExp", ::javax::management::OrQueryExp),
+	$classEntry("javax.management.PersistentMBean", ::javax::management::PersistentMBean),
+	$classEntry("javax.management.QualifiedAttributeValueExp", ::javax::management::QualifiedAttributeValueExp),
+	$classEntry("javax.management.Query", ::javax::management::Query),
+	$classEntry("javax.management.QueryEval", ::javax::management::QueryEval),
+	$classEntry("javax.management.QueryExp", ::javax::management::QueryExp),
+	$classEntry("javax.management.ReflectionException", ::javax::management::ReflectionException),
+	$classEntry("javax.management.RuntimeErrorException", ::javax::management::RuntimeErrorException),
+	$classEntry("javax.management.RuntimeMBeanException", ::javax::management::RuntimeMBeanException),
+	$classEntry("javax.management.RuntimeOperationsException", ::javax::management::RuntimeOperationsException),
+	$classEntry("javax.management.ServiceNotFoundException", ::javax::management::ServiceNotFoundException),
+	$classEntry("javax.management.StandardEmitterMBean", ::javax::management::StandardEmitterMBean),
+	$classEntry("javax.management.StandardMBean", ::javax::management::StandardMBean),
+	$classEntry("javax.management.StandardMBean$MBeanInfoSafeAction", ::javax::management::StandardMBean$MBeanInfoSafeAction),
+	$classEntry("javax.management.StringValueExp", ::javax::management::StringValueExp),
+	$classEntry("javax.management.ValueExp", ::javax::management::ValueExp),
+	$classEntry("javax.management.loading.ClassLoaderRepository", ::javax::management::loading::ClassLoaderRepository),
+	$classEntry("javax.management.loading.DefaultLoaderRepository", ::javax::management::loading::DefaultLoaderRepository),
+	$classEntry("javax.management.loading.MLet", ::javax::management::loading::MLet),
+	$classEntry("javax.management.loading.MLet$1", ::javax::management::loading::MLet$1),
+	$classEntry("javax.management.loading.MLetContent", ::javax::management::loading::MLetContent),
+	$classEntry("javax.management.loading.MLetMBean", ::javax::management::loading::MLetMBean),
+	$classEntry("javax.management.loading.MLetObjectInputStream", ::javax::management::loading::MLetObjectInputStream),
+	$classEntry("javax.management.loading.MLetParser", ::javax::management::loading::MLetParser),
+	$classEntry("javax.management.loading.PrivateClassLoader", ::javax::management::loading::PrivateClassLoader),
+	$classEntry("javax.management.loading.PrivateMLet", ::javax::management::loading::PrivateMLet),
+	$classEntry("javax.management.modelmbean.DescriptorSupport", ::javax::management::modelmbean::DescriptorSupport),
+	$classEntry("javax.management.modelmbean.InvalidTargetObjectTypeException", ::javax::management::modelmbean::InvalidTargetObjectTypeException),
+	$classEntry("javax.management.modelmbean.ModelMBean", ::javax::management::modelmbean::ModelMBean),
+	$classEntry("javax.management.modelmbean.ModelMBeanAttributeInfo", ::javax::management::modelmbean::ModelMBeanAttributeInfo),
+	$classEntry("javax.management.modelmbean.ModelMBeanConstructorInfo", ::javax::management::modelmbean::ModelMBeanConstructorInfo),
+	$classEntry("javax.management.modelmbean.ModelMBeanInfo", ::javax::management::modelmbean::ModelMBeanInfo),
+	$classEntry("javax.management.modelmbean.ModelMBeanInfoSupport", ::javax::management::modelmbean::ModelMBeanInfoSupport),
+	$classEntry("javax.management.modelmbean.ModelMBeanNotificationBroadcaster", ::javax::management::modelmbean::ModelMBeanNotificationBroadcaster),
+	$classEntry("javax.management.modelmbean.ModelMBeanNotificationInfo", ::javax::management::modelmbean::ModelMBeanNotificationInfo),
+	$classEntry("javax.management.modelmbean.ModelMBeanOperationInfo", ::javax::management::modelmbean::ModelMBeanOperationInfo),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean", ::javax::management::modelmbean::RequiredModelMBean),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$1", ::javax::management::modelmbean::RequiredModelMBean$1),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$2", ::javax::management::modelmbean::RequiredModelMBean$2),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$3", ::javax::management::modelmbean::RequiredModelMBean$3),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$4", ::javax::management::modelmbean::RequiredModelMBean$4),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$5", ::javax::management::modelmbean::RequiredModelMBean$5),
+	$classEntry("javax.management.modelmbean.RequiredModelMBean$6", ::javax::management::modelmbean::RequiredModelMBean$6),
+	$classEntry("javax.management.modelmbean.XMLParseException", ::javax::management::modelmbean::XMLParseException),
+	$classEntry("javax.management.monitor.CounterMonitor", ::javax::management::monitor::CounterMonitor),
+	$classEntry("javax.management.monitor.CounterMonitor$1", ::javax::management::monitor::CounterMonitor$1),
+	$classEntry("javax.management.monitor.CounterMonitor$CounterMonitorObservedObject", ::javax::management::monitor::CounterMonitor$CounterMonitorObservedObject),
+	$classEntry("javax.management.monitor.CounterMonitorMBean", ::javax::management::monitor::CounterMonitorMBean),
+	$classEntry("javax.management.monitor.GaugeMonitor", ::javax::management::monitor::GaugeMonitor),
+	$classEntry("javax.management.monitor.GaugeMonitor$1", ::javax::management::monitor::GaugeMonitor$1),
+	$classEntry("javax.management.monitor.GaugeMonitor$GaugeMonitorObservedObject", ::javax::management::monitor::GaugeMonitor$GaugeMonitorObservedObject),
+	$classEntry("javax.management.monitor.GaugeMonitorMBean", ::javax::management::monitor::GaugeMonitorMBean),
+	$classEntry("javax.management.monitor.Monitor", ::javax::management::monitor::Monitor),
+	$classEntry("javax.management.monitor.Monitor$1", ::javax::management::monitor::Monitor$1),
+	$classEntry("javax.management.monitor.Monitor$DaemonThreadFactory", ::javax::management::monitor::Monitor$DaemonThreadFactory),
+	$classEntry("javax.management.monitor.Monitor$MonitorTask", ::javax::management::monitor::Monitor$MonitorTask),
+	$classEntry("javax.management.monitor.Monitor$MonitorTask$1", ::javax::management::monitor::Monitor$MonitorTask$1),
+	$classEntry("javax.management.monitor.Monitor$NumericalType", ::javax::management::monitor::Monitor$NumericalType),
+	$classEntry("javax.management.monitor.Monitor$ObservedObject", ::javax::management::monitor::Monitor$ObservedObject),
+	$classEntry("javax.management.monitor.Monitor$SchedulerTask", ::javax::management::monitor::Monitor$SchedulerTask),
+	$classEntry("javax.management.monitor.MonitorMBean", ::javax::management::monitor::MonitorMBean),
+	$classEntry("javax.management.monitor.MonitorNotification", ::javax::management::monitor::MonitorNotification),
+	$classEntry("javax.management.monitor.MonitorSettingException", ::javax::management::monitor::MonitorSettingException),
+	$classEntry("javax.management.monitor.StringMonitor", ::javax::management::monitor::StringMonitor),
+	$classEntry("javax.management.monitor.StringMonitor$StringMonitorObservedObject", ::javax::management::monitor::StringMonitor$StringMonitorObservedObject),
+	$classEntry("javax.management.monitor.StringMonitorMBean", ::javax::management::monitor::StringMonitorMBean),
+	$classEntry("javax.management.openmbean.ArrayType", ::javax::management::openmbean::ArrayType),
+	$classEntry("javax.management.openmbean.CompositeData", ::javax::management::openmbean::CompositeData),
+	$classEntry("javax.management.openmbean.CompositeDataInvocationHandler", ::javax::management::openmbean::CompositeDataInvocationHandler),
+	$classEntry("javax.management.openmbean.CompositeDataSupport", ::javax::management::openmbean::CompositeDataSupport),
+	$classEntry("javax.management.openmbean.CompositeDataView", ::javax::management::openmbean::CompositeDataView),
+	$classEntry("javax.management.openmbean.CompositeType", ::javax::management::openmbean::CompositeType),
+	$classEntry("javax.management.openmbean.InvalidKeyException", ::javax::management::openmbean::InvalidKeyException),
+	$classEntry("javax.management.openmbean.InvalidOpenTypeException", ::javax::management::openmbean::InvalidOpenTypeException),
+	$classEntry("javax.management.openmbean.KeyAlreadyExistsException", ::javax::management::openmbean::KeyAlreadyExistsException),
+	$classEntry("javax.management.openmbean.OpenDataException", ::javax::management::openmbean::OpenDataException),
+	$classEntry("javax.management.openmbean.OpenMBeanAttributeInfo", ::javax::management::openmbean::OpenMBeanAttributeInfo),
+	$classEntry("javax.management.openmbean.OpenMBeanAttributeInfoSupport", ::javax::management::openmbean::OpenMBeanAttributeInfoSupport),
+	$classEntry("javax.management.openmbean.OpenMBeanConstructorInfo", ::javax::management::openmbean::OpenMBeanConstructorInfo),
+	$classEntry("javax.management.openmbean.OpenMBeanConstructorInfoSupport", ::javax::management::openmbean::OpenMBeanConstructorInfoSupport),
+	$classEntry("javax.management.openmbean.OpenMBeanInfo", ::javax::management::openmbean::OpenMBeanInfo),
+	$classEntry("javax.management.openmbean.OpenMBeanInfoSupport", ::javax::management::openmbean::OpenMBeanInfoSupport),
+	$classEntry("javax.management.openmbean.OpenMBeanOperationInfo", ::javax::management::openmbean::OpenMBeanOperationInfo),
+	$classEntry("javax.management.openmbean.OpenMBeanOperationInfoSupport", ::javax::management::openmbean::OpenMBeanOperationInfoSupport),
+	$classEntry("javax.management.openmbean.OpenMBeanParameterInfo", ::javax::management::openmbean::OpenMBeanParameterInfo),
+	$classEntry("javax.management.openmbean.OpenMBeanParameterInfoSupport", ::javax::management::openmbean::OpenMBeanParameterInfoSupport),
+	$classEntry("javax.management.openmbean.OpenType", ::javax::management::openmbean::OpenType),
+	$classEntry("javax.management.openmbean.OpenType$1", ::javax::management::openmbean::OpenType$1),
+	$classEntry("javax.management.openmbean.SimpleType", ::javax::management::openmbean::SimpleType),
+	$classEntry("javax.management.openmbean.TabularData", ::javax::management::openmbean::TabularData),
+	$classEntry("javax.management.openmbean.TabularDataSupport", ::javax::management::openmbean::TabularDataSupport),
+	$classEntry("javax.management.openmbean.TabularType", ::javax::management::openmbean::TabularType),
+	$classEntry("javax.management.relation.InvalidRelationIdException", ::javax::management::relation::InvalidRelationIdException),
+	$classEntry("javax.management.relation.InvalidRelationServiceException", ::javax::management::relation::InvalidRelationServiceException),
+	$classEntry("javax.management.relation.InvalidRelationTypeException", ::javax::management::relation::InvalidRelationTypeException),
+	$classEntry("javax.management.relation.InvalidRoleInfoException", ::javax::management::relation::InvalidRoleInfoException),
+	$classEntry("javax.management.relation.InvalidRoleValueException", ::javax::management::relation::InvalidRoleValueException),
+	$classEntry("javax.management.relation.MBeanServerNotificationFilter", ::javax::management::relation::MBeanServerNotificationFilter),
+	$classEntry("javax.management.relation.Relation", ::javax::management::relation::Relation),
+	$classEntry("javax.management.relation.RelationException", ::javax::management::relation::RelationException),
+	$classEntry("javax.management.relation.RelationNotFoundException", ::javax::management::relation::RelationNotFoundException),
+	$classEntry("javax.management.relation.RelationNotification", ::javax::management::relation::RelationNotification),
+	$classEntry("javax.management.relation.RelationService", ::javax::management::relation::RelationService),
+	$classEntry("javax.management.relation.RelationServiceMBean", ::javax::management::relation::RelationServiceMBean),
+	$classEntry("javax.management.relation.RelationServiceNotRegisteredException", ::javax::management::relation::RelationServiceNotRegisteredException),
+	$classEntry("javax.management.relation.RelationSupport", ::javax::management::relation::RelationSupport),
+	$classEntry("javax.management.relation.RelationSupportMBean", ::javax::management::relation::RelationSupportMBean),
+	$classEntry("javax.management.relation.RelationType", ::javax::management::relation::RelationType),
+	$classEntry("javax.management.relation.RelationTypeNotFoundException", ::javax::management::relation::RelationTypeNotFoundException),
+	$classEntry("javax.management.relation.RelationTypeSupport", ::javax::management::relation::RelationTypeSupport),
+	$classEntry("javax.management.relation.Role", ::javax::management::relation::Role),
+	$classEntry("javax.management.relation.RoleInfo", ::javax::management::relation::RoleInfo),
+	$classEntry("javax.management.relation.RoleInfoNotFoundException", ::javax::management::relation::RoleInfoNotFoundException),
+	$classEntry("javax.management.relation.RoleList", ::javax::management::relation::RoleList),
+	$classEntry("javax.management.relation.RoleNotFoundException", ::javax::management::relation::RoleNotFoundException),
+	$classEntry("javax.management.relation.RoleResult", ::javax::management::relation::RoleResult),
+	$classEntry("javax.management.relation.RoleStatus", ::javax::management::relation::RoleStatus),
+	$classEntry("javax.management.relation.RoleUnresolved", ::javax::management::relation::RoleUnresolved),
+	$classEntry("javax.management.relation.RoleUnresolvedList", ::javax::management::relation::RoleUnresolvedList),
+	$classEntry("javax.management.remote.JMXAddressable", ::javax::management::remote::JMXAddressable),
+	$classEntry("javax.management.remote.JMXAuthenticator", ::javax::management::remote::JMXAuthenticator),
+	$classEntry("javax.management.remote.JMXConnectionNotification", ::javax::management::remote::JMXConnectionNotification),
+	$classEntry("javax.management.remote.JMXConnector", ::javax::management::remote::JMXConnector),
+	$classEntry("javax.management.remote.JMXConnectorFactory", ::javax::management::remote::JMXConnectorFactory),
+	$classEntry("javax.management.remote.JMXConnectorFactory$1", ::javax::management::remote::JMXConnectorFactory$1),
+	$classEntry("javax.management.remote.JMXConnectorFactory$2", ::javax::management::remote::JMXConnectorFactory$2),
+	$classEntry("javax.management.remote.JMXConnectorFactory$2$1", ::javax::management::remote::JMXConnectorFactory$2$1),
+	$classEntry("javax.management.remote.JMXConnectorFactory$ConnectorFactory", ::javax::management::remote::JMXConnectorFactory$ConnectorFactory),
+	$classEntry("javax.management.remote.JMXConnectorFactory$ProviderFinder", ::javax::management::remote::JMXConnectorFactory$ProviderFinder),
+	$classEntry("javax.management.remote.JMXConnectorProvider", ::javax::management::remote::JMXConnectorProvider),
+	$classEntry("javax.management.remote.JMXConnectorServer", ::javax::management::remote::JMXConnectorServer),
+	$classEntry("javax.management.remote.JMXConnectorServerFactory", ::javax::management::remote::JMXConnectorServerFactory),
+	$classEntry("javax.management.remote.JMXConnectorServerMBean", ::javax::management::remote::JMXConnectorServerMBean),
+	$classEntry("javax.management.remote.JMXConnectorServerProvider", ::javax::management::remote::JMXConnectorServerProvider),
+	$classEntry("javax.management.remote.JMXPrincipal", ::javax::management::remote::JMXPrincipal),
+	$classEntry("javax.management.remote.JMXProviderException", ::javax::management::remote::JMXProviderException),
+	$classEntry("javax.management.remote.JMXServerErrorException", ::javax::management::remote::JMXServerErrorException),
+	$classEntry("javax.management.remote.JMXServiceURL", ::javax::management::remote::JMXServiceURL),
+	$classEntry("javax.management.remote.MBeanServerForwarder", ::javax::management::remote::MBeanServerForwarder),
+	$classEntry("javax.management.remote.NotificationResult", ::javax::management::remote::NotificationResult),
+	$classEntry("javax.management.remote.SubjectDelegationPermission", ::javax::management::remote::SubjectDelegationPermission),
+	$classEntry("javax.management.remote.TargetedNotification", ::javax::management::remote::TargetedNotification),
+	$classEntry("javax.management.timer.Timer", ::javax::management::timer::Timer),
+	$classEntry("javax.management.timer.TimerAlarmClock", ::javax::management::timer::TimerAlarmClock),
+	$classEntry("javax.management.timer.TimerAlarmClockNotification", ::javax::management::timer::TimerAlarmClockNotification),
+	$classEntry("javax.management.timer.TimerMBean", ::javax::management::timer::TimerMBean),
+	$classEntry("javax.management.timer.TimerNotification", ::javax::management::timer::TimerNotification),
+	$classEntry("sun.management.BaseOperatingSystemImpl", ::sun::management::BaseOperatingSystemImpl),
+	$classEntry("sun.management.ClassLoadingImpl", ::sun::management::ClassLoadingImpl),
+	$classEntry("sun.management.CompilationImpl", ::sun::management::CompilationImpl),
+	$classEntry("sun.management.CompilerThreadStat", ::sun::management::CompilerThreadStat),
+	$classEntry("sun.management.GarbageCollectorImpl", ::sun::management::GarbageCollectorImpl),
+	$classEntry("sun.management.HotspotClassLoading", ::sun::management::HotspotClassLoading),
+	$classEntry("sun.management.HotspotClassLoadingMBean", ::sun::management::HotspotClassLoadingMBean),
+	$classEntry("sun.management.HotspotCompilation", ::sun::management::HotspotCompilation),
+	$classEntry("sun.management.HotspotCompilation$CompilerThreadInfo", ::sun::management::HotspotCompilation$CompilerThreadInfo),
+	$classEntry("sun.management.HotspotCompilationMBean", ::sun::management::HotspotCompilationMBean),
+	$classEntry("sun.management.HotspotInternal", ::sun::management::HotspotInternal),
+	$classEntry("sun.management.HotspotInternalMBean", ::sun::management::HotspotInternalMBean),
+	$classEntry("sun.management.HotspotMemory", ::sun::management::HotspotMemory),
+	$classEntry("sun.management.HotspotMemoryMBean", ::sun::management::HotspotMemoryMBean),
+	$classEntry("sun.management.HotspotRuntime", ::sun::management::HotspotRuntime),
+	$classEntry("sun.management.HotspotRuntimeMBean", ::sun::management::HotspotRuntimeMBean),
+	$classEntry("sun.management.HotspotThread", ::sun::management::HotspotThread),
+	$classEntry("sun.management.HotspotThreadMBean", ::sun::management::HotspotThreadMBean),
+	$classEntry("sun.management.LazyCompositeData", ::sun::management::LazyCompositeData),
+	$classEntry("sun.management.LockInfoCompositeData", ::sun::management::LockInfoCompositeData),
+	$classEntry("sun.management.ManagementFactoryHelper", ::sun::management::ManagementFactoryHelper),
+	$classEntry("sun.management.ManagementFactoryHelper$1", ::sun::management::ManagementFactoryHelper$1),
+	$classEntry("sun.management.ManagementFactoryHelper$2", ::sun::management::ManagementFactoryHelper$2),
+	$classEntry("sun.management.ManagementFactoryHelper$3", ::sun::management::ManagementFactoryHelper$3),
+	$classEntry("sun.management.ManagementFactoryHelper$LoggingMXBeanAccess", ::sun::management::ManagementFactoryHelper$LoggingMXBeanAccess),
+	$classEntry("sun.management.ManagementFactoryHelper$LoggingMXBeanAccess$1", ::sun::management::ManagementFactoryHelper$LoggingMXBeanAccess$1),
+	$classEntry("sun.management.ManagementFactoryHelper$PlatformLoggingImpl", ::sun::management::ManagementFactoryHelper$PlatformLoggingImpl),
+	$classEntry("sun.management.MappedMXBeanType", ::sun::management::MappedMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$ArrayMXBeanType", ::sun::management::MappedMXBeanType$ArrayMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$BasicMXBeanType", ::sun::management::MappedMXBeanType$BasicMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$CompositeDataMXBeanType", ::sun::management::MappedMXBeanType$CompositeDataMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$CompositeDataMXBeanType$1", ::sun::management::MappedMXBeanType$CompositeDataMXBeanType$1),
+	$classEntry("sun.management.MappedMXBeanType$CompositeDataMXBeanType$2", ::sun::management::MappedMXBeanType$CompositeDataMXBeanType$2),
+	$classEntry("sun.management.MappedMXBeanType$EnumMXBeanType", ::sun::management::MappedMXBeanType$EnumMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$GenericArrayMXBeanType", ::sun::management::MappedMXBeanType$GenericArrayMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$InProgress", ::sun::management::MappedMXBeanType$InProgress),
+	$classEntry("sun.management.MappedMXBeanType$ListMXBeanType", ::sun::management::MappedMXBeanType$ListMXBeanType),
+	$classEntry("sun.management.MappedMXBeanType$MapMXBeanType", ::sun::management::MappedMXBeanType$MapMXBeanType),
+	$classEntry("sun.management.MemoryImpl", ::sun::management::MemoryImpl),
+	$classEntry("sun.management.MemoryManagerImpl", ::sun::management::MemoryManagerImpl),
+	$classEntry("sun.management.MemoryNotifInfoCompositeData", ::sun::management::MemoryNotifInfoCompositeData),
+	$classEntry("sun.management.MemoryPoolImpl", ::sun::management::MemoryPoolImpl),
+	$classEntry("sun.management.MemoryPoolImpl$CollectionSensor", ::sun::management::MemoryPoolImpl$CollectionSensor),
+	$classEntry("sun.management.MemoryPoolImpl$PoolSensor", ::sun::management::MemoryPoolImpl$PoolSensor),
+	$classEntry("sun.management.MemoryUsageCompositeData", ::sun::management::MemoryUsageCompositeData),
+	$classEntry("sun.management.MethodInfo", ::sun::management::MethodInfo),
+	$classEntry("sun.management.MonitorInfoCompositeData", ::sun::management::MonitorInfoCompositeData),
+	$classEntry("sun.management.NotificationEmitterSupport", ::sun::management::NotificationEmitterSupport),
+	$classEntry("sun.management.NotificationEmitterSupport$ListenerInfo", ::sun::management::NotificationEmitterSupport$ListenerInfo),
+	$classEntry("sun.management.RuntimeImpl", ::sun::management::RuntimeImpl),
+	$classEntry("sun.management.Sensor", ::sun::management::Sensor),
+	$classEntry("sun.management.StackTraceElementCompositeData", ::sun::management::StackTraceElementCompositeData),
+	$classEntry("sun.management.ThreadImpl", ::sun::management::ThreadImpl),
+	$classEntry("sun.management.ThreadInfoCompositeData", ::sun::management::ThreadInfoCompositeData),
+	$classEntry("sun.management.ThreadInfoCompositeData$ThreadInfoCompositeTypes", ::sun::management::ThreadInfoCompositeData$ThreadInfoCompositeTypes),
+	$classEntry("sun.management.Util", ::sun::management::Util),
+	$classEntry("sun.management.VMManagement", ::sun::management::VMManagement),
+	$classEntry("sun.management.VMManagementImpl", ::sun::management::VMManagementImpl),
+	$classEntry("sun.management.VMManagementImpl$1", ::sun::management::VMManagementImpl$1),
+	$classEntry("sun.management.counter.AbstractCounter", ::sun::management::counter::AbstractCounter),
+	$classEntry("sun.management.counter.AbstractCounter$Flags", ::sun::management::counter::AbstractCounter$Flags),
+	$classEntry("sun.management.counter.ByteArrayCounter", ::sun::management::counter::ByteArrayCounter),
+	$classEntry("sun.management.counter.Counter", ::sun::management::counter::Counter),
+	$classEntry("sun.management.counter.LongArrayCounter", ::sun::management::counter::LongArrayCounter),
+	$classEntry("sun.management.counter.LongCounter", ::sun::management::counter::LongCounter),
+	$classEntry("sun.management.counter.StringCounter", ::sun::management::counter::StringCounter),
+	$classEntry("sun.management.counter.Units", ::sun::management::counter::Units),
+	$classEntry("sun.management.counter.Variability", ::sun::management::counter::Variability),
+	$classEntry("sun.management.counter.perf.ByteArrayCounterSnapshot", ::sun::management::counter::perf::ByteArrayCounterSnapshot),
+	$classEntry("sun.management.counter.perf.InstrumentationException", ::sun::management::counter::perf::InstrumentationException),
+	$classEntry("sun.management.counter.perf.LongArrayCounterSnapshot", ::sun::management::counter::perf::LongArrayCounterSnapshot),
+	$classEntry("sun.management.counter.perf.LongCounterSnapshot", ::sun::management::counter::perf::LongCounterSnapshot),
+	$classEntry("sun.management.counter.perf.PerfByteArrayCounter", ::sun::management::counter::perf::PerfByteArrayCounter),
+	$classEntry("sun.management.counter.perf.PerfDataEntry", ::sun::management::counter::perf::PerfDataEntry),
+	$classEntry("sun.management.counter.perf.PerfDataEntry$EntryFieldOffset", ::sun::management::counter::perf::PerfDataEntry$EntryFieldOffset),
+	$classEntry("sun.management.counter.perf.PerfDataType", ::sun::management::counter::perf::PerfDataType),
+	$classEntry("sun.management.counter.perf.PerfInstrumentation", ::sun::management::counter::perf::PerfInstrumentation),
+	$classEntry("sun.management.counter.perf.PerfLongArrayCounter", ::sun::management::counter::perf::PerfLongArrayCounter),
+	$classEntry("sun.management.counter.perf.PerfLongCounter", ::sun::management::counter::perf::PerfLongCounter),
+	$classEntry("sun.management.counter.perf.PerfStringCounter", ::sun::management::counter::perf::PerfStringCounter),
+	$classEntry("sun.management.counter.perf.Prologue", ::sun::management::counter::perf::Prologue),
+	$classEntry("sun.management.counter.perf.Prologue$PrologueFieldOffset", ::sun::management::counter::perf::Prologue$PrologueFieldOffset),
+	$classEntry("sun.management.counter.perf.StringCounterSnapshot", ::sun::management::counter::perf::StringCounterSnapshot),
+	$classEntry("sun.management.spi.PlatformMBeanProvider", ::sun::management::spi::PlatformMBeanProvider),
+	$classEntry("sun.management.spi.PlatformMBeanProvider$PlatformComponent", ::sun::management::spi::PlatformMBeanProvider$PlatformComponent)
+};
+
+const char* _java$management_packages_[] = {
+	"com.sun.jmx.defaults",
+	"com.sun.jmx.interceptor",
+	"com.sun.jmx.mbeanserver",
+	"com.sun.jmx.remote.internal",
+	"com.sun.jmx.remote.security",
+	"com.sun.jmx.remote.util",
+	"java.lang.management",
+	"javax.management",
+	"javax.management.loading",
+	"javax.management.modelmbean",
+	"javax.management.monitor",
+	"javax.management.openmbean",
+	"javax.management.relation",
+	"javax.management.remote",
+	"javax.management.timer",
+	"sun.management",
+	"sun.management.counter",
+	"sun.management.counter.perf",
+	"sun.management.spi"
+};
+
+void java$management$PreloadClass(void* eventData) {
+	::java::lang::PreloadClassEvent* event = (::java::lang::PreloadClassEvent*)eventData;
+	int32_t length = $lengthOf(_java$management_classes_);
+	for (int i = 0; i < length; i++) {
+		::java::lang::ClassEntry* classEntry = &_java$management_classes_[i];
+		if (event->preinit) {
+			if ($hasFlag(classEntry->mark, $PREINIT)) {
+				classEntry->loader(nullptr, true);
+				continue;
+			}
+		}
+		if (event->preload) {
+			if ($hasFlag(classEntry->mark, $PRELOAD) || $hasFlag(classEntry->mark, $PREINIT)) {
+				classEntry->loader(nullptr, false);
+			}
+		}
+	}
+}
+
+void java$management$LibEventAction(int32_t eventType, void* eventData) {
+	if (eventType == JCPP_LIB_EVENT_TYPE_PRELOAD_CLASS) {
+		java$management$PreloadClass(eventData);
+	}
+	if (eventType == JCPP_LIB_EVENT_TYPE_THREAD_START) {
+		$setCurrentObjectStack();
+	}
+}
+
+$StringArray* java$management$GetPackages() {
+	int32_t length = $lengthOf(_java$management_packages_);
+	$var($StringArray, packages, $new($StringArray, length));
+	for (int32_t i = 0; i < length; i++) {
+		packages->set(i, $str(_java$management_packages_[i]));
+	}
+	return packages;
+}
+
+::java::lang::ClassEntry* java$management$GetClassEntry($String* name) {
+	int32_t begin = 0;
+	int32_t end = $lengthOf(_java$management_classes_) - 1;
+	while (begin <= end) {
+		int32_t mid = begin + (end - begin) / 2;
+		::java::lang::ClassEntry* classEntry = &_java$management_classes_[mid];
+		int32_t ret = name->compareTo(classEntry->name);
+		if (ret < 0) {
+			end = mid - 1;
+		} else if (ret > 0) {
+			begin = mid + 1;
+		} else {
+			return classEntry;
+		}
+	}
+	return nullptr;
+}
+
+$bytes* java$management$GetResource($String* name) {
+	return nullptr;
+}
+
+void java$management::init() {
+	::java$base::init();
+	::java::lang::Library lib = {
+		"java.management", "17.35", "",
+		&_java$management_ModuleInfo_,
+		java$management$LibEventAction,
+		java$management$GetPackages,
+		java$management$GetClassEntry,
+		java$management$GetResource
+	};
+	$System::addLibrary(&lib);
+}
