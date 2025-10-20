@@ -125,6 +125,7 @@ void ImmutableDescriptor::init$($StringArray* fields) {
 }
 
 void ImmutableDescriptor::init$($Map* fields) {
+	$useLocalCurrentObjectStackCache();
 	this->hashCode$ = -1;
 	if (fields == nullptr) {
 		$throwNew($IllegalArgumentException, "Null Map"_s);
@@ -153,6 +154,7 @@ void ImmutableDescriptor::init$($Map* fields) {
 }
 
 $Object* ImmutableDescriptor::readResolve() {
+	$useLocalCurrentObjectStackCache();
 	bool bad = false;
 	if (this->names == nullptr || this->values == nullptr || $nc(this->names)->length != $nc(this->values)->length) {
 		bad = true;
@@ -180,6 +182,7 @@ $Object* ImmutableDescriptor::readResolve() {
 
 $SortedMap* ImmutableDescriptor::makeMap($StringArray* fieldNames, $ObjectArray* fieldValues) {
 	$init(ImmutableDescriptor);
+	$useLocalCurrentObjectStackCache();
 	if (fieldNames == nullptr || fieldValues == nullptr) {
 		$throwNew($IllegalArgumentException, "Null array parameter"_s);
 	}
@@ -203,6 +206,7 @@ $SortedMap* ImmutableDescriptor::makeMap($StringArray* fieldNames, $ObjectArray*
 
 $SortedMap* ImmutableDescriptor::makeMap($StringArray* fields) {
 	$init(ImmutableDescriptor);
+	$useLocalCurrentObjectStackCache();
 	if (fields == nullptr) {
 		$throwNew($IllegalArgumentException, "Null fields parameter"_s);
 	}
@@ -222,6 +226,7 @@ $SortedMap* ImmutableDescriptor::makeMap($StringArray* fields) {
 
 ImmutableDescriptor* ImmutableDescriptor::union$($DescriptorArray* descriptors) {
 	$init(ImmutableDescriptor);
+	$useLocalCurrentObjectStackCache();
 	int32_t index = findNonEmpty(descriptors, 0);
 	if (index < 0) {
 		return ImmutableDescriptor::EMPTY_DESCRIPTOR;
@@ -311,6 +316,7 @@ int32_t ImmutableDescriptor::fieldIndex($String* name) {
 }
 
 $Object* ImmutableDescriptor::getFieldValue($String* fieldName) {
+	$useLocalCurrentObjectStackCache();
 	checkIllegalFieldName(fieldName);
 	int32_t i = fieldIndex(fieldName);
 	if (i < 0) {
@@ -330,6 +336,7 @@ $Object* ImmutableDescriptor::getFieldValue($String* fieldName) {
 }
 
 $StringArray* ImmutableDescriptor::getFields() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, result, $new($StringArray, $nc(this->names)->length));
 	for (int32_t i = 0; i < result->length; ++i) {
 		$var($Object, value, $nc(this->values)->get(i));
@@ -344,6 +351,7 @@ $StringArray* ImmutableDescriptor::getFields() {
 }
 
 $ObjectArray* ImmutableDescriptor::getFieldValues($StringArray* fieldNames) {
+	$useLocalCurrentObjectStackCache();
 	if (fieldNames == nullptr) {
 		return $cast($ObjectArray, $nc(this->values)->clone());
 	}
@@ -362,6 +370,7 @@ $StringArray* ImmutableDescriptor::getFieldNames() {
 }
 
 bool ImmutableDescriptor::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -401,6 +410,7 @@ int32_t ImmutableDescriptor::hashCode() {
 }
 
 $String* ImmutableDescriptor::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, sb, $new($StringBuilder, "{"_s));
 	for (int32_t i = 0; i < $nc(this->names)->length; ++i) {
 		if (i > 0) {

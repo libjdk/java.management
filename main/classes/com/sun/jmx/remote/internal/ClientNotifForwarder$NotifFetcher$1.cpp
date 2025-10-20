@@ -83,6 +83,7 @@ void ClientNotifForwarder$NotifFetcher$1::init$($ClientNotifForwarder$NotifFetch
 }
 
 $Object* ClientNotifForwarder$NotifFetcher$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($ClassLoader, previous, $($Thread::currentThread())->getContextClassLoader());

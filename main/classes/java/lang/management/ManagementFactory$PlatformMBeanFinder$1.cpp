@@ -78,6 +78,7 @@ void ManagementFactory$PlatformMBeanFinder$1::init$() {
 }
 
 $Object* ManagementFactory$PlatformMBeanFinder$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($List, all, $new($ArrayList));
 	{

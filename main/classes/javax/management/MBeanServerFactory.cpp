@@ -213,6 +213,7 @@ $MBeanServer* MBeanServerFactory::newMBeanServer() {
 
 $MBeanServer* MBeanServerFactory::newMBeanServer($String* domain) {
 	$init(MBeanServerFactory);
+	$useLocalCurrentObjectStackCache();
 	checkPermission("newMBeanServer"_s);
 	$var($MBeanServerBuilder, mbsBuilder, getNewMBeanServerBuilder());
 	$synchronized(mbsBuilder) {
@@ -234,6 +235,7 @@ $ArrayList* MBeanServerFactory::findMBeanServer($String* agentId) {
 	$load(MBeanServerFactory);
 	$synchronized(class$) {
 		$init(MBeanServerFactory);
+		$useLocalCurrentObjectStackCache();
 		checkPermission("findMBeanServer"_s);
 		if (agentId == nullptr) {
 			return $new($ArrayList, static_cast<$Collection*>(static_cast<$AbstractCollection*>(static_cast<$AbstractList*>(MBeanServerFactory::mBeanServerList))));
@@ -262,6 +264,7 @@ $ClassLoaderRepository* MBeanServerFactory::getClassLoaderRepository($MBeanServe
 
 $String* MBeanServerFactory::mBeanServerId($MBeanServer* mbs) {
 	$init(MBeanServerFactory);
+	$useLocalCurrentObjectStackCache();
 	try {
 		$init($MBeanServerDelegate);
 		return $cast($String, $nc(mbs)->getAttribute($MBeanServerDelegate::DELEGATE_NAME, "MBeanServerId"_s));
@@ -277,6 +280,7 @@ $String* MBeanServerFactory::mBeanServerId($MBeanServer* mbs) {
 
 void MBeanServerFactory::checkPermission($String* action) {
 	$init(MBeanServerFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
 		$var($Permission, perm, $new($MBeanServerPermission, action));
@@ -308,6 +312,7 @@ void MBeanServerFactory::removeMBeanServer($MBeanServer* mbs) {
 
 $Class* MBeanServerFactory::loadBuilderClass($String* builderClassName) {
 	$init(MBeanServerFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ClassLoader, loader, $($Thread::currentThread())->getContextClassLoader());
 	if (loader != nullptr) {
@@ -318,6 +323,7 @@ $Class* MBeanServerFactory::loadBuilderClass($String* builderClassName) {
 
 $MBeanServerBuilder* MBeanServerFactory::newBuilder($Class* builderClass) {
 	$init(MBeanServerFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($Object, abuilder, $nc(builderClass)->newInstance());
@@ -337,6 +343,7 @@ void MBeanServerFactory::checkMBeanServerBuilder() {
 	$load(MBeanServerFactory);
 	$synchronized(class$) {
 		$init(MBeanServerFactory);
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		try {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "javax.management.builder.initial"_s));

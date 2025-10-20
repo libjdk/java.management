@@ -245,6 +245,7 @@ int64_t MemoryImpl::getNextSeqNumber() {
 
 void MemoryImpl::createNotification($String* notifType, $String* poolName, $MemoryUsage* usage, int64_t count) {
 	$init(MemoryImpl);
+	$useLocalCurrentObjectStackCache();
 	$var(MemoryImpl, mbean, $cast(MemoryImpl, $ManagementFactory::getMemoryMXBean()));
 	if (!$nc(mbean)->hasListeners()) {
 		return;

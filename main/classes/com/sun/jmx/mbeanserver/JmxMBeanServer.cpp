@@ -253,6 +253,7 @@ void JmxMBeanServer::init$($String* domain, $MBeanServer* outer, $MBeanServerDel
 }
 
 void JmxMBeanServer::init$($String* domain, $MBeanServer* outer$renamed, $MBeanServerDelegate* delegate$renamed, $MBeanInstantiator* instantiator$renamed, bool interceptors, bool fairLock) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanServerDelegate, delegate, delegate$renamed);
 	$var($MBeanInstantiator, instantiator, instantiator$renamed);
 	$var($MBeanServer, outer, outer$renamed);
@@ -344,11 +345,13 @@ $AttributeList* JmxMBeanServer::getAttributes($ObjectName* name, $StringArray* a
 }
 
 void JmxMBeanServer::setAttribute($ObjectName* name, $Attribute* attribute) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, var$0, cloneObjectName(name));
 	$nc(this->mbsInterceptor)->setAttribute(var$0, $(cloneAttribute(attribute)));
 }
 
 $AttributeList* JmxMBeanServer::setAttributes($ObjectName* name, $AttributeList* attributes) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, var$0, cloneObjectName(name));
 	return $nc(this->mbsInterceptor)->setAttributes(var$0, $(cloneAttributeList(attributes)));
 }
@@ -429,6 +432,7 @@ $ObjectInputStream* JmxMBeanServer::deserialize($ObjectName* name, $bytes* data)
 }
 
 $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $bytes* data) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (className == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException), "Null className passed in parameter"_s);
@@ -448,6 +452,7 @@ $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $bytes* data
 }
 
 $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $ObjectName* loaderName$renamed, $bytes* data) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, loaderName, loaderName$renamed);
 	$beforeCallerSensitive();
 	$assign(loaderName, cloneObjectName(loaderName));
@@ -464,6 +469,7 @@ $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $ObjectName*
 }
 
 void JmxMBeanServer::initialize() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (this->instantiator == nullptr) {
 		$throwNew($IllegalStateException, "instantiator must not be null."_s);
@@ -560,6 +566,7 @@ $ObjectName* JmxMBeanServer::cloneObjectName($ObjectName* name) {
 }
 
 $Attribute* JmxMBeanServer::cloneAttribute($Attribute* attribute) {
+	$useLocalCurrentObjectStackCache();
 	if (attribute != nullptr) {
 		$load($Attribute);
 		if (!$of($of(attribute)->getClass())->equals($Attribute::class$)) {
@@ -571,6 +578,7 @@ $Attribute* JmxMBeanServer::cloneAttribute($Attribute* attribute) {
 }
 
 $AttributeList* JmxMBeanServer::cloneAttributeList($AttributeList* list) {
+	$useLocalCurrentObjectStackCache();
 	if (list != nullptr) {
 		$var($List, alist, list->asList());
 		if (!$of($of(list)->getClass())->equals($AttributeList::class$)) {
@@ -599,6 +607,7 @@ $AttributeList* JmxMBeanServer::cloneAttributeList($AttributeList* list) {
 
 void JmxMBeanServer::checkMBeanPermission($String* classname, $String* member, $ObjectName* objectName, $String* actions) {
 	$init(JmxMBeanServer);
+	$useLocalCurrentObjectStackCache();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
 		$var($Permission, perm, $new($MBeanPermission, classname, member, objectName, actions));
@@ -608,6 +617,7 @@ void JmxMBeanServer::checkMBeanPermission($String* classname, $String* member, $
 
 void JmxMBeanServer::checkNewMBeanServerPermission() {
 	$init(JmxMBeanServer);
+	$useLocalCurrentObjectStackCache();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
 		$var($Permission, perm, $new($MBeanServerPermission, "newMBeanServer"_s));

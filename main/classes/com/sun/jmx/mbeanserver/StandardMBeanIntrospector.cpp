@@ -163,6 +163,7 @@ $TypeArray* StandardMBeanIntrospector::getGenericParameterTypes($Method* m) {
 }
 
 $StringArray* StandardMBeanIntrospector::getSignature($Method* m) {
+	$useLocalCurrentObjectStackCache();
 	$var($ClassArray, params, $nc(m)->getParameterTypes());
 	$var($StringArray, sig, $new($StringArray, $nc(params)->length));
 	for (int32_t i = 0; i < params->length; ++i) {
@@ -183,6 +184,7 @@ bool StandardMBeanIntrospector::validParameter($Method* m, Object$* value, int32
 }
 
 $MBeanAttributeInfo* StandardMBeanIntrospector::getMBeanAttributeInfo($String* attributeName, $Method* getter, $Method* setter) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, description, "Attribute exposed for management"_s);
 	try {
 		return $new($MBeanAttributeInfo, attributeName, description, getter, setter);
@@ -204,6 +206,7 @@ $Descriptor* StandardMBeanIntrospector::getBasicMBeanDescriptor() {
 }
 
 $Descriptor* StandardMBeanIntrospector::getMBeanDescriptor($Class* resourceClass) {
+	$useLocalCurrentObjectStackCache();
 	bool immutable = isDefinitelyImmutableInfo(resourceClass);
 	return $new($ImmutableDescriptor, $$new($StringArray, {
 		"mxbean=false"_s,
@@ -213,6 +216,7 @@ $Descriptor* StandardMBeanIntrospector::getMBeanDescriptor($Class* resourceClass
 
 bool StandardMBeanIntrospector::isDefinitelyImmutableInfo($Class* implClass) {
 	$init(StandardMBeanIntrospector);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$load($NotificationBroadcaster);
 	if (!$NotificationBroadcaster::class$->isAssignableFrom(implClass)) {

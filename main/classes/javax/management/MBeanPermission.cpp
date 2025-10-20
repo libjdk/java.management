@@ -121,6 +121,7 @@ void MBeanPermission::parseActions() {
 }
 
 void MBeanPermission::parseName() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, getName());
 	if (name == nullptr) {
 		$throwNew($IllegalArgumentException, "MBeanPermission name cannot be null"_s);
@@ -215,6 +216,7 @@ void MBeanPermission::init$($String* className, $String* member, $ObjectName* ob
 
 $String* MBeanPermission::makeName($String* className$renamed, $String* member$renamed, $ObjectName* objectName) {
 	$init(MBeanPermission);
+	$useLocalCurrentObjectStackCache();
 	$var($String, member, member$renamed);
 	$var($String, className, className$renamed);
 	$var($StringBuilder, name, $new($StringBuilder));
@@ -385,12 +387,14 @@ $String* MBeanPermission::getActions(int32_t mask) {
 }
 
 int32_t MBeanPermission::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	int32_t var$0 = $nc($(this->getName()))->hashCode();
 	return var$0 + $nc($(this->getActions()))->hashCode();
 }
 
 int32_t MBeanPermission::getMask($String* action) {
 	$init(MBeanPermission);
+	$useLocalCurrentObjectStackCache();
 	int32_t mask = MBeanPermission::NONE;
 	if (action == nullptr) {
 		return mask;
@@ -552,6 +556,7 @@ bool MBeanPermission::implies($Permission* p) {
 }
 
 bool MBeanPermission::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(obj, this)) {
 		return true;
 	}

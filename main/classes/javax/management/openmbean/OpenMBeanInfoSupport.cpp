@@ -138,6 +138,7 @@ void OpenMBeanInfoSupport::init$($String* className, $String* description, $Open
 }
 
 void OpenMBeanInfoSupport::init$($String* className, $String* description, $OpenMBeanAttributeInfoArray* openAttributes, $OpenMBeanConstructorInfoArray* openConstructors, $OpenMBeanOperationInfoArray* openOperations, $MBeanNotificationInfoArray* notifications, $Descriptor* descriptor) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, className);
 	$var($String, var$1, description);
 	$var($MBeanAttributeInfoArray, var$2, attributeArray(openAttributes));
@@ -179,6 +180,7 @@ $MBeanOperationInfoArray* OpenMBeanInfoSupport::operationArray($OpenMBeanOperati
 }
 
 bool OpenMBeanInfoSupport::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -214,10 +216,12 @@ bool OpenMBeanInfoSupport::equals(Object$* obj) {
 
 bool OpenMBeanInfoSupport::sameArrayContents($ObjectArray* a1, $ObjectArray* a2) {
 	$init(OpenMBeanInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	return ($$new($HashSet, $(static_cast<$Collection*>($Arrays::asList(a1))))->equals($$new($HashSet, $(static_cast<$Collection*>($Arrays::asList(a2))))));
 }
 
 int32_t OpenMBeanInfoSupport::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myHashCode == nullptr) {
 		int32_t value = 0;
 		if (this->getClassName() != nullptr) {
@@ -234,10 +238,12 @@ int32_t OpenMBeanInfoSupport::hashCode() {
 
 int32_t OpenMBeanInfoSupport::arraySetHash($ObjectArray* a) {
 	$init(OpenMBeanInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	return $$new($HashSet, $(static_cast<$Collection*>($Arrays::asList(a))))->hashCode();
 }
 
 $String* OpenMBeanInfoSupport::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$set(this, myToString, $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(mbean_class_name="_s)->append($(this->getClassName()))->append(",attributes="_s)->append($($nc($of($($Arrays::asList($(this->getAttributes())))))->toString()))->append(",constructors="_s)->append($($nc($of($($Arrays::asList($(this->getConstructors())))))->toString()))->append(",operations="_s)->append($($nc($of($($Arrays::asList($(this->getOperations())))))->toString()))->append(",notifications="_s)->append($($nc($of($($Arrays::asList($(this->getNotifications())))))->toString()))->append(",descriptor="_s)->append($($of(this->getDescriptor())))->append(")"_s)->toString());
 	}

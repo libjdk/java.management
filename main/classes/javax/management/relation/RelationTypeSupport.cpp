@@ -136,6 +136,7 @@ $ObjectStreamFieldArray* RelationTypeSupport::serialPersistentFields = nullptr;
 bool RelationTypeSupport::compat = false;
 
 void RelationTypeSupport::init$($String* relationTypeName, $RoleInfoArray* roleInfoArray) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, typeName, nullptr);
 	$set(this, roleName2InfoMap, $new($HashMap));
 	this->isInRelationService = false;
@@ -152,6 +153,7 @@ void RelationTypeSupport::init$($String* relationTypeName, $RoleInfoArray* roleI
 }
 
 void RelationTypeSupport::init$($String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, typeName, nullptr);
 	$set(this, roleName2InfoMap, $new($HashMap));
 	this->isInRelationService = false;
@@ -176,6 +178,7 @@ $List* RelationTypeSupport::getRoleInfos() {
 }
 
 $RoleInfo* RelationTypeSupport::getRoleInfo($String* roleInfoName) {
+	$useLocalCurrentObjectStackCache();
 	if (roleInfoName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -196,6 +199,7 @@ $RoleInfo* RelationTypeSupport::getRoleInfo($String* roleInfoName) {
 }
 
 void RelationTypeSupport::addRoleInfo($RoleInfo* roleInfo) {
+	$useLocalCurrentObjectStackCache();
 	if (roleInfo == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -226,6 +230,7 @@ void RelationTypeSupport::setRelationServiceFlag(bool flag) {
 }
 
 void RelationTypeSupport::initMembers($String* relationTypeName, $RoleInfoArray* roleInfoArray) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr || roleInfoArray == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -246,6 +251,7 @@ void RelationTypeSupport::initMembers($String* relationTypeName, $RoleInfoArray*
 
 void RelationTypeSupport::checkRoleInfos($RoleInfoArray* roleInfoArray) {
 	$init(RelationTypeSupport);
+	$useLocalCurrentObjectStackCache();
 	if (roleInfoArray == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -275,6 +281,7 @@ void RelationTypeSupport::checkRoleInfos($RoleInfoArray* roleInfoArray) {
 }
 
 void RelationTypeSupport::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	if (RelationTypeSupport::compat) {
 		$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 		$set(this, typeName, $cast($String, $nc(fields)->get("myTypeName"_s, ($Object*)nullptr)));
@@ -307,6 +314,7 @@ void RelationTypeSupport::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$RelationTypeSupport($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$load($HashMap);

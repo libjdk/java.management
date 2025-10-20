@@ -115,6 +115,7 @@ $Object* allocate$PerfDataEntry($Class* clazz) {
 bool PerfDataEntry::$assertionsDisabled = false;
 
 void PerfDataEntry::init$($ByteBuffer* b) {
+	$useLocalCurrentObjectStackCache();
 	this->entryStart = $nc(b)->position();
 	this->entryLength = b->getInt();
 	if (this->entryLength <= 0 || this->entryLength > b->limit()) {

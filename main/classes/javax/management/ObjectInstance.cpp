@@ -61,6 +61,7 @@ void ObjectInstance::init$($String* objectName, $String* className) {
 }
 
 void ObjectInstance::init$($ObjectName* objectName, $String* className) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(objectName)->isPattern()) {
 		$var($IllegalArgumentException, iae, $new($IllegalArgumentException, $$str({"Invalid name->"_s, $(objectName->toString())})));
 		$throwNew($RuntimeOperationsException, iae);
@@ -70,6 +71,7 @@ void ObjectInstance::init$($ObjectName* objectName, $String* className) {
 }
 
 bool ObjectInstance::equals(Object$* object) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(ObjectInstance, object))) {
 		return false;
 	}
@@ -97,6 +99,7 @@ $String* ObjectInstance::getClassName() {
 }
 
 $String* ObjectInstance::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$1, $$str({$(getClassName()), "["_s}));
 	$var($String, var$0, $$concat(var$1, $(getObjectName())));
 	return $concat(var$0, "]");

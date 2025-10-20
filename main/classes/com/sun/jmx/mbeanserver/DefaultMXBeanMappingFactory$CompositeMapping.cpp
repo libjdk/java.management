@@ -123,6 +123,7 @@ $Object* allocate$DefaultMXBeanMappingFactory$CompositeMapping($Class* clazz) {
 bool DefaultMXBeanMappingFactory$CompositeMapping::$assertionsDisabled = false;
 
 void DefaultMXBeanMappingFactory$CompositeMapping::init$($DefaultMXBeanMappingFactory* this$0, $Class* targetClass, $CompositeType* compositeType, $StringArray* itemNames, $MethodArray* getters, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, this$0, this$0);
 	$DefaultMXBeanMappingFactory$NonNullMXBeanMapping::init$(targetClass, compositeType);
 	if (!DefaultMXBeanMappingFactory$CompositeMapping::$assertionsDisabled && !($nc(itemNames)->length == $nc(getters)->length)) {
@@ -138,6 +139,7 @@ void DefaultMXBeanMappingFactory$CompositeMapping::init$($DefaultMXBeanMappingFa
 }
 
 $Object* DefaultMXBeanMappingFactory$CompositeMapping::toNonNullOpenValue(Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	$var($CompositeType, ct, $cast($CompositeType, getOpenType()));
 	if ($instanceOf($CompositeDataView, value)) {
 		return $of($nc(($cast($CompositeDataView, value)))->toCompositeData(ct));
@@ -160,6 +162,7 @@ $Object* DefaultMXBeanMappingFactory$CompositeMapping::toNonNullOpenValue(Object
 
 void DefaultMXBeanMappingFactory$CompositeMapping::makeCompositeBuilder() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->compositeBuilder != nullptr) {
 			return;
 		}

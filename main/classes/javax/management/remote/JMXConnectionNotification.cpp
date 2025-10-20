@@ -71,6 +71,7 @@ $String* JMXConnectionNotification::FAILED = nullptr;
 $String* JMXConnectionNotification::NOTIFS_LOST = nullptr;
 
 void JMXConnectionNotification::init$($String* type, Object$* source, $String* connectionId, int64_t sequenceNumber, $String* message, Object$* userData) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $cast($String, nonNull(type)));
 	$var($Object, var$1, nonNull(source));
 	int64_t var$2 = $Math::max((int64_t)0, sequenceNumber);

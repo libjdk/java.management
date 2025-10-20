@@ -106,6 +106,7 @@ $Descriptor* MBeanFeatureInfo::getDescriptor() {
 }
 
 bool MBeanFeatureInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -128,12 +129,14 @@ bool MBeanFeatureInfo::equals(Object$* o) {
 }
 
 int32_t MBeanFeatureInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	int32_t var$1 = $nc($(getName()))->hashCode();
 	int32_t var$0 = var$1 ^ $nc($(getDescription()))->hashCode();
 	return var$0 ^ $nc($(getDescriptor()))->hashCode();
 }
 
 void MBeanFeatureInfo::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	$nc(out)->defaultWriteObject();
 	$load($ImmutableDescriptor);
 	if (this->descriptor != nullptr && $nc($of(this->descriptor))->getClass() == $ImmutableDescriptor::class$) {
@@ -148,6 +151,7 @@ void MBeanFeatureInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void MBeanFeatureInfo::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$nc(in)->defaultReadObject();
 	{
 		$var($StringArray, names, nullptr)

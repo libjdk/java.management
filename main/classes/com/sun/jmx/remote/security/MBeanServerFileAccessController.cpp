@@ -214,6 +214,7 @@ void MBeanServerFileAccessController::refresh() {
 
 $Properties* MBeanServerFileAccessController::propertiesFromFile($String* fname) {
 	$init(MBeanServerFileAccessController);
+	$useLocalCurrentObjectStackCache();
 	$var($FileInputStream, fin, $new($FileInputStream, fname));
 	{
 		$var($Throwable, var$0, nullptr);
@@ -242,6 +243,7 @@ $Properties* MBeanServerFileAccessController::propertiesFromFile($String* fname)
 
 void MBeanServerFileAccessController::checkAccess($MBeanServerFileAccessController$AccessType* requiredAccess, $String* arg) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		$var($AccessControlContext, acc, $AccessController::getContext());
 		$var($Subject, s, $cast($Subject, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new($MBeanServerFileAccessController$1, this, acc)))));
@@ -307,6 +309,7 @@ void MBeanServerFileAccessController::checkAccess($MBeanServerFileAccessControll
 
 bool MBeanServerFileAccessController::checkCreateAccess($MBeanServerFileAccessController$Access* access, $String* className) {
 	$init(MBeanServerFileAccessController);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($StringArray, arr$, $nc(access)->createPatterns);
 		int32_t len$ = $nc(arr$)->length;
@@ -325,6 +328,7 @@ bool MBeanServerFileAccessController::checkCreateAccess($MBeanServerFileAccessCo
 
 bool MBeanServerFileAccessController::classNameMatch($String* pattern, $String* className) {
 	$init(MBeanServerFileAccessController);
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, sb, $new($StringBuilder));
 	$var($StringTokenizer, stok, $new($StringTokenizer, pattern, "*"_s, true));
 	while (stok->hasMoreTokens()) {
@@ -339,6 +343,7 @@ bool MBeanServerFileAccessController::classNameMatch($String* pattern, $String* 
 }
 
 void MBeanServerFileAccessController::parseProperties($Properties* props) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, accessMap, $new($HashMap));
 	{
 		$var($Iterator, i$, $nc($($nc(props)->entrySet()))->iterator());

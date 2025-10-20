@@ -96,6 +96,7 @@ void MXBeanLookup::init$($MBeanServerConnection* mbsc) {
 
 MXBeanLookup* MXBeanLookup::lookupFor($MBeanServerConnection* mbsc) {
 	$init(MXBeanLookup);
+	$useLocalCurrentObjectStackCache();
 	$synchronized(MXBeanLookup::mbscToLookup) {
 		$var($WeakReference, weakLookup, $cast($WeakReference, $nc(MXBeanLookup::mbscToLookup)->get(mbsc)));
 		$var(MXBeanLookup, lookup, (weakLookup == nullptr) ? (MXBeanLookup*)nullptr : $cast(MXBeanLookup, $nc(weakLookup)->get()));
@@ -109,6 +110,7 @@ MXBeanLookup* MXBeanLookup::lookupFor($MBeanServerConnection* mbsc) {
 
 $Object* MXBeanLookup::objectNameToMXBean($ObjectName* name, $Class* type) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($WeakReference, wr, $cast($WeakReference, $nc(this->objectNameToProxy)->get(name)));
 		if (wr != nullptr) {
 			$var($Object, proxy, wr->get());
@@ -124,6 +126,7 @@ $Object* MXBeanLookup::objectNameToMXBean($ObjectName* name, $Class* type) {
 
 $ObjectName* MXBeanLookup::mxbeanToObjectName(Object$* mxbean) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		$var($String, wrong, nullptr);
 		if ($instanceOf($Proxy, mxbean)) {
@@ -152,6 +155,7 @@ $ObjectName* MXBeanLookup::mxbeanToObjectName(Object$* mxbean) {
 
 void MXBeanLookup::addReference($ObjectName* name, Object$* mxbean) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		$var($ObjectName, existing, $cast($ObjectName, $nc(this->mxbeanToObjectName$)->get(mxbean)));
 		if (existing != nullptr) {

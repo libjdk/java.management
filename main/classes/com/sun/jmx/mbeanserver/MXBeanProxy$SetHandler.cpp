@@ -79,6 +79,7 @@ void MXBeanProxy$SetHandler::init$($String* attributeName, $ConvertingMethod* cm
 }
 
 $Object* MXBeanProxy$SetHandler::invoke($MBeanServerConnection* mbsc, $ObjectName* name, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	if (!MXBeanProxy$SetHandler::$assertionsDisabled && !($nc(args)->length == 1)) {
 		$throwNew($AssertionError);
 	}

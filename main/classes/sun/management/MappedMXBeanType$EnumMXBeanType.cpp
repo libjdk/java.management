@@ -102,6 +102,7 @@ $Object* MappedMXBeanType$EnumMXBeanType::toOpenTypeData(Object$* data) {
 }
 
 $Object* MappedMXBeanType$EnumMXBeanType::toJavaTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($Enum::valueOf(this->enumClass, $cast($String, data)));
 	} catch ($IllegalArgumentException&) {

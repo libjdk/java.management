@@ -172,6 +172,7 @@ MappedMXBeanType* MappedMXBeanType::newMappedType($Type* javaType) {
 	$load(MappedMXBeanType);
 	$synchronized(class$) {
 		$init(MappedMXBeanType);
+		$useLocalCurrentObjectStackCache();
 		$var(MappedMXBeanType, mt, nullptr);
 		if ($instanceOf($Class, javaType)) {
 			$Class* c = $cast($Class, javaType);
@@ -223,6 +224,7 @@ MappedMXBeanType* MappedMXBeanType::getMappedType($Type* t) {
 	$load(MappedMXBeanType);
 	$synchronized(class$) {
 		$init(MappedMXBeanType);
+		$useLocalCurrentObjectStackCache();
 		$var(MappedMXBeanType, mt, $cast(MappedMXBeanType, $nc(MappedMXBeanType::convertedTypes)->get(t)));
 		if (mt == nullptr) {
 			$assign(mt, newMappedType(t));
@@ -293,6 +295,7 @@ $String* MappedMXBeanType::decapitalize($String* name) {
 }
 
 void clinit$MappedMXBeanType($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(MappedMXBeanType::KEY, "key"_s);
 	$assignStatic(MappedMXBeanType::VALUE, "value"_s);
 	$beforeCallerSensitive();

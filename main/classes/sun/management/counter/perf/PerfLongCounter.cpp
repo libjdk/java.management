@@ -132,6 +132,7 @@ int64_t PerfLongCounter::longValue() {
 }
 
 $Object* PerfLongCounter::writeReplace() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, getName());
 	$var($Units, var$1, getUnits());
 	$var($Variability, var$2, getVariability());

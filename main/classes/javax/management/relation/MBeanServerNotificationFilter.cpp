@@ -145,6 +145,7 @@ void MBeanServerNotificationFilter::disableAllObjectNames() {
 
 void MBeanServerNotificationFilter::disableObjectName($ObjectName* objectName) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (objectName == nullptr) {
 			$var($String, excMsg, "Invalid parameter."_s);
 			$throwNew($IllegalArgumentException, excMsg);
@@ -181,6 +182,7 @@ void MBeanServerNotificationFilter::enableAllObjectNames() {
 
 void MBeanServerNotificationFilter::enableObjectName($ObjectName* objectName) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (objectName == nullptr) {
 			$var($String, excMsg, "Invalid parameter."_s);
 			$throwNew($IllegalArgumentException, excMsg);
@@ -225,6 +227,7 @@ $Vector* MBeanServerNotificationFilter::getDisabledObjectNames() {
 
 bool MBeanServerNotificationFilter::isNotificationEnabled($Notification* notif) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (notif == nullptr) {
 			$var($String, excMsg, "Invalid parameter."_s);
 			$throwNew($IllegalArgumentException, excMsg);
@@ -267,6 +270,7 @@ bool MBeanServerNotificationFilter::isNotificationEnabled($Notification* notif) 
 }
 
 void MBeanServerNotificationFilter::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	if (MBeanServerNotificationFilter::compat) {
 		$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 		$set(this, selectedNames, $cast($List, $Util::cast($($nc(fields)->get("mySelectObjNameList"_s, ($Object*)nullptr)))));
@@ -294,6 +298,7 @@ void MBeanServerNotificationFilter::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$MBeanServerNotificationFilter($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($Vector);
 	$assignStatic(MBeanServerNotificationFilter::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {

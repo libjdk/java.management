@@ -81,6 +81,7 @@ $Object* allocate$MappedMXBeanType$GenericArrayMXBeanType($Class* clazz) {
 }
 
 void MappedMXBeanType$GenericArrayMXBeanType::init$($GenericArrayType* gat) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$MappedMXBeanType$ArrayMXBeanType::init$();
 	$set(this, gtype, gat);

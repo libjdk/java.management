@@ -54,6 +54,7 @@ void ManagementPermission::init$($String* name) {
 }
 
 void ManagementPermission::init$($String* name, $String* actions) {
+	$useLocalCurrentObjectStackCache();
 	$BasicPermission::init$(name);
 	bool var$0 = !$nc(name)->equals("control"_s);
 	if (var$0 && !name->equals("monitor"_s)) {

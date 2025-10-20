@@ -207,6 +207,7 @@ void MBeanInstantiator::testCreation($Class* c) {
 }
 
 $Class* MBeanInstantiator::findClassWithDefaultLoaderRepository($String* className) {
+	$useLocalCurrentObjectStackCache();
 	$Class* theClass = nullptr;
 	if (className == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, "The class name cannot be null"_s), "Exception occurred during object instantiation"_s);
@@ -229,6 +230,7 @@ $Class* MBeanInstantiator::findClass($String* className, $ClassLoader* loader) {
 }
 
 $Class* MBeanInstantiator::findClass($String* className, $ObjectName* aLoader) {
+	$useLocalCurrentObjectStackCache();
 	if (aLoader == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException), "Null loader passed in parameter"_s);
 	}
@@ -243,6 +245,7 @@ $Class* MBeanInstantiator::findClass($String* className, $ObjectName* aLoader) {
 }
 
 $ClassArray* MBeanInstantiator::findSignatureClasses($StringArray* signature, $ClassLoader* loader) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (signature == nullptr) {
 		return nullptr;
@@ -288,6 +291,7 @@ $ClassArray* MBeanInstantiator::findSignatureClasses($StringArray* signature, $C
 }
 
 $Object* MBeanInstantiator::instantiate($Class* theClass) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	checkMBeanPermission(theClass, ($String*)nullptr, ($ObjectName*)nullptr, "instantiate"_s);
 	$var($Object, moi, nullptr);
@@ -326,6 +330,7 @@ $Object* MBeanInstantiator::instantiate($Class* theClass) {
 }
 
 $Object* MBeanInstantiator::instantiate($Class* theClass, $ObjectArray* params, $StringArray* signature, $ClassLoader* loader) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	checkMBeanPermission(theClass, ($String*)nullptr, ($ObjectName*)nullptr, "instantiate"_s);
 	$var($ClassArray, tab, nullptr);
@@ -369,6 +374,7 @@ $Object* MBeanInstantiator::instantiate($Class* theClass, $ObjectArray* params, 
 }
 
 $ObjectInputStream* MBeanInstantiator::deserialize($ClassLoader* loader, $bytes* data) {
+	$useLocalCurrentObjectStackCache();
 	if (data == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException), "Null data passed in parameter"_s);
 	}
@@ -388,6 +394,7 @@ $ObjectInputStream* MBeanInstantiator::deserialize($ClassLoader* loader, $bytes*
 }
 
 $ObjectInputStream* MBeanInstantiator::deserialize($String* className, $ObjectName* loaderName, $bytes* data, $ClassLoader* loader) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (data == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException), "Null data passed in parameter"_s);
@@ -457,6 +464,7 @@ $ModifiableClassLoaderRepository* MBeanInstantiator::getClassLoaderRepository() 
 
 $Class* MBeanInstantiator::loadClass($String* className, $ClassLoader* loader$renamed) {
 	$init(MBeanInstantiator);
+	$useLocalCurrentObjectStackCache();
 	$var($ClassLoader, loader, loader$renamed);
 	$beforeCallerSensitive();
 	$Class* theClass = nullptr;
@@ -482,6 +490,7 @@ $Class* MBeanInstantiator::loadClass($String* className, $ClassLoader* loader$re
 
 $ClassArray* MBeanInstantiator::loadSignatureClasses($StringArray* signature, $ClassLoader* loader) {
 	$init(MBeanInstantiator);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (signature == nullptr) {
 		return nullptr;
@@ -541,6 +550,7 @@ void MBeanInstantiator::checkMBeanPermission($Class* clazz, $String* member, $Ob
 
 void MBeanInstantiator::checkMBeanPermission($String* classname, $String* member, $ObjectName* objectName, $String* actions) {
 	$init(MBeanInstantiator);
+	$useLocalCurrentObjectStackCache();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
 		$var($Permission, perm, $new($MBeanPermission, classname, member, objectName, actions));
@@ -557,6 +567,7 @@ void MBeanInstantiator::ensureClassAccess($Class* clazz) {
 }
 
 $ClassLoader* MBeanInstantiator::getClassLoader($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (this->clr == nullptr) {
 		return nullptr;
@@ -571,6 +582,7 @@ $ClassLoader* MBeanInstantiator::getClassLoader($ObjectName* name) {
 }
 
 void clinit$MBeanInstantiator($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(MBeanInstantiator::primitiveClasses, $Util::newMap());
 	{
 		{

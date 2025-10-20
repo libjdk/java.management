@@ -111,6 +111,7 @@ bool MemoryManagerImpl::isValid() {
 }
 
 $StringArray* MemoryManagerImpl::getMemoryPoolNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($MemoryPoolMXBeanArray, ps, getMemoryPools());
 	$var($StringArray, names, $new($StringArray, $nc(ps)->length));
 	for (int32_t i = 0; i < ps->length; ++i) {

@@ -217,6 +217,7 @@ bool ThreadImpl::isThreadAllocatedMemoryEnabled() {
 }
 
 $longs* ThreadImpl::getAllThreadIds() {
+	$useLocalCurrentObjectStackCache();
 	$Util::checkMonitorAccess();
 	$var($ThreadArray, threads, getThreads());
 	int32_t length = $nc(threads)->length;
@@ -229,6 +230,7 @@ $longs* ThreadImpl::getAllThreadIds() {
 }
 
 $ThreadInfo* ThreadImpl::getThreadInfo(int64_t id) {
+	$useLocalCurrentObjectStackCache();
 	$var($longs, ids, $new($longs, 1));
 	ids->set(0, id);
 	$var($ThreadInfoArray, infos, getThreadInfo(ids, 0));
@@ -236,6 +238,7 @@ $ThreadInfo* ThreadImpl::getThreadInfo(int64_t id) {
 }
 
 $ThreadInfo* ThreadImpl::getThreadInfo(int64_t id, int32_t maxDepth) {
+	$useLocalCurrentObjectStackCache();
 	$var($longs, ids, $new($longs, 1));
 	ids->set(0, id);
 	$var($ThreadInfoArray, infos, getThreadInfo(ids, maxDepth));
@@ -247,6 +250,7 @@ $ThreadInfoArray* ThreadImpl::getThreadInfo($longs* ids) {
 }
 
 void ThreadImpl::verifyThreadId(int64_t id) {
+	$useLocalCurrentObjectStackCache();
 	if (id <= 0) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid thread ID parameter: "_s, $$str(id)}));
 	}
@@ -260,6 +264,7 @@ void ThreadImpl::verifyThreadIds($longs* ids) {
 }
 
 $ThreadInfoArray* ThreadImpl::getThreadInfo($longs* ids, int32_t maxDepth) {
+	$useLocalCurrentObjectStackCache();
 	verifyThreadIds(ids);
 	if (maxDepth < 0) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid maxDepth parameter: "_s, $$str(maxDepth)}));
@@ -308,6 +313,7 @@ int64_t ThreadImpl::getCurrentThreadCpuTime() {
 }
 
 int64_t ThreadImpl::getThreadCpuTime(int64_t id) {
+	$useLocalCurrentObjectStackCache();
 	$var($longs, ids, $new($longs, 1));
 	ids->set(0, id);
 	$var($longs, times, getThreadCpuTime(ids));
@@ -315,6 +321,7 @@ int64_t ThreadImpl::getThreadCpuTime(int64_t id) {
 }
 
 bool ThreadImpl::verifyThreadCpuTime($longs* ids) {
+	$useLocalCurrentObjectStackCache();
 	verifyThreadIds(ids);
 	bool var$0 = !isThreadCpuTimeSupported();
 	if (var$0 && !isCurrentThreadCpuTimeSupported()) {
@@ -331,6 +338,7 @@ bool ThreadImpl::verifyThreadCpuTime($longs* ids) {
 }
 
 $longs* ThreadImpl::getThreadCpuTime($longs* ids) {
+	$useLocalCurrentObjectStackCache();
 	bool verified = verifyThreadCpuTime(ids);
 	int32_t length = $nc(ids)->length;
 	$var($longs, times, $new($longs, length));
@@ -357,6 +365,7 @@ int64_t ThreadImpl::getCurrentThreadUserTime() {
 }
 
 int64_t ThreadImpl::getThreadUserTime(int64_t id) {
+	$useLocalCurrentObjectStackCache();
 	$var($longs, ids, $new($longs, 1));
 	ids->set(0, id);
 	$var($longs, times, getThreadUserTime(ids));
@@ -364,6 +373,7 @@ int64_t ThreadImpl::getThreadUserTime(int64_t id) {
 }
 
 $longs* ThreadImpl::getThreadUserTime($longs* ids) {
+	$useLocalCurrentObjectStackCache();
 	bool verified = verifyThreadCpuTime(ids);
 	int32_t length = $nc(ids)->length;
 	$var($longs, times, $new($longs, length));
@@ -448,6 +458,7 @@ void ThreadImpl::setThreadAllocatedMemoryEnabled(bool enable) {
 }
 
 $longs* ThreadImpl::findMonitorDeadlockedThreads() {
+	$useLocalCurrentObjectStackCache();
 	$Util::checkMonitorAccess();
 	$var($ThreadArray, threads, findMonitorDeadlockedThreads0());
 	if (threads == nullptr) {
@@ -462,6 +473,7 @@ $longs* ThreadImpl::findMonitorDeadlockedThreads() {
 }
 
 $longs* ThreadImpl::findDeadlockedThreads() {
+	$useLocalCurrentObjectStackCache();
 	if (!isSynchronizerUsageSupported()) {
 		$throwNew($UnsupportedOperationException, "Monitoring of Synchronizer Usage is not supported."_s);
 	}
@@ -506,6 +518,7 @@ $ThreadInfoArray* ThreadImpl::getThreadInfo($longs* ids, bool lockedMonitors, bo
 }
 
 $ThreadInfoArray* ThreadImpl::getThreadInfo($longs* ids, bool lockedMonitors, bool lockedSynchronizers, int32_t maxDepth) {
+	$useLocalCurrentObjectStackCache();
 	if (maxDepth < 0) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid maxDepth parameter: "_s, $$str(maxDepth)}));
 	}
@@ -522,6 +535,7 @@ $ThreadInfoArray* ThreadImpl::dumpAllThreads(bool lockedMonitors, bool lockedSyn
 }
 
 $ThreadInfoArray* ThreadImpl::dumpAllThreads(bool lockedMonitors, bool lockedSynchronizers, int32_t maxDepth) {
+	$useLocalCurrentObjectStackCache();
 	if (maxDepth < 0) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid maxDepth parameter: "_s, $$str(maxDepth)}));
 	}

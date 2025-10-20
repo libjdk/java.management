@@ -114,6 +114,7 @@ void Introspector$SimpleIntrospector::init$() {
 
 $List* Introspector$SimpleIntrospector::getCachedMethods($Class* clazz) {
 	$init(Introspector$SimpleIntrospector);
+	$useLocalCurrentObjectStackCache();
 	$var($SoftReference, ref, $cast($SoftReference, $nc(Introspector$SimpleIntrospector::cache)->get(clazz)));
 	if (ref != nullptr) {
 		$var($List, cached, $cast($List, ref->get()));
@@ -126,6 +127,7 @@ $List* Introspector$SimpleIntrospector::getCachedMethods($Class* clazz) {
 
 bool Introspector$SimpleIntrospector::isReadMethod($Method* method) {
 	$init(Introspector$SimpleIntrospector);
+	$useLocalCurrentObjectStackCache();
 	int32_t modifiers = $nc(method)->getModifiers();
 	if ($Modifier::isStatic(modifiers)) {
 		return false;
@@ -149,6 +151,7 @@ bool Introspector$SimpleIntrospector::isReadMethod($Method* method) {
 
 $List* Introspector$SimpleIntrospector::getReadMethods($Class* clazz) {
 	$init(Introspector$SimpleIntrospector);
+	$useLocalCurrentObjectStackCache();
 	$var($List, cachedResult, getCachedMethods(clazz));
 	if (cachedResult != nullptr) {
 		return cachedResult;
@@ -177,6 +180,7 @@ $List* Introspector$SimpleIntrospector::getReadMethods($Class* clazz) {
 
 $Method* Introspector$SimpleIntrospector::getReadMethod($Class* clazz, $String* property$renamed) {
 	$init(Introspector$SimpleIntrospector);
+	$useLocalCurrentObjectStackCache();
 	$var($String, property, property$renamed);
 	if ($Character::isUpperCase($nc(property)->charAt(0))) {
 		return nullptr;

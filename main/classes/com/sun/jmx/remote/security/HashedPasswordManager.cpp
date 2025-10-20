@@ -209,6 +209,7 @@ void HashedPasswordManager::init$($String* filename, bool shouldHashPasswords) {
 }
 
 $StringArray* HashedPasswordManager::getHash($String* algorithm, $String* password) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($bytes, salt, $new($bytes, HashedPasswordManager::DefaultSaltLength));
 		$nc(this->random)->nextBytes(salt);
@@ -237,6 +238,7 @@ $StringArray* HashedPasswordManager::getHash($String* algorithm, $String* passwo
 }
 
 $StringArray* HashedPasswordManager::readPasswordFile() {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(HashedPasswordManager::class$) {
 		$var($bytes, data, nullptr);
 		$var($File, f, $new($File, this->passwordFile));
@@ -307,6 +309,7 @@ $StringArray* HashedPasswordManager::readPasswordFile() {
 }
 
 void HashedPasswordManager::writePasswordFile($String* input) {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(HashedPasswordManager::class$) {
 		{
 			$var($FileOutputStream, fout, $new($FileOutputStream, this->passwordFile));
@@ -394,6 +397,7 @@ void HashedPasswordManager::writePasswordFile($String* input) {
 
 bool HashedPasswordManager::authenticate($String* userName, $chars* inputPassword) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(this->userCredentialsMap)->containsKey(userName)) {
 			try {
 				$var($HashedPasswordManager$UserCredentials, us, $cast($HashedPasswordManager$UserCredentials, $nc(this->userCredentialsMap)->get(userName)));
@@ -425,6 +429,7 @@ bool HashedPasswordManager::authenticate($String* userName, $chars* inputPasswor
 
 void HashedPasswordManager::loadPasswords() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($SecurityManager, security, $System::getSecurityManager());
 		if (security != nullptr) {
 			security->checkRead(this->passwordFile);
@@ -457,6 +462,7 @@ void HashedPasswordManager::loadPasswords() {
 }
 
 void HashedPasswordManager::lambda$loadPasswords$0($StringBuilder* sbuf, $AtomicBoolean* hasClearPasswords, $String* line) {
+	$useLocalCurrentObjectStackCache();
 	if ($($nc(line)->trim())->startsWith("#"_s)) {
 		$nc(sbuf)->append(line)->append("\n"_s);
 		return;

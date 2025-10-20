@@ -102,6 +102,7 @@ $volatile(int64_t) ClientCommunicatorAdmin::threadNo = 0;
 $ClassLogger* ClientCommunicatorAdmin::logger = nullptr;
 
 void ClientCommunicatorAdmin::init$(int64_t period) {
+	$useLocalCurrentObjectStackCache();
 	this->state = ClientCommunicatorAdmin::CONNECTED;
 	$set(this, lock, $new($ints, 0));
 	this->period = period;
@@ -134,6 +135,7 @@ void ClientCommunicatorAdmin::terminate() {
 }
 
 void ClientCommunicatorAdmin::restart($IOException* ioe) {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(this->lock) {
 		if (this->state == ClientCommunicatorAdmin::TERMINATED) {
 			$throwNew($IOException, "The client has been closed."_s);

@@ -84,6 +84,7 @@ $Object* allocate$MappedMXBeanType$ArrayMXBeanType($Class* clazz) {
 }
 
 void MappedMXBeanType$ArrayMXBeanType::init$($Class* c) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$MappedMXBeanType::init$();
 	$set(this, arrayClass, c);
@@ -126,6 +127,7 @@ $String* MappedMXBeanType$ArrayMXBeanType::getName() {
 }
 
 $Object* MappedMXBeanType$ArrayMXBeanType::toOpenTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->baseElementType)->isBasicType()) {
 		return $of(data);
 	}
@@ -152,6 +154,7 @@ $Object* MappedMXBeanType$ArrayMXBeanType::toOpenTypeData(Object$* data) {
 }
 
 $Object* MappedMXBeanType$ArrayMXBeanType::toJavaTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->baseElementType)->isBasicType()) {
 		return $of(data);
 	}

@@ -127,6 +127,7 @@ void OpenMBeanOperationInfoSupport::init$($String* name, $String* description, $
 }
 
 void OpenMBeanOperationInfoSupport::init$($String* name, $String* description, $OpenMBeanParameterInfoArray* signature, $OpenType* returnOpenType, int32_t impact, $Descriptor* descriptor) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, name);
 	$var($String, var$1, description);
 	$var($MBeanParameterInfoArray, var$2, arrayCopyCast(signature));
@@ -178,6 +179,7 @@ $OpenType* OpenMBeanOperationInfoSupport::getReturnOpenType() {
 }
 
 bool OpenMBeanOperationInfoSupport::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -206,6 +208,7 @@ bool OpenMBeanOperationInfoSupport::equals(Object$* obj) {
 }
 
 int32_t OpenMBeanOperationInfoSupport::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myHashCode == nullptr) {
 		int32_t value = 0;
 		value += $nc($(this->getName()))->hashCode();
@@ -218,6 +221,7 @@ int32_t OpenMBeanOperationInfoSupport::hashCode() {
 }
 
 $String* OpenMBeanOperationInfoSupport::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$set(this, myToString, $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(name="_s)->append($(this->getName()))->append(",signature="_s)->append($($nc($of($($Arrays::asList($(this->getSignature())))))->toString()))->append(",return="_s)->append($($nc($(this->getReturnOpenType()))->toString()))->append(",impact="_s)->append(this->getImpact())->append(",descriptor="_s)->append($($of(this->getDescriptor())))->append(")"_s)->toString());
 	}
@@ -225,6 +229,7 @@ $String* OpenMBeanOperationInfoSupport::toString() {
 }
 
 $Object* OpenMBeanOperationInfoSupport::readResolve() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc($($nc($(getDescriptor()))->getFieldNames()))->length == 0) {
 		$var($String, var$0, this->name);
 		$var($String, var$1, this->description);

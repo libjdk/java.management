@@ -81,6 +81,7 @@ $String* QualifiedAttributeValueExp::getAttrClassName() {
 }
 
 $ValueExp* QualifiedAttributeValueExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($MBeanServer, server, $QueryEval::getMBeanServer());
 		$var($String, v, $nc($($nc(server)->getObjectInstance(name)))->getClassName());

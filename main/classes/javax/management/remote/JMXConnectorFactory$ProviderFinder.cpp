@@ -95,6 +95,7 @@ void JMXConnectorFactory$ProviderFinder::init$($JMXConnectorFactory$ConnectorFac
 }
 
 bool JMXConnectorFactory$ProviderFinder::test($ServiceLoader$Provider* sp) {
+	$useLocalCurrentObjectStackCache();
 	if (this->connection == nullptr) {
 		$var($Object, provider, $nc(sp)->get());
 		try {

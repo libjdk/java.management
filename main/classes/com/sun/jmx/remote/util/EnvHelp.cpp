@@ -207,6 +207,7 @@ void EnvHelp::init$() {
 
 $ClassLoader* EnvHelp::resolveServerClassLoader($Map* env, $MBeanServer* mbs) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (env == nullptr) {
 		return $($Thread::currentThread())->getContextClassLoader();
@@ -247,6 +248,7 @@ $ClassLoader* EnvHelp::resolveServerClassLoader($Map* env, $MBeanServer* mbs) {
 
 $ClassLoader* EnvHelp::resolveClientClassLoader($Map* env) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (env == nullptr) {
 		return $($Thread::currentThread())->getContextClassLoader();
@@ -273,6 +275,7 @@ $Throwable* EnvHelp::initCause($Throwable* throwable, $Throwable* cause) {
 
 $Throwable* EnvHelp::getCause($Throwable* t) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Throwable, ret, t);
 	try {
@@ -286,6 +289,7 @@ $Throwable* EnvHelp::getCause($Throwable* t) {
 
 int32_t EnvHelp::getNotifBufferSize($Map* env) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	int32_t defaultQueueSize = 1000;
 	$var($String, oldP, "jmx.remote.x.buffer.size"_s);
@@ -338,6 +342,7 @@ $NotificationAccessController* EnvHelp::getNotificationAccessController($Map* en
 
 int64_t EnvHelp::getIntegerAttribute($Map* env, $String* name, int64_t defaultValue, int64_t minValue, int64_t maxValue) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, o, nullptr);
 	if (env == nullptr || ($assign(o, $nc(env)->get(name))) == nullptr) {
 		return defaultValue;
@@ -364,6 +369,7 @@ int64_t EnvHelp::getIntegerAttribute($Map* env, $String* name, int64_t defaultVa
 
 void EnvHelp::checkAttributes($Map* attributes) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($Iterator, i$, $nc($($nc(attributes)->keySet()))->iterator());
 		for (; $nc(i$)->hasNext();) {
@@ -380,6 +386,7 @@ void EnvHelp::checkAttributes($Map* attributes) {
 
 $Map* EnvHelp::filterAttributes($Map* attributes) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	if ($nc(EnvHelp::logger)->traceOn()) {
 		$nc(EnvHelp::logger)->trace("filterAttributes"_s, "starts"_s);
 	}
@@ -391,6 +398,7 @@ $Map* EnvHelp::filterAttributes($Map* attributes) {
 
 void EnvHelp::purgeUnserializable($Collection* objects) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$nc(EnvHelp::logger)->trace("purgeUnserializable"_s, "starts"_s);
 	$var($ObjectOutputStream, oos, nullptr);
 	int32_t i = 0;
@@ -426,6 +434,7 @@ void EnvHelp::purgeUnserializable($Collection* objects) {
 
 void EnvHelp::hideAttributes($SortedMap* map) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	if ($nc(map)->isEmpty()) {
 		return;
 	}
@@ -503,6 +512,7 @@ void EnvHelp::hideAttributes($SortedMap* map) {
 
 void EnvHelp::parseHiddenAttributes($String* hide, $SortedSet* hiddenStrings, $SortedSet* hiddenPrefixes) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$var($StringTokenizer, tok, $new($StringTokenizer, hide));
 	while (tok->hasMoreTokens()) {
 		$var($String, s, tok->nextToken());
@@ -544,6 +554,7 @@ bool EnvHelp::computeBooleanFromString($String* stringBoolean, bool defaultValue
 
 $Hashtable* EnvHelp::mapToHashtable($Map* map) {
 	$init(EnvHelp);
+	$useLocalCurrentObjectStackCache();
 	$var($HashMap, m, $new($HashMap, map));
 	if (m->containsKey(nullptr)) {
 		m->remove(nullptr);

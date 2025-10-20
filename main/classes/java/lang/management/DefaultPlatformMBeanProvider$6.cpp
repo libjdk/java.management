@@ -121,6 +121,7 @@ bool DefaultPlatformMBeanProvider$6::isSingleton() {
 }
 
 $Map* DefaultPlatformMBeanProvider$6::nameToMBeanMap() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $ManagementFactoryHelper::getMemoryPoolMXBeans());
 	$var($Map, map, nullptr);
 	if ($nc(list)->isEmpty()) {

@@ -141,6 +141,7 @@ int64_t PerfLongArrayCounter::longAt(int32_t index) {
 }
 
 $Object* PerfLongArrayCounter::writeReplace() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, getName());
 	$var($Units, var$1, getUnits());
 	$var($Variability, var$2, getVariability());

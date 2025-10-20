@@ -77,6 +77,7 @@ void WeakIdentityHashMap$IdentityWeakReference::init$(Object$* o, $ReferenceQueu
 }
 
 bool WeakIdentityHashMap$IdentityWeakReference::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(this, o)) {
 		return true;
 	}

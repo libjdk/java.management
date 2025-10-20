@@ -109,6 +109,7 @@ $CompositeData* MemoryNotifInfoCompositeData::toCompositeData($MemoryNotificatio
 }
 
 $CompositeData* MemoryNotifInfoCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, memoryNotifInfoItemValues, $new($ObjectArray, {
 		$($of($nc(this->memoryNotifInfo)->getPoolName())),
 		$($of($MemoryUsageCompositeData::toCompositeData($($nc(this->memoryNotifInfo)->getUsage())))),
@@ -125,6 +126,7 @@ $CompositeData* MemoryNotifInfoCompositeData::getCompositeData() {
 
 $String* MemoryNotifInfoCompositeData::getPoolName($CompositeData* cd) {
 	$init(MemoryNotifInfoCompositeData);
+	$useLocalCurrentObjectStackCache();
 	$var($String, poolname, getString(cd, MemoryNotifInfoCompositeData::POOL_NAME));
 	if (poolname == nullptr) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid composite data: Attribute "_s, MemoryNotifInfoCompositeData::POOL_NAME, " has null value"_s}));

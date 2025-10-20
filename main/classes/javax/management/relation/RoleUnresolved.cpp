@@ -175,6 +175,7 @@ $Object* RoleUnresolved::clone() {
 }
 
 $String* RoleUnresolved::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, result, $new($StringBuilder));
 	result->append($$str({"role name: "_s, this->roleName}));
 	if (this->roleValue != nullptr) {
@@ -195,6 +196,7 @@ $String* RoleUnresolved::toString() {
 }
 
 void RoleUnresolved::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	if (RoleUnresolved::compat) {
 		$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 		$set(this, roleName, $cast($String, $nc(fields)->get("myRoleName"_s, ($Object*)nullptr)));
@@ -227,6 +229,7 @@ void RoleUnresolved::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$RoleUnresolved($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$load($ArrayList);

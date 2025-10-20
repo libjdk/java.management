@@ -203,6 +203,7 @@ $Object* RoleUnresolvedList::set(int32_t index, Object$* element) {
 
 void RoleUnresolvedList::checkTypeSafe(Object$* o$renamed) {
 	$init(RoleUnresolvedList);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, o, o$renamed);
 	try {
 		$assign(o, $cast($RoleUnresolved, o));
@@ -214,6 +215,7 @@ void RoleUnresolvedList::checkTypeSafe(Object$* o$renamed) {
 
 void RoleUnresolvedList::checkTypeSafe($Collection* c) {
 	$init(RoleUnresolvedList);
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($RoleUnresolved, r, nullptr);
 		{

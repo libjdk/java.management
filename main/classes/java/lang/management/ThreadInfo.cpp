@@ -137,6 +137,7 @@ void ThreadInfo::init$($Thread* t, int32_t state, Object$* lockObj, $Thread* loc
 }
 
 void ThreadInfo::init$($Thread* t, int32_t state, Object$* lockObj, $Thread* lockOwner, int64_t blockedCount, int64_t blockedTime, int64_t waitedCount, int64_t waitedTime, $StackTraceElementArray* stackTrace, $ObjectArray* monitors, $ints* stackDepths, $ObjectArray* synchronizers) {
+	$useLocalCurrentObjectStackCache();
 	int32_t numMonitors = (monitors == nullptr ? 0 : $nc(monitors)->length);
 	$var($MonitorInfoArray, lockedMonitors, nullptr);
 	if (numMonitors == 0) {
@@ -169,6 +170,7 @@ void ThreadInfo::init$($Thread* t, int32_t state, Object$* lockObj, $Thread* loc
 }
 
 void ThreadInfo::initialize($Thread* t, int32_t state, Object$* lockObj, $Thread* lockOwner, int64_t blockedCount, int64_t blockedTime, int64_t waitedCount, int64_t waitedTime, $StackTraceElementArray* stackTrace, $MonitorInfoArray* lockedMonitors, $LockInfoArray* lockedSynchronizers) {
+	$useLocalCurrentObjectStackCache();
 	this->threadId = $nc(t)->getId();
 	$set(this, threadName, t->getName());
 	$set(this, threadState, $ManagementFactoryHelper::toThreadState(state));
@@ -291,6 +293,7 @@ int32_t ThreadInfo::getPriority() {
 }
 
 $String* ThreadInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$2, $$str({"\""_s, $(getThreadName()), "\""_s, (this->daemon ? " daemon"_s : ""_s), " prio="_s, $$str(this->priority), " Id="_s}));
 	$var($String, var$1, $$concat(var$2, $$str(getThreadId())));
 	$var($String, var$0, $$concat(var$1, " "));

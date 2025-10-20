@@ -91,6 +91,7 @@ void DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::init$($Class* targe
 }
 
 $String* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::applicable($MethodArray* getters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($Constructor, c, $nc(getTargetClass())->getConstructor($$new($ClassArray, 0)));
@@ -122,6 +123,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::applicable($Met
 }
 
 $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::fromCompositeData($CompositeData* cd, $StringArray* itemNames, $MXBeanMappingArray* converters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Object, o, nullptr);
 	try {

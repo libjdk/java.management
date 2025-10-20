@@ -55,6 +55,7 @@ $Object* allocate$MonitorInfo($Class* clazz) {
 }
 
 void MonitorInfo::init$($String* className, int32_t identityHashCode, int32_t stackDepth, $StackTraceElement* stackFrame) {
+	$useLocalCurrentObjectStackCache();
 	$LockInfo::init$(className, identityHashCode);
 	if (stackDepth >= 0 && stackFrame == nullptr) {
 		$throwNew($IllegalArgumentException, $$str({"Parameter stackDepth is "_s, $$str(stackDepth), " but stackFrame is null"_s}));
@@ -76,6 +77,7 @@ $StackTraceElement* MonitorInfo::getLockedStackFrame() {
 
 MonitorInfo* MonitorInfo::from($CompositeData* cd) {
 	$init(MonitorInfo);
+	$useLocalCurrentObjectStackCache();
 	if (cd == nullptr) {
 		return nullptr;
 	}

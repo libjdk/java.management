@@ -107,6 +107,7 @@ $ValueExpArray* InQueryExp::getExplicitValues() {
 }
 
 bool InQueryExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if (this->valueList != nullptr) {
 		$var($ValueExp, v, $nc(this->val)->apply(name));
 		bool numeric = $instanceOf($NumericValueExp, v);
@@ -134,12 +135,14 @@ bool InQueryExp::apply($ObjectName* name) {
 }
 
 $String* InQueryExp::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$1, $$str({this->val, " in ("_s}));
 	$var($String, var$0, $$concat(var$1, $(generateValueList())));
 	return $concat(var$0, ")");
 }
 
 $String* InQueryExp::generateValueList() {
+	$useLocalCurrentObjectStackCache();
 	if (this->valueList == nullptr || $nc(this->valueList)->length == 0) {
 		return ""_s;
 	}

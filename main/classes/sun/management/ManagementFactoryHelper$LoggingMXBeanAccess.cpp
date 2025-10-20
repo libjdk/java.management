@@ -132,6 +132,7 @@ $Class* ManagementFactoryHelper$LoggingMXBeanAccess::loadLoggingClass($String* c
 }
 
 $Map* ManagementFactoryHelper$LoggingMXBeanAccess::initMethodMap(Object$* impl) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (impl == nullptr) {
 		return $Collections::emptyMap();
@@ -166,6 +167,7 @@ $Map* ManagementFactoryHelper$LoggingMXBeanAccess::initMethodMap(Object$* impl) 
 
 $Object* ManagementFactoryHelper$LoggingMXBeanAccess::getMXBeanImplementation() {
 	$init(ManagementFactoryHelper$LoggingMXBeanAccess);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (!isAvailable()) {
 		$throwNew($NoClassDefFoundError, ManagementFactoryHelper$LoggingMXBeanAccess::LOG_MANAGER_CLASS_NAME);
@@ -192,6 +194,7 @@ void ManagementFactoryHelper$LoggingMXBeanAccess::init$() {
 }
 
 $Object* ManagementFactoryHelper$LoggingMXBeanAccess::invoke($String* methodName, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Method, m, $cast($Method, $nc(this->methods)->get(methodName)));
 	if (m == nullptr) {

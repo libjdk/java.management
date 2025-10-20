@@ -163,6 +163,7 @@ $MBeanNotificationInfoArray* StandardEmitterMBean::getNotificationInfo() {
 }
 
 void StandardEmitterMBean::sendNotification($Notification* n) {
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($NotificationBroadcasterSupport, this->emitter)) {
 		$nc(($cast($NotificationBroadcasterSupport, this->emitter)))->sendNotification(n);
 	} else {

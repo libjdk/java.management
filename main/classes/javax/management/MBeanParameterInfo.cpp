@@ -91,6 +91,7 @@ $String* MBeanParameterInfo::getType() {
 }
 
 $String* MBeanParameterInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$7, $$str({$($of(this)->getClass()->getName()), "[description="_s}));
 	$var($String, var$6, $$concat(var$7, $(getDescription())));
 	$var($String, var$5, $$concat(var$6, ", name="));
@@ -103,6 +104,7 @@ $String* MBeanParameterInfo::toString() {
 }
 
 bool MBeanParameterInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -130,6 +132,7 @@ bool MBeanParameterInfo::equals(Object$* o) {
 }
 
 int32_t MBeanParameterInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	return $Objects::hash($$new($ObjectArray, {
 		$($of(getName())),
 		$($of(getType()))

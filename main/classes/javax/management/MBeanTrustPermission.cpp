@@ -64,6 +64,7 @@ void MBeanTrustPermission::init$($String* name, $String* actions) {
 
 void MBeanTrustPermission::validate($String* name, $String* actions) {
 	$init(MBeanTrustPermission);
+	$useLocalCurrentObjectStackCache();
 	if (actions != nullptr && actions->length() > 0) {
 		$throwNew($IllegalArgumentException, $$str({"MBeanTrustPermission actions must be null: "_s, actions}));
 	}
@@ -74,6 +75,7 @@ void MBeanTrustPermission::validate($String* name, $String* actions) {
 }
 
 void MBeanTrustPermission::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$nc(in)->defaultReadObject();
 	try {
 		$var($String, var$0, $BasicPermission::getName());

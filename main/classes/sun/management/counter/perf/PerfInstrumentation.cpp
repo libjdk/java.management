@@ -122,6 +122,7 @@ $Object* allocate$PerfInstrumentation($Class* clazz) {
 bool PerfInstrumentation::$assertionsDisabled = false;
 
 void PerfInstrumentation::init$($ByteBuffer* b) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, prologue, $new($Prologue, b));
 	$set(this, buffer, b);
 	$nc(this->buffer)->order($($nc(this->prologue)->getByteOrder()));
@@ -157,6 +158,7 @@ bool PerfInstrumentation::hasNext() {
 }
 
 $Counter* PerfInstrumentation::getNextCounter() {
+	$useLocalCurrentObjectStackCache();
 	if (!hasNext()) {
 		return nullptr;
 	}
@@ -216,6 +218,7 @@ $Counter* PerfInstrumentation::getNextCounter() {
 
 $List* PerfInstrumentation::getAllCounters() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		while (hasNext()) {
 			$var($Counter, c, getNextCounter());
 			if (c != nullptr) {
@@ -228,6 +231,7 @@ $List* PerfInstrumentation::getAllCounters() {
 
 $List* PerfInstrumentation::findByPattern($String* patternString) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		while (hasNext()) {
 			$var($Counter, c, getNextCounter());
 			if (c != nullptr) {

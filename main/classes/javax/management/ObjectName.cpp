@@ -213,6 +213,7 @@ $ObjectName$PropertyArray* ObjectName::_Empty_property_array = nullptr;
 ObjectName* ObjectName::WILDCARD = nullptr;
 
 void ObjectName::construct($String* name) {
+	$useLocalCurrentObjectStackCache();
 	if (name == nullptr) {
 		$throwNew($NullPointerException, "name cannot be null"_s);
 	}
@@ -482,6 +483,7 @@ void ObjectName::construct($String* name) {
 }
 
 void ObjectName::construct($String* domain, $Map* props) {
+	$useLocalCurrentObjectStackCache();
 	if (domain == nullptr) {
 		$throwNew($NullPointerException, "domain cannot be null"_s);
 	}
@@ -552,6 +554,7 @@ void ObjectName::construct($String* domain, $Map* props) {
 }
 
 void ObjectName::addProperty($ObjectName$Property* prop, int32_t index, $Map* keys_map, $String* key_name) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(keys_map)->containsKey(key_name)) {
 		$throwNew($MalformedObjectNameException, $$str({"key `"_s, key_name, "\' already defined"_s}));
 	}
@@ -565,6 +568,7 @@ void ObjectName::addProperty($ObjectName$Property* prop, int32_t index, $Map* ke
 }
 
 void ObjectName::setCanonicalName($chars* specified_chars, $chars* canonical_chars, $StringArray* keys$renamed, $Map* keys_map, int32_t prop_index, int32_t nb_props) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, keys, keys$renamed);
 	if (this->_kp_array != ObjectName::_Empty_property_array) {
 		$var($StringArray, tmp_keys, $new($StringArray, nb_props));
@@ -604,6 +608,7 @@ void ObjectName::setCanonicalName($chars* specified_chars, $chars* canonical_cha
 
 int32_t ObjectName::parseKey($chars* s, int32_t startKey) {
 	$init(ObjectName);
+	$useLocalCurrentObjectStackCache();
 	int32_t next = startKey;
 	int32_t endKey = startKey;
 	int32_t len = $nc(s)->length;
@@ -647,6 +652,7 @@ int32_t ObjectName::parseKey($chars* s, int32_t startKey) {
 
 $ints* ObjectName::parseValue($chars* s, int32_t startValue) {
 	$init(ObjectName);
+	$useLocalCurrentObjectStackCache();
 	bool value_pattern = false;
 	int32_t next = startValue;
 	int32_t endValue = startValue;
@@ -766,6 +772,7 @@ $ints* ObjectName::parseValue($chars* s, int32_t startValue) {
 
 bool ObjectName::checkValue($String* val) {
 	$init(ObjectName);
+	$useLocalCurrentObjectStackCache();
 	if (val == nullptr) {
 		$throwNew($NullPointerException, "Invalid value (null)"_s);
 	}
@@ -785,6 +792,7 @@ bool ObjectName::checkValue($String* val) {
 
 void ObjectName::checkKey($String* key) {
 	$init(ObjectName);
+	$useLocalCurrentObjectStackCache();
 	if (key == nullptr) {
 		$throwNew($NullPointerException, "Invalid key (null)"_s);
 	}
@@ -831,6 +839,7 @@ int32_t ObjectName::getDomainLength() {
 }
 
 void ObjectName::setDomainLength(int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	if (((int32_t)(length & (uint32_t)ObjectName::FLAG_MASK)) != 0) {
 		$throwNew($MalformedObjectNameException, $$str({"Domain name too long. Maximum allowed domain name length is:"_s, $$str(ObjectName::DOMAIN_LENGTH_MASK)}));
 	}
@@ -838,6 +847,7 @@ void ObjectName::setDomainLength(int32_t length) {
 }
 
 void ObjectName::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, cn, nullptr);
 	if (ObjectName::compat) {
 		$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
@@ -863,6 +873,7 @@ void ObjectName::readObject($ObjectInputStream* in) {
 }
 
 void ObjectName::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	if (ObjectName::compat) {
 		$var($ObjectOutputStream$PutField, fields, $nc(out)->putFields());
 		$nc(fields)->put("domain"_s, $($of($nc(this->_canonicalName)->substring(0, getDomainLength()))));
@@ -962,6 +973,7 @@ void ObjectName::setPropertyValuePattern(bool value) {
 }
 
 bool ObjectName::isPropertyValuePattern($String* property) {
+	$useLocalCurrentObjectStackCache();
 	if (property == nullptr) {
 		$throwNew($NullPointerException, "key property can\'t be null"_s);
 	}
@@ -988,6 +1000,7 @@ $String* ObjectName::getKeyProperty($String* property) {
 }
 
 $Map* ObjectName::_getKeyPropertyList() {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(this) {
 		if (this->_propertyList == nullptr) {
 			$set(this, _propertyList, $new($HashMap));
@@ -1008,6 +1021,7 @@ $Hashtable* ObjectName::getKeyPropertyList() {
 }
 
 $String* ObjectName::getKeyPropertyListString() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->_kp_array)->length == 0) {
 		return ""_s;
 	}
@@ -1021,6 +1035,7 @@ $String* ObjectName::getKeyPropertyListString() {
 }
 
 $String* ObjectName::getSerializedNameString() {
+	$useLocalCurrentObjectStackCache();
 	int32_t total_size = $nc(this->_canonicalName)->length();
 	$var($chars, dest_chars, $new($chars, total_size));
 	$var($chars, value, $nc(this->_canonicalName)->toCharArray());
@@ -1039,6 +1054,7 @@ $String* ObjectName::getSerializedNameString() {
 }
 
 int32_t ObjectName::writeKeyPropertyListString($chars* canonicalChars, $chars* data, int32_t offset) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->_kp_array)->length == 0) {
 		return offset;
 	}
@@ -1075,6 +1091,7 @@ $String* ObjectName::toString() {
 }
 
 bool ObjectName::equals(Object$* object) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(this, object)) {
 		return true;
 	}
@@ -1126,6 +1143,7 @@ $String* ObjectName::quote($String* s) {
 
 $String* ObjectName::unquote($String* q) {
 	$init(ObjectName);
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, buf, $new($StringBuilder));
 	int32_t len = $nc(q)->length();
 	bool var$0 = len < 2 || q->charAt(0) != u'\"';
@@ -1194,6 +1212,7 @@ bool ObjectName::apply(ObjectName* name) {
 }
 
 bool ObjectName::matchDomains(ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if (isDomainPattern()) {
 		$var($String, var$0, $nc(name)->getDomain());
 		return $Util::wildmatch(var$0, $(getDomain()));
@@ -1202,6 +1221,7 @@ bool ObjectName::matchDomains(ObjectName* name) {
 }
 
 bool ObjectName::matchKeys(ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = isPropertyValuePattern();
 	if (var$0 && !isPropertyListPattern() && ($nc($nc(name)->_ca_array)->length != $nc(this->_ca_array)->length)) {
 		return false;
@@ -1240,6 +1260,7 @@ void ObjectName::setMBeanServer($MBeanServer* mbs) {
 }
 
 int32_t ObjectName::compareTo(ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if (name == this) {
 		return 0;
 	}
@@ -1267,6 +1288,7 @@ int32_t ObjectName::compareTo(Object$* name) {
 }
 
 void clinit$ObjectName($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$load($Hashtable);

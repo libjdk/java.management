@@ -286,6 +286,7 @@ void DefaultMXBeanMappingFactory::putPermanentMapping($Type* type, $MXBeanMappin
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::mappingForType($Type* objType, $MXBeanMappingFactory* factory) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(DefaultMXBeanMappingFactory::inProgress)->containsKey(objType)) {
 			$throwNew($OpenDataException, $$str({"Recursive data structure, including "_s, $($MXBeanIntrospector::typeName(objType))}));
 		}
@@ -319,6 +320,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::mappingForType($Type* objType, $MXB
 }
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::makeMapping($Type* objType, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($GenericArrayType, objType)) {
 		$var($Type, componentType, $nc(($cast($GenericArrayType, objType)))->getGenericComponentType());
 		return makeArrayOrCollectionMapping(objType, componentType, factory);
@@ -349,6 +351,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::makeEnumMapping($Class* enumClass, 
 }
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::makeArrayOrCollectionMapping($Type* collectionType, $Type* elementType, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($MXBeanMapping, elementMapping, $nc(factory)->mappingForType(elementType, factory));
 	$var($OpenType, elementOpenType, $nc(elementMapping)->getOpenType());
@@ -377,6 +380,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::makeArrayOrCollectionMapping($Type*
 }
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::makeTabularMapping($Type* objType, bool sortedMap, $Type* keyType, $Type* valueType, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, objTypeName, $MXBeanIntrospector::typeName(objType));
 	$var($MXBeanMapping, keyMapping, $nc(factory)->mappingForType(keyType, factory));
 	$var($MXBeanMapping, valueMapping, factory->mappingForType(valueType, factory));
@@ -391,6 +395,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::makeTabularMapping($Type* objType, 
 }
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::makeParameterizedTypeMapping($ParameterizedType* objType, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	$var($Type, rawType, $nc(objType)->getRawType());
 	if ($instanceOf($Class, rawType)) {
 		$Class* c = $cast($Class, rawType);
@@ -431,6 +436,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::makeMXBeanRefMapping($Type* t) {
 }
 
 $MXBeanMapping* DefaultMXBeanMappingFactory::makeCompositeMapping($Class* c, $MXBeanMappingFactory* factory) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	bool var$0 = $nc($($nc(c)->getName()))->equals("com.sun.management.GcInfo"_s);
 	bool gcInfoHack = (var$0 && c->getClassLoader() == nullptr);
@@ -511,6 +517,7 @@ $OpenDataException* DefaultMXBeanMappingFactory::openDataException($Throwable* c
 
 void DefaultMXBeanMappingFactory::mustBeComparable($Class* collection, $Type* element) {
 	$init(DefaultMXBeanMappingFactory);
+	$useLocalCurrentObjectStackCache();
 	$load($Comparable);
 	if (!($instanceOf($Class, element)) || !$Comparable::class$->isAssignableFrom($cast($Class, element))) {
 		$var($String, var$2, $$str({"Parameter class "_s, element, " of "_s}));
@@ -523,6 +530,7 @@ void DefaultMXBeanMappingFactory::mustBeComparable($Class* collection, $Type* el
 
 $String* DefaultMXBeanMappingFactory::decapitalize($String* name) {
 	$init(DefaultMXBeanMappingFactory);
+	$useLocalCurrentObjectStackCache();
 	if (name == nullptr || $nc(name)->length() == 0) {
 		return name;
 	}
@@ -537,6 +545,7 @@ $String* DefaultMXBeanMappingFactory::decapitalize($String* name) {
 
 $String* DefaultMXBeanMappingFactory::capitalize($String* name) {
 	$init(DefaultMXBeanMappingFactory);
+	$useLocalCurrentObjectStackCache();
 	if (name == nullptr || $nc(name)->length() == 0) {
 		return name;
 	}
@@ -547,6 +556,7 @@ $String* DefaultMXBeanMappingFactory::capitalize($String* name) {
 
 $String* DefaultMXBeanMappingFactory::propertyName($Method* m) {
 	$init(DefaultMXBeanMappingFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, rest, nullptr);
 	$var($String, name, $nc(m)->getName());
@@ -590,6 +600,7 @@ $String* DefaultMXBeanMappingFactory::propertyName($Method* m) {
 }
 
 void clinit$DefaultMXBeanMappingFactory($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	DefaultMXBeanMappingFactory::$assertionsDisabled = !DefaultMXBeanMappingFactory::class$->desiredAssertionStatus();
 	$assignStatic(DefaultMXBeanMappingFactory::mappings, $new($DefaultMXBeanMappingFactory$Mappings));

@@ -91,6 +91,7 @@ $String* JMXPluggableAuthenticator$FileLoginConfig::PASSWORD_FILE_OPTION = nullp
 $String* JMXPluggableAuthenticator$FileLoginConfig::HASH_PASSWORDS = nullptr;
 
 void JMXPluggableAuthenticator$FileLoginConfig::init$($String* passwordFile, $String* hashPasswords) {
+	$useLocalCurrentObjectStackCache();
 	$Configuration::init$();
 	$var($Map, options, nullptr);
 	if (passwordFile != nullptr) {

@@ -291,6 +291,7 @@ $CompositeData* ThreadInfoCompositeData::toCompositeData($ThreadInfo* ti) {
 }
 
 $CompositeData* ThreadInfoCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($StackTraceElementArray, stackTrace, $nc(this->threadInfo)->getStackTrace());
 	$var($CompositeDataArray, stackTraceData, $new($CompositeDataArray, $nc(stackTrace)->length));
 	for (int32_t i = 0; i < stackTrace->length; ++i) {
@@ -343,6 +344,7 @@ int64_t ThreadInfoCompositeData::threadId() {
 }
 
 $String* ThreadInfoCompositeData::threadName() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, getString(this->cdata, ThreadInfoCompositeData::THREAD_NAME));
 	if (name == nullptr) {
 		$throwNew($IllegalArgumentException, $$str({"Invalid composite data: Attribute "_s, ThreadInfoCompositeData::THREAD_NAME, " has null value"_s}));
@@ -399,6 +401,7 @@ int32_t ThreadInfoCompositeData::getPriority() {
 }
 
 $StackTraceElementArray* ThreadInfoCompositeData::stackTrace() {
+	$useLocalCurrentObjectStackCache();
 	$var($CompositeDataArray, stackTraceData, $cast($CompositeDataArray, $nc(this->cdata)->get(ThreadInfoCompositeData::STACK_TRACE)));
 	$var($StackTraceElementArray, stackTrace, $new($StackTraceElementArray, $nc(stackTraceData)->length));
 	for (int32_t i = 0; i < stackTraceData->length; ++i) {
@@ -409,6 +412,7 @@ $StackTraceElementArray* ThreadInfoCompositeData::stackTrace() {
 }
 
 $LockInfo* ThreadInfoCompositeData::lockInfo() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->cdata)->containsKey(ThreadInfoCompositeData::LOCK_INFO)) {
 		$var($CompositeData, lockInfoData, $cast($CompositeData, $nc(this->cdata)->get(ThreadInfoCompositeData::LOCK_INFO)));
 		return $LockInfo::from(lockInfoData);
@@ -427,6 +431,7 @@ $LockInfo* ThreadInfoCompositeData::lockInfo() {
 }
 
 $MonitorInfoArray* ThreadInfoCompositeData::lockedMonitors() {
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(this->cdata)->containsKey(ThreadInfoCompositeData::LOCKED_MONITORS)) {
 		return $new($MonitorInfoArray, 0);
 	}
@@ -440,6 +445,7 @@ $MonitorInfoArray* ThreadInfoCompositeData::lockedMonitors() {
 }
 
 $LockInfoArray* ThreadInfoCompositeData::lockedSynchronizers() {
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(this->cdata)->containsKey(ThreadInfoCompositeData::LOCKED_SYNCS)) {
 		return $new($LockInfoArray, 0);
 	}
@@ -454,6 +460,7 @@ $LockInfoArray* ThreadInfoCompositeData::lockedSynchronizers() {
 
 void ThreadInfoCompositeData::validateCompositeData($CompositeData* cd) {
 	$init(ThreadInfoCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (cd == nullptr) {
 		$throwNew($NullPointerException, "Null CompositeData"_s);
 	}

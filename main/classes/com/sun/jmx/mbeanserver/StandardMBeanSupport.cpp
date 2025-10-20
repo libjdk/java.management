@@ -82,6 +82,7 @@ void StandardMBeanSupport::unregister() {
 }
 
 $MBeanInfo* StandardMBeanSupport::getMBeanInfo() {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanInfo, mbi, $MBeanSupport::getMBeanInfo());
 	$Class* resourceClass = $nc($of($(getResource())))->getClass();
 	if ($StandardMBeanIntrospector::isDefinitelyImmutableInfo(resourceClass)) {

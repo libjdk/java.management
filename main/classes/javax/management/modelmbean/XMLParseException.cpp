@@ -84,6 +84,7 @@ void XMLParseException::init$($String* s) {
 }
 
 void XMLParseException::init$($Exception* e, $String* s) {
+	$useLocalCurrentObjectStackCache();
 	$Exception::init$($$str({"XML Parse Exception: "_s, s, ":"_s, $($nc(e)->toString())}));
 }
 
@@ -92,6 +93,7 @@ void XMLParseException::readObject($ObjectInputStream* in) {
 }
 
 void XMLParseException::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	if (XMLParseException::compat) {
 		$var($ObjectOutputStream$PutField, fields, $nc(out)->putFields());
 		$nc(fields)->put("msgStr"_s, $($of(getMessage())));
@@ -102,6 +104,7 @@ void XMLParseException::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$XMLParseException($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$load($String);
 	$assignStatic(XMLParseException::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {$$new($ObjectStreamField, "msgStr"_s, $String::class$)}));

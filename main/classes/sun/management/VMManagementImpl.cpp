@@ -341,6 +341,7 @@ $String* VMManagementImpl::getManagementVersion() {
 }
 
 $String* VMManagementImpl::getVmId() {
+	$useLocalCurrentObjectStackCache();
 	int32_t pid = getProcessId();
 	$var($String, hostname, "localhost"_s);
 	try {
@@ -402,6 +403,7 @@ int64_t VMManagementImpl::getUptime() {
 
 $List* VMManagementImpl::getVmArguments() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->vmArgs == nullptr) {
 			$var($StringArray, args, getVmArguments0());
 			$var($List, l, (args != nullptr && args->length != 0) ? $Arrays::asList(args) : $Collections::emptyList());
@@ -444,6 +446,7 @@ int32_t VMManagementImpl::getAvailableProcessors() {
 }
 
 $String* VMManagementImpl::getCompilerName() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, name, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new($VMManagementImpl$1, this)))));
 	return name;
@@ -591,6 +594,7 @@ int64_t VMManagementImpl::getClassVerificationTime() {
 
 $PerfInstrumentation* VMManagementImpl::getPerfInstrumentation() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		if (this->noPerfData || this->perfInstr != nullptr) {
 			return this->perfInstr;

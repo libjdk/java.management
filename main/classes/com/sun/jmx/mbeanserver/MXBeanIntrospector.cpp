@@ -196,6 +196,7 @@ $Object* MXBeanIntrospector::invokeM2($ConvertingMethod* m, Object$* target, $Ob
 }
 
 bool MXBeanIntrospector::validParameter($ConvertingMethod* m, Object$* value, int32_t paramNo, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	if (value == nullptr) {
 		$var($Type, t, $nc($($nc(m)->getGenericParameterTypes()))->get(paramNo));
 		return (!($instanceOf($Class, t)) || !$nc(($cast($Class, t)))->isPrimitive());
@@ -212,6 +213,7 @@ bool MXBeanIntrospector::validParameter($ConvertingMethod* m, Object$* value, in
 }
 
 $MBeanAttributeInfo* MXBeanIntrospector::getMBeanAttributeInfo($String* attributeName, $ConvertingMethod* getter, $ConvertingMethod* setter) {
+	$useLocalCurrentObjectStackCache();
 	bool isReadable = (getter != nullptr);
 	bool isWritable = (setter != nullptr);
 	bool isIs = isReadable && $nc($(getName(getter)))->startsWith("is"_s);
@@ -248,6 +250,7 @@ $MBeanAttributeInfo* MXBeanIntrospector::getMBeanAttributeInfo($String* attribut
 }
 
 $MBeanOperationInfo* MXBeanIntrospector::getMBeanOperationInfo($String* operationName, $ConvertingMethod* operation) {
+	$useLocalCurrentObjectStackCache();
 	$var($Method, method, $nc(operation)->getMethod());
 	$var($String, description, operationName);
 	int32_t impact = $MBeanOperationInfo::UNKNOWN;
@@ -308,6 +311,7 @@ $Descriptor* MXBeanIntrospector::getMBeanDescriptor($Class* resourceClass) {
 
 $Descriptor* MXBeanIntrospector::typeDescriptor($OpenType* openType, $Type* originalType) {
 	$init(MXBeanIntrospector);
+	$useLocalCurrentObjectStackCache();
 	return $new($ImmutableDescriptor, $$new($StringArray, {
 		"openType"_s,
 		"originalType"_s
@@ -338,6 +342,7 @@ $String* MXBeanIntrospector::originalTypeString($Type* type) {
 
 $String* MXBeanIntrospector::typeName($Type* type) {
 	$init(MXBeanIntrospector);
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($Class, type)) {
 		$Class* c = $cast($Class, type);
 		if ($nc(c)->isArray()) {

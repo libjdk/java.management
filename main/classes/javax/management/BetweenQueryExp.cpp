@@ -110,6 +110,7 @@ $ValueExp* BetweenQueryExp::getUpperBound() {
 }
 
 bool BetweenQueryExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($ValueExp, val1, $nc(this->exp1)->apply(name));
 	$var($ValueExp, val2, $nc(this->exp2)->apply(name));
 	$var($ValueExp, val3, $nc(this->exp3)->apply(name));

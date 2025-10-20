@@ -95,6 +95,7 @@ $Object* allocate$MXBeanProxy($Class* clazz) {
 }
 
 void MXBeanProxy::init$($Class* mxbeanInterface) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, handlerMap, $Util::newMap());
 	if (mxbeanInterface == nullptr) {
 		$throwNew($IllegalArgumentException, "Null parameter"_s);
@@ -110,6 +111,7 @@ void MXBeanProxy::init$($Class* mxbeanInterface) {
 }
 
 $Object* MXBeanProxy::invoke($MBeanServerConnection* mbsc, $ObjectName* name, $Method* method, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$var($MXBeanProxy$Handler, handler, $cast($MXBeanProxy$Handler, $nc(this->handlerMap)->get(method)));
 	$var($ConvertingMethod, cm, $nc(handler)->getConvertingMethod());
 	$var($MXBeanLookup, lookup, $MXBeanLookup::lookupFor(mbsc));

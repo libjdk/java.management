@@ -130,6 +130,7 @@ $BitSet* JMXServiceURL::hostNameBitSet = nullptr;
 $ClassLogger* JMXServiceURL::logger = nullptr;
 
 void JMXServiceURL::init$($String* serviceURL) {
+	$useLocalCurrentObjectStackCache();
 	int32_t serviceURLLength = $nc(serviceURL)->length();
 	for (int32_t i = 0; i < serviceURLLength; ++i) {
 		char16_t c = serviceURL->charAt(i);
@@ -196,6 +197,7 @@ void JMXServiceURL::init$($String* protocol, $String* host, int32_t port) {
 }
 
 void JMXServiceURL::init$($String* protocol$renamed, $String* host$renamed, int32_t port, $String* urlPath$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, protocol, protocol$renamed);
 	$var($String, host, host$renamed);
 	$var($String, urlPath, urlPath$renamed);
@@ -253,6 +255,7 @@ void JMXServiceURL::init$($String* protocol$renamed, $String* host$renamed, int3
 }
 
 $String* JMXServiceURL::getActiveNetworkInterfaceIP() {
+	$useLocalCurrentObjectStackCache();
 	$var($Enumeration, networkInterface, $NetworkInterface::getNetworkInterfaces());
 	$var($String, ipv6AddrStr, nullptr);
 	while ($nc(networkInterface)->hasMoreElements()) {
@@ -274,6 +277,7 @@ $String* JMXServiceURL::getActiveNetworkInterfaceIP() {
 }
 
 void JMXServiceURL::readObject($ObjectInputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, gf, $nc(inputStream)->readFields());
 	$var($String, h, $cast($String, $nc(gf)->get("host"_s, ($Object*)nullptr)));
 	int32_t p = gf->get("port"_s, -1);
@@ -313,6 +317,7 @@ void JMXServiceURL::readObject($ObjectInputStream* inputStream) {
 }
 
 void JMXServiceURL::validate($String* proto, $String* h, int32_t p, $String* url) {
+	$useLocalCurrentObjectStackCache();
 	int32_t protoEnd = indexOfFirstNotInSet(proto, JMXServiceURL::protocolBitSet, 0);
 	bool var$0 = protoEnd == 0 || protoEnd < $nc(proto)->length();
 	if (var$0 || !$nc(JMXServiceURL::alphaBitSet)->get($nc(proto)->charAt(0))) {
@@ -336,6 +341,7 @@ void JMXServiceURL::validate() {
 
 void JMXServiceURL::validateHost($String* h, int32_t port) {
 	$init(JMXServiceURL);
+	$useLocalCurrentObjectStackCache();
 	if ($nc(h)->length() == 0) {
 		if (port != 0) {
 			$throwNew($MalformedURLException, "Cannot give port number without host name"_s);
@@ -424,6 +430,7 @@ $String* JMXServiceURL::getURLPath() {
 }
 
 $String* JMXServiceURL::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->toString$ != nullptr) {
 		return this->toString$;
 	}
@@ -445,6 +452,7 @@ $String* JMXServiceURL::toString() {
 }
 
 bool JMXServiceURL::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(JMXServiceURL, obj))) {
 		return false;
 	}

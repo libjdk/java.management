@@ -91,6 +91,7 @@ $Object* MXBeanSupport::getCookie() {
 
 $Class* MXBeanSupport::findMXBeanInterface($Class* resourceClass) {
 	$init(MXBeanSupport);
+	$useLocalCurrentObjectStackCache();
 	if (resourceClass == nullptr) {
 		$throwNew($IllegalArgumentException, "Null resource class"_s);
 	}

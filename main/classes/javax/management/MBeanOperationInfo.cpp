@@ -114,6 +114,7 @@ bool MBeanOperationInfo::$assertionsDisabled = false;
 $MBeanOperationInfoArray* MBeanOperationInfo::NO_OPERATIONS = nullptr;
 
 void MBeanOperationInfo::init$($String* description, $Method* method) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(method)->getName());
 	$var($String, var$1, description);
 	$var($MBeanParameterInfoArray, var$2, methodSignature(method));
@@ -127,6 +128,7 @@ void MBeanOperationInfo::init$($String* name, $String* description, $MBeanParame
 }
 
 void MBeanOperationInfo::init$($String* name, $String* description, $MBeanParameterInfoArray* signature$renamed, $String* type, int32_t impact, $Descriptor* descriptor) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanParameterInfoArray, signature, signature$renamed);
 	$MBeanFeatureInfo::init$(name, description, descriptor);
 	if (impact < MBeanOperationInfo::INFO || impact > MBeanOperationInfo::UNKNOWN) {
@@ -187,6 +189,7 @@ int32_t MBeanOperationInfo::getImpact() {
 }
 
 $String* MBeanOperationInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, impactString, nullptr);
 	switch (getImpact()) {
 	case MBeanOperationInfo::ACTION:
@@ -225,6 +228,7 @@ $String* MBeanOperationInfo::toString() {
 }
 
 bool MBeanOperationInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -262,6 +266,7 @@ bool MBeanOperationInfo::equals(Object$* o) {
 }
 
 int32_t MBeanOperationInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	return $Objects::hash($$new($ObjectArray, {
 		$($of(getName())),
 		$($of(getReturnType()))
@@ -270,6 +275,7 @@ int32_t MBeanOperationInfo::hashCode() {
 
 $MBeanParameterInfoArray* MBeanOperationInfo::methodSignature($Method* method) {
 	$init(MBeanOperationInfo);
+	$useLocalCurrentObjectStackCache();
 	$var($ClassArray, classes, $nc(method)->getParameterTypes());
 	$var($AnnotationArray2, annots, method->getParameterAnnotations());
 	return parameters(classes, annots);
@@ -277,6 +283,7 @@ $MBeanParameterInfoArray* MBeanOperationInfo::methodSignature($Method* method) {
 
 $MBeanParameterInfoArray* MBeanOperationInfo::parameters($ClassArray* classes, $AnnotationArray2* annots) {
 	$init(MBeanOperationInfo);
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanParameterInfoArray, params, $new($MBeanParameterInfoArray, $nc(classes)->length));
 	if (!MBeanOperationInfo::$assertionsDisabled && !(classes->length == $nc(annots)->length)) {
 		$throwNew($AssertionError);

@@ -59,6 +59,7 @@ $String* BadAttributeValueExpException::toString() {
 }
 
 void BadAttributeValueExpException::readObject($ObjectInputStream* ois) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, gf, $nc(ois)->readFields());
 	$var($Object, valObj, $nc(gf)->get("val"_s, ($Object*)nullptr));
 	if ($instanceOf($String, valObj) || valObj == nullptr) {

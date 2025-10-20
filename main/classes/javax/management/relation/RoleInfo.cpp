@@ -145,6 +145,7 @@ void RoleInfo::init$($String* roleName, $String* mbeanClassName) {
 }
 
 void RoleInfo::init$(RoleInfo* roleInfo) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, name, nullptr);
 	$set(this, description, nullptr);
 	$set(this, referencedMBeanClassName, nullptr);
@@ -210,6 +211,7 @@ bool RoleInfo::checkMaxDegree(int32_t value) {
 }
 
 $String* RoleInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, result, $new($StringBuilder));
 	result->append($$str({"role info name: "_s, this->name}));
 	result->append($$str({"; isReadable: "_s, $$str(this->isReadable$)}));
@@ -222,6 +224,7 @@ $String* RoleInfo::toString() {
 }
 
 void RoleInfo::init($String* roleName, $String* mbeanClassName, bool read, bool write, int32_t min, int32_t max, $String* descr) {
+	$useLocalCurrentObjectStackCache();
 	if (roleName == nullptr || mbeanClassName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -306,6 +309,7 @@ void RoleInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$RoleInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$init($Boolean);

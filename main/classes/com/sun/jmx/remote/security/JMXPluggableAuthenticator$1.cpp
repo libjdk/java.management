@@ -89,6 +89,7 @@ void JMXPluggableAuthenticator$1::init$($JMXPluggableAuthenticator* this$0, $Str
 }
 
 $Object* JMXPluggableAuthenticator$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, "JMXPluggableAuthenticator"_s);
 	$var($CallbackHandler, var$1, static_cast<$CallbackHandler*>($new($JMXPluggableAuthenticator$JMXCallbackHandler, this->this$0)));
 	return $of($new($LoginContext, var$0, nullptr, var$1, $$new($JMXPluggableAuthenticator$FileLoginConfig, this->val$pf, this->val$hashPass)));

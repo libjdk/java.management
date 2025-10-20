@@ -101,12 +101,14 @@ $ProtectionDomainArray* JMXSubjectDomainCombiner::combine($ProtectionDomainArray
 
 $AccessControlContext* JMXSubjectDomainCombiner::getContext($Subject* subject) {
 	$init(JMXSubjectDomainCombiner);
+	$useLocalCurrentObjectStackCache();
 	$var($AccessControlContext, var$0, $AccessController::getContext());
 	return $new($AccessControlContext, var$0, static_cast<$DomainCombiner*>($$new(JMXSubjectDomainCombiner, subject)));
 }
 
 $AccessControlContext* JMXSubjectDomainCombiner::getDomainCombinerContext($Subject* subject) {
 	$init(JMXSubjectDomainCombiner);
+	$useLocalCurrentObjectStackCache();
 	$var($AccessControlContext, var$0, $new($AccessControlContext, $$new($ProtectionDomainArray, 0)));
 	return $new($AccessControlContext, var$0, static_cast<$DomainCombiner*>($$new(JMXSubjectDomainCombiner, subject)));
 }

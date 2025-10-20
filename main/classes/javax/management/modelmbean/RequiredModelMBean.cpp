@@ -432,6 +432,7 @@ void RequiredModelMBean::init$($ModelMBeanInfo* mbi) {
 }
 
 void RequiredModelMBean::setModelMBeanInfo($ModelMBeanInfo* mbi) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -490,16 +491,19 @@ void RequiredModelMBean::setManagedResource(Object$* mr, $String* mr_type) {
 }
 
 void RequiredModelMBean::load() {
+	$useLocalCurrentObjectStackCache();
 	$var($ServiceNotFoundException, x, $new($ServiceNotFoundException, "Persistence not supported for this MBean"_s));
 	$throwNew($MBeanException, x, $(x->getMessage()));
 }
 
 void RequiredModelMBean::store() {
+	$useLocalCurrentObjectStackCache();
 	$var($ServiceNotFoundException, x, $new($ServiceNotFoundException, "Persistence not supported for this MBean"_s));
 	$throwNew($MBeanException, x, $(x->getMessage()));
 }
 
 $Object* RequiredModelMBean::resolveForCacheValue($Descriptor* descr) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	bool tracing = $nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE);
@@ -624,6 +628,7 @@ $Object* RequiredModelMBean::resolveForCacheValue($Descriptor* descr) {
 }
 
 $MBeanInfo* RequiredModelMBean::getMBeanInfo() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -644,6 +649,7 @@ $MBeanInfo* RequiredModelMBean::getMBeanInfo() {
 }
 
 $String* RequiredModelMBean::printModelMBeanInfo($ModelMBeanInfo* info$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($ModelMBeanInfo, info, info$renamed);
 	$var($StringBuilder, retStr, $new($StringBuilder));
 	if (info == nullptr) {
@@ -719,6 +725,7 @@ $String* RequiredModelMBean::printModelMBeanInfo($ModelMBeanInfo* info$renamed) 
 }
 
 $Object* RequiredModelMBean::invoke($String* opName, $ObjectArray* opArgs, $StringArray* sig) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	bool tracing = $nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE);
@@ -833,6 +840,7 @@ $Object* RequiredModelMBean::invoke($String* opName, $ObjectArray* opArgs, $Stri
 }
 
 $Method* RequiredModelMBean::resolveMethod($Class* targetClass, $String* opMethodName, $StringArray* sig) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -864,6 +872,7 @@ $Method* RequiredModelMBean::resolveMethod($Class* targetClass, $String* opMetho
 }
 
 $Method* RequiredModelMBean::findRMMBMethod($String* opMethodName, Object$* targetObjectField, $String* opClassName, $StringArray* sig) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	bool tracing = $nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE);
@@ -895,6 +904,7 @@ $Method* RequiredModelMBean::findRMMBMethod($String* opMethodName, Object$* targ
 }
 
 $Object* RequiredModelMBean::invokeMethod($String* opName, $Method* method, Object$* targetObject, $ObjectArray* opArgs) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($ThrowableArray, caughtException, $new($ThrowableArray, 1));
 		$var($AccessControlContext, stack, $AccessController::getContext());
@@ -939,6 +949,7 @@ $Object* RequiredModelMBean::invokeMethod($String* opName, $Method* method, Obje
 }
 
 void RequiredModelMBean::cacheResult($ModelMBeanOperationInfo* opInfo, $Descriptor* opDescr, Object$* result) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, mmbDesc, $nc(this->modelMBeanInfo)->getMBeanDescriptor());
 	$var($Object, objctl, $nc(opDescr)->getFieldValue("currencyTimeLimit"_s));
 	$var($String, ctl, nullptr);
@@ -971,6 +982,7 @@ bool RequiredModelMBean::isRMMBMethodName($String* name) {
 	$load(RequiredModelMBean);
 	$synchronized(class$) {
 		$init(RequiredModelMBean);
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		if (RequiredModelMBean::rmmbMethodNames == nullptr) {
 			try {
@@ -990,6 +1002,7 @@ bool RequiredModelMBean::isRMMBMethodName($String* name) {
 }
 
 $Object* RequiredModelMBean::getAttribute($String* attrName) {
+	$useLocalCurrentObjectStackCache();
 	if (attrName == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, "attributeName must not be null"_s), "Exception occurred trying to get attribute of a RequiredModelMBean"_s);
 	}
@@ -1159,6 +1172,7 @@ $Object* RequiredModelMBean::getAttribute($String* attrName) {
 }
 
 $AttributeList* RequiredModelMBean::getAttributes($StringArray* attrNames) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1185,6 +1199,7 @@ $AttributeList* RequiredModelMBean::getAttributes($StringArray* attrNames) {
 }
 
 void RequiredModelMBean::setAttribute($Attribute* attribute) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	bool tracing = $nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE);
@@ -1288,6 +1303,7 @@ void RequiredModelMBean::setAttribute($Attribute* attribute) {
 }
 
 $AttributeList* RequiredModelMBean::setAttributes($AttributeList* attributes) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1321,6 +1337,7 @@ $ModelMBeanInfo* RequiredModelMBean::createDefaultModelMBeanInfo() {
 
 void RequiredModelMBean::writeToLog($String* logFileName, $String* logEntry) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1418,6 +1435,7 @@ void RequiredModelMBean::removeNotificationListener($NotificationListener* liste
 }
 
 void RequiredModelMBean::sendNotification($Notification* ntfyObj) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1474,6 +1492,7 @@ void RequiredModelMBean::sendNotification($Notification* ntfyObj) {
 }
 
 void RequiredModelMBean::sendNotification($String* ntfyText) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1492,6 +1511,7 @@ void RequiredModelMBean::sendNotification($String* ntfyText) {
 
 bool RequiredModelMBean::hasNotification($ModelMBeanInfo* info, $String* notifName) {
 	$init(RequiredModelMBean);
+	$useLocalCurrentObjectStackCache();
 	try {
 		if (info == nullptr) {
 			return false;
@@ -1510,6 +1530,7 @@ bool RequiredModelMBean::hasNotification($ModelMBeanInfo* info, $String* notifNa
 
 $ModelMBeanNotificationInfo* RequiredModelMBean::makeGenericInfo() {
 	$init(RequiredModelMBean);
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, genericDescriptor, $new($DescriptorSupport, $$new($StringArray, {
 		"name=GENERIC"_s,
 		"descriptorType=notification"_s,
@@ -1522,6 +1543,7 @@ $ModelMBeanNotificationInfo* RequiredModelMBean::makeGenericInfo() {
 
 $ModelMBeanNotificationInfo* RequiredModelMBean::makeAttributeChangeInfo() {
 	$init(RequiredModelMBean);
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, attributeDescriptor, $new($DescriptorSupport, $$new($StringArray, {
 		"name=ATTRIBUTE_CHANGE"_s,
 		"descriptorType=notification"_s,
@@ -1533,6 +1555,7 @@ $ModelMBeanNotificationInfo* RequiredModelMBean::makeAttributeChangeInfo() {
 }
 
 $MBeanNotificationInfoArray* RequiredModelMBean::getNotificationInfo() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1562,6 +1585,7 @@ $MBeanNotificationInfoArray* RequiredModelMBean::getNotificationInfo() {
 }
 
 void RequiredModelMBean::addAttributeChangeNotificationListener($NotificationListener* inlistener, $String* inAttributeName, Object$* inhandback) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1609,6 +1633,7 @@ void RequiredModelMBean::addAttributeChangeNotificationListener($NotificationLis
 }
 
 void RequiredModelMBean::removeAttributeChangeNotificationListener($NotificationListener* inlistener, $String* inAttributeName) {
+	$useLocalCurrentObjectStackCache();
 	if (inlistener == nullptr) {
 		$throwNew($ListenerNotFoundException, "Notification listener is null"_s);
 	}
@@ -1640,6 +1665,7 @@ void RequiredModelMBean::removeAttributeChangeNotificationListener($Notification
 }
 
 void RequiredModelMBean::sendAttributeChangeNotification($AttributeChangeNotification* ntfyObj) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1748,6 +1774,7 @@ void RequiredModelMBean::sendAttributeChangeNotification($AttributeChangeNotific
 }
 
 void RequiredModelMBean::sendAttributeChangeNotification($Attribute* inOldVal, $Attribute* inNewVal) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -1785,6 +1812,7 @@ $ClassLoaderRepository* RequiredModelMBean::getClassLoaderRepository() {
 }
 
 $Class* RequiredModelMBean::loadClass($String* className) {
+	$useLocalCurrentObjectStackCache();
 	$var($AccessControlContext, stack, $AccessController::getContext());
 	$var($ClassNotFoundExceptionArray, caughtException, $new($ClassNotFoundExceptionArray, 1));
 	$Class* c = $cast($Class, $nc(RequiredModelMBean::javaSecurityAccess)->doIntersectionPrivilege($$new($RequiredModelMBean$6, this, className, caughtException), stack, this->acc));
@@ -1815,6 +1843,7 @@ void RequiredModelMBean::postDeregister() {
 }
 
 void clinit$RequiredModelMBean($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(RequiredModelMBean::javaSecurityAccess, $SharedSecrets::getJavaSecurityAccess());
 		$init($Integer);
 		$init($Long);

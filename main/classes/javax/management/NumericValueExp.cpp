@@ -226,6 +226,7 @@ void NumericValueExp::setMBeanServer($MBeanServer* s) {
 }
 
 void clinit$NumericValueExp($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$init($Long);
 		$init($Double);

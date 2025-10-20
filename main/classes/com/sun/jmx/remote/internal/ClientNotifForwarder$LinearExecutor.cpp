@@ -129,6 +129,7 @@ void ClientNotifForwarder$LinearExecutor::init$() {
 
 void ClientNotifForwarder$LinearExecutor::execute($Runnable* command) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->command != nullptr) {
 			$throwNew($IllegalArgumentException, "More than one command"_s);
 		}
@@ -144,6 +145,7 @@ void ClientNotifForwarder$LinearExecutor::execute($Runnable* command) {
 }
 
 void ClientNotifForwarder$LinearExecutor::lambda$execute$0() {
+	$useLocalCurrentObjectStackCache();
 	while (true) {
 		$var($Runnable, r, nullptr);
 		$synchronized(this) {

@@ -134,6 +134,7 @@ bool PerInterface::isMXBean() {
 }
 
 $Object* PerInterface::getAttribute(Object$* resource, $String* attribute, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, cm, $nc(this->getters)->get(attribute));
 	if (cm == nullptr) {
 		$var($String, msg, nullptr);
@@ -148,6 +149,7 @@ $Object* PerInterface::getAttribute(Object$* resource, $String* attribute, Objec
 }
 
 void PerInterface::setAttribute(Object$* resource, $String* attribute, Object$* value, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, cm, $nc(this->setters)->get(attribute));
 	if (cm == nullptr) {
 		$var($String, msg, nullptr);
@@ -162,6 +164,7 @@ void PerInterface::setAttribute(Object$* resource, $String* attribute, Object$* 
 }
 
 $Object* PerInterface::invoke(Object$* resource, $String* operation, $ObjectArray* params, $StringArray* signature$renamed, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, signature, signature$renamed);
 	$var($List, list, $cast($List, $nc(this->ops)->get(operation)));
 	if (list == nullptr) {
@@ -198,6 +201,7 @@ $Object* PerInterface::invoke(Object$* resource, $String* operation, $ObjectArra
 }
 
 $Object* PerInterface::noSuchMethod($String* msg, Object$* resource, $String* operation, $ObjectArray* params, $StringArray* signature, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($NoSuchMethodException, nsme, $new($NoSuchMethodException, $$str({operation, $(sigString(signature))})));
 	$var($ReflectionException, exception, $new($ReflectionException, nsme, msg));
@@ -244,6 +248,7 @@ $Object* PerInterface::noSuchMethod($String* msg, Object$* resource, $String* op
 }
 
 $String* PerInterface::sigString($StringArray* signature) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, b, $new($StringBuilder, "("_s));
 	if (signature != nullptr) {
 		{

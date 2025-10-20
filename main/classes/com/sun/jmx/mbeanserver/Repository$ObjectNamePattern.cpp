@@ -80,6 +80,7 @@ $Object* allocate$Repository$ObjectNamePattern($Class* clazz) {
 }
 
 void Repository$ObjectNamePattern::init$($ObjectName* pattern) {
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = $nc(pattern)->isPropertyListPattern();
 	bool var$1 = pattern->isPropertyValuePattern();
 	$var($String, var$2, pattern->getCanonicalKeyPropertyListString());
@@ -87,6 +88,7 @@ void Repository$ObjectNamePattern::init$($ObjectName* pattern) {
 }
 
 void Repository$ObjectNamePattern::init$(bool propertyListPattern, bool propertyValuePattern, $String* canonicalProps, $Map* keyPropertyList, $ObjectName* pattern) {
+	$useLocalCurrentObjectStackCache();
 	this->isPropertyListPattern = propertyListPattern;
 	this->isPropertyValuePattern = propertyValuePattern;
 	$set(this, properties, canonicalProps);
@@ -109,6 +111,7 @@ void Repository$ObjectNamePattern::init$(bool propertyListPattern, bool property
 }
 
 bool Repository$ObjectNamePattern::matchKeys($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if (this->isPropertyValuePattern && !this->isPropertyListPattern && ($nc($($nc(name)->getKeyPropertyList()))->size() != $nc(this->keys)->length)) {
 		return false;
 	}

@@ -107,6 +107,7 @@ $Object* allocate$DefaultPlatformMBeanProvider$4($Class* clazz) {
 }
 
 void DefaultPlatformMBeanProvider$4::init$($DefaultPlatformMBeanProvider* this$0) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, this$0, this$0);
 	$set(this, garbageCollectorMXBeanInterfaceNames, $Collections::unmodifiableSet($cast($Set, $($nc($($Stream::of($$new($StringArray, {
 		"java.lang.management.MemoryManagerMXBean"_s,
@@ -115,6 +116,7 @@ void DefaultPlatformMBeanProvider$4::init$($DefaultPlatformMBeanProvider* this$0
 }
 
 $Set* DefaultPlatformMBeanProvider$4::mbeanInterfaces() {
+	$useLocalCurrentObjectStackCache();
 		$load($MemoryManagerMXBean);
 		$load($GarbageCollectorMXBean);
 	return $cast($Set, $nc($($Stream::of($$new($ClassArray, {
@@ -137,6 +139,7 @@ bool DefaultPlatformMBeanProvider$4::isSingleton() {
 }
 
 $Map* DefaultPlatformMBeanProvider$4::nameToMBeanMap() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $ManagementFactoryHelper::getGarbageCollectorMXBeans());
 	$var($Map, map, nullptr);
 	if ($nc(list)->isEmpty()) {

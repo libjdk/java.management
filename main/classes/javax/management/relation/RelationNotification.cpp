@@ -263,6 +263,7 @@ bool RelationNotification::isValidBasic($String* notifType, Object$* sourceObj, 
 }
 
 bool RelationNotification::isValidCreate($String* notifType) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, validTypes, $new($StringArray, {
 		RelationNotification::RELATION_BASIC_CREATION,
 		RelationNotification::RELATION_MBEAN_CREATION,
@@ -285,6 +286,7 @@ bool RelationNotification::isValidUpdate($String* notifType, $String* name, $Lis
 }
 
 $ArrayList* RelationNotification::safeGetObjectNameList($List* src) {
+	$useLocalCurrentObjectStackCache();
 	$var($ArrayList, dest, nullptr);
 	if (src != nullptr) {
 		$assign(dest, $new($ArrayList));
@@ -310,6 +312,7 @@ $ObjectName* RelationNotification::safeGetObjectName($ObjectName* src) {
 }
 
 void RelationNotification::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, tmpRelationId, nullptr);
 	$var($String, tmpRelationTypeName, nullptr);
 	$var($String, tmpRoleName, nullptr);
@@ -371,6 +374,7 @@ void RelationNotification::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$RelationNotification($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(RelationNotification::RELATION_BASIC_CREATION, "jmx.relation.creation.basic"_s);
 	$assignStatic(RelationNotification::RELATION_MBEAN_CREATION, "jmx.relation.creation.mbean"_s);
 	$assignStatic(RelationNotification::RELATION_BASIC_UPDATE, "jmx.relation.update.basic"_s);

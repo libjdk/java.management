@@ -295,6 +295,7 @@ void StandardMBean::init$($Class* mbeanInterface, bool isMXBean) {
 }
 
 void StandardMBean::setImplementation(Object$* implementation) {
+	$useLocalCurrentObjectStackCache();
 	if (implementation == nullptr) {
 		$throwNew($IllegalArgumentException, "implementation is null"_s);
 	}
@@ -338,6 +339,7 @@ $Object* StandardMBean::invoke($String* actionName, $ObjectArray* params, $Strin
 }
 
 $MBeanInfo* StandardMBean::getMBeanInfo() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($MBeanInfo, cached, getCachedMBeanInfo());
 		if (cached != nullptr) {
@@ -462,6 +464,7 @@ $MBeanNotificationInfoArray* StandardMBean::getNotifications($MBeanInfo* info) {
 }
 
 $Descriptor* StandardMBean::getDescriptor($MBeanInfo* info, bool immutableInfo) {
+	$useLocalCurrentObjectStackCache();
 	$var($ImmutableDescriptor, desc, nullptr);
 	bool var$0 = info == nullptr || $nc(info)->getDescriptor() == nullptr;
 	if (var$0 || $nc($($nc($($nc(info)->getDescriptor()))->getFieldNames()))->length == 0) {
@@ -536,6 +539,7 @@ bool StandardMBean::equal(Object$* a, Object$* b) {
 
 $MBeanParameterInfo* StandardMBean::customize($MBeanParameterInfo* pi, $String* name, $String* description) {
 	$init(StandardMBean);
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = equal(name, $($nc(pi)->getName()));
 	if (var$0 && equal(description, $($nc(pi)->getDescription()))) {
 		return pi;
@@ -555,6 +559,7 @@ $MBeanParameterInfo* StandardMBean::customize($MBeanParameterInfo* pi, $String* 
 
 $MBeanConstructorInfo* StandardMBean::customize($MBeanConstructorInfo* ci, $String* description, $MBeanParameterInfoArray* signature) {
 	$init(StandardMBean);
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = equal(description, $($nc(ci)->getDescription()));
 	if (var$0 && identicalArrays(signature, $($nc(ci)->getSignature()))) {
 		return ci;
@@ -575,6 +580,7 @@ $MBeanConstructorInfo* StandardMBean::customize($MBeanConstructorInfo* ci, $Stri
 
 $MBeanOperationInfo* StandardMBean::customize($MBeanOperationInfo* oi, $String* description, $MBeanParameterInfoArray* signature, int32_t impact) {
 	$init(StandardMBean);
+	$useLocalCurrentObjectStackCache();
 	bool var$1 = equal(description, $($nc(oi)->getDescription()));
 	bool var$0 = var$1 && identicalArrays(signature, $($nc(oi)->getSignature()));
 	if (var$0 && impact == $nc(oi)->getImpact()) {
@@ -601,6 +607,7 @@ $MBeanOperationInfo* StandardMBean::customize($MBeanOperationInfo* oi, $String* 
 
 $MBeanAttributeInfo* StandardMBean::customize($MBeanAttributeInfo* ai, $String* description) {
 	$init(StandardMBean);
+	$useLocalCurrentObjectStackCache();
 	if (equal(description, $($nc(ai)->getDescription()))) {
 		return ai;
 	}
@@ -635,6 +642,7 @@ $OpenMBeanParameterInfoArray* StandardMBean::paramsToOpenParams($MBeanParameterI
 }
 
 $MBeanConstructorInfoArray* StandardMBean::getConstructors($MBeanInfo* info, Object$* impl) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanConstructorInfoArray, ctors, getConstructors($($nc(info)->getConstructors()), impl));
 	if (ctors == nullptr) {
 		return nullptr;
@@ -663,6 +671,7 @@ $MBeanConstructorInfoArray* StandardMBean::getConstructors($MBeanInfo* info, Obj
 }
 
 $MBeanOperationInfoArray* StandardMBean::getOperations($MBeanInfo* info) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanOperationInfoArray, ops, $nc(info)->getOperations());
 	if (ops == nullptr) {
 		return nullptr;
@@ -694,6 +703,7 @@ $MBeanOperationInfoArray* StandardMBean::getOperations($MBeanInfo* info) {
 }
 
 $MBeanAttributeInfoArray* StandardMBean::getAttributes($MBeanInfo* info) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanAttributeInfoArray, atts, $nc(info)->getAttributes());
 	if (atts == nullptr) {
 		return nullptr;
@@ -728,6 +738,7 @@ void StandardMBean::postDeregister() {
 
 bool StandardMBean::immutableInfo($Class* subclass) {
 	$init(StandardMBean);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$load($StandardEmitterMBean);
 	if (subclass == StandardMBean::class$ || subclass == $StandardEmitterMBean::class$) {

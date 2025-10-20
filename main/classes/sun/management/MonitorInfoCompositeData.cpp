@@ -127,6 +127,7 @@ $CompositeData* MonitorInfoCompositeData::toCompositeData($MonitorInfo* mi) {
 }
 
 $CompositeData* MonitorInfoCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($StackTraceElement, ste, $nc(this->lock)->getLockedStackFrame());
 	$var($CompositeData, steCData, ste != nullptr ? $StackTraceElementCompositeData::toCompositeData(ste) : ($CompositeData*)nullptr);
 	$var($Map, items, $new($HashMap));
@@ -175,6 +176,7 @@ int32_t MonitorInfoCompositeData::getLockedStackDepth($CompositeData* cd) {
 
 void MonitorInfoCompositeData::validateCompositeData($CompositeData* cd) {
 	$init(MonitorInfoCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (cd == nullptr) {
 		$throwNew($NullPointerException, "Null CompositeData"_s);
 	}
@@ -185,6 +187,7 @@ void MonitorInfoCompositeData::validateCompositeData($CompositeData* cd) {
 }
 
 void clinit$MonitorInfoCompositeData($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(MonitorInfoCompositeData::CLASS_NAME, "className"_s);
 	$assignStatic(MonitorInfoCompositeData::IDENTITY_HASH_CODE, "identityHashCode"_s);
 	$assignStatic(MonitorInfoCompositeData::LOCKED_STACK_FRAME, "lockedStackFrame"_s);

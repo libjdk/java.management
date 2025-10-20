@@ -159,6 +159,7 @@ $Object* MBeanServerInvocationHandler::newProxyInstance($MBeanServerConnection* 
 }
 
 $Object* MBeanServerInvocationHandler::invoke(Object$* proxy, $Method* method, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$Class* methodClass = $nc(method)->getDeclaringClass();
 	$load($NotificationBroadcaster);
 	bool var$0 = $nc($of(methodClass))->equals($NotificationBroadcaster::class$);
@@ -222,6 +223,7 @@ $Object* MBeanServerInvocationHandler::invoke(Object$* proxy, $Method* method, $
 
 $MXBeanProxy* MBeanServerInvocationHandler::findMXBeanProxy($Class* mxbeanInterface) {
 	$init(MBeanServerInvocationHandler);
+	$useLocalCurrentObjectStackCache();
 	$synchronized(MBeanServerInvocationHandler::mxbeanProxies) {
 		$var($WeakReference, proxyRef, $cast($WeakReference, $nc(MBeanServerInvocationHandler::mxbeanProxies)->get(mxbeanInterface)));
 		$var($MXBeanProxy, p, (proxyRef == nullptr) ? ($MXBeanProxy*)nullptr : $cast($MXBeanProxy, $nc(proxyRef)->get()));
@@ -243,6 +245,7 @@ $MXBeanProxy* MBeanServerInvocationHandler::findMXBeanProxy($Class* mxbeanInterf
 }
 
 $Object* MBeanServerInvocationHandler::invokeBroadcasterMethod(Object$* proxy, $Method* method, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, methodName, $nc(method)->getName());
 	int32_t nargs = (args == nullptr) ? 0 : $nc(args)->length;
 	if ($nc(methodName)->equals("addNotificationListener"_s)) {
@@ -293,6 +296,7 @@ $Object* MBeanServerInvocationHandler::invokeBroadcasterMethod(Object$* proxy, $
 }
 
 bool MBeanServerInvocationHandler::shouldDoLocally(Object$* proxy, $Method* method) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, methodName, $nc(method)->getName());
 	bool var$2 = $nc(methodName)->equals("hashCode"_s);
 	bool var$1 = (var$2 || $nc(methodName)->equals("toString"_s));
@@ -314,6 +318,7 @@ bool MBeanServerInvocationHandler::shouldDoLocally(Object$* proxy, $Method* meth
 }
 
 $Object* MBeanServerInvocationHandler::doLocally(Object$* proxy, $Method* method, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, methodName, $nc(method)->getName());
 	if ($nc(methodName)->equals("equals"_s)) {
@@ -344,6 +349,7 @@ $Object* MBeanServerInvocationHandler::doLocally(Object$* proxy, $Method* method
 
 bool MBeanServerInvocationHandler::isLocal(Object$* proxy, $Method* method) {
 	$init(MBeanServerInvocationHandler);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ClassArray, interfaces, $nc($of(proxy))->getClass()->getInterfaces());
 	if (interfaces == nullptr) {

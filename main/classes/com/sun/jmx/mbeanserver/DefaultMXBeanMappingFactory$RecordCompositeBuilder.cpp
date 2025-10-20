@@ -86,6 +86,7 @@ void DefaultMXBeanMappingFactory$RecordCompositeBuilder::init$($Class* targetCla
 }
 
 $StringArray* DefaultMXBeanMappingFactory$RecordCompositeBuilder::getConstPropValues($Constructor* ctor) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($RecordComponentArray, components, $nc(getTargetClass())->getRecordComponents());
 	$var($TypeArray, ptypes, $nc(ctor)->getGenericParameterTypes());

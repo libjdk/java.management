@@ -105,6 +105,7 @@ $String* DefaultPlatformMBeanProvider$2::getObjectNamePattern() {
 }
 
 $Map* DefaultPlatformMBeanProvider$2::nameToMBeanMap() {
+	$useLocalCurrentObjectStackCache();
 	$var($CompilationMXBean, m, $ManagementFactoryHelper::getCompilationMXBean());
 	if (m == nullptr) {
 		return $Collections::emptyMap();

@@ -153,6 +153,7 @@ $Object* allocate$Repository($Class* clazz) {
 }
 
 void Repository::addAllMatching($Map* moiTb, $Set* result, $Repository$ObjectNamePattern* pattern) {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(moiTb) {
 		{
 			$var($Iterator, i$, $nc($($nc(moiTb)->values()))->iterator());
@@ -170,6 +171,7 @@ void Repository::addAllMatching($Map* moiTb, $Set* result, $Repository$ObjectNam
 }
 
 void Repository::addNewDomMoi($DynamicMBean* object, $String* dom, $ObjectName* name, $Repository$RegistrationContext* context) {
+	$useLocalCurrentObjectStackCache();
 	$var($Map, moiTb, $new($HashMap));
 	$var($String, key, $nc(name)->getCanonicalKeyPropertyListString());
 	addMoiToTb(object, name, key, moiTb, context);
@@ -178,6 +180,7 @@ void Repository::addNewDomMoi($DynamicMBean* object, $String* dom, $ObjectName* 
 }
 
 void Repository::registering($Repository$RegistrationContext* context) {
+	$useLocalCurrentObjectStackCache();
 	if (context == nullptr) {
 		return;
 	}
@@ -193,6 +196,7 @@ void Repository::registering($Repository$RegistrationContext* context) {
 }
 
 void Repository::unregistering($Repository$RegistrationContext* context, $ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if (context == nullptr) {
 		return;
 	}
@@ -212,6 +216,7 @@ void Repository::addMoiToTb($DynamicMBean* object, $ObjectName* name, $String* k
 }
 
 $NamedObject* Repository::retrieveNamedObject($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(name)->isPattern()) {
 		return nullptr;
 	}
@@ -244,6 +249,7 @@ void Repository::init$($String* domain, bool fairLock) {
 }
 
 $StringArray* Repository::getDomains() {
+	$useLocalCurrentObjectStackCache();
 	$nc($($cast($ReentrantReadWriteLock$ReadLock, $nc(this->lock)->readLock())))->lock();
 	$var($List, result, nullptr);
 	{
@@ -275,6 +281,7 @@ $StringArray* Repository::getDomains() {
 }
 
 void Repository::addMBean($DynamicMBean* object, $ObjectName* name$renamed, $Repository$RegistrationContext* context) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, name, name$renamed);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -334,6 +341,7 @@ void Repository::addMBean($DynamicMBean* object, $ObjectName* name$renamed, $Rep
 }
 
 bool Repository::contains($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -364,6 +372,7 @@ bool Repository::contains($ObjectName* name) {
 }
 
 $DynamicMBean* Repository::retrieve($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -401,6 +410,7 @@ $DynamicMBean* Repository::retrieve($ObjectName* name) {
 }
 
 $Set* Repository::query($ObjectName* pattern, $QueryExp* query) {
+	$useLocalCurrentObjectStackCache();
 	$var($Set, result, $new($HashSet));
 	$var($ObjectName, name, nullptr);
 	bool var$0 = pattern == nullptr || $nc($($nc(pattern)->getCanonicalName()))->length() == 0;
@@ -504,6 +514,7 @@ $Set* Repository::query($ObjectName* pattern, $QueryExp* query) {
 }
 
 void Repository::remove($ObjectName* name, $Repository$RegistrationContext* context) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {

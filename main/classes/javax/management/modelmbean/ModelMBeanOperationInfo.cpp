@@ -172,6 +172,7 @@ void ModelMBeanOperationInfo::init$($String* name, $String* description, $MBeanP
 }
 
 void ModelMBeanOperationInfo::init$(ModelMBeanOperationInfo* inInfo) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(inInfo)->getName());
 	$var($String, var$1, inInfo->getDescription());
 	$var($MBeanParameterInfoArray, var$2, inInfo->getSignature());
@@ -218,6 +219,7 @@ void ModelMBeanOperationInfo::setDescriptor($Descriptor* inDescriptor) {
 }
 
 $String* ModelMBeanOperationInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -238,6 +240,7 @@ $String* ModelMBeanOperationInfo::toString() {
 }
 
 $Descriptor* ModelMBeanOperationInfo::validDescriptor($Descriptor* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, clone, nullptr);
 	bool defaulted = (in == nullptr);
 	if (defaulted) {
@@ -318,6 +321,7 @@ void ModelMBeanOperationInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$ModelMBeanOperationInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanOperationInfo::currClass, "ModelMBeanOperationInfo"_s);
 	$beforeCallerSensitive();
 		$load($Descriptor);

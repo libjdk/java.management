@@ -117,6 +117,7 @@ void Sensor::clear(int32_t increment) {
 }
 
 $String* Sensor::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$2, $$str({"Sensor - "_s, $(getName())}));
 	$var($String, var$1, $$concat(var$2, (isOn() ? " on "_s : " off "_s)));
 	$var($String, var$0, $$concat(var$1, " count = "));

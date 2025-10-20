@@ -87,6 +87,7 @@ void ServerNotifForwarder$NotifForwarderBufferFilter::init$($ServerNotifForwarde
 }
 
 void ServerNotifForwarder$NotifForwarderBufferFilter::apply($List* targetedNotifs, $ObjectName* source, $Notification* notif) {
+	$useLocalCurrentObjectStackCache();
 	$var($ServerNotifForwarder$IdAndFilterArray, candidates, nullptr);
 	$synchronized(this->this$0->listenerMap) {
 		$var($Set, set, $cast($Set, $nc(this->this$0->listenerMap)->get(source)));

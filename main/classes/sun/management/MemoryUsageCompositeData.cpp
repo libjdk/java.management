@@ -110,6 +110,7 @@ $CompositeData* MemoryUsageCompositeData::toCompositeData($MemoryUsage* u) {
 }
 
 $CompositeData* MemoryUsageCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, memoryUsageItemValues, $new($ObjectArray, {
 		$($of($Long::valueOf($nc(this->usage)->getInit()))),
 		$($of($Long::valueOf($nc(this->usage)->getUsed()))),

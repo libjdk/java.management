@@ -59,6 +59,7 @@ $Integer* TimerNotification::getNotificationID() {
 }
 
 $Object* TimerNotification::cloneTimerNotification() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, this->getType());
 	$var($Object, var$1, this->getSource());
 	int64_t var$2 = this->getSequenceNumber();

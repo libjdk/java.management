@@ -89,6 +89,7 @@ void DefaultMXBeanMappingFactory$MXBeanRefMapping::init$($Type* intf) {
 }
 
 $Object* DefaultMXBeanMappingFactory$MXBeanRefMapping::toNonNullOpenValue(Object$* javaValue) {
+	$useLocalCurrentObjectStackCache();
 	$load($OpenDataException);
 	$var($MXBeanLookup, lookup, lookupNotNull($OpenDataException::class$));
 	$var($ObjectName, name, $nc(lookup)->mxbeanToObjectName(javaValue));
@@ -99,6 +100,7 @@ $Object* DefaultMXBeanMappingFactory$MXBeanRefMapping::toNonNullOpenValue(Object
 }
 
 $Object* DefaultMXBeanMappingFactory$MXBeanRefMapping::fromNonNullOpenValue(Object$* openValue) {
+	$useLocalCurrentObjectStackCache();
 	$load($InvalidObjectException);
 	$var($MXBeanLookup, lookup, lookupNotNull($InvalidObjectException::class$));
 	$var($ObjectName, name, $cast($ObjectName, openValue));
@@ -111,6 +113,7 @@ $Object* DefaultMXBeanMappingFactory$MXBeanRefMapping::fromNonNullOpenValue(Obje
 }
 
 $MXBeanLookup* DefaultMXBeanMappingFactory$MXBeanRefMapping::lookupNotNull($Class* excClass) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($MXBeanLookup, lookup, $MXBeanLookup::getLookup());
 	if (lookup == nullptr) {

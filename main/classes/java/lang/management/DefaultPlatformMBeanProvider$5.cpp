@@ -218,12 +218,14 @@ bool DefaultPlatformMBeanProvider$5::isSingleton() {
 }
 
 $Map* DefaultPlatformMBeanProvider$5::nameToMBeanMap() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $ManagementFactoryHelper::getMemoryManagerMXBeans());
 	$var($Function, var$0, static_cast<$Function*>($new(DefaultPlatformMBeanProvider$5$$Lambda$lambda$nameToMBeanMap$0$1)));
 	return $cast($Map, $nc($($nc($($nc(list)->stream()))->filter(static_cast<$Predicate*>($$new(DefaultPlatformMBeanProvider$5$$Lambda$isMemoryManager, this)))))->collect($($Collectors::toMap(var$0, $($Function::identity())))));
 }
 
 bool DefaultPlatformMBeanProvider$5::isMemoryManager($MemoryManagerMXBean* mbean) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, name, $nc(mbean)->getObjectName());
 	$init($ManagementFactory);
 	bool var$0 = $nc($ManagementFactory::MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE)->startsWith($($nc(name)->getDomain()));

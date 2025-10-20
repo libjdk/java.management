@@ -95,6 +95,7 @@ void RequiredModelMBean$4::init$($RequiredModelMBean* this$0, $Method* val$metho
 }
 
 $Object* RequiredModelMBean$4::run() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$ReflectUtil::checkPackageAccess($nc(this->val$method)->getDeclaringClass());
 		return $of($MethodUtil::invoke(this->val$method, this->val$targetObject, this->val$opArgs));

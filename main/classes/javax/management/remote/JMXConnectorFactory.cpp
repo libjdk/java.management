@@ -282,6 +282,7 @@ $Map* JMXConnectorFactory::newHashMap($Map* map) {
 
 $JMXConnector* JMXConnectorFactory::newJMXConnector($JMXServiceURL* serviceURL, $Map* environment) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Map, envcopy, nullptr);
 	if (environment == nullptr) {
@@ -336,6 +337,7 @@ $JMXConnector* JMXConnectorFactory::newJMXConnector($JMXServiceURL* serviceURL, 
 
 $String* JMXConnectorFactory::resolvePkgs($Map* env) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Object, pkgsObject, nullptr);
 	if (env != nullptr) {
@@ -366,6 +368,7 @@ $String* JMXConnectorFactory::resolvePkgs($Map* env) {
 
 $Object* JMXConnectorFactory::getProvider($JMXServiceURL* serviceURL, $Map* environment, $String* providerClassName, $Class* targetInterface, $ClassLoader* loader) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, protocol, $nc(serviceURL)->getProtocol());
 	$var($String, pkgs, resolvePkgs(environment));
@@ -388,6 +391,7 @@ $ClassLoader* JMXConnectorFactory::wrap($ClassLoader* parent) {
 
 bool JMXConnectorFactory::isSystemProvider($ServiceLoader$Provider* provider) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($Module, providerModule, $nc($nc(provider)->type())->getModule());
 	bool var$0 = $nc(providerModule)->isNamed();
 	return var$0 && $nc($(providerModule->getName()))->equals("java.management.rmi"_s);
@@ -402,6 +406,7 @@ $JMXConnector* JMXConnectorFactory::getConnectorAsService($ClassLoader* loader, 
 
 $Object* JMXConnectorFactory::getConnectorAsService($Class* providerClass, $ClassLoader* loader, $JMXServiceURL* url, $Predicate* filter, $JMXConnectorFactory$ConnectorFactory* factory) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$load($JMXConnectorProvider);
 	$load($JMXConnectorServerProvider);
@@ -427,6 +432,7 @@ $Object* JMXConnectorFactory::getConnectorAsService($Class* providerClass, $Clas
 
 $Object* JMXConnectorFactory::getProvider($String* protocol, $String* pkgs, $ClassLoader* loader, $String* providerClassName, $Class* targetInterface) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($StringTokenizer, tokenizer, $new($StringTokenizer, pkgs, "|"_s));
 	while (tokenizer->hasMoreTokens()) {
@@ -459,6 +465,7 @@ $Object* JMXConnectorFactory::getProvider($String* protocol, $String* pkgs, $Cla
 
 $ClassLoader* JMXConnectorFactory::resolveClassLoader($Map* environment) {
 	$init(JMXConnectorFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ClassLoader, loader, nullptr);
 	if (environment != nullptr) {

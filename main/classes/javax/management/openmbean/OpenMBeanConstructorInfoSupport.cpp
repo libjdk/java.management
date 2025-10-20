@@ -102,6 +102,7 @@ void OpenMBeanConstructorInfoSupport::init$($String* name, $String* description,
 }
 
 void OpenMBeanConstructorInfoSupport::init$($String* name, $String* description, $OpenMBeanParameterInfoArray* signature, $Descriptor* descriptor) {
+	$useLocalCurrentObjectStackCache();
 	$MBeanConstructorInfo::init$(name, description, $(arrayCopyCast(signature)), descriptor);
 	$set(this, myHashCode, nullptr);
 	$set(this, myToString, nullptr);
@@ -124,6 +125,7 @@ $MBeanParameterInfoArray* OpenMBeanConstructorInfoSupport::arrayCopyCast($OpenMB
 }
 
 bool OpenMBeanConstructorInfoSupport::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -145,6 +147,7 @@ bool OpenMBeanConstructorInfoSupport::equals(Object$* obj) {
 }
 
 int32_t OpenMBeanConstructorInfoSupport::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myHashCode == nullptr) {
 		int32_t value = 0;
 		value += $nc($(this->getName()))->hashCode();
@@ -155,6 +158,7 @@ int32_t OpenMBeanConstructorInfoSupport::hashCode() {
 }
 
 $String* OpenMBeanConstructorInfoSupport::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$set(this, myToString, $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(name="_s)->append($(this->getName()))->append(",signature="_s)->append($($nc($of($($Arrays::asList($(this->getSignature())))))->toString()))->append(",descriptor="_s)->append($($of(this->getDescriptor())))->append(")"_s)->toString());
 	}

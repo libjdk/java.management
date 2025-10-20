@@ -172,6 +172,7 @@ void ModelMBeanConstructorInfo::init$($String* name, $String* description, $MBea
 }
 
 void ModelMBeanConstructorInfo::init$(ModelMBeanConstructorInfo* old) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(old)->getName());
 	$var($String, var$1, old->getDescription());
 	$MBeanConstructorInfo::init$(var$0, var$1, $(old->getSignature()));
@@ -215,6 +216,7 @@ void ModelMBeanConstructorInfo::setDescriptor($Descriptor* inDescriptor) {
 }
 
 $String* ModelMBeanConstructorInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -233,6 +235,7 @@ $String* ModelMBeanConstructorInfo::toString() {
 }
 
 $Descriptor* ModelMBeanConstructorInfo::validDescriptor($Descriptor* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, clone, nullptr);
 	bool defaulted = (in == nullptr);
 	if (defaulted) {
@@ -303,6 +306,7 @@ void ModelMBeanConstructorInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$ModelMBeanConstructorInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanConstructorInfo::currClass, "ModelMBeanConstructorInfo"_s);
 	$beforeCallerSensitive();
 		$load($Descriptor);

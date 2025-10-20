@@ -111,6 +111,7 @@ $MBeanServerFileAccessController$Access* MBeanServerFileAccessController$Parser:
 }
 
 $MBeanServerFileAccessController$Access* MBeanServerFileAccessController$Parser::parseAccess() {
+	$useLocalCurrentObjectStackCache();
 	skipSpace();
 	$var($String, type, parseWord());
 	$var($MBeanServerFileAccessController$Access, access, nullptr);
@@ -128,6 +129,7 @@ $MBeanServerFileAccessController$Access* MBeanServerFileAccessController$Parser:
 }
 
 $MBeanServerFileAccessController$Access* MBeanServerFileAccessController$Parser::parseReadWrite() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, createClasses, $new($ArrayList));
 	bool unregister = false;
 	while (true) {
@@ -148,6 +150,7 @@ $MBeanServerFileAccessController$Access* MBeanServerFileAccessController$Parser:
 }
 
 void MBeanServerFileAccessController$Parser::parseCreate($List* createClasses) {
+	$useLocalCurrentObjectStackCache();
 	while (true) {
 		skipSpace();
 		$nc(createClasses)->add($(parseClassName()));
@@ -161,6 +164,7 @@ void MBeanServerFileAccessController$Parser::parseCreate($List* createClasses) {
 }
 
 $String* MBeanServerFileAccessController$Parser::parseClassName() {
+	$useLocalCurrentObjectStackCache();
 	int32_t start = this->i;
 	bool dotOK = false;
 	while (true) {
@@ -201,6 +205,7 @@ void MBeanServerFileAccessController$Parser::skipSpace() {
 }
 
 $String* MBeanServerFileAccessController$Parser::parseWord() {
+	$useLocalCurrentObjectStackCache();
 	skipSpace();
 	if (this->c == MBeanServerFileAccessController$Parser::EOS) {
 		$throw($(syntax("Expected word at end of line"_s)));

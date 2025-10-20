@@ -365,6 +365,7 @@ void MLet::init$($URLArray* urls, $ClassLoader* parent, $URLStreamHandlerFactory
 }
 
 void MLet::init$($URLArray* urls, bool delegateToCLR) {
+	$useLocalCurrentObjectStackCache();
 	$URLClassLoader::init$(urls);
 	$set(this, server, nullptr);
 	$set(this, mletList, $new($ArrayList));
@@ -393,6 +394,7 @@ void MLet::init$($URLArray* urls, bool delegateToCLR) {
 }
 
 void MLet::init$($URLArray* urls, $ClassLoader* parent, bool delegateToCLR) {
+	$useLocalCurrentObjectStackCache();
 	$URLClassLoader::init$(urls, parent);
 	$set(this, server, nullptr);
 	$set(this, mletList, $new($ArrayList));
@@ -421,6 +423,7 @@ void MLet::init$($URLArray* urls, $ClassLoader* parent, bool delegateToCLR) {
 }
 
 void MLet::init$($URLArray* urls, $ClassLoader* parent, $URLStreamHandlerFactory* factory, bool delegateToCLR) {
+	$useLocalCurrentObjectStackCache();
 	$URLClassLoader::init$(urls, parent, factory);
 	$set(this, server, nullptr);
 	$set(this, mletList, $new($ArrayList));
@@ -461,12 +464,14 @@ void MLet::init(bool delegateToCLR) {
 }
 
 void MLet::addURL($URL* url) {
+	$useLocalCurrentObjectStackCache();
 	if (!$nc($($Arrays::asList($(getURLs()))))->contains(url)) {
 		$URLClassLoader::addURL(url);
 	}
 }
 
 void MLet::addURL($String* url) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($URL, ur, $new($URL, url));
 		if (!$nc($($Arrays::asList($(getURLs()))))->contains(ur)) {
@@ -495,6 +500,7 @@ $Set* MLet::getMBeansFromURL($URL* url) {
 }
 
 $Set* MLet::getMBeansFromURL($String* url$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, url, url$renamed);
 	if (this->server == nullptr) {
 		$throwNew($IllegalStateException, "This MLet MBean is not registered with an MBeanServer."_s);
@@ -697,6 +703,7 @@ void MLet::setLibraryDirectory($String* libdir) {
 }
 
 $ObjectName* MLet::preRegister($MBeanServer* server, $ObjectName* name$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, name, name$renamed);
 	setMBeanServer(server);
 	if (name == nullptr) {
@@ -726,6 +733,7 @@ void MLet::readExternal($ObjectInput* in) {
 
 $Class* MLet::loadClass($String* name, $ClassLoaderRepository* clr) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($ClassLoaderRepository, before, this->currentClr);
 		{
 			$var($Throwable, var$0, nullptr);
@@ -757,6 +765,7 @@ $Class* MLet::findClass($String* name) {
 }
 
 $Class* MLet::findClass($String* name, $ClassLoaderRepository* clr) {
+	$useLocalCurrentObjectStackCache();
 	$Class* c = nullptr;
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -796,6 +805,7 @@ $Class* MLet::findClass($String* name, $ClassLoaderRepository* clr) {
 }
 
 $String* MLet::findLibrary($String* libname) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, abs_path, nullptr);
 	$var($String, mth, "findLibrary"_s);
 	$var($String, nativelibname, $System::mapLibraryName(libname));
@@ -841,6 +851,7 @@ $String* MLet::findLibrary($String* libname) {
 }
 
 $String* MLet::getTmpDir() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, tmpDir, $System::getProperty("java.io.tmpdir"_s));
 	if (tmpDir != nullptr) {
 		return tmpDir;
@@ -907,6 +918,7 @@ $String* MLet::getTmpDir() {
 
 $String* MLet::loadLibraryAsResource($String* libname) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		try {
 			$init($File);
 			$var($InputStream, is, getResourceAsStream($($nc(libname)->replace($File::separatorChar, u'/'))));
@@ -959,6 +971,7 @@ $URL* MLet::check($String* version, $URL* codebase, $String* jarfile, $MLetConte
 }
 
 $Object* MLet::loadSerializedObject($URL* codebase, $String* filename$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, filename, filename$renamed);
 	if (filename != nullptr) {
 		$init($File);
@@ -999,6 +1012,7 @@ $Object* MLet::loadSerializedObject($URL* codebase, $String* filename$renamed) {
 }
 
 $Object* MLet::constructParameter($String* param, $String* type) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* c = $cast($Class, $nc(this->primitiveClasses)->get(type));
 	if (c != nullptr) {

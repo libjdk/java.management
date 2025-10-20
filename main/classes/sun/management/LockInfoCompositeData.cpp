@@ -109,6 +109,7 @@ $CompositeData* LockInfoCompositeData::toCompositeData($LockInfo* li) {
 }
 
 $CompositeData* LockInfoCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, var$0, $of(LockInfoCompositeData::CLASS_NAME));
 	$var($Object, var$1, $of($nc(this->lock)->getClassName()));
 	$var($Object, var$2, $of(LockInfoCompositeData::IDENTITY_HASH_CODE));
@@ -129,6 +130,7 @@ $CompositeType* LockInfoCompositeData::compositeType() {
 
 $LockInfo* LockInfoCompositeData::toLockInfo($CompositeData* cd) {
 	$init(LockInfoCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (cd == nullptr) {
 		$throwNew($NullPointerException, "Null CompositeData"_s);
 	}
@@ -141,6 +143,7 @@ $LockInfo* LockInfoCompositeData::toLockInfo($CompositeData* cd) {
 }
 
 void clinit$LockInfoCompositeData($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(LockInfoCompositeData::CLASS_NAME, "className"_s);
 	$assignStatic(LockInfoCompositeData::IDENTITY_HASH_CODE, "identityHashCode"_s);
 	{

@@ -79,6 +79,7 @@ DescriptorCache* DescriptorCache::getInstance($JMX* proof) {
 }
 
 $ImmutableDescriptor* DescriptorCache::get($ImmutableDescriptor* descriptor) {
+	$useLocalCurrentObjectStackCache();
 	$var($WeakReference, wr, $cast($WeakReference, $nc(this->map)->get(descriptor)));
 	$var($ImmutableDescriptor, got, (wr == nullptr) ? ($ImmutableDescriptor*)nullptr : $cast($ImmutableDescriptor, $nc(wr)->get()));
 	if (got != nullptr) {

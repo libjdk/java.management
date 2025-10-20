@@ -90,6 +90,7 @@ $Class* MXBeanMapping::getOpenClass() {
 
 $Class* MXBeanMapping::makeOpenClass($Type* javaType, $OpenType* openType) {
 	$load(MXBeanMapping);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if ($instanceOf($Class, javaType) && $nc(($cast($Class, javaType)))->isPrimitive()) {
 		return $cast($Class, javaType);

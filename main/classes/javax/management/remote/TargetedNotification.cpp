@@ -78,6 +78,7 @@ $String* TargetedNotification::toString() {
 }
 
 void TargetedNotification::readObject($ObjectInputStream* ois) {
+	$useLocalCurrentObjectStackCache();
 	$nc(ois)->defaultReadObject();
 	try {
 		validate(this->notif, this->id);

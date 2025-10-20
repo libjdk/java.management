@@ -111,6 +111,7 @@ void MBeanIntrospector$MBeanInfoMaker::visitOperation($String* operationName, Ob
 }
 
 $MBeanInfo* MBeanIntrospector$MBeanInfoMaker::makeMBeanInfo($Class* mbeanInterface, $String* description) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanAttributeInfoArray, attrArray, $fcast($MBeanAttributeInfoArray, $nc(this->attrs)->toArray($$new($MBeanAttributeInfoArray, 0))));
 	$var($MBeanOperationInfoArray, opArray, $fcast($MBeanOperationInfoArray, $nc(this->ops)->toArray($$new($MBeanOperationInfoArray, 0))));
 	$var($String, interfaceClassName, $str({"interfaceClassName="_s, $($nc(mbeanInterface)->getName())}));

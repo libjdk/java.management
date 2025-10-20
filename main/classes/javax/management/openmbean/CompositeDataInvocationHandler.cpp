@@ -96,6 +96,7 @@ $CompositeData* CompositeDataInvocationHandler::getCompositeData() {
 }
 
 $Object* CompositeDataInvocationHandler::invoke(Object$* proxy, $Method* method, $ObjectArray* args) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, methodName, $nc(method)->getName());
 	$load($Object);
@@ -135,6 +136,7 @@ $Object* CompositeDataInvocationHandler::invoke(Object$* proxy, $Method* method,
 }
 
 bool CompositeDataInvocationHandler::equals(Object$* proxy, Object$* other) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (other == nullptr) {
 		return false;

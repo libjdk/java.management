@@ -113,6 +113,7 @@ void CompositeDataSupport::init$($CompositeType* compositeType, $StringArray* it
 
 $SortedMap* CompositeDataSupport::makeMap($StringArray* itemNames, $ObjectArray* itemValues) {
 	$init(CompositeDataSupport);
+	$useLocalCurrentObjectStackCache();
 	if (itemNames == nullptr || itemValues == nullptr) {
 		$throwNew($IllegalArgumentException, "Null itemNames or itemValues"_s);
 	}
@@ -142,6 +143,7 @@ void CompositeDataSupport::init$($CompositeType* compositeType, $Map* items) {
 
 $SortedMap* CompositeDataSupport::makeMap($Map* items) {
 	$init(CompositeDataSupport);
+	$useLocalCurrentObjectStackCache();
 	if (items == nullptr || $nc(items)->isEmpty()) {
 		$throwNew($IllegalArgumentException, "Null or empty items map"_s);
 	}
@@ -165,6 +167,7 @@ $SortedMap* CompositeDataSupport::makeMap($Map* items) {
 }
 
 void CompositeDataSupport::init$($SortedMap* items, $CompositeType* compositeType) {
+	$useLocalCurrentObjectStackCache();
 	if (compositeType == nullptr) {
 		$throwNew($IllegalArgumentException, "Argument compositeType cannot be null."_s);
 	}
@@ -204,6 +207,7 @@ $CompositeType* CompositeDataSupport::getCompositeType() {
 }
 
 $Object* CompositeDataSupport::get($String* key) {
+	$useLocalCurrentObjectStackCache();
 	if ((key == nullptr) || ($($nc(key)->trim())->equals(""_s))) {
 		$throwNew($IllegalArgumentException, "Argument key cannot be a null or empty String."_s);
 	}
@@ -214,6 +218,7 @@ $Object* CompositeDataSupport::get($String* key) {
 }
 
 $ObjectArray* CompositeDataSupport::getAll($StringArray* keys) {
+	$useLocalCurrentObjectStackCache();
 	if ((keys == nullptr) || ($nc(keys)->length == 0)) {
 		return $new($ObjectArray, 0);
 	}
@@ -240,6 +245,7 @@ $Collection* CompositeDataSupport::values() {
 }
 
 bool CompositeDataSupport::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(this, obj)) {
 		return true;
 	}
@@ -278,6 +284,7 @@ bool CompositeDataSupport::equals(Object$* obj) {
 }
 
 int32_t CompositeDataSupport::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	int32_t hashcode = $nc(this->compositeType)->hashCode();
 	{
 		$var($Iterator, i$, $nc($($nc(this->contents)->values()))->iterator());
@@ -312,10 +319,12 @@ int32_t CompositeDataSupport::hashCode() {
 }
 
 $String* CompositeDataSupport::toString() {
+	$useLocalCurrentObjectStackCache();
 	return $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(compositeType="_s)->append($($nc(this->compositeType)->toString()))->append(",contents="_s)->append($(contentString()))->append(")"_s)->toString();
 }
 
 $String* CompositeDataSupport::contentString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, sb, $new($StringBuilder, "{"_s));
 	$var($String, sep, ""_s);
 	{

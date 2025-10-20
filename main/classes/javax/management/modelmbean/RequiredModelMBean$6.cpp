@@ -83,6 +83,7 @@ void RequiredModelMBean$6::init$($RequiredModelMBean* this$0, $String* val$class
 }
 
 $Object* RequiredModelMBean$6::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$ReflectUtil::checkPackageAccess(this->val$className);

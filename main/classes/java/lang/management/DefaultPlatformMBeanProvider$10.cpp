@@ -175,6 +175,7 @@ bool DefaultPlatformMBeanProvider$10::isSingleton() {
 }
 
 $Map* DefaultPlatformMBeanProvider$10::nameToMBeanMap() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $ManagementFactoryHelper::getBufferPoolMXBeans());
 	$var($Map, map, nullptr);
 	if ($nc(list)->isEmpty()) {
@@ -188,6 +189,7 @@ $Map* DefaultPlatformMBeanProvider$10::nameToMBeanMap() {
 
 void DefaultPlatformMBeanProvider$10::lambda$nameToMBeanMap$0($Map* map, $BufferPoolMXBean* mbean) {
 	$init(DefaultPlatformMBeanProvider$10);
+	$useLocalCurrentObjectStackCache();
 	$nc(map)->put($($nc($($nc(mbean)->getObjectName()))->getCanonicalName()), mbean);
 }
 

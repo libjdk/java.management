@@ -123,6 +123,7 @@ $ValueExp* BinaryRelQueryExp::getRightValue() {
 }
 
 bool BinaryRelQueryExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, val1, $nc(this->exp1)->apply(name));
 	$var($Object, val2, $nc(this->exp2)->apply(name));
 	bool numeric = $instanceOf($NumericValueExp, val1);
@@ -234,6 +235,7 @@ bool BinaryRelQueryExp::apply($ObjectName* name) {
 }
 
 $String* BinaryRelQueryExp::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$3, $$str({"("_s, this->exp1, ") "_s}));
 	$var($String, var$2, $$concat(var$3, $(relOpString())));
 	$var($String, var$1, $$concat(var$2, " ("));

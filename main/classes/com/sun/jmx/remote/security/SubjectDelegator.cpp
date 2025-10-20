@@ -101,6 +101,7 @@ void SubjectDelegator::init$() {
 }
 
 $AccessControlContext* SubjectDelegator::delegatedContext($AccessControlContext* authenticatedACC, $Subject* delegatedSubject, bool removeCallerContext) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if ($System::getSecurityManager() != nullptr && authenticatedACC == nullptr) {
 		$throwNew($SecurityException, "Illegal AccessControlContext: null"_s);
@@ -134,6 +135,7 @@ $AccessControlContext* SubjectDelegator::getDelegatedAcc($Subject* delegatedSubj
 bool SubjectDelegator::checkRemoveCallerContext($Subject* subject) {
 	$load(SubjectDelegator);
 	$synchronized(class$) {
+		$useLocalCurrentObjectStackCache();
 		try {
 			{
 				$var($Iterator, i$, $nc($(getSubjectPrincipals(subject)))->iterator());
@@ -156,6 +158,7 @@ bool SubjectDelegator::checkRemoveCallerContext($Subject* subject) {
 }
 
 $Collection* SubjectDelegator::getSubjectPrincipals($Subject* subject) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(subject)->isReadOnly()) {
 		return subject->getPrincipals();
 	}

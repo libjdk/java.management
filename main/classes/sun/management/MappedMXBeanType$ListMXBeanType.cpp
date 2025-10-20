@@ -98,6 +98,7 @@ $Object* allocate$MappedMXBeanType$ListMXBeanType($Class* clazz) {
 bool MappedMXBeanType$ListMXBeanType::$assertionsDisabled = false;
 
 void MappedMXBeanType$ListMXBeanType::init$($ParameterizedType* pt) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$MappedMXBeanType::init$();
 	$set(this, javaType, pt);
@@ -134,6 +135,7 @@ $String* MappedMXBeanType$ListMXBeanType::getName() {
 }
 
 $Object* MappedMXBeanType$ListMXBeanType::toOpenTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $cast($List, data));
 	$Class* var$0 = $nc(this->paramType)->getMappedTypeClass();
 	$var($ObjectArray, openArray, $cast($ObjectArray, $1Array::newInstance(var$0, $nc(list)->size())));
@@ -151,6 +153,7 @@ $Object* MappedMXBeanType$ListMXBeanType::toOpenTypeData(Object$* data) {
 }
 
 $Object* MappedMXBeanType$ListMXBeanType::toJavaTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, openArray, $cast($ObjectArray, data));
 	$var($List, result, $new($ArrayList, $nc(openArray)->length));
 	{

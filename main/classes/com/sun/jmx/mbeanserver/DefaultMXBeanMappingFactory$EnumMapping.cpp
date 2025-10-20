@@ -90,6 +90,7 @@ $Object* DefaultMXBeanMappingFactory$EnumMapping::toNonNullOpenValue(Object$* va
 }
 
 $Object* DefaultMXBeanMappingFactory$EnumMapping::fromNonNullOpenValue(Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($Enum::valueOf(this->enumClass, $cast($String, value)));
 	} catch ($Exception&) {

@@ -103,6 +103,7 @@ $Object* allocate$MappedMXBeanType$MapMXBeanType($Class* clazz) {
 bool MappedMXBeanType$MapMXBeanType::$assertionsDisabled = false;
 
 void MappedMXBeanType$MapMXBeanType::init$($ParameterizedType* pt) {
+	$useLocalCurrentObjectStackCache();
 	$MappedMXBeanType::init$();
 	$set(this, javaType, pt);
 	$var($TypeArray, argTypes, $nc(pt)->getActualTypeArguments());
@@ -133,6 +134,7 @@ $String* MappedMXBeanType$MapMXBeanType::getName() {
 }
 
 $Object* MappedMXBeanType$MapMXBeanType::toOpenTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$var($Map, map, $cast($Map, data));
 	$var($TabularType, tabularType, $cast($TabularType, this->openType));
 	$var($TabularData, table, $new($TabularDataSupport, tabularType));
@@ -156,6 +158,7 @@ $Object* MappedMXBeanType$MapMXBeanType::toOpenTypeData(Object$* data) {
 }
 
 $Object* MappedMXBeanType$MapMXBeanType::toJavaTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$var($TabularData, td, $cast($TabularData, data));
 	$var($Map, result, $new($HashMap));
 	{

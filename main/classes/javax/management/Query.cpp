@@ -235,14 +235,17 @@ $ValueExp* Query::div($ValueExp* value1, $ValueExp* value2) {
 }
 
 $QueryExp* Query::initialSubString($AttributeValueExp* a, $StringValueExp* s) {
+	$useLocalCurrentObjectStackCache();
 	return $new($MatchQueryExp, a, $$new($StringValueExp, $$str({$(escapeString($($nc(s)->getValue()))), "*"_s})));
 }
 
 $QueryExp* Query::anySubString($AttributeValueExp* a, $StringValueExp* s) {
+	$useLocalCurrentObjectStackCache();
 	return $new($MatchQueryExp, a, $$new($StringValueExp, $$str({"*"_s, $(escapeString($($nc(s)->getValue()))), "*"_s})));
 }
 
 $QueryExp* Query::finalSubString($AttributeValueExp* a, $StringValueExp* s) {
+	$useLocalCurrentObjectStackCache();
 	return $new($MatchQueryExp, a, $$new($StringValueExp, $$str({"*"_s, $(escapeString($($nc(s)->getValue())))})));
 }
 

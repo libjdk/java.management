@@ -218,6 +218,7 @@ $Map* ManagementFactory$PlatformMBeanFinder::getMap() {
 
 $PlatformMBeanProvider$PlatformComponent* ManagementFactory$PlatformMBeanFinder::findFirst($Class* mbeanIntf) {
 	$init(ManagementFactory$PlatformMBeanFinder);
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, $nc(mbeanIntf)->getName());
 	$var($Optional, op, $nc($($nc($($nc($($nc($(getMap()))->values()))->stream()))->filter(static_cast<$Predicate*>($$new(ManagementFactory$PlatformMBeanFinder$$Lambda$lambda$findFirst$0, name)))))->findFirst());
 	if ($nc(op)->isPresent()) {
@@ -229,6 +230,7 @@ $PlatformMBeanProvider$PlatformComponent* ManagementFactory$PlatformMBeanFinder:
 
 $PlatformMBeanProvider$PlatformComponent* ManagementFactory$PlatformMBeanFinder::findSingleton($Class* mbeanIntf) {
 	$init(ManagementFactory$PlatformMBeanFinder);
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, $nc(mbeanIntf)->getName());
 	$var($Optional, op, $nc($($nc($($nc($($nc($(getMap()))->values()))->stream()))->filter(static_cast<$Predicate*>($$new(ManagementFactory$PlatformMBeanFinder$$Lambda$lambda$findFirst$0, name)))))->reduce(static_cast<$BinaryOperator*>($$new(ManagementFactory$PlatformMBeanFinder$$Lambda$lambda$findSingleton$2$1, mbeanIntf))));
 	$var($PlatformMBeanProvider$PlatformComponent, singleton, $nc(op)->isPresent() ? $cast($PlatformMBeanProvider$PlatformComponent, $nc(op)->get()) : ($PlatformMBeanProvider$PlatformComponent*)nullptr);
@@ -243,6 +245,7 @@ $PlatformMBeanProvider$PlatformComponent* ManagementFactory$PlatformMBeanFinder:
 
 $PlatformMBeanProvider$PlatformComponent* ManagementFactory$PlatformMBeanFinder::lambda$findSingleton$2($Class* mbeanIntf, $PlatformMBeanProvider$PlatformComponent* p1, $PlatformMBeanProvider$PlatformComponent* p2) {
 	$init(ManagementFactory$PlatformMBeanFinder);
+	$useLocalCurrentObjectStackCache();
 	if (p2 != nullptr) {
 		$throwNew($IllegalArgumentException, $$str({$($nc(mbeanIntf)->getName()), " can have more than one instance"_s}));
 	} else {
@@ -256,6 +259,7 @@ bool ManagementFactory$PlatformMBeanFinder::lambda$findFirst$0($String* name, $P
 }
 
 void clinit$ManagementFactory$PlatformMBeanFinder($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	{
 		$var($PrivilegedAction, var$0, static_cast<$PrivilegedAction*>($new($ManagementFactory$PlatformMBeanFinder$1)));

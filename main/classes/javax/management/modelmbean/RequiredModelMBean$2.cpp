@@ -106,6 +106,7 @@ void RequiredModelMBean$2::init$($RequiredModelMBean* this$0, $StringArray* val$
 }
 
 $Object* RequiredModelMBean$2::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	for (int32_t i = 0; i < $nc(this->val$sig)->length; ++i) {
 		if (this->val$tracing) {

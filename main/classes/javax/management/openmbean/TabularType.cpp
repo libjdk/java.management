@@ -81,6 +81,7 @@ $Object* allocate$TabularType($Class* clazz) {
 }
 
 void TabularType::init$($String* typeName, $String* description, $CompositeType* rowType, $StringArray* indexNames) {
+	$useLocalCurrentObjectStackCache();
 	$load($TabularData);
 	$OpenType::init$($($TabularData::class$->getName()), typeName, description, false);
 	$set(this, myHashCode, nullptr);
@@ -105,6 +106,7 @@ void TabularType::init$($String* typeName, $String* description, $CompositeType*
 
 void TabularType::checkForNullElement($ObjectArray* arg, $String* argName) {
 	$init(TabularType);
+	$useLocalCurrentObjectStackCache();
 	if ((arg == nullptr) || ($nc(arg)->length == 0)) {
 		$throwNew($IllegalArgumentException, $$str({"Argument "_s, argName, "[] cannot be null or empty."_s}));
 	}
@@ -117,6 +119,7 @@ void TabularType::checkForNullElement($ObjectArray* arg, $String* argName) {
 
 void TabularType::checkForEmptyString($StringArray* arg, $String* argName) {
 	$init(TabularType);
+	$useLocalCurrentObjectStackCache();
 	for (int32_t i = 0; i < $nc(arg)->length; ++i) {
 		if ($($nc(arg->get(i))->trim())->isEmpty()) {
 			$throwNew($IllegalArgumentException, $$str({"Argument\'s element "_s, argName, "["_s, $$str(i), "] cannot be an empty string."_s}));
@@ -133,6 +136,7 @@ $List* TabularType::getIndexNames() {
 }
 
 bool TabularType::isValue(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf($TabularData, obj))) {
 		return false;
 	}
@@ -142,6 +146,7 @@ bool TabularType::isValue(Object$* obj) {
 }
 
 bool TabularType::isAssignableFrom($OpenType* ot) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(TabularType, ot))) {
 		return false;
 	}
@@ -154,6 +159,7 @@ bool TabularType::isAssignableFrom($OpenType* ot) {
 }
 
 bool TabularType::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -177,6 +183,7 @@ bool TabularType::equals(Object$* obj) {
 }
 
 int32_t TabularType::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myHashCode == nullptr) {
 		int32_t value = 0;
 		value += $nc($(this->getTypeName()))->hashCode();
@@ -194,6 +201,7 @@ int32_t TabularType::hashCode() {
 }
 
 $String* TabularType::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$var($StringBuilder, result, $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(name="_s)->append($(getTypeName()))->append(",rowType="_s)->append($($nc(this->rowType)->toString()))->append(",indexNames=("_s));
 		$var($String, sep, ""_s);

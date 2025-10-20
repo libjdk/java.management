@@ -121,6 +121,7 @@ void MBeanSupport::finalize() {
 }
 
 void MBeanSupport::init$(Object$* resource, $Class* mbeanInterfaceType) {
+	$useLocalCurrentObjectStackCache();
 	if (mbeanInterfaceType == nullptr) {
 		$throwNew($NotCompliantMBeanException, "Null MBean interface"_s);
 	}
@@ -191,6 +192,7 @@ $Object* MBeanSupport::getAttribute($String* attribute) {
 }
 
 $AttributeList* MBeanSupport::getAttributes($StringArray* attributes) {
+	$useLocalCurrentObjectStackCache();
 	$var($AttributeList, result, $new($AttributeList, $nc(attributes)->length));
 	{
 		$var($StringArray, arr$, attributes);
@@ -212,12 +214,14 @@ $AttributeList* MBeanSupport::getAttributes($StringArray* attributes) {
 }
 
 void MBeanSupport::setAttribute($Attribute* attribute) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, $nc(attribute)->getName());
 	$var($Object, value, attribute->getValue());
 	$nc(this->perInterface)->setAttribute(this->resource, name, value, $(getCookie()));
 }
 
 $AttributeList* MBeanSupport::setAttributes($AttributeList* attributes) {
+	$useLocalCurrentObjectStackCache();
 	$var($AttributeList, result, $new($AttributeList, $nc(attributes)->size()));
 	{
 		$var($Iterator, i$, $nc(attributes)->iterator());

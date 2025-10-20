@@ -92,6 +92,7 @@ void NotificationEmitterSupport::init$() {
 }
 
 void NotificationEmitterSupport::addNotificationListener($NotificationListener* listener, $NotificationFilter* filter, Object$* handback) {
+	$useLocalCurrentObjectStackCache();
 	if (listener == nullptr) {
 		$throwNew($IllegalArgumentException, "Listener can\'t be null"_s);
 	}
@@ -104,6 +105,7 @@ void NotificationEmitterSupport::addNotificationListener($NotificationListener* 
 }
 
 void NotificationEmitterSupport::removeNotificationListener($NotificationListener* listener) {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(this->listenerLock) {
 		$var($List, newList, $new($ArrayList, static_cast<$Collection*>(this->listenerList)));
 		for (int32_t i = newList->size() - 1; i >= 0; --i) {
@@ -121,6 +123,7 @@ void NotificationEmitterSupport::removeNotificationListener($NotificationListene
 }
 
 void NotificationEmitterSupport::removeNotificationListener($NotificationListener* listener, $NotificationFilter* filter, Object$* handback) {
+	$useLocalCurrentObjectStackCache();
 	bool found = false;
 	$synchronized(this->listenerLock) {
 		$var($List, newList, $new($ArrayList, static_cast<$Collection*>(this->listenerList)));
@@ -145,6 +148,7 @@ void NotificationEmitterSupport::removeNotificationListener($NotificationListene
 }
 
 void NotificationEmitterSupport::sendNotification($Notification* notification) {
+	$useLocalCurrentObjectStackCache();
 	if (notification == nullptr) {
 		return;
 	}

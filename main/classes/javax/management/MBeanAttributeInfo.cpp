@@ -126,6 +126,7 @@ void MBeanAttributeInfo::init$($String* name, $String* type, $String* descriptio
 }
 
 void MBeanAttributeInfo::init$($String* name, $String* description, $Method* getter, $Method* setter) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, name);
 	$var($String, var$1, attributeType(getter, setter));
 	$var($String, var$2, description);
@@ -165,6 +166,7 @@ bool MBeanAttributeInfo::isIs() {
 }
 
 $String* MBeanAttributeInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, access, nullptr);
 	if (isReadable()) {
 		if (isWritable()) {
@@ -193,6 +195,7 @@ $String* MBeanAttributeInfo::toString() {
 }
 
 bool MBeanAttributeInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -235,6 +238,7 @@ bool MBeanAttributeInfo::equals(Object$* o) {
 }
 
 int32_t MBeanAttributeInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	return $Objects::hash($$new($ObjectArray, {
 		$($of(getName())),
 		$($of(getType()))
@@ -254,6 +258,7 @@ bool MBeanAttributeInfo::isIs($Method* getter) {
 
 $String* MBeanAttributeInfo::attributeType($Method* getter, $Method* setter) {
 	$init(MBeanAttributeInfo);
+	$useLocalCurrentObjectStackCache();
 	$Class* type = nullptr;
 	if (getter != nullptr) {
 		if ($nc($(getter->getParameterTypes()))->length != 0) {
@@ -283,6 +288,7 @@ $String* MBeanAttributeInfo::attributeType($Method* getter, $Method* setter) {
 }
 
 void clinit$MBeanAttributeInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	{
 		int64_t uid = 0x77F8293B6A2944D8;

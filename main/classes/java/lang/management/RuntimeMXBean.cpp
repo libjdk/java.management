@@ -110,6 +110,7 @@ $Object* allocate$RuntimeMXBean($Class* clazz) {
 }
 
 int64_t RuntimeMXBean::getPid() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	return $nc(($cast($Long, $($AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new(RuntimeMXBean$$Lambda$lambda$getPid$0)))))))->longValue();
 }

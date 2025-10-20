@@ -89,6 +89,7 @@ int32_t HotspotThread::getInternalThreadCount() {
 }
 
 $Map* HotspotThread::getInternalThreadCpuTimes() {
+	$useLocalCurrentObjectStackCache();
 	int32_t count = getInternalThreadCount();
 	if (count == 0) {
 		return $Collections::emptyMap();

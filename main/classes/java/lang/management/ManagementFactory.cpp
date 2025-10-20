@@ -712,6 +712,7 @@ $MBeanServer* ManagementFactory::getPlatformMBeanServer() {
 	$load(ManagementFactory);
 	$synchronized(class$) {
 		$init(ManagementFactory);
+		$useLocalCurrentObjectStackCache();
 		$var($SecurityManager, sm, $System::getSecurityManager());
 		if (sm != nullptr) {
 			$var($Permission, perm, $new($MBeanServerPermission, "createMBeanServer"_s));
@@ -727,6 +728,7 @@ $MBeanServer* ManagementFactory::getPlatformMBeanServer() {
 
 $Object* ManagementFactory::newPlatformMXBeanProxy($MBeanServerConnection* connection, $String* mxbeanName, $Class* mxbeanInterface) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* cls = mxbeanInterface;
 	$var($ClassLoader, loader, $cast($ClassLoader, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new(ManagementFactory$$Lambda$lambda$newPlatformMXBeanProxy$2$3, cls)))));
@@ -764,6 +766,7 @@ bool ManagementFactory::isInstanceOf($MBeanServerConnection* connection, $Object
 
 $PlatformManagedObject* ManagementFactory::getPlatformMXBean($Class* mxbeanInterface) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($PlatformMBeanProvider$PlatformComponent, pc, $ManagementFactory$PlatformMBeanFinder::findSingleton(mxbeanInterface));
 	$var($List, mbeans, $nc(pc)->getMBeans(mxbeanInterface));
 	bool var$0 = !ManagementFactory::$assertionsDisabled;
@@ -779,6 +782,7 @@ $PlatformManagedObject* ManagementFactory::getPlatformMXBean($Class* mxbeanInter
 
 $List* ManagementFactory::getPlatformMXBeans($Class* mxbeanInterface) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($PlatformMBeanProvider$PlatformComponent, pc, $ManagementFactory$PlatformMBeanFinder::findFirst(mxbeanInterface));
 	if (pc == nullptr) {
 		$throwNew($IllegalArgumentException, $$str({$($nc(mxbeanInterface)->getName()), " is not a platform management interface"_s}));
@@ -788,12 +792,14 @@ $List* ManagementFactory::getPlatformMXBeans($Class* mxbeanInterface) {
 
 $PlatformManagedObject* ManagementFactory::getPlatformMXBean($MBeanServerConnection* connection, $Class* mxbeanInterface) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($PlatformMBeanProvider$PlatformComponent, pc, $ManagementFactory$PlatformMBeanFinder::findSingleton(mxbeanInterface));
 	return $cast($PlatformManagedObject, newPlatformMXBeanProxy(connection, $($nc(pc)->getObjectNamePattern()), mxbeanInterface));
 }
 
 $List* ManagementFactory::getPlatformMXBeans($MBeanServerConnection* connection, $Class* mxbeanInterface) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($PlatformMBeanProvider$PlatformComponent, pc, $ManagementFactory$PlatformMBeanFinder::findFirst(mxbeanInterface));
 	if (pc == nullptr) {
 		$throwNew($IllegalArgumentException, $$str({$($nc(mxbeanInterface)->getName()), " is not a platform management interface"_s}));
@@ -827,6 +833,7 @@ $List* ManagementFactory::getPlatformMXBeans($MBeanServerConnection* connection,
 
 $Stream* ManagementFactory::getProxyNames($PlatformMBeanProvider$PlatformComponent* pc, $MBeanServerConnection* conn, $Class* intf) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	if ($nc($($nc(pc)->mbeanInterfaceNames()))->contains($($nc(intf)->getName()))) {
 		if (pc->isSingleton()) {
 			return $Stream::of($($of(pc->getObjectNamePattern())));
@@ -839,12 +846,14 @@ $Stream* ManagementFactory::getProxyNames($PlatformMBeanProvider$PlatformCompone
 
 $Set* ManagementFactory::getPlatformManagementInterfaces() {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($Stream, pmos, $nc($($nc($($nc($($nc($(platformComponents()))->stream()))->flatMap(static_cast<$Function*>($$new(ManagementFactory$$Lambda$lambda$getPlatformManagementInterfaces$4$6)))))->filter(static_cast<$Predicate*>($$new(ManagementFactory$$Lambda$lambda$getPlatformManagementInterfaces$5$7)))))->map(static_cast<$Function*>($$new(ManagementFactory$$Lambda$lambda$getPlatformManagementInterfaces$6$8))));
 	return $cast($Set, $nc(pmos)->collect($($Collectors::toSet())));
 }
 
 void ManagementFactory::addMXBean($MBeanServer* mbs, $String* name, Object$* pmo) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($ObjectName, oname, $ObjectName::getInstance(name));
@@ -915,6 +924,7 @@ $ClassLoader* ManagementFactory::lambda$newPlatformMXBeanProxy$2($Class* cls) {
 
 void ManagementFactory::lambda$getPlatformMBeanServer$1($Map$Entry* entry) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanServer, var$0, ManagementFactory::platformMBeanServer);
 	$var($String, var$1, $cast($String, $nc(entry)->getKey()));
 	addMXBean(var$0, var$1, $(entry->getValue()));
@@ -922,6 +932,7 @@ void ManagementFactory::lambda$getPlatformMBeanServer$1($Map$Entry* entry) {
 
 $Stream* ManagementFactory::lambda$getPlatformMBeanServer$0($PlatformMBeanProvider$PlatformComponent* pc) {
 	$init(ManagementFactory);
+	$useLocalCurrentObjectStackCache();
 	return $nc($($nc($($nc(pc)->nameToMBeanMap()))->entrySet()))->stream();
 }
 

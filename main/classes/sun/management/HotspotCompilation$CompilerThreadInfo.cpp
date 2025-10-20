@@ -72,6 +72,7 @@ $Object* allocate$HotspotCompilation$CompilerThreadInfo($Class* clazz) {
 }
 
 void HotspotCompilation$CompilerThreadInfo::init$($HotspotCompilation* this$0, $String* bname, int32_t index) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, this$0, this$0);
 	$var($String, basename, $str({bname, "."_s, $$str(index), "."_s}));
 	$set(this, name, $str({bname, "-"_s, $$str(index)}));
@@ -82,6 +83,7 @@ void HotspotCompilation$CompilerThreadInfo::init$($HotspotCompilation* this$0, $
 }
 
 $CompilerThreadStat* HotspotCompilation$CompilerThreadInfo::getCompilerThreadStat() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(this->method)->stringValue());
 	$var($MethodInfo, minfo, $new($MethodInfo, var$0, (int32_t)$nc(this->type)->longValue(), -1));
 	$var($String, var$1, this->name);

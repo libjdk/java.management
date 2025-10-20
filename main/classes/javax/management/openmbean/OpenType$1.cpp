@@ -77,6 +77,7 @@ void OpenType$1::init$($Class* val$c) {
 }
 
 $Object* OpenType$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$load($OpenType);

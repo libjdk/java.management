@@ -85,6 +85,7 @@ $ClassLogger* ServerCommunicatorAdmin::logger = nullptr;
 $ClassLogger* ServerCommunicatorAdmin::timelogger = nullptr;
 
 void ServerCommunicatorAdmin::init$(int64_t timeout) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, lock, $new($ints, 0));
 	this->currentJobs = 0;
 	this->terminated = false;
@@ -143,6 +144,7 @@ void ServerCommunicatorAdmin::terminate() {
 }
 
 void ServerCommunicatorAdmin::logtime($String* desc, int64_t time) {
+	$useLocalCurrentObjectStackCache();
 	$nc(ServerCommunicatorAdmin::timelogger)->trace("synchro"_s, $$str({desc, $$str(time)}));
 }
 

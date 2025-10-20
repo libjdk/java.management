@@ -161,6 +161,7 @@ void TabularDataSupport::init$($TabularType* tabularType) {
 }
 
 void TabularDataSupport::init$($TabularType* tabularType, int32_t initialCapacity, float loadFactor) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (tabularType == nullptr) {
 		$throwNew($IllegalArgumentException, "Argument tabularType cannot be null."_s);
@@ -183,6 +184,7 @@ $ObjectArray* TabularDataSupport::calculateIndex($CompositeData* value) {
 }
 
 bool TabularDataSupport::containsKey(Object$* key) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, k, nullptr);
 	try {
 		$assign(k, $cast($ObjectArray, key));
@@ -238,6 +240,7 @@ $CompositeData* TabularDataSupport::remove($ObjectArray* key) {
 }
 
 void TabularDataSupport::putAll($Map* t) {
+	$useLocalCurrentObjectStackCache();
 	if ((t == nullptr) || ($nc(t)->size() == 0)) {
 		return;
 	}
@@ -252,6 +255,7 @@ void TabularDataSupport::putAll($Map* t) {
 }
 
 void TabularDataSupport::putAll($CompositeDataArray* values) {
+	$useLocalCurrentObjectStackCache();
 	if ((values == nullptr) || ($nc(values)->length == 0)) {
 		return;
 	}
@@ -294,6 +298,7 @@ $Set* TabularDataSupport::entrySet() {
 }
 
 $Object* TabularDataSupport::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(TabularDataSupport, c, $cast(TabularDataSupport, $TabularData::clone()));
 		$set($nc(c), dataMap, $new($HashMap, c->dataMap));
@@ -306,6 +311,7 @@ $Object* TabularDataSupport::clone() {
 }
 
 bool TabularDataSupport::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -338,6 +344,7 @@ bool TabularDataSupport::equals(Object$* obj) {
 }
 
 int32_t TabularDataSupport::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	int32_t result = 0;
 	result += $nc(this->tabularType)->hashCode();
 	{
@@ -351,14 +358,17 @@ int32_t TabularDataSupport::hashCode() {
 }
 
 $String* TabularDataSupport::toString() {
+	$useLocalCurrentObjectStackCache();
 	return $$new($StringBuilder)->append($($of(this)->getClass()->getName()))->append("(tabularType="_s)->append($($nc(this->tabularType)->toString()))->append(",contents="_s)->append($($nc($of(this->dataMap))->toString()))->append(")"_s)->toString();
 }
 
 $List* TabularDataSupport::internalCalculateIndex($CompositeData* value) {
+	$useLocalCurrentObjectStackCache();
 	return $Collections::unmodifiableList($($Arrays::asList($($nc(value)->getAll(this->indexNamesArray)))));
 }
 
 void TabularDataSupport::checkKeyType($ObjectArray* key) {
+	$useLocalCurrentObjectStackCache();
 	if ((key == nullptr) || ($nc(key)->length == 0)) {
 		$throwNew($NullPointerException, "Argument key cannot be null or empty."_s);
 	}
@@ -375,6 +385,7 @@ void TabularDataSupport::checkKeyType($ObjectArray* key) {
 }
 
 void TabularDataSupport::checkValueType($CompositeData* value) {
+	$useLocalCurrentObjectStackCache();
 	if (value == nullptr) {
 		$throwNew($NullPointerException, "Argument value cannot be null."_s);
 	}
@@ -395,6 +406,7 @@ $List* TabularDataSupport::checkValueAndIndex($CompositeData* value) {
 }
 
 void TabularDataSupport::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$nc(in)->defaultReadObject();
 	$var($List, tmpNames, $nc(this->tabularType)->getIndexNames());
 	int32_t size = $nc(tmpNames)->size();

@@ -228,6 +228,7 @@ $String* ArrayNotificationBuffer::broadcasterClass = nullptr;
 
 $NotificationBuffer* ArrayNotificationBuffer::getNotificationBuffer($MBeanServer* mbs, $Map* env$renamed) {
 	$init(ArrayNotificationBuffer);
+	$useLocalCurrentObjectStackCache();
 	$var($Map, env, env$renamed);
 	if (env == nullptr) {
 		$assign(env, $Collections::emptyMap());
@@ -270,6 +271,7 @@ void ArrayNotificationBuffer::addSharer($ArrayNotificationBuffer$ShareBuffer* sh
 }
 
 void ArrayNotificationBuffer::removeSharer($ArrayNotificationBuffer$ShareBuffer* sharer) {
+	$useLocalCurrentObjectStackCache();
 	bool empty = false;
 	$synchronized(ArrayNotificationBuffer::globalLock) {
 		$nc(this->sharers)->remove(sharer);
@@ -318,6 +320,7 @@ void ArrayNotificationBuffer::resize(int32_t newSize) {
 }
 
 void ArrayNotificationBuffer::init$($MBeanServer* mbs, int32_t queueSize) {
+	$useLocalCurrentObjectStackCache();
 	this->disposed = false;
 	$set(this, sharers, static_cast<$Collection*>(static_cast<$AbstractCollection*>(static_cast<$AbstractSet*>($new($HashSet, 1)))));
 	$set(this, bufferListener, $new($ArrayNotificationBuffer$BufferListener, this));
@@ -347,6 +350,7 @@ void ArrayNotificationBuffer::dispose() {
 }
 
 $NotificationResult* ArrayNotificationBuffer::fetchNotifications($NotificationBufferFilter* filter, int64_t startSequenceNumber, int64_t timeout, int32_t maxNotifications) {
+	$useLocalCurrentObjectStackCache();
 	$nc(ArrayNotificationBuffer::logger)->trace("fetchNotifications"_s, "starts"_s);
 	if (startSequenceNumber < 0 || isDisposed()) {
 		$synchronized(this) {
@@ -488,6 +492,7 @@ int64_t ArrayNotificationBuffer::nextSequenceNumber() {
 
 void ArrayNotificationBuffer::addNotification($ArrayNotificationBuffer$NamedNotification* notif) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(ArrayNotificationBuffer::logger)->traceOn()) {
 			$nc(ArrayNotificationBuffer::logger)->trace("addNotification"_s, $($nc(notif)->toString()));
 		}
@@ -513,6 +518,7 @@ void ArrayNotificationBuffer::dropNotification() {
 
 $ArrayNotificationBuffer$NamedNotification* ArrayNotificationBuffer::notificationAt(int64_t seqNo) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		int64_t index = seqNo - this->earliestSequenceNumber$;
 		if (index < 0 || index > $Integer::MAX_VALUE) {
 			$var($String, msg, $str({"Bad sequence number: "_s, $$str(seqNo), " (earliest "_s, $$str(this->earliestSequenceNumber$), ")"_s}));
@@ -524,6 +530,7 @@ $ArrayNotificationBuffer$NamedNotification* ArrayNotificationBuffer::notificatio
 }
 
 void ArrayNotificationBuffer::createListeners() {
+	$useLocalCurrentObjectStackCache();
 	$nc(ArrayNotificationBuffer::logger)->debug("createListeners"_s, "starts"_s);
 	$synchronized(this) {
 		$set(this, createdDuringQuery, $new($HashSet));
@@ -558,6 +565,7 @@ void ArrayNotificationBuffer::createListeners() {
 }
 
 void ArrayNotificationBuffer::addBufferListener($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	checkNoLocks();
 	if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 		$nc(ArrayNotificationBuffer::logger)->debug("addBufferListener"_s, $($nc(name)->toString()));
@@ -571,6 +579,7 @@ void ArrayNotificationBuffer::addBufferListener($ObjectName* name) {
 }
 
 void ArrayNotificationBuffer::removeBufferListener($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	checkNoLocks();
 	if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 		$nc(ArrayNotificationBuffer::logger)->debug("removeBufferListener"_s, $($nc(name)->toString()));
@@ -584,6 +593,7 @@ void ArrayNotificationBuffer::removeBufferListener($ObjectName* name) {
 }
 
 void ArrayNotificationBuffer::addNotificationListener($ObjectName* name, $NotificationListener* listener, $NotificationFilter* filter, Object$* handback) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ArrayNotificationBuffer$1, this, name, listener, filter, handback)));
@@ -594,6 +604,7 @@ void ArrayNotificationBuffer::addNotificationListener($ObjectName* name, $Notifi
 }
 
 void ArrayNotificationBuffer::removeNotificationListener($ObjectName* name, $NotificationListener* listener) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ArrayNotificationBuffer$2, this, name, listener)));
@@ -604,6 +615,7 @@ void ArrayNotificationBuffer::removeNotificationListener($ObjectName* name, $Not
 }
 
 $Set* ArrayNotificationBuffer::queryNames($ObjectName* name, $QueryExp* query) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($PrivilegedAction, act, $new($ArrayNotificationBuffer$3, this, name, query));
 	try {
@@ -619,6 +631,7 @@ $Set* ArrayNotificationBuffer::queryNames($ObjectName* name, $QueryExp* query) {
 
 bool ArrayNotificationBuffer::isInstanceOf($MBeanServer* mbs, $ObjectName* name, $String* className) {
 	$init(ArrayNotificationBuffer);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($PrivilegedExceptionAction, act, $new($ArrayNotificationBuffer$4, mbs, name, className));
 	try {
@@ -633,6 +646,7 @@ bool ArrayNotificationBuffer::isInstanceOf($MBeanServer* mbs, $ObjectName* name,
 }
 
 void ArrayNotificationBuffer::createdNotification($MBeanServerNotification* n) {
+	$useLocalCurrentObjectStackCache();
 	$init($MBeanServerNotification);
 	$var($String, shouldEqual, $MBeanServerNotification::REGISTRATION_NOTIFICATION);
 	if (!$nc($($nc(n)->getType()))->equals(shouldEqual)) {
@@ -658,6 +672,7 @@ void ArrayNotificationBuffer::createdNotification($MBeanServerNotification* n) {
 }
 
 void ArrayNotificationBuffer::destroyListeners() {
+	$useLocalCurrentObjectStackCache();
 	checkNoLocks();
 	$nc(ArrayNotificationBuffer::logger)->debug("destroyListeners"_s, "starts"_s);
 	try {

@@ -92,6 +92,7 @@ void InvalidTargetObjectTypeException::init$($String* s) {
 }
 
 void InvalidTargetObjectTypeException::init$($Exception* e, $String* s) {
+	$useLocalCurrentObjectStackCache();
 	$Exception::init$($$str({"InvalidTargetObjectTypeException: "_s, s, ((e != nullptr) ? ($$str({"\n\t triggered by:"_s, $($nc(e)->toString())})) : ""_s)}));
 	$set(this, exception, e);
 }
@@ -109,6 +110,7 @@ void InvalidTargetObjectTypeException::readObject($ObjectInputStream* in) {
 }
 
 void InvalidTargetObjectTypeException::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	if (InvalidTargetObjectTypeException::compat) {
 		$var($ObjectOutputStream$PutField, fields, $nc(out)->putFields());
 		$nc(fields)->put("relatedExcept"_s, $of(this->exception));
@@ -120,6 +122,7 @@ void InvalidTargetObjectTypeException::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$InvalidTargetObjectTypeException($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$load($Exception);

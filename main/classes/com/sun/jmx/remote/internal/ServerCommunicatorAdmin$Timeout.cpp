@@ -74,6 +74,7 @@ void ServerCommunicatorAdmin$Timeout::init$($ServerCommunicatorAdmin* this$0) {
 }
 
 void ServerCommunicatorAdmin$Timeout::run() {
+	$useLocalCurrentObjectStackCache();
 	bool stopping = false;
 	$synchronized(this->this$0->lock) {
 		if (this->this$0->timestamp == 0) {

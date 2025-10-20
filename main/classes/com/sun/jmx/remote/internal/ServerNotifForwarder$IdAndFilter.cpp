@@ -85,6 +85,7 @@ int32_t ServerNotifForwarder$IdAndFilter::hashCode() {
 }
 
 bool ServerNotifForwarder$IdAndFilter::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	return (($instanceOf(ServerNotifForwarder$IdAndFilter, o)) && $nc($($nc(($cast(ServerNotifForwarder$IdAndFilter, o)))->getId()))->equals($(getId())));
 }
 

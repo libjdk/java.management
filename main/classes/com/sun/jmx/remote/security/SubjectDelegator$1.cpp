@@ -83,6 +83,7 @@ void SubjectDelegator$1::init$($SubjectDelegator* this$0, $Collection* val$permi
 }
 
 $Object* SubjectDelegator$1::run() {
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($Iterator, i$, $nc(this->val$permissions)->iterator());
 		for (; $nc(i$)->hasNext();) {

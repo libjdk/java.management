@@ -82,6 +82,7 @@ $Object* allocate$CompositeType($Class* clazz) {
 }
 
 void CompositeType::init$($String* typeName, $String* description, $StringArray* itemNames, $StringArray* itemDescriptions, $OpenTypeArray* itemTypes) {
+	$useLocalCurrentObjectStackCache();
 	$load($CompositeData);
 	$OpenType::init$($($CompositeData::class$->getName()), typeName, description, false);
 	$set(this, myHashCode, nullptr);
@@ -110,6 +111,7 @@ void CompositeType::init$($String* typeName, $String* description, $StringArray*
 
 void CompositeType::checkForNullElement($ObjectArray* arg, $String* argName) {
 	$init(CompositeType);
+	$useLocalCurrentObjectStackCache();
 	if ((arg == nullptr) || ($nc(arg)->length == 0)) {
 		$throwNew($IllegalArgumentException, $$str({"Argument "_s, argName, "[] cannot be null or empty."_s}));
 	}
@@ -122,6 +124,7 @@ void CompositeType::checkForNullElement($ObjectArray* arg, $String* argName) {
 
 void CompositeType::checkForEmptyString($StringArray* arg, $String* argName) {
 	$init(CompositeType);
+	$useLocalCurrentObjectStackCache();
 	for (int32_t i = 0; i < $nc(arg)->length; ++i) {
 		if ($($nc(arg->get(i))->trim())->isEmpty()) {
 			$throwNew($IllegalArgumentException, $$str({"Argument\'s element "_s, argName, "["_s, $$str(i), "] cannot be an empty string."_s}));
@@ -158,6 +161,7 @@ $Set* CompositeType::keySet() {
 }
 
 bool CompositeType::isValue(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf($CompositeData, obj))) {
 		return false;
 	}
@@ -167,6 +171,7 @@ bool CompositeType::isValue(Object$* obj) {
 }
 
 bool CompositeType::isAssignableFrom($OpenType* ot) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(CompositeType, ot))) {
 		return false;
 	}
@@ -191,6 +196,7 @@ bool CompositeType::isAssignableFrom($OpenType* ot) {
 }
 
 bool CompositeType::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -211,6 +217,7 @@ bool CompositeType::equals(Object$* obj) {
 }
 
 int32_t CompositeType::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myHashCode == nullptr) {
 		int32_t value = 0;
 		value += $nc($(this->getTypeName()))->hashCode();
@@ -230,6 +237,7 @@ int32_t CompositeType::hashCode() {
 }
 
 $String* CompositeType::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$var($StringBuilder, result, $new($StringBuilder));
 		result->append($($of(this)->getClass()->getName()));

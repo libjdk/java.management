@@ -58,6 +58,7 @@ $Object* allocate$MemoryUsage($Class* clazz) {
 }
 
 void MemoryUsage::init$(int64_t init, int64_t used, int64_t committed, int64_t max) {
+	$useLocalCurrentObjectStackCache();
 	if (init < -1) {
 		$throwNew($IllegalArgumentException, $$str({"init parameter = "_s, $$str(init), " is negative but not -1."_s}));
 	}
@@ -107,6 +108,7 @@ int64_t MemoryUsage::getMax() {
 }
 
 $String* MemoryUsage::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, buf, $new($StringBuilder));
 	buf->append($$str({"init = "_s, $$str(this->init), "("_s, $$str((this->init >> 10)), "K) "_s}));
 	buf->append($$str({"used = "_s, $$str(this->used), "("_s, $$str((this->used >> 10)), "K) "_s}));

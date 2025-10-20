@@ -152,6 +152,7 @@ void ClientNotifForwarder$NotifFetcher::logOnce($String* msg, $SecurityException
 }
 
 $ClassLoader* ClientNotifForwarder$NotifFetcher::setContextClassLoader($ClassLoader* loader) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($AccessControlContext, ctxt, this->this$0->acc);
 	if (ctxt == nullptr) {
@@ -162,6 +163,7 @@ $ClassLoader* ClientNotifForwarder$NotifFetcher::setContextClassLoader($ClassLoa
 }
 
 void ClientNotifForwarder$NotifFetcher::run() {
+	$useLocalCurrentObjectStackCache();
 	$var($ClassLoader, previous, nullptr);
 	if (this->this$0->defaultClassLoader != nullptr) {
 		$assign(previous, setContextClassLoader(this->this$0->defaultClassLoader));
@@ -186,6 +188,7 @@ void ClientNotifForwarder$NotifFetcher::run() {
 }
 
 void ClientNotifForwarder$NotifFetcher::doRun() {
+	$useLocalCurrentObjectStackCache();
 	$synchronized(this->this$0) {
 		$set(this->this$0, currentFetchThread, $Thread::currentThread());
 		if (this->this$0->state == 0) {
@@ -285,6 +288,7 @@ bool ClientNotifForwarder$NotifFetcher::isRejectedExecutionException($Exception*
 }
 
 void ClientNotifForwarder$NotifFetcher::dispatchNotification($TargetedNotification* tn, $Integer* myListenerID, $Map* listeners) {
+	$useLocalCurrentObjectStackCache();
 	$var($Notification, notif, $nc(tn)->getNotification());
 	$var($Integer, listenerID, tn->getListenerID());
 	if ($nc(listenerID)->equals(myListenerID)) {
@@ -309,6 +313,7 @@ void ClientNotifForwarder$NotifFetcher::dispatchNotification($TargetedNotificati
 }
 
 $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchNotifs() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($NotificationResult, nr, this->this$0->fetchNotifs(this->this$0->clientSequenceNumber, this->this$0->maxNotifications, this->this$0->timeout));
 		if ($nc($ClientNotifForwarder::logger)->traceOn()) {
@@ -338,6 +343,7 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchNotifs() {
 }
 
 $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchOneNotif() {
+	$useLocalCurrentObjectStackCache();
 	$var($ClientNotifForwarder, cnf, this->this$0);
 	int64_t startSequenceNumber = this->this$0->clientSequenceNumber;
 	int32_t notFoundCount = 0;

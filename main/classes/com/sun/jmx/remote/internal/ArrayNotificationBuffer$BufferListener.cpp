@@ -73,6 +73,7 @@ void ArrayNotificationBuffer$BufferListener::init$($ArrayNotificationBuffer* thi
 }
 
 void ArrayNotificationBuffer$BufferListener::handleNotification($Notification* notif, Object$* handback) {
+	$useLocalCurrentObjectStackCache();
 	$init($ArrayNotificationBuffer);
 	if ($nc($ArrayNotificationBuffer::logger)->debugOn()) {
 		$nc($ArrayNotificationBuffer::logger)->debug("BufferListener.handleNotification"_s, $$str({"notif="_s, notif, "; handback="_s, handback}));

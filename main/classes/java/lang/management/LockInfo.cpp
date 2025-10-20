@@ -88,6 +88,7 @@ LockInfo* LockInfo::from($CompositeData* cd) {
 }
 
 $String* LockInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	return $str({this->className, $$str(u'@'), $($Integer::toHexString(this->identityHashCode))});
 }
 

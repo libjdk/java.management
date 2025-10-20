@@ -138,6 +138,7 @@ void ModelMBeanNotificationInfo::init$($StringArray* notifTypes, $String* name, 
 }
 
 void ModelMBeanNotificationInfo::init$(ModelMBeanNotificationInfo* inInfo) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, var$0, $nc(inInfo)->getNotifTypes());
 	$var($String, var$1, inInfo->getName());
 	$var($String, var$2, inInfo->getDescription());
@@ -178,6 +179,7 @@ void ModelMBeanNotificationInfo::setDescriptor($Descriptor* inDescriptor) {
 }
 
 $String* ModelMBeanNotificationInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -199,6 +201,7 @@ $String* ModelMBeanNotificationInfo::toString() {
 }
 
 $Descriptor* ModelMBeanNotificationInfo::validDescriptor($Descriptor* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, clone, nullptr);
 	bool defaulted = (in == nullptr);
 	if (defaulted) {
@@ -265,6 +268,7 @@ void ModelMBeanNotificationInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$ModelMBeanNotificationInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanNotificationInfo::currClass, "ModelMBeanNotificationInfo"_s);
 	$beforeCallerSensitive();
 		$load($Descriptor);

@@ -85,6 +85,7 @@ void TimerAlarmClock::init$($Timer* listener, $Date* next) {
 }
 
 void TimerAlarmClock::run() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($TimerAlarmClockNotification, notif, $new($TimerAlarmClockNotification, this));
 		$nc(this->listener)->notifyAlarmClock(notif);

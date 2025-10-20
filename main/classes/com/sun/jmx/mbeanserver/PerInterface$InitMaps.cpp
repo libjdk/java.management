@@ -86,6 +86,7 @@ void PerInterface$InitMaps::init$($PerInterface* this$0) {
 }
 
 void PerInterface$InitMaps::visitAttribute($String* attributeName, Object$* getter, Object$* setter) {
+	$useLocalCurrentObjectStackCache();
 	if (getter != nullptr) {
 		$nc(this->this$0->introspector)->checkMethod(getter);
 		$var($Object, old, $nc(this->this$0->getters)->put(attributeName, getter));
@@ -103,6 +104,7 @@ void PerInterface$InitMaps::visitAttribute($String* attributeName, Object$* gett
 }
 
 void PerInterface$InitMaps::visitOperation($String* operationName, Object$* operation) {
+	$useLocalCurrentObjectStackCache();
 	$nc(this->this$0->introspector)->checkMethod(operation);
 	$var($StringArray, sig, $nc(this->this$0->introspector)->getSignature(operation));
 	$var($PerInterface$MethodAndSig, mas, $new($PerInterface$MethodAndSig, this->this$0));

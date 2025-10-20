@@ -115,6 +115,7 @@ $String* MLetParser::scanIdentifier($Reader* in) {
 }
 
 $Map* MLetParser::scanTag($Reader* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Map, atts, $new($HashMap));
 	skipSpace(in);
 	while (this->c >= 0 && this->c != u'>') {
@@ -151,6 +152,7 @@ $Map* MLetParser::scanTag($Reader* in) {
 }
 
 $List* MLetParser::parse($URL* url$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($URL, url, url$renamed);
 	$var($String, requiresTypeWarning, "<arg type=... value=...> tag requires type parameter."_s);
 	$var($String, requiresValueWarning, "<arg type=... value=...> tag requires value parameter."_s);
@@ -242,6 +244,7 @@ $List* MLetParser::parse($URL* url$renamed) {
 }
 
 $List* MLetParser::parseURL($String* urlname) {
+	$useLocalCurrentObjectStackCache();
 	$var($URL, url, nullptr);
 	if ($nc(urlname)->indexOf((int32_t)u':') <= 1) {
 		$var($String, userDir, $System::getProperty("user.dir"_s));

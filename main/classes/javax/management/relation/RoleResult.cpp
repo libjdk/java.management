@@ -112,6 +112,7 @@ $RoleUnresolvedList* RoleResult::getRolesUnresolved() {
 }
 
 void RoleResult::setRoles($RoleList* list) {
+	$useLocalCurrentObjectStackCache();
 	if (list != nullptr) {
 		$set(this, roleList, $new($RoleList));
 		{
@@ -128,6 +129,7 @@ void RoleResult::setRoles($RoleList* list) {
 }
 
 void RoleResult::setRolesUnresolved($RoleUnresolvedList* unresolvedList) {
+	$useLocalCurrentObjectStackCache();
 	if (unresolvedList != nullptr) {
 		$set(this, unresolvedRoleList, $new($RoleUnresolvedList));
 		{
@@ -171,6 +173,7 @@ void RoleResult::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$RoleResult($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($RoleList);
 		$load($RoleUnresolvedList);

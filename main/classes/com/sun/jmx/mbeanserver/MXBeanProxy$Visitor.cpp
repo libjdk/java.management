@@ -80,6 +80,7 @@ void MXBeanProxy$Visitor::init$($MXBeanProxy* this$0) {
 }
 
 void MXBeanProxy$Visitor::visitAttribute($String* attributeName, $ConvertingMethod* getter, $ConvertingMethod* setter) {
+	$useLocalCurrentObjectStackCache();
 	if (getter != nullptr) {
 		getter->checkCallToOpen();
 		$var($Method, getterMethod, getter->getMethod());
@@ -92,6 +93,7 @@ void MXBeanProxy$Visitor::visitAttribute($String* attributeName, $ConvertingMeth
 }
 
 void MXBeanProxy$Visitor::visitOperation($String* operationName, $ConvertingMethod* operation) {
+	$useLocalCurrentObjectStackCache();
 	$nc(operation)->checkCallToOpen();
 	$var($Method, operationMethod, operation->getMethod());
 	$var($StringArray, sig, operation->getOpenSignature());

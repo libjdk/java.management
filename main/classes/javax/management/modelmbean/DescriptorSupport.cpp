@@ -192,6 +192,7 @@ void DescriptorSupport::init$() {
 }
 
 void DescriptorSupport::init$(int32_t initNumFields) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -222,6 +223,7 @@ void DescriptorSupport::init$(DescriptorSupport* inDescr) {
 }
 
 void DescriptorSupport::init$($String* inStr) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -293,6 +295,7 @@ void DescriptorSupport::init$($String* inStr) {
 }
 
 void DescriptorSupport::init$($StringArray* fieldNames, $ObjectArray* fieldValues) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -316,6 +319,7 @@ void DescriptorSupport::init$($StringArray* fieldNames, $ObjectArray* fieldValue
 }
 
 void DescriptorSupport::init$($StringArray* fields) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -369,6 +373,7 @@ void DescriptorSupport::init($Map* initMap) {
 
 $Object* DescriptorSupport::getFieldValue($String* fieldName) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ((fieldName == nullptr) || ($nc(fieldName)->isEmpty())) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
@@ -391,6 +396,7 @@ $Object* DescriptorSupport::getFieldValue($String* fieldName) {
 
 void DescriptorSupport::setField($String* fieldName, Object$* fieldValue) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ((fieldName == nullptr) || ($nc(fieldName)->isEmpty())) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
@@ -422,6 +428,7 @@ void DescriptorSupport::setField($String* fieldName, Object$* fieldValue) {
 
 $StringArray* DescriptorSupport::getFields() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -466,6 +473,7 @@ $StringArray* DescriptorSupport::getFields() {
 
 $StringArray* DescriptorSupport::getFieldNames() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -500,6 +508,7 @@ $StringArray* DescriptorSupport::getFieldNames() {
 
 $ObjectArray* DescriptorSupport::getFieldValues($StringArray* fieldNames) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -537,6 +546,7 @@ $ObjectArray* DescriptorSupport::getFieldValues($StringArray* fieldNames) {
 
 void DescriptorSupport::setFields($StringArray* fieldNames, $ObjectArray* fieldValues) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -604,6 +614,7 @@ bool DescriptorSupport::equals(Object$* o) {
 
 int32_t DescriptorSupport::hashCode() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		int32_t size = $nc(this->descriptorMap)->size();
 		$var($StringArray, var$0, $fcast($StringArray, $nc($($nc(this->descriptorMap)->keySet()))->toArray($$new($StringArray, size))));
 		return $Util::hashCode(var$0, $($nc($($nc(this->descriptorMap)->values()))->toArray($$new($ObjectArray, size))));
@@ -612,6 +623,7 @@ int32_t DescriptorSupport::hashCode() {
 
 bool DescriptorSupport::isValid() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -752,6 +764,7 @@ bool DescriptorSupport::validateField($String* fldName, Object$* fldValue) {
 
 $String* DescriptorSupport::toXMLString() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($StringBuilder, buf, $new($StringBuilder, "<Descriptor>"_s));
 		$var($Set, returnedSet, $nc(this->descriptorMap)->entrySet());
 		{
@@ -812,6 +825,7 @@ $String* DescriptorSupport::quote($String* s) {
 
 $String* DescriptorSupport::unquote($String* s) {
 	$init(DescriptorSupport);
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = !$nc(s)->startsWith("\""_s);
 	if (var$0 || !$nc(s)->endsWith("\""_s)) {
 		$throwNew($XMLParseException, $$str({"Value must be quoted: <"_s, s, ">"_s}));
@@ -835,6 +849,7 @@ $String* DescriptorSupport::unquote($String* s) {
 
 $String* DescriptorSupport::makeFieldValue(Object$* value) {
 	$init(DescriptorSupport);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (value == nullptr) {
 		return "(null)"_s;
@@ -857,6 +872,7 @@ $String* DescriptorSupport::makeFieldValue(Object$* value) {
 
 $Object* DescriptorSupport::parseQuotedFieldValue($String* s$renamed) {
 	$init(DescriptorSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($String, s, s$renamed);
 	$beforeCallerSensitive();
 	$assign(s, unquote(s));
@@ -895,6 +911,7 @@ $Object* DescriptorSupport::parseQuotedFieldValue($String* s$renamed) {
 
 $String* DescriptorSupport::toString() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MODELMBEAN_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -936,6 +953,7 @@ int64_t DescriptorSupport::toNumeric($String* inStr) {
 }
 
 void DescriptorSupport::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 	$var($Map, descriptor, $cast($Map, $Util::cast($($nc(fields)->get("descriptor"_s, ($Object*)nullptr)))));
 	init(nullptr);
@@ -945,6 +963,7 @@ void DescriptorSupport::readObject($ObjectInputStream* in) {
 }
 
 void DescriptorSupport::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectOutputStream$PutField, fields, $nc(out)->putFields());
 	bool compat = "1.0"_s->equals(DescriptorSupport::serialForm);
 	if (compat) {
@@ -975,6 +994,7 @@ void DescriptorSupport::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$DescriptorSupport($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(DescriptorSupport::currClass, "DescriptorSupport"_s);
 	$beforeCallerSensitive();
 		$load($HashMap);

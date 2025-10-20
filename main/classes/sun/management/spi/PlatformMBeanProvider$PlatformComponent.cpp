@@ -181,6 +181,7 @@ bool PlatformMBeanProvider$PlatformComponent::shouldRegister() {
 }
 
 $List* PlatformMBeanProvider$PlatformComponent::getMBeans($Class* mbeanIntf) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, nullptr);
 	if (!$nc($(mbeanInterfaceNames()))->contains($($nc(mbeanIntf)->getName()))) {
 		$assign(list, $Collections::emptyList());

@@ -288,6 +288,7 @@ $ModelMBeanNotificationInfoArray* ModelMBeanInfoSupport::NO_NOTIFICATIONS = null
 $ModelMBeanOperationInfoArray* ModelMBeanInfoSupport::NO_OPERATIONS = nullptr;
 
 void ModelMBeanInfoSupport::init$($ModelMBeanInfo* mbi) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(mbi)->getClassName());
 	$var($String, var$1, mbi->getDescription());
 	$var($MBeanAttributeInfoArray, var$2, mbi->getAttributes());
@@ -342,6 +343,7 @@ $Object* ModelMBeanInfoSupport::clone() {
 }
 
 $DescriptorArray* ModelMBeanInfoSupport::getDescriptors($String* inDescriptorType$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, inDescriptorType, inDescriptorType$renamed);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -476,6 +478,7 @@ $Descriptor* ModelMBeanInfoSupport::getDescriptor($String* inDescriptorName) {
 }
 
 $Descriptor* ModelMBeanInfoSupport::getDescriptor($String* inDescriptorName, $String* inDescriptorType) {
+	$useLocalCurrentObjectStackCache();
 	if (inDescriptorName == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, "Descriptor is invalid"_s), "Exception occurred trying to set the descriptors of the MBeanInfo"_s);
 	}
@@ -525,6 +528,7 @@ $Descriptor* ModelMBeanInfoSupport::getDescriptor($String* inDescriptorName, $St
 }
 
 void ModelMBeanInfoSupport::setDescriptor($Descriptor* inDescriptor$renamed, $String* inDescriptorType$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, inDescriptorType, inDescriptorType$renamed);
 	$var($Descriptor, inDescriptor, inDescriptor$renamed);
 	$var($String, excMsg, "Exception occurred trying to set the descriptors of the MBean"_s);
@@ -622,6 +626,7 @@ void ModelMBeanInfoSupport::setDescriptor($Descriptor* inDescriptor$renamed, $St
 }
 
 $ModelMBeanAttributeInfo* ModelMBeanInfoSupport::getAttribute($String* inName) {
+	$useLocalCurrentObjectStackCache();
 	$var($ModelMBeanAttributeInfo, retInfo, nullptr);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -652,6 +657,7 @@ $ModelMBeanAttributeInfo* ModelMBeanInfoSupport::getAttribute($String* inName) {
 }
 
 $ModelMBeanOperationInfo* ModelMBeanInfoSupport::getOperation($String* inName) {
+	$useLocalCurrentObjectStackCache();
 	$var($ModelMBeanOperationInfo, retInfo, nullptr);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -678,6 +684,7 @@ $ModelMBeanOperationInfo* ModelMBeanInfoSupport::getOperation($String* inName) {
 }
 
 $ModelMBeanConstructorInfo* ModelMBeanInfoSupport::getConstructor($String* inName) {
+	$useLocalCurrentObjectStackCache();
 	$var($ModelMBeanConstructorInfo, retInfo, nullptr);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -704,6 +711,7 @@ $ModelMBeanConstructorInfo* ModelMBeanInfoSupport::getConstructor($String* inNam
 }
 
 $ModelMBeanNotificationInfo* ModelMBeanInfoSupport::getNotification($String* inName) {
+	$useLocalCurrentObjectStackCache();
 	$var($ModelMBeanNotificationInfo, retInfo, nullptr);
 	$init($JmxProperties);
 	$init($System$Logger$Level);
@@ -762,6 +770,7 @@ void ModelMBeanInfoSupport::setMBeanDescriptor($Descriptor* inMBeanDescriptor) {
 }
 
 $Descriptor* ModelMBeanInfoSupport::validDescriptor($Descriptor* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, clone, nullptr);
 	bool defaulted = (in == nullptr);
 	if (defaulted) {
@@ -863,6 +872,7 @@ void ModelMBeanInfoSupport::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$ModelMBeanInfoSupport($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanInfoSupport::ATTR, "attribute"_s);
 	$assignStatic(ModelMBeanInfoSupport::OPER, "operation"_s);
 	$assignStatic(ModelMBeanInfoSupport::NOTF, "notification"_s);

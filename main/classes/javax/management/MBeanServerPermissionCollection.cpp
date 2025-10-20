@@ -69,6 +69,7 @@ void MBeanServerPermissionCollection::init$() {
 
 void MBeanServerPermissionCollection::add($Permission* permission) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (!($instanceOf($MBeanServerPermission, permission))) {
 			$var($String, msg, $str({"Permission not an MBeanServerPermission: "_s, permission}));
 			$throwNew($IllegalArgumentException, msg);

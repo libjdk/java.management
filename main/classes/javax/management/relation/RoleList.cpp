@@ -203,6 +203,7 @@ $Object* RoleList::set(int32_t index, Object$* element) {
 
 void RoleList::checkTypeSafe(Object$* o$renamed) {
 	$init(RoleList);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, o, o$renamed);
 	try {
 		$assign(o, $cast($Role, o));
@@ -214,6 +215,7 @@ void RoleList::checkTypeSafe(Object$* o$renamed) {
 
 void RoleList::checkTypeSafe($Collection* c) {
 	$init(RoleList);
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($Role, r, nullptr);
 		{

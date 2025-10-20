@@ -104,6 +104,7 @@ $String* MatchQueryExp::getPattern() {
 }
 
 bool MatchQueryExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($ValueExp, val, $nc(this->exp)->apply(name));
 	if (!($instanceOf($StringValueExp, val))) {
 		return false;
@@ -112,12 +113,14 @@ bool MatchQueryExp::apply($ObjectName* name) {
 }
 
 $String* MatchQueryExp::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $$str({this->exp, " like "_s}));
 	return $concat(var$0, $($new($StringValueExp, this->pattern)));
 }
 
 bool MatchQueryExp::wildmatch($String* s, $String* p) {
 	$init(MatchQueryExp);
+	$useLocalCurrentObjectStackCache();
 	char16_t c = 0;
 	int32_t si = 0;
 	int32_t pi = 0;

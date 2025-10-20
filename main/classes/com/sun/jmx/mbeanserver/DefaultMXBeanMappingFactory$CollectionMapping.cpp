@@ -147,6 +147,7 @@ void DefaultMXBeanMappingFactory$CollectionMapping::init$($Type* targetType, $Ar
 }
 
 $Object* DefaultMXBeanMappingFactory$CollectionMapping::toNonNullOpenValue(Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	$var($Collection, valueCollection, $cast($Collection, value));
 	if ($instanceOf($SortedSet, valueCollection)) {
 		$var($Comparator, comparator, $nc(($cast($SortedSet, valueCollection)))->comparator());
@@ -169,6 +170,7 @@ $Object* DefaultMXBeanMappingFactory$CollectionMapping::toNonNullOpenValue(Objec
 }
 
 $Object* DefaultMXBeanMappingFactory$CollectionMapping::fromNonNullOpenValue(Object$* openValue) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ObjectArray, openArray, $cast($ObjectArray, openValue));
 	$var($Collection, valueCollection, nullptr);

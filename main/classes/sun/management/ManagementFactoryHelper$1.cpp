@@ -82,6 +82,7 @@ void ManagementFactoryHelper$1::init$($VM$BufferPool* val$pool) {
 }
 
 $ObjectName* ManagementFactoryHelper$1::getObjectName() {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, result, this->objname);
 	if (result == nullptr) {
 		$synchronized(this) {

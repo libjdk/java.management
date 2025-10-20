@@ -96,6 +96,7 @@ $Object* allocate$Prologue($Class* clazz) {
 }
 
 void Prologue::init$($ByteBuffer* b) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, header, $nc(b)->duplicate());
 	$init($ByteOrder);
 	$nc(this->header)->order($ByteOrder::BIG_ENDIAN);

@@ -166,6 +166,7 @@ void MBeanServerDelegateImpl::postDeregister() {
 }
 
 $Object* MBeanServerDelegateImpl::getAttribute($String* attribute) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		if (attribute == nullptr) {
 			$throwNew($AttributeNotFoundException, "null"_s);
@@ -204,6 +205,7 @@ $Object* MBeanServerDelegateImpl::getAttribute($String* attribute) {
 }
 
 void MBeanServerDelegateImpl::setAttribute($Attribute* attribute) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, attname, attribute == nullptr ? ($String*)nullptr : $nc(attribute)->getName());
 	if (attname == nullptr) {
 		$var($RuntimeException, r, $new($IllegalArgumentException, "Attribute name cannot be null"_s));
@@ -214,6 +216,7 @@ void MBeanServerDelegateImpl::setAttribute($Attribute* attribute) {
 }
 
 $AttributeList* MBeanServerDelegateImpl::getAttributes($StringArray* attributes) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, attn, attributes == nullptr ? MBeanServerDelegateImpl::attributeNames : attributes);
 	int32_t len = $nc(attn)->length;
 	$var($AttributeList, list, $new($AttributeList, len));
@@ -238,6 +241,7 @@ $AttributeList* MBeanServerDelegateImpl::setAttributes($AttributeList* attribute
 }
 
 $Object* MBeanServerDelegateImpl::invoke($String* actionName, $ObjectArray* params, $StringArray* signature) {
+	$useLocalCurrentObjectStackCache();
 	if (actionName == nullptr) {
 		$var($RuntimeException, r, $new($IllegalArgumentException, "Operation name  cannot be null"_s));
 		$throwNew($RuntimeOperationsException, r, "Exception occurred trying to invoke the operation on the MBean"_s);
@@ -251,6 +255,7 @@ $MBeanInfo* MBeanServerDelegateImpl::getMBeanInfo() {
 }
 
 void clinit$MBeanServerDelegateImpl($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(MBeanServerDelegateImpl::attributeNames, $new($StringArray, {
 		"MBeanServerId"_s,
 		"SpecificationName"_s,

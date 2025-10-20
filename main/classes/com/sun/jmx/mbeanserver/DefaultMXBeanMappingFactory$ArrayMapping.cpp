@@ -84,6 +84,7 @@ void DefaultMXBeanMappingFactory$ArrayMapping::init$($Type* targetType, $ArrayTy
 }
 
 $Object* DefaultMXBeanMappingFactory$ArrayMapping::toNonNullOpenValue(Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, valueArray, $cast($ObjectArray, value));
 	int32_t len = $nc(valueArray)->length;
 	$var($ObjectArray, openArray, $cast($ObjectArray, $1Array::newInstance($nc(getOpenClass())->getComponentType(), len)));
@@ -94,6 +95,7 @@ $Object* DefaultMXBeanMappingFactory$ArrayMapping::toNonNullOpenValue(Object$* v
 }
 
 $Object* DefaultMXBeanMappingFactory$ArrayMapping::fromNonNullOpenValue(Object$* openValue) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, openArray, $cast($ObjectArray, openValue));
 	$var($Type, javaType, getJavaType());
 	$var($ObjectArray, valueArray, nullptr);

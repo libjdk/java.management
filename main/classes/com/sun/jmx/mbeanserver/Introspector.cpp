@@ -211,6 +211,7 @@ void Introspector::testCreation($Class* c) {
 
 void Introspector::checkCompliance($Class* mbeanClass) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	$load($DynamicMBean);
 	if ($DynamicMBean::class$->isAssignableFrom(mbeanClass)) {
 		return;
@@ -319,6 +320,7 @@ $Class* Introspector::getMBeanInterface($Class* baseClass) {
 
 $Class* Introspector::getStandardMBeanInterface($Class* baseClass) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	$Class* current = baseClass;
 	$Class* mbeanInterface = nullptr;
 	while (current != nullptr) {
@@ -338,6 +340,7 @@ $Class* Introspector::getStandardMBeanInterface($Class* baseClass) {
 
 $Class* Introspector::getMXBeanInterface($Class* baseClass) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $MXBeanSupport::findMXBeanInterface(baseClass);
 	} catch ($Exception&) {
@@ -349,6 +352,7 @@ $Class* Introspector::getMXBeanInterface($Class* baseClass) {
 
 $Class* Introspector::findMBeanInterface($Class* aClass, $String* aName) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	$Class* current = aClass;
 	while (current != nullptr) {
 		$var($ClassArray, interfaces, current->getInterfaces());
@@ -377,6 +381,7 @@ $Descriptor* Introspector::descriptorForElement($AnnotatedElement* elmt) {
 
 $Descriptor* Introspector::descriptorForAnnotations($AnnotationArray* annots) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if ($nc(annots)->length == 0) {
 		$init($ImmutableDescriptor);
@@ -441,6 +446,7 @@ $Descriptor* Introspector::descriptorForAnnotations($AnnotationArray* annots) {
 
 $NotCompliantMBeanException* Introspector::throwException($Class* notCompliant, $Throwable* cause) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($SecurityException, cause)) {
 		$throw($cast($SecurityException, cause));
 	}
@@ -457,6 +463,7 @@ $NotCompliantMBeanException* Introspector::throwException($Class* notCompliant, 
 
 $Object* Introspector::annotationToField(Object$* x) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	if (x == nullptr) {
 		return $of(nullptr);
 	}
@@ -489,11 +496,13 @@ $Object* Introspector::annotationToField(Object$* x) {
 
 bool Introspector::equals(Object$* x, Object$* y) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	return $Arrays::deepEquals($$new($ObjectArray, {x}), $$new($ObjectArray, {y}));
 }
 
 $Class* Introspector::implementsMBean($Class* c, $String* clName) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	$var($String, clMBeanName, $str({clName, "MBean"_s}));
 	if ($nc($($nc(c)->getName()))->equals(clMBeanName)) {
 		return c;
@@ -510,6 +519,7 @@ $Class* Introspector::implementsMBean($Class* c, $String* clName) {
 
 $Object* Introspector::elementFromComplex(Object$* complex, $String* element) {
 	$init(Introspector);
+	$useLocalCurrentObjectStackCache();
 	try {
 		bool var$0 = $nc($of(complex))->getClass()->isArray();
 		if (var$0 && $nc(element)->equals("length"_s)) {
@@ -544,6 +554,7 @@ $Object* Introspector::elementFromComplex(Object$* complex, $String* element) {
 }
 
 void clinit$Introspector($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	{
 		$var($String, val, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new($GetPropertyAction, "jdk.jmx.mbeans.allowNonPublic"_s)))));

@@ -118,6 +118,7 @@ int32_t AbstractCounter::getFlags() {
 }
 
 $String* AbstractCounter::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$2, $$str({$(getName()), ": "_s}));
 	$var($String, var$1, $$concat(var$2, $(getValue())));
 	$var($String, var$0, $$concat(var$1, " "));

@@ -92,6 +92,7 @@ $Class* DefaultLoaderRepository::loadClassWithout($ClassLoader* loader, $String*
 }
 
 $Class* DefaultLoaderRepository::load($ClassLoader* without, $String* className) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, mbsList, $MBeanServerFactory::findMBeanServer(nullptr));
 	{
 		$var($Iterator, i$, $nc(mbsList)->iterator());

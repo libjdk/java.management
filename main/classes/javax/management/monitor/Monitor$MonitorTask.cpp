@@ -109,6 +109,7 @@ $Object* allocate$Monitor$MonitorTask($Class* clazz) {
 }
 
 void Monitor$MonitorTask::init$($Monitor* this$0) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, this$0, this$0);
 	$var($SecurityManager, s, $System::getSecurityManager());
 	$var($ThreadGroup, group, (s != nullptr) ? $nc(s)->getThreadGroup() : $($Thread::currentThread())->getThreadGroup());
@@ -146,6 +147,7 @@ $Future* Monitor$MonitorTask::submit() {
 }
 
 void Monitor$MonitorTask::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ScheduledFuture, sf, nullptr);
 	$var($AccessControlContext, ac, nullptr);

@@ -333,6 +333,7 @@ void StringMonitor::init$() {
 
 void StringMonitor::start() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (isActive()) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
@@ -399,6 +400,7 @@ $String* StringMonitor::getStringToCompare() {
 
 void StringMonitor::setStringToCompare($String* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (value == nullptr) {
 			$throwNew($IllegalArgumentException, "Null string to compare"_s);
 		}
@@ -470,6 +472,7 @@ bool StringMonitor::isComparableTypeValid($ObjectName* object, $String* attribut
 
 void StringMonitor::onErrorNotification($MonitorNotification* notification) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($StringMonitor$StringMonitorObservedObject, o, $cast($StringMonitor$StringMonitorObservedObject, getObservedObject($($nc(notification)->getObservedObject()))));
 		if (o == nullptr) {
 			return;
@@ -480,6 +483,7 @@ void StringMonitor::onErrorNotification($MonitorNotification* notification) {
 
 $MonitorNotification* StringMonitor::buildAlarmNotification($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($String, type, nullptr);
 		$var($String, msg, nullptr);
 		$var($Object, trigger, nullptr);

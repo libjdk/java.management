@@ -122,6 +122,7 @@ void OpenMBeanParameterInfoSupport::init$($String* name, $String* description, $
 }
 
 void OpenMBeanParameterInfoSupport::init$($String* name, $String* description, $OpenType* openType, $Descriptor* descriptor$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, descriptor, descriptor$renamed);
 	$var($String, var$0, name);
 	$var($String, var$1, (openType == nullptr) ? ($String*)nullptr : $nc(openType)->getClassName());
@@ -163,6 +164,7 @@ void OpenMBeanParameterInfoSupport::init$($String* name, $String* description, $
 }
 
 void OpenMBeanParameterInfoSupport::init$($String* name, $String* description, $OpenType* openType, Object$* defaultValue, $ObjectArray* legalValues, $Comparable* minValue, $Comparable* maxValue) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, name);
 	$var($String, var$1, (openType == nullptr) ? ($String*)nullptr : $nc(openType)->getClassName());
 	$var($String, var$2, description);
@@ -183,6 +185,7 @@ void OpenMBeanParameterInfoSupport::init$($String* name, $String* description, $
 }
 
 $Object* OpenMBeanParameterInfoSupport::readResolve() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc($($nc($(getDescriptor()))->getFieldNames()))->length == 0) {
 		$var($OpenType, xopenType, $cast($OpenType, $OpenMBeanAttributeInfoSupport::cast(this->openType)));
 		$var($Set, xlegalValues, $cast($Set, $OpenMBeanAttributeInfoSupport::cast(this->legalValues)));

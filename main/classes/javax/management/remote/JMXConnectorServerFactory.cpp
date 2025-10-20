@@ -212,6 +212,7 @@ $JMXConnectorServer* JMXConnectorServerFactory::getConnectorServerAsService($Cla
 
 $JMXConnectorServer* JMXConnectorServerFactory::newJMXConnectorServer($JMXServiceURL* serviceURL, $Map* environment, $MBeanServer* mbeanServer) {
 	$init(JMXConnectorServerFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Map, envcopy, nullptr);
 	if (environment == nullptr) {

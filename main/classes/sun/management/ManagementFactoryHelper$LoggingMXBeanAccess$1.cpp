@@ -77,6 +77,7 @@ void ManagementFactoryHelper$LoggingMXBeanAccess$1::init$($String* val$className
 }
 
 $Object* ManagementFactoryHelper$LoggingMXBeanAccess$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Optional, logging, $nc($($ModuleLayer::boot()))->findModule("java.logging"_s));
 	if ($nc(logging)->isPresent()) {

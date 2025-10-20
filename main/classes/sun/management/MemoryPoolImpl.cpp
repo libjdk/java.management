@@ -133,6 +133,7 @@ $Object* allocate$MemoryPoolImpl($Class* clazz) {
 }
 
 void MemoryPoolImpl::init$($String* name, bool isHeap, int64_t usageThreshold, int64_t gcThreshold) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, name, name);
 	this->isHeap = isHeap;
 	this->isValid$ = true;
@@ -183,6 +184,7 @@ int64_t MemoryPoolImpl::getUsageThreshold() {
 }
 
 void MemoryPoolImpl::setUsageThreshold(int64_t newThreshold) {
+	$useLocalCurrentObjectStackCache();
 	if (!isUsageThresholdSupported()) {
 		$throwNew($UnsupportedOperationException, "Usage threshold is not supported"_s);
 	}
@@ -216,6 +218,7 @@ $MemoryManagerMXBeanArray* MemoryPoolImpl::getMemoryManagers() {
 }
 
 $StringArray* MemoryPoolImpl::getMemoryManagerNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($MemoryManagerMXBeanArray, mgrs, getMemoryManagers());
 	$var($StringArray, names, $new($StringArray, $nc(mgrs)->length));
 	for (int32_t i = 0; i < mgrs->length; ++i) {
@@ -264,6 +267,7 @@ int64_t MemoryPoolImpl::getCollectionUsageThreshold() {
 }
 
 void MemoryPoolImpl::setCollectionUsageThreshold(int64_t newThreshold) {
+	$useLocalCurrentObjectStackCache();
 	if (!isCollectionUsageThresholdSupported()) {
 		$throwNew($UnsupportedOperationException, "CollectionUsage threshold is not supported"_s);
 	}

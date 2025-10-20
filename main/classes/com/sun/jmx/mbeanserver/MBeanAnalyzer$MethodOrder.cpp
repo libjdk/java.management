@@ -70,6 +70,7 @@ void MBeanAnalyzer$MethodOrder::init$() {
 }
 
 int32_t MBeanAnalyzer$MethodOrder::compare($Method* a, $Method* b) {
+	$useLocalCurrentObjectStackCache();
 	int32_t cmp = $nc($($nc(a)->getName()))->compareTo($($nc(b)->getName()));
 	if (cmp != 0) {
 		return cmp;

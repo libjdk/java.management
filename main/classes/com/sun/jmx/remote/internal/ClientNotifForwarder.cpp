@@ -169,6 +169,7 @@ void ClientNotifForwarder::init$($Map* env) {
 }
 
 void ClientNotifForwarder::init$($ClassLoader* defaultClassLoader, $Map* env) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, infoList, $new($HashMap));
 	this->clientSequenceNumber = -1;
 	$set(this, mbeanRemovedNotifID, nullptr);
@@ -189,6 +190,7 @@ void ClientNotifForwarder::init$($ClassLoader* defaultClassLoader, $Map* env) {
 
 void ClientNotifForwarder::addNotificationListener($Integer* listenerID, $ObjectName* name, $NotificationListener* listener, $NotificationFilter* filter, Object$* handback, $Subject* delegationSubject) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 			$nc(ClientNotifForwarder::logger)->trace("addNotificationListener"_s, $$str({"Add the listener "_s, listener, " at "_s, name}));
 		}
@@ -199,6 +201,7 @@ void ClientNotifForwarder::addNotificationListener($Integer* listenerID, $Object
 
 $IntegerArray* ClientNotifForwarder::getListenerIds($ObjectName* name, $NotificationListener* listener) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($List, ids, $new($ArrayList));
 		$var($List, values, $new($ArrayList, $($nc(this->infoList)->values())));
 		for (int32_t i = values->size() - 1; i >= 0; --i) {
@@ -216,6 +219,7 @@ $IntegerArray* ClientNotifForwarder::getListenerIds($ObjectName* name, $Notifica
 
 $Integer* ClientNotifForwarder::getListenerId($ObjectName* name, $NotificationListener* listener, $NotificationFilter* filter, Object$* handback) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($Integer, id, nullptr);
 		$var($List, values, $new($ArrayList, $($nc(this->infoList)->values())));
 		for (int32_t i = values->size() - 1; i >= 0; --i) {
@@ -234,6 +238,7 @@ $Integer* ClientNotifForwarder::getListenerId($ObjectName* name, $NotificationLi
 
 $IntegerArray* ClientNotifForwarder::removeNotificationListener($ObjectName* name, $NotificationListener* listener) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		beforeRemove();
 		if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 			$nc(ClientNotifForwarder::logger)->trace("removeNotificationListener"_s, $$str({"Remove the listener "_s, listener, " from "_s, name}));
@@ -248,6 +253,7 @@ $IntegerArray* ClientNotifForwarder::removeNotificationListener($ObjectName* nam
 
 $Integer* ClientNotifForwarder::removeNotificationListener($ObjectName* name, $NotificationListener* listener, $NotificationFilter* filter, Object$* handback) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 			$nc(ClientNotifForwarder::logger)->trace("removeNotificationListener"_s, $$str({"Remove the listener "_s, listener, " from "_s, name}));
 		}
@@ -260,6 +266,7 @@ $Integer* ClientNotifForwarder::removeNotificationListener($ObjectName* name, $N
 
 $IntegerArray* ClientNotifForwarder::removeNotificationListener($ObjectName* name) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 			$nc(ClientNotifForwarder::logger)->trace("removeNotificationListener"_s, $$str({"Remove all listeners registered at "_s, name}));
 		}
@@ -278,6 +285,7 @@ $IntegerArray* ClientNotifForwarder::removeNotificationListener($ObjectName* nam
 
 $ClientListenerInfoArray* ClientNotifForwarder::preReconnection() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->state == ClientNotifForwarder::TERMINATED || this->beingReconnected) {
 			$throwNew($IOException, "Illegal state."_s);
 		}
@@ -290,6 +298,7 @@ $ClientListenerInfoArray* ClientNotifForwarder::preReconnection() {
 
 void ClientNotifForwarder::postReconnection($ClientListenerInfoArray* listenerInfos) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->state == ClientNotifForwarder::TERMINATED) {
 			return;
 		}
@@ -370,6 +379,7 @@ void ClientNotifForwarder::setState(int32_t newState) {
 
 void ClientNotifForwarder::init(bool reconnected) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		switch (this->state) {
 		case ClientNotifForwarder::STARTED:
 			{
@@ -445,6 +455,7 @@ void ClientNotifForwarder::init(bool reconnected) {
 
 void ClientNotifForwarder::beforeRemove() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		while (this->beingReconnected) {
 			if (this->state == ClientNotifForwarder::TERMINATED) {
 				$throwNew($IOException, "Terminated."_s);

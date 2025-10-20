@@ -141,6 +141,7 @@ $Object* allocate$MappedMXBeanType$CompositeDataMXBeanType($Class* clazz) {
 }
 
 void MappedMXBeanType$CompositeDataMXBeanType::init$($Class* c) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$MappedMXBeanType::init$();
 	this->isCompositeData = false;
@@ -204,6 +205,7 @@ $String* MappedMXBeanType$CompositeDataMXBeanType::getName() {
 }
 
 $Object* MappedMXBeanType$CompositeDataMXBeanType::toOpenTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (this->toMethod != nullptr) {
 		try {
@@ -246,6 +248,7 @@ $Object* MappedMXBeanType$CompositeDataMXBeanType::toOpenTypeData(Object$* data)
 }
 
 $Object* MappedMXBeanType$CompositeDataMXBeanType::toJavaTypeData(Object$* data) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (this->fromMethod == nullptr) {
 		$throwNew($AssertionError, $of("Does not support data conversion"_s));

@@ -194,6 +194,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::ofVersion(int3
 
 $Map* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initCompositeTypes() {
 	$init(ThreadInfoCompositeData$ThreadInfoCompositeTypes);
+	$useLocalCurrentObjectStackCache();
 	$var($Map, types, $new($HashMap));
 	$var($CompositeType, ctype, initCompositeType());
 	$init($ThreadInfoCompositeData);
@@ -219,6 +220,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initCompositeT
 
 $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV5CompositeType($CompositeType* threadInfoCompositeType) {
 	$init(ThreadInfoCompositeData$ThreadInfoCompositeTypes);
+	$useLocalCurrentObjectStackCache();
 	try {
 		$init($ThreadInfoCompositeData);
 		$var($OpenTypeArray, v5Types, $new($OpenTypeArray, $nc($ThreadInfoCompositeData::V5_ATTRIBUTES)->length));
@@ -236,6 +238,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV5Composit
 
 $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV6CompositeType($CompositeType* threadInfoCompositeType) {
 	$init(ThreadInfoCompositeData$ThreadInfoCompositeTypes);
+	$useLocalCurrentObjectStackCache();
 	try {
 			$init($ThreadInfoCompositeData);
 		$var($StringArray, v6Names, $fcast($StringArray, $nc($($nc($($Stream::of($$new($StringArray2, {

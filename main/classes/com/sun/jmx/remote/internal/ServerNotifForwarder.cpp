@@ -220,6 +220,7 @@ void ServerNotifForwarder::init$($MBeanServer* mbeanServer, $Map* env, $Notifica
 }
 
 $Integer* ServerNotifForwarder::addNotificationListener($ObjectName* name, $NotificationFilter* filter) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if ($nc(ServerNotifForwarder::logger)->traceOn()) {
 		$nc(ServerNotifForwarder::logger)->trace("addNotificationListener"_s, $$str({"Add a listener at "_s, name}));
@@ -269,6 +270,7 @@ $Integer* ServerNotifForwarder::addNotificationListener($ObjectName* name, $Noti
 }
 
 void ServerNotifForwarder::removeNotificationListener($ObjectName* name, $IntegerArray* listenerIDs) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(ServerNotifForwarder::logger)->traceOn()) {
 		$nc(ServerNotifForwarder::logger)->trace("removeNotificationListener"_s, $$str({"Remove some listeners from "_s, name}));
 	}
@@ -294,6 +296,7 @@ void ServerNotifForwarder::removeNotificationListener($ObjectName* name, $Intege
 }
 
 void ServerNotifForwarder::removeNotificationListener($ObjectName* name, $Integer* listenerID) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(ServerNotifForwarder::logger)->traceOn()) {
 		$nc(ServerNotifForwarder::logger)->trace("removeNotificationListener"_s, $$str({"Remove the listener "_s, listenerID, " from "_s, name}));
 	}
@@ -318,6 +321,7 @@ void ServerNotifForwarder::removeNotificationListener($ObjectName* name, $Intege
 }
 
 $NotificationResult* ServerNotifForwarder::fetchNotifs(int64_t startSequenceNumber, int64_t timeout, int32_t maxNotifications) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(ServerNotifForwarder::logger)->traceOn()) {
 		$nc(ServerNotifForwarder::logger)->trace("fetchNotifs"_s, $$str({"Fetching notifications, the startSequenceNumber is "_s, $$str(startSequenceNumber), ", the timeout is "_s, $$str(timeout), ", the maxNotifications is "_s, $$str(maxNotifications)}));
 	}
@@ -337,6 +341,7 @@ $NotificationResult* ServerNotifForwarder::fetchNotifs(int64_t startSequenceNumb
 }
 
 void ServerNotifForwarder::snoopOnUnregister($NotificationResult* nr) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, copy, nullptr);
 	$synchronized(this->listenerMap) {
 		$init($MBeanServerDelegate);
@@ -420,6 +425,7 @@ void ServerNotifForwarder::checkMBeanPermission($ObjectName* name, $String* acti
 
 void ServerNotifForwarder::checkMBeanPermission($MBeanServer* mbs, $ObjectName* name, $String* actions) {
 	$init(ServerNotifForwarder);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
@@ -438,6 +444,7 @@ void ServerNotifForwarder::checkMBeanPermission($MBeanServer* mbs, $ObjectName* 
 }
 
 bool ServerNotifForwarder::allowNotificationEmission($ObjectName* name, $TargetedNotification* tn) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		if (this->checkNotificationEmission) {
 			checkMBeanPermission(name, "addNotificationListener"_s);

@@ -90,6 +90,7 @@ $String* ClassAttributeValueExp::toString() {
 }
 
 $Object* ClassAttributeValueExp::getValue($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($MBeanServer, server, $QueryEval::getMBeanServer());
 		return $of($nc($($nc(server)->getObjectInstance(name)))->getClassName());
@@ -101,6 +102,7 @@ $Object* ClassAttributeValueExp::getValue($ObjectName* name) {
 }
 
 void clinit$ClassAttributeValueExp($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	{
 		bool compat = false;

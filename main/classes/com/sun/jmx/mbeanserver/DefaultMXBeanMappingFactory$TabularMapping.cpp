@@ -121,6 +121,7 @@ void DefaultMXBeanMappingFactory$TabularMapping::init$($Type* targetType, bool s
 }
 
 $Object* DefaultMXBeanMappingFactory$TabularMapping::toNonNullOpenValue(Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	$var($Map, valueMap, $cast($Map, $Util::cast(value)));
 	if ($instanceOf($SortedMap, valueMap)) {
 		$var($Comparator, comparator, $nc(($cast($SortedMap, valueMap)))->comparator());
@@ -153,6 +154,7 @@ $Object* DefaultMXBeanMappingFactory$TabularMapping::toNonNullOpenValue(Object$*
 }
 
 $Object* DefaultMXBeanMappingFactory$TabularMapping::fromNonNullOpenValue(Object$* openValue) {
+	$useLocalCurrentObjectStackCache();
 	$var($TabularData, table, $cast($TabularData, openValue));
 	$var($Collection, rows, $cast($Collection, $Util::cast($($nc(table)->values()))));
 	$var($Map, valueMap, this->sortedMap ? static_cast<$Map*>($Util::newSortedMap()) : $Util::newInsertionOrderMap());

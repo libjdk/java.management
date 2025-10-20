@@ -277,6 +277,7 @@ void Timer::postDeregister() {
 
 $MBeanNotificationInfoArray* Timer::getNotificationInfo() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($Set, notifTypes, static_cast<$Set*>(static_cast<$AbstractSet*>($new($TreeSet))));
 		{
 			$var($Iterator, i$, $nc($($nc(this->timerTable)->values()))->iterator());
@@ -296,6 +297,7 @@ $MBeanNotificationInfoArray* Timer::getNotificationInfo() {
 
 void Timer::start() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::TIMER_LOGGER)->log($System$Logger$Level::TRACE, "starting the timer"_s);
@@ -335,6 +337,7 @@ void Timer::start() {
 
 void Timer::stop() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::TIMER_LOGGER)->log($System$Logger$Level::TRACE, "stopping the timer"_s);
@@ -362,6 +365,7 @@ void Timer::stop() {
 
 $Integer* Timer::addNotification($String* type, $String* message, Object$* userData, $Date* date, int64_t period, int64_t nbOccurences, bool fixedRate) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (date == nullptr) {
 			$throwNew($IllegalArgumentException, "Timer notification date cannot be null."_s);
 		}
@@ -434,6 +438,7 @@ $Integer* Timer::addNotification($String* type, $String* message, Object$* userD
 
 void Timer::removeNotification($Integer* id) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ($nc(this->timerTable)->containsKey(id) == false) {
 			$throwNew($InstanceNotFoundException, "Timer notification to remove not in the list of notifications"_s);
 		}
@@ -455,6 +460,7 @@ void Timer::removeNotification($Integer* id) {
 
 void Timer::removeNotifications($String* type) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($Vector, v, getNotificationIDs(type));
 		if ($nc(v)->isEmpty()) {
 			$throwNew($InstanceNotFoundException, "Timer notifications to remove not in the list of notifications"_s);
@@ -471,6 +477,7 @@ void Timer::removeNotifications($String* type) {
 
 void Timer::removeAllNotifications() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($TimerAlarmClock, alarmClock, nullptr);
 		{
 			$var($Iterator, i$, $nc($($nc(this->timerTable)->values()))->iterator());
@@ -506,6 +513,7 @@ $Vector* Timer::getAllNotificationIDs() {
 
 $Vector* Timer::getNotificationIDs($String* type) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($String, s, nullptr);
 		$var($Vector, v, $new($Vector));
 		{
@@ -557,6 +565,7 @@ $Object* Timer::getNotificationUserData($Integer* id) {
 
 $Date* Timer::getDate($Integer* id) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($ObjectArray, obj, $cast($ObjectArray, $nc(this->timerTable)->get(id)));
 		if (obj != nullptr) {
 			$var($Date, date, $cast($Date, obj->get(Timer::TIMER_DATE_INDEX)));
@@ -588,6 +597,7 @@ $Long* Timer::getNbOccurences($Integer* id) {
 
 $Boolean* Timer::getFixedRate($Integer* id) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($ObjectArray, obj, $cast($ObjectArray, $nc(this->timerTable)->get(id)));
 		if (obj != nullptr) {
 			$var($Boolean, fixedRate, $cast($Boolean, obj->get(Timer::FIXED_RATE_INDEX)));
@@ -617,6 +627,7 @@ bool Timer::isEmpty() {
 
 void Timer::sendPastNotifications($Date* currentDate, bool currentFlag) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($TimerNotification, notif, nullptr);
 		$var($Integer, notifID, nullptr);
 		$var($Date, date, nullptr);
@@ -656,6 +667,7 @@ void Timer::sendPastNotifications($Date* currentDate, bool currentFlag) {
 
 void Timer::updateTimerTable($Integer* notifID) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($ObjectArray, obj, $cast($ObjectArray, $nc(this->timerTable)->get(notifID)));
 		$var($Date, date, $cast($Date, $nc(obj)->get(Timer::TIMER_DATE_INDEX)));
 		$var($Long, period, $cast($Long, obj->get(Timer::TIMER_PERIOD_INDEX)));
@@ -703,6 +715,7 @@ void Timer::updateTimerTable($Integer* notifID) {
 }
 
 void Timer::notifyAlarmClock($TimerAlarmClockNotification* notification) {
+	$useLocalCurrentObjectStackCache();
 	$var($TimerNotification, timerNotification, nullptr);
 	$var($Date, timerDate, nullptr);
 	$var($TimerAlarmClock, alarmClock, $cast($TimerAlarmClock, $nc(notification)->getSource()));
@@ -726,6 +739,7 @@ void Timer::notifyAlarmClock($TimerAlarmClockNotification* notification) {
 }
 
 void Timer::sendNotification($Date* timeStamp, $TimerNotification* notification) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::TIMER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {

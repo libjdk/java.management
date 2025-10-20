@@ -182,6 +182,7 @@ $JMXConnector* JMXConnectorServer::toJMXConnector($Map* env) {
 }
 
 $MBeanNotificationInfoArray* JMXConnectorServer::getNotificationInfo() {
+	$useLocalCurrentObjectStackCache();
 		$init($JMXConnectionNotification);
 	$var($StringArray, types, $new($StringArray, {
 		$JMXConnectionNotification::OPENED,
@@ -227,6 +228,7 @@ void JMXConnectorServer::connectionFailed($String* connectionId, $String* messag
 }
 
 void JMXConnectorServer::sendNotification($String* type, $String* connectionId, $String* message, Object$* userData) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, type);
 	$var($Object, var$1, getNotificationSource());
 	$var($String, var$2, connectionId);

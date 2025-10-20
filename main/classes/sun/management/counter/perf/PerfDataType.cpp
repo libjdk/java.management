@@ -112,6 +112,7 @@ PerfDataType* PerfDataType::toPerfDataType(int8_t type) {
 }
 
 void PerfDataType::init$($String* name, $String* c, int32_t size) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, name, name);
 	this->size$ = size;
 	try {

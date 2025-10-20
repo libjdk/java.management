@@ -182,6 +182,7 @@ void MBeanServerAccessController::addNotificationListener($ObjectName* name, $Ob
 }
 
 $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	checkCreate(className);
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm == nullptr) {
@@ -194,6 +195,7 @@ $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $O
 }
 
 $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $ObjectName* name, $ObjectArray* params, $StringArray* signature) {
+	$useLocalCurrentObjectStackCache();
 	checkCreate(className);
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm == nullptr) {
@@ -206,6 +208,7 @@ $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $O
 }
 
 $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $ObjectName* name, $ObjectName* loaderName) {
+	$useLocalCurrentObjectStackCache();
 	checkCreate(className);
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm == nullptr) {
@@ -218,6 +221,7 @@ $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $O
 }
 
 $ObjectInstance* MBeanServerAccessController::createMBean($String* className, $ObjectName* name, $ObjectName* loaderName, $ObjectArray* params, $StringArray* signature) {
+	$useLocalCurrentObjectStackCache();
 	checkCreate(className);
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm == nullptr) {
@@ -387,6 +391,7 @@ void MBeanServerAccessController::checkClassLoader(Object$* object) {
 }
 
 void MBeanServerAccessController::checkMLetMethods($ObjectName* name, $String* operation) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {

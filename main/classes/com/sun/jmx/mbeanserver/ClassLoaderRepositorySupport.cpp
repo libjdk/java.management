@@ -127,6 +127,7 @@ void ClassLoaderRepositorySupport::init$() {
 
 bool ClassLoaderRepositorySupport::add($ObjectName* name, $ClassLoader* cl) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($List, l, $new($ArrayList, $(static_cast<$Collection*>($Arrays::asList(this->loaders)))));
 		l->add($$new($ClassLoaderRepositorySupport$LoaderEntry, name, cl));
 		$set(this, loaders, $fcast($ClassLoaderRepositorySupport$LoaderEntryArray, l->toArray(ClassLoaderRepositorySupport::EMPTY_LOADER_ARRAY)));
@@ -136,6 +137,7 @@ bool ClassLoaderRepositorySupport::add($ObjectName* name, $ClassLoader* cl) {
 
 bool ClassLoaderRepositorySupport::remove($ObjectName* name, $ClassLoader* cl) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		int32_t size = $nc(this->loaders)->length;
 		for (int32_t i = 0; i < size; ++i) {
 			$var($ClassLoaderRepositorySupport$LoaderEntry, entry, $nc(this->loaders)->get(i));
@@ -157,6 +159,7 @@ $Class* ClassLoaderRepositorySupport::loadClass($String* className) {
 }
 
 $Class* ClassLoaderRepositorySupport::loadClassWithout($ClassLoader* without, $String* className) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -190,6 +193,7 @@ $Class* ClassLoaderRepositorySupport::loadClassWithout($ClassLoader* without, $S
 }
 
 $Class* ClassLoaderRepositorySupport::loadClassBefore($ClassLoader* stop, $String* className) {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
@@ -223,6 +227,7 @@ $Class* ClassLoaderRepositorySupport::loadClassBefore($ClassLoader* stop, $Strin
 }
 
 $Class* ClassLoaderRepositorySupport::loadClass($ClassLoaderRepositorySupport$LoaderEntryArray* list, $String* className, $ClassLoader* without, $ClassLoader* stop) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$ReflectUtil::checkPackageAccess(className);
 	int32_t size = $nc(list)->length;
@@ -254,6 +259,7 @@ $Class* ClassLoaderRepositorySupport::loadClass($ClassLoaderRepositorySupport$Lo
 
 void ClassLoaderRepositorySupport::startValidSearch($ClassLoader* aloader, $String* className) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($List, excluded, $cast($List, $nc(this->search)->get(className)));
 		if ((excluded != nullptr) && (excluded->contains(aloader))) {
 			$init($JmxProperties);
@@ -278,6 +284,7 @@ void ClassLoaderRepositorySupport::startValidSearch($ClassLoader* aloader, $Stri
 
 void ClassLoaderRepositorySupport::stopValidSearch($ClassLoader* aloader, $String* className) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($List, excluded, $cast($List, $nc(this->search)->get(className)));
 		if (excluded != nullptr) {
 			excluded->remove($of(aloader));
@@ -317,6 +324,7 @@ void ClassLoaderRepositorySupport::removeClassLoader($ObjectName* name) {
 }
 
 $ClassLoader* ClassLoaderRepositorySupport::getClassLoader($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($ClassLoader, instance, $cast($ClassLoader, $nc(this->loadersWithNames)->get(name)));
 	if (instance != nullptr) {
 		$var($SecurityManager, sm, $System::getSecurityManager());

@@ -107,6 +107,7 @@ $StringValueExp* InstanceOfQueryExp::getClassNameValue() {
 }
 
 bool InstanceOfQueryExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($StringValueExp, val, nullptr);
 	try {
 		$assign(val, $cast($StringValueExp, $nc(this->classNameValue)->apply(name)));

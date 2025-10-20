@@ -89,6 +89,7 @@ void DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters::init$($Class* tar
 }
 
 $String* DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters::applicable($MethodArray* getters) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t i = 0; i < $nc(getters)->length; ++i) {
 		try {
 			$nc($nc(this->getterConverters)->get(i))->checkReconstructible();

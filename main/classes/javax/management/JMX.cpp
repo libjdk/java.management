@@ -145,6 +145,7 @@ $Object* JMX::newMXBeanProxy($MBeanServerConnection* connection, $ObjectName* ob
 
 bool JMX::isMXBeanInterface($Class* interfaceClass) {
 	$init(JMX);
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(interfaceClass)->isInterface()) {
 		return false;
 	}
@@ -162,6 +163,7 @@ bool JMX::isMXBeanInterface($Class* interfaceClass) {
 
 $Object* JMX::createProxy($MBeanServerConnection* connection, $ObjectName* objectName, $Class* interfaceClass, bool notificationEmitter, bool isMXBean) {
 	$init(JMX);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		if (isMXBean) {

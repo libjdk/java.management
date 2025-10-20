@@ -68,6 +68,7 @@ void ArrayQueue::init$(int32_t capacity) {
 }
 
 void ArrayQueue::resize(int32_t newcapacity) {
+	$useLocalCurrentObjectStackCache();
 	int32_t size = this->size();
 	if (newcapacity < size) {
 		$throwNew($IndexOutOfBoundsException, "Resizing would lose data"_s);
@@ -114,6 +115,7 @@ $Object* ArrayQueue::remove(int32_t i) {
 }
 
 $Object* ArrayQueue::get(int32_t i) {
+	$useLocalCurrentObjectStackCache();
 	int32_t size = this->size();
 	if (i < 0 || i >= size) {
 		$var($String, msg, $str({"Index "_s, $$str(i), ", queue size "_s, $$str(size)}));

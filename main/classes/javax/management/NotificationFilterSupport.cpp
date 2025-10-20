@@ -66,6 +66,7 @@ void NotificationFilterSupport::init$() {
 
 bool NotificationFilterSupport::isNotificationEnabled($Notification* notification) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($String, type, $nc(notification)->getType());
 		if (type == nullptr) {
 			return false;

@@ -66,6 +66,7 @@ $Object* allocate$MLetContent($Class* clazz) {
 }
 
 void MLetContent::init$($URL* url, $Map* attributes, $List* types, $List* values) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, documentURL, url);
 	$set(this, attributes, $Collections::unmodifiableMap(attributes));
 	$set(this, types, $Collections::unmodifiableList(types));

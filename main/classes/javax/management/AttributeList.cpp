@@ -182,6 +182,7 @@ void AttributeList::adding(Object$* x) {
 }
 
 void AttributeList::adding($Collection* c) {
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($Iterator, i$, $nc(c)->iterator());
 		for (; $nc(i$)->hasNext();) {

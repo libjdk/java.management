@@ -137,6 +137,7 @@ $Class* MLetObjectInputStream::primitiveType(char16_t c) {
 }
 
 $Class* MLetObjectInputStream::resolveClass($ObjectStreamClass* objectstreamclass) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, s, $nc(objectstreamclass)->getName());
 	if ($nc(s)->startsWith("["_s)) {
 		int32_t i = 0;

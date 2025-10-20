@@ -131,6 +131,7 @@ $StackTraceElement* StackTraceElementCompositeData::getStackTraceElement() {
 
 $StackTraceElement* StackTraceElementCompositeData::from($CompositeData* cd) {
 	$init(StackTraceElementCompositeData);
+	$useLocalCurrentObjectStackCache();
 	validateCompositeData(cd);
 	if ($nc(StackTraceElementCompositeData::STACK_TRACE_ELEMENT_COMPOSITE_TYPE)->equals($($nc(cd)->getCompositeType()))) {
 		$var($String, var$0, getString(cd, StackTraceElementCompositeData::CLASS_LOADER_NAME));
@@ -155,6 +156,7 @@ $CompositeData* StackTraceElementCompositeData::toCompositeData($StackTraceEleme
 }
 
 $CompositeData* StackTraceElementCompositeData::getCompositeData() {
+	$useLocalCurrentObjectStackCache();
 	$var($Map, items, $new($HashMap));
 	items->put(StackTraceElementCompositeData::CLASS_LOADER_NAME, $($nc(this->ste)->getClassLoaderName()));
 	items->put(StackTraceElementCompositeData::MODULE_NAME, $($nc(this->ste)->getModuleName()));
@@ -191,6 +193,7 @@ void StackTraceElementCompositeData::validateCompositeData($CompositeData* cd) {
 }
 
 void clinit$StackTraceElementCompositeData($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(StackTraceElementCompositeData::CLASS_LOADER_NAME, "classLoaderName"_s);
 	$assignStatic(StackTraceElementCompositeData::MODULE_NAME, "moduleName"_s);
 	$assignStatic(StackTraceElementCompositeData::MODULE_VERSION, "moduleVersion"_s);

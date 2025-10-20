@@ -70,6 +70,7 @@ void PlatformMBeanProvider::init$($Void* unused) {
 }
 
 $Void* PlatformMBeanProvider::checkSubclassPermission() {
+	$useLocalCurrentObjectStackCache();
 	$var($SecurityManager, sm, $System::getSecurityManager());
 	if (sm != nullptr) {
 		$load(PlatformMBeanProvider);

@@ -209,6 +209,7 @@ void Notification::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$Notification($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$init($Long);

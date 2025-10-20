@@ -145,6 +145,7 @@ void NotificationBroadcasterSupport::addNotificationListener($NotificationListen
 }
 
 void NotificationBroadcasterSupport::removeNotificationListener($NotificationListener* listener) {
+	$useLocalCurrentObjectStackCache();
 	$var($NotificationBroadcasterSupport$ListenerInfo, wildcard, $new($NotificationBroadcasterSupport$WildcardListenerInfo, listener));
 	bool removed = $nc(this->listenerList)->removeAll($($Collections::singleton(wildcard)));
 	if (!removed) {
@@ -169,6 +170,7 @@ $MBeanNotificationInfoArray* NotificationBroadcasterSupport::getNotificationInfo
 }
 
 void NotificationBroadcasterSupport::sendNotification($Notification* notification) {
+	$useLocalCurrentObjectStackCache();
 	if (notification == nullptr) {
 		return;
 	}

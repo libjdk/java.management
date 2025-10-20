@@ -81,6 +81,7 @@ void Monitor$MonitorTask$1::init$($Monitor$MonitorTask* this$1) {
 }
 
 $Object* Monitor$MonitorTask$1::run() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->this$1->this$0)->isActive()) {
 		$var($ints, an, $nc(this->this$1->this$0)->alreadyNotifieds);
 		int32_t index = 0;

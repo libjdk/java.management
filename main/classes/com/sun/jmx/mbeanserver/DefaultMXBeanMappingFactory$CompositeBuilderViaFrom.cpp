@@ -89,6 +89,7 @@ void DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::init$($Class* targetCl
 }
 
 $String* DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::applicable($MethodArray* getters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* targetClass = getTargetClass();
 	try {
@@ -116,6 +117,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::applicable($Method
 }
 
 $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::fromCompositeData($CompositeData* cd, $StringArray* itemNames, $MXBeanMappingArray* converters) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($MethodUtil::invoke(this->fromMethod, nullptr, $$new($ObjectArray, {$of(cd)})));
 	} catch ($Exception&) {

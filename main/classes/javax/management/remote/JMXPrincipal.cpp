@@ -82,6 +82,7 @@ $String* JMXPrincipal::toString() {
 }
 
 bool JMXPrincipal::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if (o == nullptr) {
 		return false;
 	}
@@ -100,6 +101,7 @@ int32_t JMXPrincipal::hashCode() {
 }
 
 void JMXPrincipal::readObject($ObjectInputStream* ois) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, gf, $nc(ois)->readFields());
 	$var($String, principalName, $cast($String, $nc(gf)->get("name"_s, ($Object*)nullptr)));
 	try {

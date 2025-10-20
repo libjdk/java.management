@@ -148,6 +148,7 @@ void ModelMBeanAttributeInfo::init$($String* name, $String* description, $Method
 }
 
 void ModelMBeanAttributeInfo::init$($String* name, $String* type, $String* description, bool isReadable, bool isWritable, bool isIs) {
+	$useLocalCurrentObjectStackCache();
 	$MBeanAttributeInfo::init$(name, type, description, isReadable, isWritable, isIs);
 	$set(this, attrDescriptor, validDescriptor(nullptr));
 	$init($JmxProperties);
@@ -174,6 +175,7 @@ void ModelMBeanAttributeInfo::init$($String* name, $String* type, $String* descr
 }
 
 void ModelMBeanAttributeInfo::init$(ModelMBeanAttributeInfo* inInfo) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(inInfo)->getName());
 	$var($String, var$1, inInfo->getType());
 	$var($String, var$2, inInfo->getDescription());
@@ -216,6 +218,7 @@ $Object* ModelMBeanAttributeInfo::clone() {
 }
 
 $String* ModelMBeanAttributeInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$8, $$str({"ModelMBeanAttributeInfo: "_s, $(this->getName()), " ; Description: "_s}));
 	$var($String, var$7, $$concat(var$8, $(this->getDescription())));
 	$var($String, var$6, $$concat(var$7, " ; Types: "));
@@ -229,6 +232,7 @@ $String* ModelMBeanAttributeInfo::toString() {
 }
 
 $Descriptor* ModelMBeanAttributeInfo::validDescriptor($Descriptor* in) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, clone, nullptr);
 	bool defaulted = (in == nullptr);
 	if (defaulted) {
@@ -289,6 +293,7 @@ void ModelMBeanAttributeInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$ModelMBeanAttributeInfo($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanAttributeInfo::currClass, "ModelMBeanAttributeInfo"_s);
 	$beforeCallerSensitive();
 		$load($Descriptor);

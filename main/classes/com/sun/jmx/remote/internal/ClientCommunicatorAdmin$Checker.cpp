@@ -82,6 +82,7 @@ void ClientCommunicatorAdmin$Checker::init$($ClientCommunicatorAdmin* this$0) {
 }
 
 void ClientCommunicatorAdmin$Checker::run() {
+	$useLocalCurrentObjectStackCache();
 	$set(this, myThread, $Thread::currentThread());
 	while (this->this$0->state != 3 && !$nc(this->myThread)->isInterrupted()) {
 		try {

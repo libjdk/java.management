@@ -201,6 +201,7 @@ void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $
 }
 
 void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $OpenType* openType, bool isReadable, bool isWritable, bool isIs, $Descriptor* descriptor$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, descriptor, descriptor$renamed);
 	$var($String, var$0, name);
 	$var($String, var$1, (openType == nullptr) ? ($String*)nullptr : $nc(openType)->getClassName());
@@ -241,6 +242,7 @@ void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $
 }
 
 void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $OpenType* openType, bool isReadable, bool isWritable, bool isIs, Object$* defaultValue, $ObjectArray* legalValues, $Comparable* minValue, $Comparable* maxValue) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, name);
 	$var($String, var$1, (openType == nullptr) ? ($String*)nullptr : $nc(openType)->getClassName());
 	$var($String, var$2, description);
@@ -260,6 +262,7 @@ void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $
 }
 
 $Object* OpenMBeanAttributeInfoSupport::readResolve() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc($($nc($(getDescriptor()))->getFieldNames()))->length == 0) {
 		$var($OpenType, xopenType, $cast($OpenType, cast(this->openType)));
 		$var($Set, xlegalValues, $cast($Set, cast(this->legalValues)));
@@ -279,6 +282,7 @@ $Object* OpenMBeanAttributeInfoSupport::readResolve() {
 
 void OpenMBeanAttributeInfoSupport::check($OpenMBeanParameterInfo* info) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($OpenType, openType, $nc(info)->getOpenType());
 	if (openType == nullptr) {
 		$throwNew($IllegalArgumentException, "OpenType cannot be null"_s);
@@ -376,6 +380,7 @@ int32_t OpenMBeanAttributeInfoSupport::compare(Object$* x, Object$* y) {
 
 $Descriptor* OpenMBeanAttributeInfoSupport::makeDescriptor($OpenType* openType, Object$* defaultValue, $ObjectArray* legalValues, $Comparable* minValue, $Comparable* maxValue) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($Map, map, $new($HashMap));
 	if (defaultValue != nullptr) {
 		map->put("defaultValue"_s, defaultValue);
@@ -410,6 +415,7 @@ $Descriptor* OpenMBeanAttributeInfoSupport::makeDescriptor($OpenType* openType, 
 
 $Descriptor* OpenMBeanAttributeInfoSupport::makeDescriptor($OpenType* openType, Object$* defaultValue, $Set* legalValues, $Comparable* minValue, $Comparable* maxValue) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, legals, nullptr);
 	if (legalValues == nullptr) {
 		$assign(legals, nullptr);
@@ -422,6 +428,7 @@ $Descriptor* OpenMBeanAttributeInfoSupport::makeDescriptor($OpenType* openType, 
 
 $Object* OpenMBeanAttributeInfoSupport::valueFrom($Descriptor* d, $String* name, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, x, $nc(d)->getFieldValue(name));
 	if (x == nullptr) {
 		return $of(nullptr);
@@ -438,6 +445,7 @@ $Object* OpenMBeanAttributeInfoSupport::valueFrom($Descriptor* d, $String* name,
 
 $Set* OpenMBeanAttributeInfoSupport::valuesFrom($Descriptor* d, $String* name, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, x, $nc(d)->getFieldValue(name));
 	if (x == nullptr) {
 		return nullptr;
@@ -481,6 +489,7 @@ $Set* OpenMBeanAttributeInfoSupport::valuesFrom($Descriptor* d, $String* name, $
 
 $Comparable* OpenMBeanAttributeInfoSupport::comparableValueFrom($Descriptor* d, $String* name, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($Object, t, valueFrom(d, name, openType));
 	if (t == nullptr || $instanceOf($Comparable, t)) {
 		return $cast($Comparable, t);
@@ -500,6 +509,7 @@ $Object* OpenMBeanAttributeInfoSupport::convertFrom(Object$* x, $OpenType* openT
 
 $Object* OpenMBeanAttributeInfoSupport::convertFromStrings(Object$* x, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($ArrayType, openType)) {
 		return $of(convertFromStringArray(x, openType));
 	} else if ($instanceOf($String, x)) {
@@ -514,6 +524,7 @@ $Object* OpenMBeanAttributeInfoSupport::convertFromStrings(Object$* x, $OpenType
 
 $Object* OpenMBeanAttributeInfoSupport::convertFromString($String* s, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* c = nullptr;
 	try {
@@ -568,6 +579,7 @@ $Object* OpenMBeanAttributeInfoSupport::convertFromString($String* s, $OpenType*
 
 $Object* OpenMBeanAttributeInfoSupport::convertFromStringArray(Object$* x, $OpenType* openType) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ArrayType, arrayType, $cast($ArrayType, openType));
 	$var($OpenType, baseType, $nc(arrayType)->getElementOpenType());
@@ -659,6 +671,7 @@ bool OpenMBeanAttributeInfoSupport::isValue(Object$* obj) {
 
 bool OpenMBeanAttributeInfoSupport::isValue($OpenMBeanParameterInfo* info, Object$* obj) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	if ($nc(info)->hasDefaultValue() && obj == nullptr) {
 		return true;
 	}
@@ -702,6 +715,7 @@ bool OpenMBeanAttributeInfoSupport::equals(Object$* obj) {
 
 bool OpenMBeanAttributeInfoSupport::equal($OpenMBeanParameterInfo* x1, $OpenMBeanParameterInfo* x2) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	if ($instanceOf($DescriptorRead, x1)) {
 		if (!($instanceOf($DescriptorRead, x2))) {
 			return false;
@@ -731,6 +745,7 @@ int32_t OpenMBeanAttributeInfoSupport::hashCode() {
 
 int32_t OpenMBeanAttributeInfoSupport::hashCode($OpenMBeanParameterInfo* info) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	int32_t value = 0;
 	value += $nc($($nc(info)->getName()))->hashCode();
 	value += $nc($(info->getOpenType()))->hashCode();
@@ -761,6 +776,7 @@ $String* OpenMBeanAttributeInfoSupport::toString() {
 
 $String* OpenMBeanAttributeInfoSupport::toString($OpenMBeanParameterInfo* info) {
 	$init(OpenMBeanAttributeInfoSupport);
+	$useLocalCurrentObjectStackCache();
 	$var($Descriptor, d, ($instanceOf($DescriptorRead, info)) ? $nc(($cast($DescriptorRead, info)))->getDescriptor() : ($Descriptor*)nullptr);
 	$var($String, var$12, $$str({$($nc($of(info))->getClass()->getName()), "(name="_s}));
 	$var($String, var$11, $$concat(var$12, $(info->getName())));

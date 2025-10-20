@@ -242,6 +242,7 @@ int32_t LazyCompositeData::getInt($CompositeData* cd, $String* itemName) {
 
 bool LazyCompositeData::isTypeMatched($CompositeType* type1, $CompositeType* type2) {
 	$init(LazyCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (type1 == type2) {
 		return true;
 	}
@@ -254,6 +255,7 @@ bool LazyCompositeData::isTypeMatched($CompositeType* type1, $CompositeType* typ
 
 bool LazyCompositeData::isTypeMatched($TabularType* type1, $TabularType* type2) {
 	$init(LazyCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (type1 == type2) {
 		return true;
 	}
@@ -268,6 +270,7 @@ bool LazyCompositeData::isTypeMatched($TabularType* type1, $TabularType* type2) 
 
 bool LazyCompositeData::isTypeMatched($ArrayType* type1, $ArrayType* type2) {
 	$init(LazyCompositeData);
+	$useLocalCurrentObjectStackCache();
 	if (type1 == type2) {
 		return true;
 	}
@@ -311,6 +314,7 @@ bool LazyCompositeData::isTypeMatched($OpenType* ot1, $OpenType* ot2) {
 
 bool LazyCompositeData::lambda$isTypeMatched$0($CompositeType* type1, $CompositeType* type2, $String* item) {
 	$init(LazyCompositeData);
+	$useLocalCurrentObjectStackCache();
 	$var($OpenType, var$0, $nc(type1)->getType(item));
 	return isTypeMatched(var$0, $($nc(type2)->getType(item)));
 }

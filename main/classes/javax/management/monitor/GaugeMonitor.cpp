@@ -388,6 +388,7 @@ void GaugeMonitor::init$() {
 
 void GaugeMonitor::start() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (isActive()) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
@@ -461,6 +462,7 @@ $Number* GaugeMonitor::getLowThreshold() {
 
 void GaugeMonitor::setThresholds($Number* highValue, $Number* lowValue) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if ((highValue == nullptr) || (lowValue == nullptr)) {
 			$throwNew($IllegalArgumentException, "Null threshold value"_s);
 		}
@@ -529,6 +531,7 @@ bool GaugeMonitor::getDifferenceMode() {
 
 void GaugeMonitor::setDifferenceMode(bool value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->differenceMode == value) {
 			return;
 		}
@@ -572,6 +575,7 @@ bool GaugeMonitor::updateDerivedGauge(Object$* scanGauge, $GaugeMonitor$GaugeMon
 
 $MonitorNotification* GaugeMonitor::updateNotifications($GaugeMonitor$GaugeMonitorObservedObject* o) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($MonitorNotification, n, nullptr);
 		if ($nc(o)->getStatus() == GaugeMonitor::RISING_OR_FALLING) {
 			$var($Number, var$0, $cast($Number, o->getDerivedGauge()));
@@ -616,6 +620,7 @@ $MonitorNotification* GaugeMonitor::updateNotifications($GaugeMonitor$GaugeMonit
 
 void GaugeMonitor::setDerivedGaugeWithDifference($Number* scanGauge, $GaugeMonitor$GaugeMonitorObservedObject* o) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($Number, prev, $nc(o)->getPreviousScanGauge());
 		$var($Number, der, nullptr);
 		$init($GaugeMonitor$1);
@@ -771,6 +776,7 @@ $Comparable* GaugeMonitor::getDerivedGaugeFromComparable($ObjectName* object, $S
 
 void GaugeMonitor::onErrorNotification($MonitorNotification* notification) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($GaugeMonitor$GaugeMonitorObservedObject, o, $cast($GaugeMonitor$GaugeMonitorObservedObject, getObservedObject($($nc(notification)->getObservedObject()))));
 		if (o == nullptr) {
 			return;
@@ -782,6 +788,7 @@ void GaugeMonitor::onErrorNotification($MonitorNotification* notification) {
 
 $MonitorNotification* GaugeMonitor::buildAlarmNotification($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($GaugeMonitor$GaugeMonitorObservedObject, o, $cast($GaugeMonitor$GaugeMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return nullptr;
@@ -798,6 +805,7 @@ $MonitorNotification* GaugeMonitor::buildAlarmNotification($ObjectName* object, 
 
 bool GaugeMonitor::isThresholdTypeValid($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($GaugeMonitor$GaugeMonitorObservedObject, o, $cast($GaugeMonitor$GaugeMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return false;

@@ -117,6 +117,7 @@ $StringArray* ConvertingMethod::noStrings = nullptr;
 
 ConvertingMethod* ConvertingMethod::from($Method* m) {
 	$init(ConvertingMethod);
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $new(ConvertingMethod, m);
 	} catch ($OpenDataException&) {
@@ -154,6 +155,7 @@ $OpenType* ConvertingMethod::getOpenReturnType() {
 }
 
 $OpenTypeArray* ConvertingMethod::getOpenParameterTypes() {
+	$useLocalCurrentObjectStackCache();
 	$var($OpenTypeArray, types, $new($OpenTypeArray, $nc(this->paramMappings)->length));
 	for (int32_t i = 0; i < $nc(this->paramMappings)->length; ++i) {
 		types->set(i, $($nc($nc(this->paramMappings)->get(i))->getOpenType()));
@@ -162,6 +164,7 @@ $OpenTypeArray* ConvertingMethod::getOpenParameterTypes() {
 }
 
 void ConvertingMethod::checkCallFromOpen() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		{
 			$var($MXBeanMappingArray, arr$, this->paramMappings);
@@ -188,6 +191,7 @@ void ConvertingMethod::checkCallToOpen() {
 }
 
 $StringArray* ConvertingMethod::getOpenSignature() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->paramMappings)->length == 0) {
 		return ConvertingMethod::noStrings;
 	}
@@ -207,6 +211,7 @@ $Object* ConvertingMethod::fromOpenReturnValue($MXBeanLookup* lookup, Object$* r
 }
 
 $ObjectArray* ConvertingMethod::toOpenParameters($MXBeanLookup* lookup, $ObjectArray* params) {
+	$useLocalCurrentObjectStackCache();
 	if (this->paramConversionIsIdentity || params == nullptr) {
 		return params;
 	}
@@ -218,6 +223,7 @@ $ObjectArray* ConvertingMethod::toOpenParameters($MXBeanLookup* lookup, $ObjectA
 }
 
 $ObjectArray* ConvertingMethod::fromOpenParameters($ObjectArray* params) {
+	$useLocalCurrentObjectStackCache();
 	if (this->paramConversionIsIdentity || params == nullptr) {
 		return params;
 	}
@@ -237,6 +243,7 @@ $Object* ConvertingMethod::fromOpenParameter($MXBeanLookup* lookup, Object$* par
 }
 
 $Object* ConvertingMethod::invokeWithOpenReturn($MXBeanLookup* lookup, Object$* obj, $ObjectArray* params) {
+	$useLocalCurrentObjectStackCache();
 	$var($MXBeanLookup, old, $MXBeanLookup::getLookup());
 	{
 		$var($Throwable, var$0, nullptr);
@@ -263,6 +270,7 @@ $Object* ConvertingMethod::invokeWithOpenReturn($MXBeanLookup* lookup, Object$* 
 }
 
 $Object* ConvertingMethod::invokeWithOpenReturn(Object$* obj, $ObjectArray* params) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, javaParams, nullptr);
 	try {
 		$assign(javaParams, fromOpenParameters(params));
@@ -283,11 +291,13 @@ $Object* ConvertingMethod::invokeWithOpenReturn(Object$* obj, $ObjectArray* para
 }
 
 $String* ConvertingMethod::methodName() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $$str({$nc(this->method)->getDeclaringClass(), "."_s}));
 	return $concat(var$0, $($nc(this->method)->getName()));
 }
 
 void ConvertingMethod::init$($Method* m) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, method, m);
 	$init($MXBeanMappingFactory);
 	$var($MXBeanMappingFactory, mappingFactory, $MXBeanMappingFactory::DEFAULT);

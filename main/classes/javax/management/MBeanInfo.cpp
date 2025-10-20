@@ -156,6 +156,7 @@ void MBeanInfo::init$($String* className, $String* description, $MBeanAttributeI
 }
 
 void MBeanInfo::init$($String* className, $String* description, $MBeanAttributeInfoArray* attributes$renamed, $MBeanConstructorInfoArray* constructors$renamed, $MBeanOperationInfoArray* operations$renamed, $MBeanNotificationInfoArray* notifications$renamed, $Descriptor* descriptor$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanConstructorInfoArray, constructors, constructors$renamed);
 	$var($MBeanOperationInfoArray, operations, operations$renamed);
 	$var($MBeanAttributeInfoArray, attributes, attributes$renamed);
@@ -302,6 +303,7 @@ $Descriptor* MBeanInfo::getDescriptor() {
 }
 
 $String* MBeanInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$11, $$str({$($of(this)->getClass()->getName()), "[description="_s}));
 	$var($String, var$10, $$concat(var$11, $(getDescription())));
 	$var($String, var$9, $$concat(var$10, ", attributes="));
@@ -318,6 +320,7 @@ $String* MBeanInfo::toString() {
 }
 
 bool MBeanInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -355,6 +358,7 @@ bool MBeanInfo::equals(Object$* o) {
 }
 
 int32_t MBeanInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	if (this->hashCode$ != 0) {
 		return this->hashCode$;
 	}
@@ -371,6 +375,7 @@ int32_t MBeanInfo::hashCode() {
 
 bool MBeanInfo::arrayGettersSafe($Class* subclass, $Class* immutableClass) {
 	$init(MBeanInfo);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (subclass == immutableClass) {
 		return true;
@@ -403,6 +408,7 @@ bool MBeanInfo::isEqual($String* s1, $String* s2) {
 }
 
 void MBeanInfo::writeObject($ObjectOutputStream* out) {
+	$useLocalCurrentObjectStackCache();
 	$nc(out)->defaultWriteObject();
 	$load($ImmutableDescriptor);
 	if ($nc($of(this->descriptor))->getClass() == $ImmutableDescriptor::class$) {
@@ -417,6 +423,7 @@ void MBeanInfo::writeObject($ObjectOutputStream* out) {
 }
 
 void MBeanInfo::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	$nc(in)->defaultReadObject();
 	{
 		$var($StringArray, names, nullptr)

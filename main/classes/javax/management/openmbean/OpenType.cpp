@@ -188,12 +188,14 @@ void OpenType::checkClassNameOverride() {
 
 bool OpenType::overridesGetClassName($Class* c) {
 	$init(OpenType);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	return $nc(($cast($Boolean, $($AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new($OpenType$1, c)))))))->booleanValue();
 }
 
 $String* OpenType::validClassName($String* className$renamed) {
 	$init(OpenType);
+	$useLocalCurrentObjectStackCache();
 	$var($String, className, className$renamed);
 	$assign(className, valid("className"_s, className));
 	int32_t n = 0;
@@ -229,6 +231,7 @@ $String* OpenType::validClassName($String* className$renamed) {
 
 $String* OpenType::valid($String* argName, $String* argValue$renamed) {
 	$init(OpenType);
+	$useLocalCurrentObjectStackCache();
 	$var($String, argValue, argValue$renamed);
 	if (argValue == nullptr || $nc(($assign(argValue, $nc(argValue)->trim())))->isEmpty()) {
 		$throwNew($IllegalArgumentException, $$str({"Argument "_s, argName, " cannot be null or empty"_s}));
@@ -238,6 +241,7 @@ $String* OpenType::valid($String* argName, $String* argValue$renamed) {
 
 $Descriptor* OpenType::getDescriptor() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->descriptor == nullptr) {
 			$set(this, descriptor, $new($ImmutableDescriptor, $$new($StringArray, {"openType"_s}), $$new($ObjectArray, {$of(this)})));
 		}
@@ -270,6 +274,7 @@ bool OpenType::isAssignableFrom(OpenType* ot) {
 }
 
 void OpenType::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	checkClassNameOverride();
 	$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 	$var($String, classNameField, nullptr);
@@ -292,6 +297,7 @@ void OpenType::readObject($ObjectInputStream* in) {
 }
 
 void clinit$OpenType($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 		$load($CompositeData);
 		$load($TabularData);
 	$assignStatic(OpenType::ALLOWED_CLASSNAMES_LIST, $Collections::unmodifiableList($($Arrays::asList($$new($StringArray, {

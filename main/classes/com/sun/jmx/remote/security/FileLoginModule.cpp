@@ -157,6 +157,7 @@ void FileLoginModule::init$() {
 }
 
 void FileLoginModule::initialize($Subject* subject, $CallbackHandler* callbackHandler, $Map* sharedState, $Map* options) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, subject, subject);
 	$set(this, callbackHandler, callbackHandler);
 	$set(this, sharedState, $cast($Map, $Util::cast(sharedState)));
@@ -185,6 +186,7 @@ void FileLoginModule::initialize($Subject* subject, $CallbackHandler* callbackHa
 }
 
 bool FileLoginModule::login() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$synchronized(this) {
 			if (this->hashPwdMgr == nullptr) {
@@ -258,6 +260,7 @@ bool FileLoginModule::login() {
 }
 
 bool FileLoginModule::commit() {
+	$useLocalCurrentObjectStackCache();
 	if (this->succeeded == false) {
 		return false;
 	} else {
@@ -329,6 +332,7 @@ void FileLoginModule::attemptAuthentication(bool usePasswdFromSharedState) {
 }
 
 void FileLoginModule::getUsernamePassword(bool usePasswdFromSharedState) {
+	$useLocalCurrentObjectStackCache();
 	if (usePasswdFromSharedState) {
 		$set(this, username, $cast($String, $nc(this->sharedState)->get(FileLoginModule::USERNAME_KEY)));
 		$set(this, password, $cast($chars, $nc(this->sharedState)->get(FileLoginModule::PASSWORD_KEY)));
@@ -371,6 +375,7 @@ void FileLoginModule::cleanState() {
 }
 
 void clinit$FileLoginModule($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$assignStatic(FileLoginModule::PASSWORD_FILE_NAME, "jmxremote.password"_s);
 	$assignStatic(FileLoginModule::USERNAME_KEY, "javax.security.auth.login.name"_s);
 	$assignStatic(FileLoginModule::PASSWORD_KEY, "javax.security.auth.login.password"_s);

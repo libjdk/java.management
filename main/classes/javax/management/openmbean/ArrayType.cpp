@@ -133,6 +133,7 @@ $ObjectArray2* ArrayType::PRIMITIVE_ARRAY_TYPES = nullptr;
 
 bool ArrayType::isPrimitiveContentType($String* primitiveKey) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($ObjectArray2, arr$, ArrayType::PRIMITIVE_ARRAY_TYPES);
 		int32_t len$ = $nc(arr$)->length;
@@ -151,6 +152,7 @@ bool ArrayType::isPrimitiveContentType($String* primitiveKey) {
 
 $String* ArrayType::getPrimitiveTypeKey($String* elementClassName) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($ObjectArray2, arr$, ArrayType::PRIMITIVE_ARRAY_TYPES);
 		int32_t len$ = $nc(arr$)->length;
@@ -169,6 +171,7 @@ $String* ArrayType::getPrimitiveTypeKey($String* elementClassName) {
 
 $String* ArrayType::getPrimitiveTypeName($String* elementClassName) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($ObjectArray2, arr$, ArrayType::PRIMITIVE_ARRAY_TYPES);
 		int32_t len$ = $nc(arr$)->length;
@@ -187,6 +190,7 @@ $String* ArrayType::getPrimitiveTypeName($String* elementClassName) {
 
 $SimpleType* ArrayType::getPrimitiveOpenType($String* primitiveTypeName) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($ObjectArray2, arr$, ArrayType::PRIMITIVE_ARRAY_TYPES);
 		int32_t len$ = $nc(arr$)->length;
@@ -204,6 +208,7 @@ $SimpleType* ArrayType::getPrimitiveOpenType($String* primitiveTypeName) {
 }
 
 void ArrayType::init$(int32_t dimension, $OpenType* elementType) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, buildArrayClassName(dimension, elementType));
 	$var($String, var$1, buildArrayClassName(dimension, elementType));
 	$OpenType::init$(var$0, var$1, $(buildArrayDescription(dimension, elementType)));
@@ -222,6 +227,7 @@ void ArrayType::init$(int32_t dimension, $OpenType* elementType) {
 }
 
 void ArrayType::init$($SimpleType* elementType, bool primitiveArray) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, buildArrayClassName(1, elementType, primitiveArray));
 	$var($String, var$1, buildArrayClassName(1, elementType, primitiveArray));
 	$OpenType::init$(var$0, var$1, $(buildArrayDescription(1, elementType, primitiveArray)), true);
@@ -252,6 +258,7 @@ $String* ArrayType::buildArrayClassName(int32_t dimension, $OpenType* elementTyp
 
 $String* ArrayType::buildArrayClassName(int32_t dimension, $OpenType* elementType, bool isPrimitiveArray) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	if (dimension < 1) {
 		$throwNew($IllegalArgumentException, "Value of argument dimension must be greater than 0"_s);
 	}
@@ -287,6 +294,7 @@ $String* ArrayType::buildArrayDescription(int32_t dimension, $OpenType* elementT
 
 $String* ArrayType::buildArrayDescription(int32_t dimension, $OpenType* elementType$renamed, bool isPrimitiveArray) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	$var($OpenType, elementType, elementType$renamed);
 	if ($nc(elementType)->isArray()) {
 		$var(ArrayType, at, $cast(ArrayType, elementType));
@@ -322,6 +330,7 @@ bool ArrayType::isPrimitiveArray() {
 }
 
 bool ArrayType::isValue(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -353,6 +362,7 @@ bool ArrayType::isValue(Object$* obj) {
 }
 
 bool ArrayType::checkElementsType($ObjectArray* x_dim_Array, int32_t dim) {
+	$useLocalCurrentObjectStackCache();
 	if (dim > 1) {
 		for (int32_t i = 0; i < $nc(x_dim_Array)->length; ++i) {
 			if (!checkElementsType($cast($ObjectArray, x_dim_Array->get(i)), dim - 1)) {
@@ -371,6 +381,7 @@ bool ArrayType::checkElementsType($ObjectArray* x_dim_Array, int32_t dim) {
 }
 
 bool ArrayType::isAssignableFrom($OpenType* ot) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(ArrayType, ot))) {
 		return false;
 	}
@@ -414,6 +425,7 @@ int32_t ArrayType::hashCode() {
 }
 
 $String* ArrayType::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$var($String, var$7, $$str({$($of(this)->getClass()->getName()), "(name="_s}));
 		$var($String, var$6, $$concat(var$7, $(getTypeName())));
@@ -435,6 +447,7 @@ ArrayType* ArrayType::getArrayType($OpenType* elementType) {
 
 ArrayType* ArrayType::getPrimitiveArrayType($Class* arrayClass) {
 	$init(ArrayType);
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(arrayClass)->isArray()) {
 		$throwNew($IllegalArgumentException, "arrayClass must be an array"_s);
 	}
@@ -471,6 +484,7 @@ $Object* ArrayType::readResolve() {
 }
 
 ArrayType* ArrayType::convertFromWrapperToPrimitiveTypes() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, cn, getClassName());
 	$var($String, tn, getTypeName());
 	$var($String, d, getDescription());
@@ -502,6 +516,7 @@ $Object* ArrayType::writeReplace() {
 }
 
 ArrayType* ArrayType::convertFromPrimitiveToWrapperTypes() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, cn, getClassName());
 	$var($String, tn, getTypeName());
 	$var($String, d, getDescription());
@@ -525,6 +540,7 @@ ArrayType* ArrayType::convertFromPrimitiveToWrapperTypes() {
 }
 
 void clinit$ArrayType($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 			$load($Boolean);
 			$init($Boolean);
 			$init($SimpleType);

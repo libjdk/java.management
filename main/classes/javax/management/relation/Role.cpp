@@ -144,6 +144,7 @@ void Role::setRoleValue($List* roleValue) {
 }
 
 $String* Role::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, result, $new($StringBuilder));
 	result->append($$str({"role name: "_s, this->name, "; role value: "_s}));
 	{
@@ -171,6 +172,7 @@ $Object* Role::clone() {
 
 $String* Role::roleValueToString($List* roleValue) {
 	$init(Role);
+	$useLocalCurrentObjectStackCache();
 	if (roleValue == nullptr) {
 		$var($String, excMsg, "Invalid parameter"_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -192,6 +194,7 @@ $String* Role::roleValueToString($List* roleValue) {
 }
 
 void Role::readObject($ObjectInputStream* in) {
+	$useLocalCurrentObjectStackCache();
 	if (Role::compat) {
 		$var($ObjectInputStream$GetField, fields, $nc(in)->readFields());
 		$set(this, name, $cast($String, $nc(fields)->get("myName"_s, ($Object*)nullptr)));
@@ -219,6 +222,7 @@ void Role::writeObject($ObjectOutputStream* out) {
 }
 
 void clinit$Role($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 		$load($String);
 		$load($ArrayList);

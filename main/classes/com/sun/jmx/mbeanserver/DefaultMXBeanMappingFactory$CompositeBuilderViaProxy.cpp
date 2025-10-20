@@ -91,6 +91,7 @@ void DefaultMXBeanMappingFactory$CompositeBuilderViaProxy::init$($Class* targetC
 }
 
 $String* DefaultMXBeanMappingFactory$CompositeBuilderViaProxy::applicable($MethodArray* getters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* targetClass = getTargetClass();
 	if (!$nc(targetClass)->isInterface()) {
@@ -126,6 +127,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaProxy::applicable($Metho
 }
 
 $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaProxy::fromCompositeData($CompositeData* cd, $StringArray* itemNames, $MXBeanMappingArray* converters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* targetClass = getTargetClass();
 	$var($ClassLoader, var$0, $nc(targetClass)->getClassLoader());

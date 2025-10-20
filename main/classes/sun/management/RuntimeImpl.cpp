@@ -153,6 +153,7 @@ bool RuntimeImpl::isBootClassPathSupported() {
 }
 
 $Map* RuntimeImpl::getSystemProperties() {
+	$useLocalCurrentObjectStackCache();
 	$var($Properties, sysProps, $System::getProperties());
 	$var($Map, map, $new($HashMap));
 	$var($Set, keys, $nc(sysProps)->stringPropertyNames());

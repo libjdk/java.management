@@ -134,6 +134,7 @@ void DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::init$($Class* t
 }
 
 $StringArray* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::getConstPropValues($Constructor* ctr) {
+	$useLocalCurrentObjectStackCache();
 	$load($ConstructorParameters);
 	$var($ConstructorParameters, ctrProps, $cast($ConstructorParameters, $nc(ctr)->getAnnotation($ConstructorParameters::class$)));
 	if (ctrProps != nullptr) {
@@ -145,6 +146,7 @@ $StringArray* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::getCon
 }
 
 $String* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::applicable($MethodArray* getters) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$Class* targetClass = getTargetClass();
 	$var($ConstructorArray, constrs, $nc(targetClass)->getConstructors());
@@ -292,6 +294,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::reportNoCon
 }
 
 $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::fromCompositeData($CompositeData* cd, $StringArray* itemNames, $MXBeanMappingArray* mappings) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($CompositeType, ct, $nc(cd)->getCompositeType());
 	$var($BitSet, present, $new($BitSet));

@@ -133,6 +133,7 @@ $String* JMXPluggableAuthenticator::HASH_PASSWORDS = nullptr;
 $ClassLogger* JMXPluggableAuthenticator::logger = nullptr;
 
 void JMXPluggableAuthenticator::init$($Map* env) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, loginConfigName, nullptr);
 	$var($String, passwordFile, nullptr);
@@ -170,6 +171,7 @@ void JMXPluggableAuthenticator::init$($Map* env) {
 }
 
 $Subject* JMXPluggableAuthenticator::authenticate(Object$* credentials) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (!($instanceOf($StringArray, credentials))) {
 		if (credentials == nullptr) {
@@ -203,6 +205,7 @@ $Subject* JMXPluggableAuthenticator::authenticate(Object$* credentials) {
 
 void JMXPluggableAuthenticator::authenticationFailure($String* method, $String* message) {
 	$init(JMXPluggableAuthenticator);
+	$useLocalCurrentObjectStackCache();
 	$var($String, msg, $str({"Authentication failed! "_s, message}));
 	$var($SecurityException, e, $new($SecurityException, msg));
 	logException(method, msg, e);
@@ -211,6 +214,7 @@ void JMXPluggableAuthenticator::authenticationFailure($String* method, $String* 
 
 void JMXPluggableAuthenticator::authenticationFailure($String* method, $Exception* exception) {
 	$init(JMXPluggableAuthenticator);
+	$useLocalCurrentObjectStackCache();
 	$var($String, msg, nullptr);
 	$var($SecurityException, se, nullptr);
 	if ($instanceOf($SecurityException, exception)) {

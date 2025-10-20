@@ -137,6 +137,7 @@ int8_t PerfByteArrayCounter::byteAt(int32_t index) {
 }
 
 $String* PerfByteArrayCounter::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$2, $$str({$(getName()), ": "_s}));
 	$var($String, var$1, $$concat(var$2, $$new($String, $(byteArrayValue()))));
 	$var($String, var$0, $$concat(var$1, " "));
@@ -149,6 +150,7 @@ $String* PerfByteArrayCounter::toString() {
 }
 
 $Object* PerfByteArrayCounter::writeReplace() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, getName());
 	$var($Units, var$1, getUnits());
 	$var($Variability, var$2, getVariability());

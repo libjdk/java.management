@@ -120,6 +120,7 @@ $StringArray* MBeanNotificationInfo::fastGetNotifTypes() {
 }
 
 $String* MBeanNotificationInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$7, $$str({$($of(this)->getClass()->getName()), "[description="_s}));
 	$var($String, var$6, $$concat(var$7, $(getDescription())));
 	$var($String, var$5, $$concat(var$6, ", name="));
@@ -132,6 +133,7 @@ $String* MBeanNotificationInfo::toString() {
 }
 
 bool MBeanNotificationInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -167,6 +169,7 @@ int32_t MBeanNotificationInfo::hashCode() {
 }
 
 void MBeanNotificationInfo::readObject($ObjectInputStream* ois) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, gf, $nc(ois)->readFields());
 	$var($StringArray, t, $cast($StringArray, $nc(gf)->get("types"_s, ($Object*)nullptr)));
 	$set(this, types, (t != nullptr && t->length != 0) ? $cast($StringArray, $nc(t)->clone()) : MBeanNotificationInfo::NO_TYPES);

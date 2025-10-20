@@ -72,6 +72,7 @@ void MemoryPoolImpl$PoolSensor::init$($MemoryPoolImpl* this$0, $MemoryPoolImpl* 
 }
 
 void MemoryPoolImpl$PoolSensor::triggerAction($MemoryUsage* usage) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, "java.management.memory.threshold.exceeded"_s);
 	$var($String, var$1, $nc(this->pool)->getName());
 	$var($MemoryUsage, var$2, usage);

@@ -460,6 +460,7 @@ void CounterMonitor::init$() {
 
 void CounterMonitor::start() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (isActive()) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
@@ -503,6 +504,7 @@ int64_t CounterMonitor::getDerivedGaugeTimeStamp($ObjectName* object) {
 
 $Number* CounterMonitor::getThreshold($ObjectName* object) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($CounterMonitor$CounterMonitorObservedObject, o, $cast($CounterMonitor$CounterMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return nullptr;
@@ -529,6 +531,7 @@ $Number* CounterMonitor::getInitThreshold() {
 
 void CounterMonitor::setInitThreshold($Number* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (value == nullptr) {
 			$throwNew($IllegalArgumentException, "Null threshold"_s);
 		}
@@ -596,6 +599,7 @@ $Number* CounterMonitor::getOffset() {
 
 void CounterMonitor::setOffset($Number* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (value == nullptr) {
 			$throwNew($IllegalArgumentException, "Null offset"_s);
 		}
@@ -627,6 +631,7 @@ $Number* CounterMonitor::getModulus() {
 
 void CounterMonitor::setModulus($Number* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (value == nullptr) {
 			$throwNew($IllegalArgumentException, "Null modulus"_s);
 		}
@@ -675,6 +680,7 @@ bool CounterMonitor::getDifferenceMode() {
 
 void CounterMonitor::setDifferenceMode(bool value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->differenceMode == value) {
 			return;
 		}
@@ -727,6 +733,7 @@ bool CounterMonitor::updateDerivedGauge(Object$* scanCounter, $CounterMonitor$Co
 
 $MonitorNotification* CounterMonitor::updateNotifications($CounterMonitor$CounterMonitorObservedObject* o) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($MonitorNotification, n, nullptr);
 		if (!$nc(o)->getEventAlreadyNotified()) {
 			int64_t var$0 = $nc(($cast($Number, $(o->getDerivedGauge()))))->longValue();
@@ -752,6 +759,7 @@ $MonitorNotification* CounterMonitor::updateNotifications($CounterMonitor$Counte
 
 void CounterMonitor::updateThreshold($CounterMonitor$CounterMonitorObservedObject* o) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		int64_t var$0 = $nc(($cast($Number, $($nc(o)->getDerivedGauge()))))->longValue();
 		if (var$0 >= $nc($(o->getThreshold()))->longValue()) {
 			if ($nc(this->offset)->longValue() > (int64_t)0) {
@@ -809,6 +817,7 @@ void CounterMonitor::updateThreshold($CounterMonitor$CounterMonitorObservedObjec
 
 void CounterMonitor::setDerivedGaugeWithDifference($Number* scanCounter, $Number* mod, $CounterMonitor$CounterMonitorObservedObject* o) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		int64_t var$0 = $nc(scanCounter)->longValue();
 		int64_t derived = var$0 - $nc($($nc(o)->getPreviousScanCounter()))->longValue();
 		if (mod != nullptr) {
@@ -883,6 +892,7 @@ bool CounterMonitor::isComparableTypeValid($ObjectName* object, $String* attribu
 
 $Comparable* CounterMonitor::getDerivedGaugeFromComparable($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($CounterMonitor$CounterMonitorObservedObject, o, $cast($CounterMonitor$CounterMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return nullptr;
@@ -902,6 +912,7 @@ $Comparable* CounterMonitor::getDerivedGaugeFromComparable($ObjectName* object, 
 
 void CounterMonitor::onErrorNotification($MonitorNotification* notification) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($CounterMonitor$CounterMonitorObservedObject, o, $cast($CounterMonitor$CounterMonitorObservedObject, getObservedObject($($nc(notification)->getObservedObject()))));
 		if (o == nullptr) {
 			return;
@@ -914,6 +925,7 @@ void CounterMonitor::onErrorNotification($MonitorNotification* notification) {
 
 $MonitorNotification* CounterMonitor::buildAlarmNotification($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($CounterMonitor$CounterMonitorObservedObject, o, $cast($CounterMonitor$CounterMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return nullptr;
@@ -931,6 +943,7 @@ $MonitorNotification* CounterMonitor::buildAlarmNotification($ObjectName* object
 
 bool CounterMonitor::isThresholdTypeValid($ObjectName* object, $String* attribute, $Comparable* value) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($CounterMonitor$CounterMonitorObservedObject, o, $cast($CounterMonitor$CounterMonitorObservedObject, getObservedObject(object)));
 		if (o == nullptr) {
 			return false;

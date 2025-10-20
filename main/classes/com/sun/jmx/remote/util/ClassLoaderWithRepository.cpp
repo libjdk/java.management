@@ -64,6 +64,7 @@ void ClassLoaderWithRepository::init$($ClassLoaderRepository* clr, $ClassLoader*
 }
 
 $Class* ClassLoaderWithRepository::findClass($String* name) {
+	$useLocalCurrentObjectStackCache();
 	$Class* cls = nullptr;
 	try {
 		cls = $nc(this->repository)->loadClass(name);

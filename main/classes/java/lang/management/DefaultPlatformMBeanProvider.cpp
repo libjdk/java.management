@@ -109,6 +109,7 @@ $List* DefaultPlatformMBeanProvider::getPlatformComponentList() {
 }
 
 $List* DefaultPlatformMBeanProvider::init() {
+	$useLocalCurrentObjectStackCache();
 	$var($ArrayList, initMBeanList, $new($ArrayList));
 	initMBeanList->add($$new($DefaultPlatformMBeanProvider$1, this));
 	initMBeanList->add($$new($DefaultPlatformMBeanProvider$2, this));

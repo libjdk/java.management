@@ -140,6 +140,7 @@ $Object* PerfStringCounter::getValue() {
 }
 
 $String* PerfStringCounter::stringValue() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, str, ""_s);
 	$var($bytes, b, byteArrayValue());
 	if (b == nullptr || $nc(b)->length <= 1) {
@@ -152,6 +153,7 @@ $String* PerfStringCounter::stringValue() {
 }
 
 $Object* PerfStringCounter::writeReplace() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, getName());
 	$var($Units, var$1, getUnits());
 	$var($Variability, var$2, getVariability());

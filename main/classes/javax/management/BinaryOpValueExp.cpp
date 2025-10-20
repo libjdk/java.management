@@ -126,6 +126,7 @@ $ValueExp* BinaryOpValueExp::getRightValue() {
 }
 
 $ValueExp* BinaryOpValueExp::apply($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($ValueExp, val1, $nc(this->exp1)->apply(name));
 	$var($ValueExp, val2, $nc(this->exp2)->apply(name));
 	$var($String, sval1, nullptr);
@@ -197,6 +198,7 @@ $ValueExp* BinaryOpValueExp::apply($ObjectName* name) {
 }
 
 $String* BinaryOpValueExp::toString() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($String, var$2, $$str({$(parens(this->exp1, true)), " "_s}));
 		$var($String, var$1, $$concat(var$2, $(opString())));

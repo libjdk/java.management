@@ -457,6 +457,7 @@ $OperatingSystemMXBean* ManagementFactoryHelper::getOperatingSystemMXBean() {
 
 $List* ManagementFactoryHelper::getMemoryPoolMXBeans() {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	$var($MemoryPoolMXBeanArray, pools, $MemoryImpl::getMemoryPools());
 	$var($List, list, $new($ArrayList, $nc(pools)->length));
 	{
@@ -475,6 +476,7 @@ $List* ManagementFactoryHelper::getMemoryPoolMXBeans() {
 
 $List* ManagementFactoryHelper::getMemoryManagerMXBeans() {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	$var($MemoryManagerMXBeanArray, mgrs, $MemoryImpl::getMemoryManagers());
 	$var($List, result, $new($ArrayList, $nc(mgrs)->length));
 	{
@@ -493,6 +495,7 @@ $List* ManagementFactoryHelper::getMemoryManagerMXBeans() {
 
 $List* ManagementFactoryHelper::getGarbageCollectorMXBeans() {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	$var($MemoryManagerMXBeanArray, mgrs, $MemoryImpl::getMemoryManagers());
 	$var($List, result, $new($ArrayList, $nc(mgrs)->length));
 	{
@@ -529,11 +532,13 @@ bool ManagementFactoryHelper::isPlatformLoggingMXBeanAvailable() {
 
 $StringArray* ManagementFactoryHelper::getAllMemoryPoolNames() {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	return $fcast($StringArray, $nc($($nc($($Arrays::stream($($MemoryImpl::getMemoryPools()))))->map(static_cast<$Function*>($$new(ManagementFactoryHelper$$Lambda$getName)))))->toArray(static_cast<$IntFunction*>($$new(ManagementFactoryHelper$$Lambda$lambda$getAllMemoryPoolNames$0$1))));
 }
 
 $List* ManagementFactoryHelper::getBufferPoolMXBeans() {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	if (ManagementFactoryHelper::bufferPools == nullptr) {
 		$synchronized(ManagementFactoryHelper::class$) {
 			if (ManagementFactoryHelper::bufferPools == nullptr) {
@@ -606,6 +611,7 @@ $HotspotCompilationMBean* ManagementFactoryHelper::getHotspotCompilationMBean() 
 
 void ManagementFactoryHelper::addMBean($MBeanServer* mbs, Object$* mbean, $String* mbeanName) {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($ObjectName, objName, $Util::newObjectName(mbeanName));
@@ -620,6 +626,7 @@ void ManagementFactoryHelper::addMBean($MBeanServer* mbs, Object$* mbean, $Strin
 
 void ManagementFactoryHelper::registerInternalMBeans($MBeanServer* mbs) {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	addMBean(mbs, $(getHotspotClassLoadingMBean()), ManagementFactoryHelper::HOTSPOT_CLASS_LOADING_MBEAN_NAME);
 	addMBean(mbs, $(getHotspotMemoryMBean()), ManagementFactoryHelper::HOTSPOT_MEMORY_MBEAN_NAME);
 	addMBean(mbs, $(getHotspotRuntimeMBean()), ManagementFactoryHelper::HOTSPOT_RUNTIME_MBEAN_NAME);
@@ -631,6 +638,7 @@ void ManagementFactoryHelper::registerInternalMBeans($MBeanServer* mbs) {
 
 void ManagementFactoryHelper::unregisterMBean($MBeanServer* mbs, $String* mbeanName) {
 	$init(ManagementFactoryHelper);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$var($ObjectName, objName, $Util::newObjectName(mbeanName));

@@ -149,6 +149,7 @@ $SimpleTypeArray* SimpleType::typeArray = nullptr;
 $Map* SimpleType::canonicalTypes = nullptr;
 
 void SimpleType::init$($Class* valueClass) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(valueClass)->getName());
 	$var($String, var$1, valueClass->getName());
 	$OpenType::init$(var$0, var$1, $(valueClass->getName()), false);
@@ -157,6 +158,7 @@ void SimpleType::init$($Class* valueClass) {
 }
 
 bool SimpleType::isValue(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (obj == nullptr) {
 		return false;
 	}
@@ -164,6 +166,7 @@ bool SimpleType::isValue(Object$* obj) {
 }
 
 bool SimpleType::equals(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(SimpleType, obj))) {
 		return false;
 	}
@@ -179,6 +182,7 @@ int32_t SimpleType::hashCode() {
 }
 
 $String* SimpleType::toString() {
+	$useLocalCurrentObjectStackCache();
 	if (this->myToString == nullptr) {
 		$var($String, var$1, $$str({$($of(this)->getClass()->getName()), "(name="_s}));
 		$var($String, var$0, $$concat(var$1, $(getTypeName())));
@@ -188,6 +192,7 @@ $String* SimpleType::toString() {
 }
 
 $Object* SimpleType::readResolve() {
+	$useLocalCurrentObjectStackCache();
 	$var(SimpleType, canonical, $cast(SimpleType, $nc(SimpleType::canonicalTypes)->get(this)));
 	if (canonical == nullptr) {
 		$throwNew($InvalidObjectException, $$str({"Invalid SimpleType: "_s, this}));
@@ -196,6 +201,7 @@ $Object* SimpleType::readResolve() {
 }
 
 void clinit$SimpleType($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$load($Void);
 	$assignStatic(SimpleType::VOID, $new(SimpleType, $Void::class$));
 	$load($Boolean);

@@ -112,6 +112,7 @@ void AttributeValueExp::setMBeanServer($MBeanServer* s) {
 }
 
 $Object* AttributeValueExp::getAttribute($ObjectName* name) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($MBeanServer, server, $QueryEval::getMBeanServer());
 		return $of($nc(server)->getAttribute(name, this->attr));

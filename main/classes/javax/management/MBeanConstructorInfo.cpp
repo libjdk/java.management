@@ -96,6 +96,7 @@ void MBeanConstructorInfo::finalize() {
 $MBeanConstructorInfoArray* MBeanConstructorInfo::NO_CONSTRUCTORS = nullptr;
 
 void MBeanConstructorInfo::init$($String* description, $Constructor* constructor) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $nc(constructor)->getName());
 	$var($String, var$1, description);
 	$var($MBeanParameterInfoArray, var$2, constructorSignature(constructor));
@@ -146,6 +147,7 @@ $MBeanParameterInfoArray* MBeanConstructorInfo::fastGetSignature() {
 }
 
 $String* MBeanConstructorInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$7, $$str({$($of(this)->getClass()->getName()), "[description="_s}));
 	$var($String, var$6, $$concat(var$7, $(getDescription())));
 	$var($String, var$5, $$concat(var$6, ", name="));
@@ -158,6 +160,7 @@ $String* MBeanConstructorInfo::toString() {
 }
 
 bool MBeanConstructorInfo::equals(Object$* o) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(o, this)) {
 		return true;
 	}
@@ -185,12 +188,14 @@ bool MBeanConstructorInfo::equals(Object$* o) {
 }
 
 int32_t MBeanConstructorInfo::hashCode() {
+	$useLocalCurrentObjectStackCache();
 	int32_t var$0 = $Objects::hash($$new($ObjectArray, {$($of(getName()))}));
 	return var$0 ^ $Arrays::hashCode($(fastGetSignature()));
 }
 
 $MBeanParameterInfoArray* MBeanConstructorInfo::constructorSignature($Constructor* cn) {
 	$init(MBeanConstructorInfo);
+	$useLocalCurrentObjectStackCache();
 	$var($ClassArray, classes, $nc(cn)->getParameterTypes());
 	$var($AnnotationArray2, annots, cn->getParameterAnnotations());
 	return $MBeanOperationInfo::parameters(classes, annots);

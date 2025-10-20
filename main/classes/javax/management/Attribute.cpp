@@ -71,6 +71,7 @@ $Object* Attribute::getValue() {
 }
 
 bool Attribute::equals(Object$* object) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf(Attribute, object))) {
 		return false;
 	}
@@ -92,6 +93,7 @@ int32_t Attribute::hashCode() {
 }
 
 $String* Attribute::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, $$str({$(getName()), " = "_s}));
 	return $concat(var$0, $(getValue()));
 }

@@ -143,6 +143,7 @@ void MBeanServerDelegate::init$() {
 
 $String* MBeanServerDelegate::getMBeanServerId() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		if (this->mbeanServerId == nullptr) {
 			$var($String, localHost, nullptr);
 			try {
@@ -243,6 +244,7 @@ int64_t MBeanServerDelegate::getStamp() {
 }
 
 void clinit$MBeanServerDelegate($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	MBeanServerDelegate::oldStamp = 0;
 	{
 			$init($MBeanServerNotification);

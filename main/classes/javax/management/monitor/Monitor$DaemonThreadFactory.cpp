@@ -78,6 +78,7 @@ $Object* allocate$Monitor$DaemonThreadFactory($Class* clazz) {
 $String* Monitor$DaemonThreadFactory::nameSuffix = nullptr;
 
 void Monitor$DaemonThreadFactory::init$($String* poolName) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, threadNumber, $new($AtomicInteger, 1));
 	$var($SecurityManager, s, $System::getSecurityManager());
 	$set(this, group, (s != nullptr) ? $nc(s)->getThreadGroup() : $($Thread::currentThread())->getThreadGroup());
@@ -95,6 +96,7 @@ $ThreadGroup* Monitor$DaemonThreadFactory::getThreadGroup() {
 }
 
 $Thread* Monitor$DaemonThreadFactory::newThread($Runnable* r) {
+	$useLocalCurrentObjectStackCache();
 	$var($Thread, t, $new($Thread, this->group, r, $$str({this->namePrefix, $$str($nc(this->threadNumber)->getAndIncrement()), Monitor$DaemonThreadFactory::nameSuffix}), 0, false));
 	t->setDaemon(true);
 	if (t->getPriority() != $Thread::NORM_PRIORITY) {

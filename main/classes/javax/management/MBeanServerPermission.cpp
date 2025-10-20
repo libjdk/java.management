@@ -103,6 +103,7 @@ void MBeanServerPermission::init$($String* name) {
 }
 
 void MBeanServerPermission::init$($String* name, $String* actions) {
+	$useLocalCurrentObjectStackCache();
 	$BasicPermission::init$($(getCanonicalName(parseMask(name))), actions);
 	this->mask = parseMask(name);
 	if (actions != nullptr && actions->length() > 0) {
@@ -152,6 +153,7 @@ $String* MBeanServerPermission::getCanonicalName(int32_t mask) {
 
 $String* MBeanServerPermission::makeCanonicalName(int32_t mask) {
 	$init(MBeanServerPermission);
+	$useLocalCurrentObjectStackCache();
 	$var($StringBuilder, buf, $new($StringBuilder));
 	for (int32_t i = 0; i < MBeanServerPermission::N_NAMES; ++i) {
 		if (((int32_t)(mask & (uint32_t)($sl(1, i)))) != 0) {
@@ -166,6 +168,7 @@ $String* MBeanServerPermission::makeCanonicalName(int32_t mask) {
 
 int32_t MBeanServerPermission::parseMask($String* name$renamed) {
 	$init(MBeanServerPermission);
+	$useLocalCurrentObjectStackCache();
 	$var($String, name, name$renamed);
 	if (name == nullptr) {
 		$throwNew($NullPointerException, "MBeanServerPermission: target name can\'t be null"_s);

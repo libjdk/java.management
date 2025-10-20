@@ -62,6 +62,7 @@ void AttributeChangeNotificationFilter::init$() {
 
 bool AttributeChangeNotificationFilter::isNotificationEnabled($Notification* notification) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($String, type, $nc(notification)->getType());
 		$init($AttributeChangeNotification);
 		if ((type == nullptr) || ($nc(type)->equals($AttributeChangeNotification::ATTRIBUTE_CHANGE) == false) || (!($instanceOf($AttributeChangeNotification, notification)))) {

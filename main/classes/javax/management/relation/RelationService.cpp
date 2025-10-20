@@ -329,6 +329,7 @@ void RelationService::setPurgeFlag(bool purgeFlag) {
 }
 
 void RelationService::createRelationType($String* relationTypeName, $RoleInfoArray* roleInfoArray) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr || roleInfoArray == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -343,6 +344,7 @@ void RelationService::createRelationType($String* relationTypeName, $RoleInfoArr
 }
 
 void RelationService::addRelationType($RelationType* relationTypeObj) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeObj == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -374,6 +376,7 @@ void RelationService::addRelationType($RelationType* relationTypeObj) {
 }
 
 $List* RelationService::getAllRelationTypeNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($ArrayList, result, nullptr);
 	$synchronized(this->myRelType2ObjMap) {
 		$assign(result, $new($ArrayList, $(static_cast<$Collection*>($nc(this->myRelType2ObjMap)->keySet()))));
@@ -382,6 +385,7 @@ $List* RelationService::getAllRelationTypeNames() {
 }
 
 $List* RelationService::getRoleInfos($String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -395,6 +399,7 @@ $List* RelationService::getRoleInfos($String* relationTypeName) {
 }
 
 $RoleInfo* RelationService::getRoleInfo($String* relationTypeName, $String* roleInfoName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr || roleInfoName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -412,6 +417,7 @@ $RoleInfo* RelationService::getRoleInfo($String* relationTypeName, $String* role
 }
 
 void RelationService::removeRelationType($String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	isActive();
 	if (relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
@@ -455,6 +461,7 @@ void RelationService::removeRelationType($String* relationTypeName) {
 }
 
 void RelationService::createRelation($String* relationId, $String* relationTypeName, $RoleList* roleList) {
+	$useLocalCurrentObjectStackCache();
 	isActive();
 	if (relationId == nullptr || relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
@@ -474,6 +481,7 @@ void RelationService::createRelation($String* relationId, $String* relationTypeN
 }
 
 void RelationService::addRelation($ObjectName* relationObjectName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationObjectName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -571,6 +579,7 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 }
 
 $ObjectName* RelationService::isRelationMBean($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -587,6 +596,7 @@ $ObjectName* RelationService::isRelationMBean($String* relationId) {
 }
 
 $String* RelationService::isRelation($ObjectName* objectName) {
+	$useLocalCurrentObjectStackCache();
 	if (objectName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -605,6 +615,7 @@ $String* RelationService::isRelation($ObjectName* objectName) {
 }
 
 $Boolean* RelationService::hasRelation($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -623,6 +634,7 @@ $Boolean* RelationService::hasRelation($String* relationId) {
 }
 
 $List* RelationService::getAllRelationIds() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, result, nullptr);
 	$synchronized(this->myRelId2ObjMap) {
 		$assign(result, $new($ArrayList, $(static_cast<$Collection*>($nc(this->myRelId2ObjMap)->keySet()))));
@@ -631,6 +643,7 @@ $List* RelationService::getAllRelationIds() {
 }
 
 $Integer* RelationService::checkRoleReading($String* roleName, $String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	if (roleName == nullptr || relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -655,6 +668,7 @@ $Integer* RelationService::checkRoleReading($String* roleName, $String* relation
 }
 
 $Integer* RelationService::checkRoleWriting($Role* role, $String* relationTypeName, $Boolean* initFlag) {
+	$useLocalCurrentObjectStackCache();
 	if (role == nullptr || relationTypeName == nullptr || initFlag == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -687,6 +701,7 @@ $Integer* RelationService::checkRoleWriting($Role* role, $String* relationTypeNa
 }
 
 void RelationService::sendRelationCreationNotification($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -702,6 +717,7 @@ void RelationService::sendRelationCreationNotification($String* relationId) {
 }
 
 void RelationService::sendRoleUpdateNotification($String* relationId, $Role* newRole, $List* oldValue$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, oldValue, oldValue$renamed);
 	if (relationId == nullptr || newRole == nullptr || oldValue == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
@@ -732,6 +748,7 @@ void RelationService::sendRoleUpdateNotification($String* relationId, $Role* new
 }
 
 void RelationService::sendRelationRemovalNotification($String* relationId, $List* unregMBeanList) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter"_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -748,6 +765,7 @@ void RelationService::sendRelationRemovalNotification($String* relationId, $List
 }
 
 void RelationService::updateRoleMap($String* relationId, $Role* newRole, $List* oldValue) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || newRole == nullptr || oldValue == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -801,6 +819,7 @@ void RelationService::updateRoleMap($String* relationId, $Role* newRole, $List* 
 }
 
 void RelationService::removeRelation($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	isActive();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
@@ -872,6 +891,7 @@ void RelationService::removeRelation($String* relationId) {
 }
 
 void RelationService::purgeRelations() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "ENTRY"_s);
@@ -933,6 +953,7 @@ void RelationService::purgeRelations() {
 }
 
 $Map* RelationService::findReferencingRelations($ObjectName* mbeanName, $String* relationTypeName, $String* roleName) {
+	$useLocalCurrentObjectStackCache();
 	if (mbeanName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -993,6 +1014,7 @@ $Map* RelationService::findReferencingRelations($ObjectName* mbeanName, $String*
 }
 
 $Map* RelationService::findAssociatedMBeans($ObjectName* mbeanName, $String* relationTypeName, $String* roleName) {
+	$useLocalCurrentObjectStackCache();
 	if (mbeanName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1044,6 +1066,7 @@ $Map* RelationService::findAssociatedMBeans($ObjectName* mbeanName, $String* rel
 }
 
 $List* RelationService::findRelationsOfType($String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1066,6 +1089,7 @@ $List* RelationService::findRelationsOfType($String* relationTypeName) {
 }
 
 $List* RelationService::getRole($String* relationId, $String* roleName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || roleName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1114,6 +1138,7 @@ $List* RelationService::getRole($String* relationId, $String* roleName) {
 }
 
 $RoleResult* RelationService::getRoles($String* relationId, $StringArray* roleNameArray) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || roleNameArray == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1153,6 +1178,7 @@ $RoleResult* RelationService::getRoles($String* relationId, $StringArray* roleNa
 }
 
 $RoleResult* RelationService::getAllRoles($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1177,6 +1203,7 @@ $RoleResult* RelationService::getAllRoles($String* relationId) {
 }
 
 $Integer* RelationService::getRoleCardinality($String* relationId, $String* roleName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || roleName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1219,6 +1246,7 @@ $Integer* RelationService::getRoleCardinality($String* relationId, $String* role
 }
 
 void RelationService::setRole($String* relationId, $Role* role) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || role == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1274,6 +1302,7 @@ void RelationService::setRole($String* relationId, $Role* role) {
 }
 
 $RoleResult* RelationService::setRoles($String* relationId, $RoleList* roleList) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || roleList == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1317,6 +1346,7 @@ $RoleResult* RelationService::setRoles($String* relationId, $RoleList* roleList)
 }
 
 $Map* RelationService::getReferencedMBeans($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1341,6 +1371,7 @@ $Map* RelationService::getReferencedMBeans($String* relationId) {
 }
 
 $String* RelationService::getRelationTypeName($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1365,6 +1396,7 @@ $String* RelationService::getRelationTypeName($String* relationId) {
 }
 
 void RelationService::handleNotification($Notification* notif, Object$* handback) {
+	$useLocalCurrentObjectStackCache();
 	if (notif == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1414,6 +1446,7 @@ void RelationService::handleNotification($Notification* notif, Object$* handback
 }
 
 $MBeanNotificationInfoArray* RelationService::getNotificationInfo() {
+	$useLocalCurrentObjectStackCache();
 	$init($JmxProperties);
 	$init($System$Logger$Level);
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "ENTRY"_s);
@@ -1434,6 +1467,7 @@ $MBeanNotificationInfoArray* RelationService::getNotificationInfo() {
 }
 
 void RelationService::addRelationTypeInt($RelationType* relationTypeObj) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeObj == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1464,6 +1498,7 @@ void RelationService::addRelationTypeInt($RelationType* relationTypeObj) {
 }
 
 $RelationType* RelationService::getRelationType($String* relationTypeName) {
+	$useLocalCurrentObjectStackCache();
 	if (relationTypeName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1486,6 +1521,7 @@ $RelationType* RelationService::getRelationType($String* relationTypeName) {
 }
 
 $Object* RelationService::getRelation($String* relationId) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1506,6 +1542,7 @@ $Object* RelationService::getRelation($String* relationId) {
 }
 
 bool RelationService::addNewMBeanReference($ObjectName* objectName, $String* relationId, $String* roleName) {
+	$useLocalCurrentObjectStackCache();
 	if (objectName == nullptr || relationId == nullptr || roleName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1543,6 +1580,7 @@ bool RelationService::addNewMBeanReference($ObjectName* objectName, $String* rel
 }
 
 bool RelationService::removeMBeanReference($ObjectName* objectName, $String* relationId, $String* roleName, bool allRolesFlag) {
+	$useLocalCurrentObjectStackCache();
 	if (objectName == nullptr || relationId == nullptr || roleName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1583,6 +1621,7 @@ bool RelationService::removeMBeanReference($ObjectName* objectName, $String* rel
 }
 
 void RelationService::updateUnregistrationListener($List* newRefList, $List* obsoleteRefList) {
+	$useLocalCurrentObjectStackCache();
 	if (newRefList != nullptr && obsoleteRefList != nullptr) {
 		bool var$0 = newRefList->isEmpty();
 		if (var$0 && obsoleteRefList->isEmpty()) {
@@ -1637,6 +1676,7 @@ void RelationService::updateUnregistrationListener($List* newRefList, $List* obs
 }
 
 void RelationService::addRelationInt(bool relationBaseFlag, $RelationSupport* relationObj, $ObjectName* relationObjName, $String* relationId, $String* relationTypeName, $RoleList* roleList) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || relationTypeName == nullptr || (relationBaseFlag && (relationObj == nullptr || relationObjName != nullptr)) || (!relationBaseFlag && (relationObjName == nullptr || relationObj != nullptr))) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1738,6 +1778,7 @@ void RelationService::addRelationInt(bool relationBaseFlag, $RelationSupport* re
 }
 
 $Integer* RelationService::checkRoleInt(int32_t chkType, $String* roleName, $List* roleValue, $RoleInfo* roleInfo, bool writeChkFlag) {
+	$useLocalCurrentObjectStackCache();
 	if (roleName == nullptr || roleInfo == nullptr || (chkType == 2 && roleValue == nullptr)) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1813,6 +1854,7 @@ $Integer* RelationService::checkRoleInt(int32_t chkType, $String* roleName, $Lis
 }
 
 void RelationService::initializeMissingRoles(bool relationBaseFlag, $RelationSupport* relationObj, $ObjectName* relationObjName, $String* relationId, $String* relationTypeName, $List* roleInfoList) {
+	$useLocalCurrentObjectStackCache();
 	if ((relationBaseFlag && (relationObj == nullptr || relationObjName != nullptr)) || (!relationBaseFlag && (relationObjName == nullptr || relationObj != nullptr)) || relationId == nullptr || relationTypeName == nullptr || roleInfoList == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1887,6 +1929,7 @@ void RelationService::initializeMissingRoles(bool relationBaseFlag, $RelationSup
 
 void RelationService::throwRoleProblemException(int32_t pbType, $String* roleName) {
 	$init(RelationService);
+	$useLocalCurrentObjectStackCache();
 	if (roleName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -1948,6 +1991,7 @@ void RelationService::throwRoleProblemException(int32_t pbType, $String* roleNam
 }
 
 void RelationService::sendNotificationInt(int32_t intNtfType, $String* message, $String* relationId, $List* unregMBeanList, $String* roleName, $List* roleNewValue, $List* oldValue) {
+	$useLocalCurrentObjectStackCache();
 	if (message == nullptr || relationId == nullptr || (intNtfType != 3 && unregMBeanList != nullptr) || (intNtfType == 2 && (roleName == nullptr || roleNewValue == nullptr || oldValue == nullptr))) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);
@@ -2034,6 +2078,7 @@ void RelationService::sendNotificationInt(int32_t intNtfType, $String* message, 
 }
 
 void RelationService::handleReferenceUnregistration($String* relationId, $ObjectName* objectName, $List* roleNameList) {
+	$useLocalCurrentObjectStackCache();
 	if (relationId == nullptr || roleNameList == nullptr || objectName == nullptr) {
 		$var($String, excMsg, "Invalid parameter."_s);
 		$throwNew($IllegalArgumentException, excMsg);

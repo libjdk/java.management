@@ -111,6 +111,7 @@ $Object* allocate$MBeanAnalyzer($Class* clazz) {
 }
 
 void MBeanAnalyzer::visit($MBeanAnalyzer$MBeanVisitor* visitor) {
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($Iterator, i$, $nc($($nc(this->attrMap)->entrySet()))->iterator());
 		for (; $nc(i$)->hasNext();) {
@@ -144,6 +145,7 @@ MBeanAnalyzer* MBeanAnalyzer::analyzer($Class* mbeanType, $MBeanIntrospector* in
 }
 
 void MBeanAnalyzer::init$($Class* mbeanType, $MBeanIntrospector* introspector) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, opMap, $Util::newInsertionOrderMap());
 	$set(this, attrMap, $Util::newInsertionOrderMap());
 	if (!$nc(mbeanType)->isInterface()) {
@@ -163,6 +165,7 @@ void MBeanAnalyzer::init$($Class* mbeanType, $MBeanIntrospector* introspector) {
 }
 
 void MBeanAnalyzer::initMaps($Class* mbeanType, $MBeanIntrospector* introspector) {
+	$useLocalCurrentObjectStackCache();
 	$var($List, methods1, $nc(introspector)->getMethods(mbeanType));
 	$var($List, methods, eliminateCovariantMethods(methods1));
 	{
@@ -237,6 +240,7 @@ void MBeanAnalyzer::initMaps($Class* mbeanType, $MBeanIntrospector* introspector
 }
 
 $List* MBeanAnalyzer::eliminateCovariantMethods($List* startMethods) {
+	$useLocalCurrentObjectStackCache();
 	int32_t len = $nc(startMethods)->size();
 	$var($MethodArray, sorted, $fcast($MethodArray, startMethods->toArray($$new($MethodArray, len))));
 	$init($MBeanAnalyzer$MethodOrder);

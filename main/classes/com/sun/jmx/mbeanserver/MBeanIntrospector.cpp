@@ -169,6 +169,7 @@ $List* MBeanIntrospector::getMethods($Class* mbeanType) {
 }
 
 $PerInterface* MBeanIntrospector::getPerInterface($Class* mbeanInterface) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanIntrospector$PerInterfaceMap, map, getPerInterfaceMap());
 	$synchronized(map) {
 		$var($WeakReference, wr, $cast($WeakReference, $nc(map)->get(mbeanInterface)));
@@ -190,6 +191,7 @@ $PerInterface* MBeanIntrospector::getPerInterface($Class* mbeanInterface) {
 }
 
 $MBeanInfo* MBeanIntrospector::makeInterfaceMBeanInfo($Class* mbeanInterface, $MBeanAnalyzer* analyzer) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanIntrospector$MBeanInfoMaker, maker, $new($MBeanIntrospector$MBeanInfoMaker, this));
 	$nc(analyzer)->visit(maker);
 	$var($String, description, "Information on the management interface of the MBean"_s);
@@ -197,10 +199,12 @@ $MBeanInfo* MBeanIntrospector::makeInterfaceMBeanInfo($Class* mbeanInterface, $M
 }
 
 bool MBeanIntrospector::consistent(Object$* getter, Object$* setter) {
+	$useLocalCurrentObjectStackCache();
 	return (getter == nullptr || setter == nullptr || $nc($of($(getGenericReturnType(getter))))->equals($nc($(getGenericParameterTypes(setter)))->get(0)));
 }
 
 $Object* MBeanIntrospector::invokeM(Object$* m, Object$* target, $ObjectArray* args, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of(invokeM2(m, target, args, cookie));
 	} catch ($InvocationTargetException&) {
@@ -215,6 +219,7 @@ $Object* MBeanIntrospector::invokeM(Object$* m, Object$* target, $ObjectArray* a
 }
 
 void MBeanIntrospector::invokeSetter($String* name, Object$* setter, Object$* target, Object$* arg, Object$* cookie) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		invokeM2(setter, target, $$new($ObjectArray, {arg}), cookie);
 	} catch ($IllegalAccessException&) {
@@ -239,6 +244,7 @@ void MBeanIntrospector::maybeInvalidParameter($String* name, Object$* setter, Ob
 }
 
 bool MBeanIntrospector::isValidParameter($Method* m, Object$* value, int32_t paramNo) {
+	$useLocalCurrentObjectStackCache();
 	$Class* c = $nc($($nc(m)->getParameterTypes()))->get(paramNo);
 	try {
 		$var($Object, a, $1Array::newInstance(c, 1));
@@ -252,6 +258,7 @@ bool MBeanIntrospector::isValidParameter($Method* m, Object$* value, int32_t par
 }
 
 void MBeanIntrospector::unwrapInvocationTargetException($InvocationTargetException* e) {
+	$useLocalCurrentObjectStackCache();
 	$var($Throwable, t, $nc(e)->getCause());
 	if ($instanceOf($RuntimeException, t)) {
 		$throw($cast($RuntimeException, t));
@@ -263,6 +270,7 @@ void MBeanIntrospector::unwrapInvocationTargetException($InvocationTargetExcepti
 }
 
 $MBeanInfo* MBeanIntrospector::getMBeanInfo(Object$* resource, $PerInterface* perInterface) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanInfo, mbi, getClassMBeanInfo($nc($of(resource))->getClass(), perInterface));
 	$var($MBeanNotificationInfoArray, notifs, findNotifications(resource));
 	if (notifs == nullptr || $nc(notifs)->length == 0) {
@@ -279,6 +287,7 @@ $MBeanInfo* MBeanIntrospector::getMBeanInfo(Object$* resource, $PerInterface* pe
 }
 
 $MBeanInfo* MBeanIntrospector::getClassMBeanInfo($Class* resourceClass, $PerInterface* perInterface) {
+	$useLocalCurrentObjectStackCache();
 	$var($MBeanIntrospector$MBeanInfoMap, map, getMBeanInfoMap());
 	$synchronized(map) {
 		$var($WeakHashMap, intfMap, $cast($WeakHashMap, $nc(map)->get(resourceClass)));
@@ -306,6 +315,7 @@ $MBeanInfo* MBeanIntrospector::getClassMBeanInfo($Class* resourceClass, $PerInte
 }
 
 $MBeanNotificationInfoArray* MBeanIntrospector::findNotifications(Object$* moi) {
+	$useLocalCurrentObjectStackCache();
 	if (!($instanceOf($NotificationBroadcaster, moi))) {
 		return nullptr;
 	}
@@ -327,6 +337,7 @@ $MBeanNotificationInfoArray* MBeanIntrospector::findNotifications(Object$* moi) 
 
 $MBeanConstructorInfoArray* MBeanIntrospector::findConstructors($Class* c) {
 	$load(MBeanIntrospector);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ConstructorArray, cons, $nc(c)->getConstructors());
 	$var($MBeanConstructorInfoArray, mbc, $new($MBeanConstructorInfoArray, $nc(cons)->length));

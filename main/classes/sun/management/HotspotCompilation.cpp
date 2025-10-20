@@ -139,6 +139,7 @@ void HotspotCompilation::init$($VMManagement* vm) {
 }
 
 $Counter* HotspotCompilation::lookup($String* name) {
+	$useLocalCurrentObjectStackCache();
 	$var($Counter, c, nullptr);
 	if (($assign(c, $cast($Counter, $nc(this->counters)->get($$str({HotspotCompilation::SUN_CI, name}))))) != nullptr) {
 		return c;
@@ -153,6 +154,7 @@ $Counter* HotspotCompilation::lookup($String* name) {
 }
 
 void HotspotCompilation::initCompilerCounters() {
+	$useLocalCurrentObjectStackCache();
 	$set(this, counters, static_cast<$Map*>(static_cast<$AbstractMap*>($new($TreeMap))));
 	{
 		$var($Iterator, i$, $nc($(getInternalCompilerCounters()))->iterator());
@@ -210,6 +212,7 @@ int64_t HotspotCompilation::getCompiledMethodSize() {
 }
 
 $List* HotspotCompilation::getCompilerThreadStats() {
+	$useLocalCurrentObjectStackCache();
 	$var($List, list, $new($ArrayList, $nc(this->threads)->size()));
 	{
 		$var($Iterator, i$, $nc(this->threads)->iterator());

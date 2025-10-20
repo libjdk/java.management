@@ -163,6 +163,7 @@ $Object* Util::cast(Object$* x) {
 }
 
 int32_t Util::hashCode($StringArray* names, $ObjectArray* values) {
+	$useLocalCurrentObjectStackCache();
 	int32_t hash = 0;
 	for (int32_t i = 0; i < $nc(names)->length; ++i) {
 		$var($Object0, v, $nc(values)->get(i));
@@ -228,6 +229,7 @@ bool Util::wildmatch($String* str, $String* pat, int32_t stri, int32_t strend, i
 }
 
 bool Util::wildmatch($String* str, $String* pat) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$0, str);
 	$var($String, var$1, pat);
 	int32_t var$2 = $nc(str)->length();

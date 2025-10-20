@@ -488,6 +488,7 @@ bool Monitor::containsObservedObject($ObjectName* object) {
 
 $ObjectNameArray* Monitor::getObservedObjects() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		$var($ObjectNameArray, names, $new($ObjectNameArray, $nc(this->observedObjects)->size()));
 		for (int32_t i = 0; i < names->length; ++i) {
 			names->set(i, $($nc(($cast($Monitor$ObservedObject, $($nc(this->observedObjects)->get(i)))))->getObservedObject()));
@@ -503,6 +504,7 @@ $String* Monitor::getObservedAttribute() {
 }
 
 void Monitor::setObservedAttribute($String* attribute) {
+	$useLocalCurrentObjectStackCache();
 	if (attribute == nullptr) {
 		$throwNew($IllegalArgumentException, "Null observed attribute"_s);
 	}
@@ -604,6 +606,7 @@ int64_t Monitor::getDerivedGaugeTimeStamp($ObjectName* object) {
 }
 
 $Object* Monitor::getAttribute($MBeanServerConnection* mbsc, $ObjectName* object, $String* attribute) {
+	$useLocalCurrentObjectStackCache();
 	bool lookupMBeanInfo = false;
 	$synchronized(this) {
 		if (!isActive()) {
@@ -668,6 +671,7 @@ $Object* Monitor::getAttribute($MBeanServerConnection* mbsc, $ObjectName* object
 }
 
 $Comparable* Monitor::getComparableFromAttribute($ObjectName* object, $String* attribute, Object$* value) {
+	$useLocalCurrentObjectStackCache();
 	if (this->isComplexTypeAttribute) {
 		$var($Object, v, value);
 		{
@@ -754,6 +758,7 @@ bool Monitor::isValidForType(Object$* value, $Class* c) {
 
 $Monitor$ObservedObject* Monitor::getObservedObject($ObjectName* object) {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		{
 			$var($Iterator, i$, $nc(this->observedObjects)->iterator());
 			for (; $nc(i$)->hasNext();) {
@@ -773,6 +778,7 @@ $Monitor$ObservedObject* Monitor::createObservedObject($ObjectName* object) {
 
 void Monitor::createAlreadyNotified() {
 	$synchronized(this) {
+		$useLocalCurrentObjectStackCache();
 		this->elementCount = $nc(this->observedObjects)->size();
 		$set(this, alreadyNotifieds, $new($ints, this->elementCount));
 		for (int32_t i = 0; i < this->elementCount; ++i) {
@@ -847,6 +853,7 @@ int32_t Monitor::computeAlreadyNotifiedIndex($Monitor$ObservedObject* o, int32_t
 }
 
 void Monitor::sendNotification($String* type, int64_t timeStamp, $String* msg, Object$* derGauge, Object$* trigger, $ObjectName* object, bool onError) {
+	$useLocalCurrentObjectStackCache();
 	if (!isActive()) {
 		return;
 	}
@@ -864,6 +871,7 @@ void Monitor::sendNotification($String* type, int64_t timeStamp, $String* msg, O
 }
 
 void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, attribute, nullptr);
 	$var($String, notifType, nullptr);
 	$var($String, msg, nullptr);
@@ -1124,6 +1132,7 @@ void Monitor::cleanupIsComplexTypeAttribute() {
 }
 
 void clinit$Monitor($Class* class$) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, maximumPoolSizeSysProp, "jmx.x.monitor.maximum.pool.size"_s);
 	$assignStatic(Monitor::noPermissionsACC, $new($AccessControlContext, $$new($ProtectionDomainArray, {$$new($ProtectionDomain, nullptr, nullptr)})));

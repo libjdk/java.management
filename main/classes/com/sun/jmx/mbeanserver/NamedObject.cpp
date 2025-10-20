@@ -58,6 +58,7 @@ $Object* allocate$NamedObject($Class* clazz) {
 }
 
 void NamedObject::init$($ObjectName* objectName, $DynamicMBean* object) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(objectName)->isPattern()) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, $$str({"Invalid name->"_s, $(objectName->toString())})));
 	}
@@ -66,6 +67,7 @@ void NamedObject::init$($ObjectName* objectName, $DynamicMBean* object) {
 }
 
 void NamedObject::init$($String* objectName, $DynamicMBean* object) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, objName, $new($ObjectName, objectName));
 	if (objName->isPattern()) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, $$str({"Invalid name->"_s, $(objName->toString())})));
@@ -75,6 +77,7 @@ void NamedObject::init$($String* objectName, $DynamicMBean* object) {
 }
 
 bool NamedObject::equals(Object$* object) {
+	$useLocalCurrentObjectStackCache();
 	if ($equals(this, object)) {
 		return true;
 	}

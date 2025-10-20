@@ -66,6 +66,7 @@ int32_t MethodInfo::getCompileSize() {
 }
 
 $String* MethodInfo::toString() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, var$2, $$str({$(getName()), " type = "_s}));
 	$var($String, var$1, $$concat(var$2, $$str(getType())));
 	$var($String, var$0, $$concat(var$1, " compileSize = "));

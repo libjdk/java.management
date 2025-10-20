@@ -71,6 +71,7 @@ void MBeanInfo$ArrayGettersSafeAction::init$($Class* subclass, $Class* immutable
 }
 
 $Object* MBeanInfo$ArrayGettersSafeAction::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($MethodArray, methods, $nc(this->immutableClass)->getMethods());
 	for (int32_t i = 0; i < $nc(methods)->length; ++i) {
