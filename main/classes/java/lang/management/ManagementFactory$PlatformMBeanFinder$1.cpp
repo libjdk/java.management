@@ -1,15 +1,7 @@
 #include <java/lang/management/ManagementFactory$PlatformMBeanFinder$1.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider.h>
 #include <java/lang/management/ManagementFactory$PlatformMBeanFinder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
 #include <java/util/Iterator.h>

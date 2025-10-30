@@ -1,19 +1,8 @@
 #include <com/sun/jmx/remote/internal/ClientNotifForwarder$NotifFetcher$1.h>
 
 #include <com/sun/jmx/remote/internal/ClientNotifForwarder$NotifFetcher.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClientNotifForwarder$NotifFetcher = ::com::sun::jmx::remote::internal::ClientNotifForwarder$NotifFetcher;
@@ -92,8 +81,7 @@ $Object* ClientNotifForwarder$NotifFetcher$1::run() {
 		}
 		$($Thread::currentThread())->setContextClassLoader(this->val$loader);
 		return $of(previous);
-	} catch ($SecurityException&) {
-		$var($SecurityException, x, $catch());
+	} catch ($SecurityException& x) {
 		this->this$1->logOnce($$str({"Permission to set ContextClassLoader missing. Notifications will not be dispatched. Please check your Java policy configuration: "_s, x}), x);
 		$throw(x);
 	}

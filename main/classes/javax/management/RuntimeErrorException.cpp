@@ -1,14 +1,6 @@
 #include <javax/management/RuntimeErrorException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Error.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMRuntimeException.h>
 #include <jcpp.h>
 
@@ -69,16 +61,10 @@ $Throwable* RuntimeErrorException::getCause() {
 RuntimeErrorException::RuntimeErrorException() {
 }
 
-RuntimeErrorException::RuntimeErrorException(const RuntimeErrorException& e) {
+RuntimeErrorException::RuntimeErrorException(const RuntimeErrorException& e) : $JMRuntimeException(e) {
 }
 
-RuntimeErrorException RuntimeErrorException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void RuntimeErrorException::throwWrapper$() {
-	$pendingException(this);
+void RuntimeErrorException::throw$() {
 	throw *this;
 }
 

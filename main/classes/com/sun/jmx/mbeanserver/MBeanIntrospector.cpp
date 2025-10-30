@@ -7,20 +7,9 @@
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector$MBeanInfoMap.h>
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector$PerInterfaceMap.h>
 #include <com/sun/jmx/mbeanserver/PerInterface.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/ref/WeakReference.h>
 #include <java/lang/reflect/Array.h>
 #include <java/lang/reflect/Constructor.h>
@@ -181,8 +170,7 @@ $PerInterface* MBeanIntrospector::getPerInterface($Class* mbeanInterface) {
 				$assign(pi, $new($PerInterface, mbeanInterface, this, analyzer, mbeanInfo));
 				$assign(wr, $new($WeakReference, pi));
 				map->put(mbeanInterface, wr);
-			} catch ($Exception&) {
-				$var($Exception, x, $catch());
+			} catch ($Exception& x) {
 				$throw($($Introspector::throwException(mbeanInterface, x)));
 			}
 		}
@@ -204,15 +192,12 @@ bool MBeanIntrospector::consistent(Object$* getter, Object$* setter) {
 }
 
 $Object* MBeanIntrospector::invokeM(Object$* m, Object$* target, $ObjectArray* args, Object$* cookie) {
-	$useLocalCurrentObjectStackCache();
 	try {
 		return $of(invokeM2(m, target, args, cookie));
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		unwrapInvocationTargetException(e);
 		$throwNew($RuntimeException, static_cast<$Throwable*>(e));
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($ReflectionException, e, $(e->toString()));
 	}
 	$shouldNotReachHere();
@@ -222,15 +207,12 @@ void MBeanIntrospector::invokeSetter($String* name, Object$* setter, Object$* ta
 	$useLocalCurrentObjectStackCache();
 	try {
 		invokeM2(setter, target, $$new($ObjectArray, {arg}), cookie);
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($ReflectionException, e, $(e->toString()));
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		maybeInvalidParameter(name, setter, arg, cookie);
 		$throw(e);
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		maybeInvalidParameter(name, setter, arg, cookie);
 		unwrapInvocationTargetException(e);
 	}
@@ -250,8 +232,7 @@ bool MBeanIntrospector::isValidParameter($Method* m, Object$* value, int32_t par
 		$var($Object, a, $1Array::newInstance(c, 1));
 		$1Array::set(a, 0, value);
 		return true;
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		return false;
 	}
 	$shouldNotReachHere();

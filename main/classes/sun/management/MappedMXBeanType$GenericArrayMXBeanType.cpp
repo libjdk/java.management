@@ -1,20 +1,8 @@
 #include <sun/management/MappedMXBeanType$GenericArrayMXBeanType.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/GenericArrayType.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/ArrayType.h>
 #include <javax/management/openmbean/OpenDataException.h>
@@ -102,8 +90,7 @@ void MappedMXBeanType$GenericArrayMXBeanType::init$($GenericArrayType* gat) {
 	}
 	try {
 		$set(this, mappedTypeClass, $Class::forName($(className->toString())));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$var($OpenDataException, ode, $new($OpenDataException, "Cannot obtain array class"_s));
 		ode->initCause(e);
 		$throw(ode);

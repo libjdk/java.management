@@ -7,23 +7,9 @@
 #include <com/sun/jmx/mbeanserver/MXBeanSupport.h>
 #include <com/sun/jmx/mbeanserver/StandardMBeanSupport.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
@@ -243,7 +229,6 @@ void StandardMBean::finalize() {
 }
 
 $DescriptorCache* StandardMBean::descriptors = nullptr;
-
 $Map* StandardMBean::mbeanInfoSafeMap = nullptr;
 
 void StandardMBean::construct(Object$* implementation$renamed, $Class* mbeanInterface, bool nullImplementationAllowed, bool isMXBean) {
@@ -279,8 +264,7 @@ void StandardMBean::init$($Class* mbeanInterface) {
 void StandardMBean::init$(Object$* implementation, $Class* mbeanInterface, bool isMXBean) {
 	try {
 		construct(implementation, mbeanInterface, false, isMXBean);
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -288,8 +272,7 @@ void StandardMBean::init$(Object$* implementation, $Class* mbeanInterface, bool 
 void StandardMBean::init$($Class* mbeanInterface, bool isMXBean) {
 	try {
 		construct(nullptr, mbeanInterface, true, isMXBean);
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -345,8 +328,7 @@ $MBeanInfo* StandardMBean::getMBeanInfo() {
 		if (cached != nullptr) {
 			return cached;
 		}
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, x, $catch());
+	} catch ($RuntimeException& x) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MISC_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -372,8 +354,7 @@ $MBeanInfo* StandardMBean::getMBeanInfo() {
 	$var($MBeanInfo, nmbi, $new($MBeanInfo, cname, text, attrs, ctors, ops, ntfs, desc));
 	try {
 		cacheMBeanInfo(nmbi);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, x, $catch());
+	} catch ($RuntimeException& x) {
 		if ($nc($JmxProperties::MISC_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 			$nc($JmxProperties::MISC_LOGGER)->log($System$Logger$Level::DEBUG, "Failed to cache MBeanInfo"_s, static_cast<$Throwable*>(x));
 		}
@@ -750,8 +731,7 @@ bool StandardMBean::immutableInfo($Class* subclass) {
 			try {
 				$var($StandardMBean$MBeanInfoSafeAction, action, $new($StandardMBean$MBeanInfoSafeAction, subclass));
 				$assign(safe, $cast($Boolean, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(action))));
-			} catch ($Exception&) {
-				$var($Exception, e, $catch());
+			} catch ($Exception& e) {
 				$assign(safe, $Boolean::valueOf(false));
 			}
 			$nc(StandardMBean::mbeanInfoSafeMap)->put(subclass, safe);
@@ -769,8 +749,7 @@ bool StandardMBean::overrides($Class* subclass, $Class* superclass, $String* nam
 			try {
 				c->getDeclaredMethod(name, params);
 				return true;
-			} catch ($NoSuchMethodException&) {
-				$catch();
+			} catch ($NoSuchMethodException& e) {
 			}
 		}
 	}

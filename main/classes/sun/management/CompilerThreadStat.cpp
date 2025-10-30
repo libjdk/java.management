@@ -1,13 +1,5 @@
 #include <sun/management/CompilerThreadStat.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <sun/management/MethodInfo.h>
 #include <jcpp.h>
 
@@ -20,11 +12,11 @@ using $MethodInfo = ::sun::management::MethodInfo;
 
 namespace sun {
 	namespace management {
+
 $CompoundAttribute _CompilerThreadStat_Annotations_[] = {
 	{"Ljava/lang/Deprecated;", nullptr},
 	{}
 };
-
 
 $FieldInfo _CompilerThreadStat_FieldInfo_[] = {
 	{"name", "Ljava/lang/String;", nullptr, $PRIVATE, $field(CompilerThreadStat, name)},

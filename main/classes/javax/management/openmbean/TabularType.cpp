@@ -1,17 +1,6 @@
 #include <javax/management/openmbean/TabularType.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
 #include <java/util/Collections.h>
@@ -166,8 +155,7 @@ bool TabularType::equals(Object$* obj) {
 	$var(TabularType, other, nullptr);
 	try {
 		$assign(other, $cast(TabularType, obj));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		return false;
 	}
 	if (!$nc($(this->getTypeName()))->equals($($nc(other)->getTypeName()))) {

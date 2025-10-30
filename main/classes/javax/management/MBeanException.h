@@ -26,8 +26,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x386E8CE56E5731CE;
 	::java::lang::Exception* exception = nullptr;
 	MBeanException(const MBeanException& e);
-	MBeanException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline MBeanException* operator ->() {
+		return (MBeanException*)throwing$;
+	}
 };
 
 	} // management

@@ -1,12 +1,7 @@
 #include <com/sun/jmx/mbeanserver/JavaBeansAccessor.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <jdk/internal/access/JavaBeansAccess.h>
@@ -79,8 +74,7 @@ void clinit$JavaBeansAccessor($Class* class$) {
 	{
 		try {
 			$Class::forName("java.beans.Introspector"_s, true, $(JavaBeansAccessor::class$->getClassLoader()));
-		} catch ($ClassNotFoundException&) {
-			$catch();
+		} catch ($ClassNotFoundException& ignore) {
 		}
 	}
 }

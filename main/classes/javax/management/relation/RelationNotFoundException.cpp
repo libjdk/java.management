@@ -1,12 +1,5 @@
 #include <javax/management/relation/RelationNotFoundException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/relation/RelationException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void RelationNotFoundException::init$($String* message) {
 RelationNotFoundException::RelationNotFoundException() {
 }
 
-RelationNotFoundException::RelationNotFoundException(const RelationNotFoundException& e) {
+RelationNotFoundException::RelationNotFoundException(const RelationNotFoundException& e) : $RelationException(e) {
 }
 
-RelationNotFoundException RelationNotFoundException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void RelationNotFoundException::throwWrapper$() {
-	$pendingException(this);
+void RelationNotFoundException::throw$() {
 	throw *this;
 }
 

@@ -1,23 +1,13 @@
 #include <sun/management/ThreadInfoCompositeData$ThreadInfoCompositeTypes.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
 #include <java/lang/management/ThreadInfo.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/Arrays.h>
@@ -211,8 +201,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initCompositeT
 	try {
 		$load($ThreadInfo);
 		return $cast($CompositeType, $MappedMXBeanType::toOpenType($ThreadInfo::class$));
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -229,8 +218,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV5Composit
 			v5Types->set(i, $nc(name)->equals("stackTrace"_s) ? static_cast<$OpenType*>($$new($ArrayType, 1, $(static_cast<$OpenType*>($StackTraceElementCompositeData::v5CompositeType())))) : $($nc(threadInfoCompositeType)->getType(name)));
 		}
 		return $new($CompositeType, "ThreadInfo"_s, "JDK 5 ThreadInfo"_s, $ThreadInfoCompositeData::V5_ATTRIBUTES, $ThreadInfoCompositeData::V5_ATTRIBUTES, v5Types);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -240,7 +228,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV6Composit
 	$init(ThreadInfoCompositeData$ThreadInfoCompositeTypes);
 	$useLocalCurrentObjectStackCache();
 	try {
-			$init($ThreadInfoCompositeData);
+		$init($ThreadInfoCompositeData);
 		$var($StringArray, v6Names, $fcast($StringArray, $nc($($nc($($Stream::of($$new($StringArray2, {
 			$ThreadInfoCompositeData::V5_ATTRIBUTES,
 			$ThreadInfoCompositeData::V6_ATTRIBUTES
@@ -257,8 +245,7 @@ $CompositeType* ThreadInfoCompositeData$ThreadInfoCompositeTypes::initV6Composit
 			v6Types->set(i, ot);
 		}
 		return $new($CompositeType, "ThreadInfo"_s, "JDK 6 ThreadInfo"_s, v6Names, v6Names, v6Types);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();

@@ -7,23 +7,8 @@
 #include <java/io/IOException.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/OutputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Number.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
@@ -175,30 +160,19 @@ $Object* allocate$EnvHelp($Class* clazz) {
 	return $of($alloc(EnvHelp));
 }
 
-
 $String* EnvHelp::DEFAULT_CLASS_LOADER = nullptr;
-
 $String* EnvHelp::DEFAULT_CLASS_LOADER_NAME = nullptr;
-
 $String* EnvHelp::BUFFER_SIZE_PROPERTY = nullptr;
-
 $String* EnvHelp::MAX_FETCH_NOTIFS = nullptr;
-
 $String* EnvHelp::FETCH_TIMEOUT = nullptr;
-
 $String* EnvHelp::NOTIF_ACCESS_CONTROLLER = nullptr;
 $String* EnvHelp::DEFAULT_ORB = nullptr;
-
 $String* EnvHelp::HIDDEN_ATTRIBUTES = nullptr;
-
 $String* EnvHelp::DEFAULT_HIDDEN_ATTRIBUTES = nullptr;
 $SortedSet* EnvHelp::defaultHiddenStrings = nullptr;
 $SortedSet* EnvHelp::defaultHiddenPrefixes = nullptr;
-
 $String* EnvHelp::SERVER_CONNECTION_TIMEOUT = nullptr;
-
 $String* EnvHelp::CLIENT_CONNECTION_CHECK_PERIOD = nullptr;
-
 $String* EnvHelp::JMX_SERVER_DAEMON = nullptr;
 $ClassLogger* EnvHelp::logger = nullptr;
 
@@ -281,8 +255,7 @@ $Throwable* EnvHelp::getCause($Throwable* t) {
 	try {
 		$var($Method, getCause, $nc($of(t))->getClass()->getMethod("getCause"_s, ($ClassArray*)nullptr));
 		$assign(ret, $cast($Throwable, $nc(getCause)->invoke(t, ($ObjectArray*)nullptr)));
-	} catch ($Exception&) {
-		$catch();
+	} catch ($Exception& e) {
 	}
 	return (ret != nullptr) ? ret : t;
 }
@@ -305,8 +278,7 @@ int32_t EnvHelp::getNotifBufferSize($Map* env) {
 				defaultQueueSize = $Integer::parseInt(s);
 			}
 		}
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$nc(EnvHelp::logger)->warning("getNotifBufferSize"_s, $$str({"Can\'t use System property "_s, EnvHelp::BUFFER_SIZE_PROPERTY, ": "_s, e}));
 		$nc(EnvHelp::logger)->debug("getNotifBufferSize"_s, static_cast<$Throwable*>(e));
 	}
@@ -317,8 +289,7 @@ int32_t EnvHelp::getNotifBufferSize($Map* env) {
 		} else {
 			queueSize = (int32_t)EnvHelp::getIntegerAttribute(env, oldP, defaultQueueSize, 0, $Integer::MAX_VALUE);
 		}
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$nc(EnvHelp::logger)->warning("getNotifBufferSize"_s, $$str({"Can\'t determine queuesize (using default): "_s, e}));
 		$nc(EnvHelp::logger)->debug("getNotifBufferSize"_s, static_cast<$Throwable*>(e));
 	}
@@ -420,8 +391,7 @@ void EnvHelp::purgeUnserializable($Collection* objects) {
 				if ($nc(EnvHelp::logger)->traceOn()) {
 					$nc(EnvHelp::logger)->trace("purgeUnserializable"_s, $$str({"Value serializable: "_s, v}));
 				}
-			} catch ($IOException&) {
-				$var($IOException, e, $catch());
+			} catch ($IOException& e) {
 				if ($nc(EnvHelp::logger)->traceOn()) {
 					$nc(EnvHelp::logger)->trace("purgeUnserializable"_s, $$str({"Value not serializable: "_s, v, ": "_s, e}));
 				}

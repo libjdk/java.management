@@ -1,26 +1,6 @@
 #include <javax/management/openmbean/ArrayType.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Array.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <javax/management/openmbean/CompositeData.h>
 #include <javax/management/openmbean/OpenDataException.h>
@@ -468,8 +448,7 @@ ArrayType* ArrayType::getPrimitiveArrayType($Class* arrayClass) {
 			$assign(at, $new(ArrayType, n - 1, static_cast<$OpenType*>(at)));
 		}
 		return at;
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();
@@ -541,23 +520,23 @@ ArrayType* ArrayType::convertFromPrimitiveToWrapperTypes() {
 
 void clinit$ArrayType($Class* class$) {
 	$useLocalCurrentObjectStackCache();
-			$load($Boolean);
-			$init($Boolean);
-			$init($SimpleType);
-			$load($Character);
-			$init($Character);
-			$load($Byte);
-			$init($Byte);
-			$load($Short);
-			$init($Short);
-			$load($Integer);
-			$init($Integer);
-			$load($Long);
-			$init($Long);
-			$load($Float);
-			$init($Float);
-			$load($Double);
-			$init($Double);
+	$load($Boolean);
+	$init($Boolean);
+	$init($SimpleType);
+	$load($Character);
+	$init($Character);
+	$load($Byte);
+	$init($Byte);
+	$load($Short);
+	$init($Short);
+	$load($Integer);
+	$init($Integer);
+	$load($Long);
+	$init($Long);
+	$load($Float);
+	$init($Float);
+	$load($Double);
+	$init($Double);
 	$assignStatic(ArrayType::PRIMITIVE_ARRAY_TYPES, $new($ObjectArray2, {
 		$$new($ObjectArray, {
 			$($of($Boolean::class$->getName())),

@@ -10,26 +10,10 @@
 #include <com/sun/jmx/remote/util/ClassLogger.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
 #include <java/lang/InterruptedException.h>
 #include <java/lang/Math.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/security/Permission.h>
@@ -235,8 +219,7 @@ $Integer* ServerNotifForwarder::addNotificationListener($ObjectName* name, $Noti
 		if (!instanceOf) {
 			$throwNew($IllegalArgumentException, $$str({"The specified MBean ["_s, name, "] is not a NotificationBroadcaster object."_s}));
 		}
-	} catch ($PrivilegedActionException&) {
-		$var($PrivilegedActionException, e, $catch());
+	} catch ($PrivilegedActionException& e) {
 		$throw($cast($InstanceNotFoundException, $(extractException(e))));
 	}
 	$var($Integer, id, getListenerID());
@@ -246,8 +229,7 @@ $Integer* ServerNotifForwarder::addNotificationListener($ObjectName* name, $Noti
 		try {
 			$var($String, var$1, $nc(this->mbeanServer)->getDefaultDomain());
 			$assign(nn, $ObjectName::getInstance(var$1, $(name->getKeyPropertyList())));
-		} catch ($MalformedObjectNameException&) {
-			$var($MalformedObjectNameException, mfoe, $catch());
+		} catch ($MalformedObjectNameException& mfoe) {
 			$var($IOException, ioe, $new($IOException, $(mfoe->getMessage())));
 			ioe->initCause(mfoe);
 			$throw(ioe);
@@ -283,8 +265,7 @@ void ServerNotifForwarder::removeNotificationListener($ObjectName* name, $Intege
 	for (int32_t i = 0; i < $nc(listenerIDs)->length; ++i) {
 		try {
 			removeNotificationListener(name, listenerIDs->get(i));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			if (re != nullptr) {
 				$assign(re, e);
 			}
@@ -330,8 +311,7 @@ $NotificationResult* ServerNotifForwarder::fetchNotifs(int64_t startSequenceNumb
 	try {
 		$assign(nr, $nc(this->notifBuffer)->fetchNotifications(this->bufferFilter, startSequenceNumber, t, maxNotifications));
 		snoopOnUnregister(nr);
-	} catch ($InterruptedException&) {
-		$var($InterruptedException, ire, $catch());
+	} catch ($InterruptedException& ire) {
 		$assign(nr, $new($NotificationResult, 0, 0, $$new($TargetedNotificationArray, 0)));
 	}
 	if ($nc(ServerNotifForwarder::logger)->traceOn()) {
@@ -433,8 +413,7 @@ void ServerNotifForwarder::checkMBeanPermission($MBeanServer* mbs, $ObjectName* 
 		$var($ObjectInstance, oi, nullptr);
 		try {
 			$assign(oi, $cast($ObjectInstance, $AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ServerNotifForwarder$2, mbs, name)))));
-		} catch ($PrivilegedActionException&) {
-			$var($PrivilegedActionException, e, $catch());
+		} catch ($PrivilegedActionException& e) {
 			$throw($cast($InstanceNotFoundException, $(extractException(e))));
 		}
 		$var($String, classname, $nc(oi)->getClassName());
@@ -456,14 +435,12 @@ bool ServerNotifForwarder::allowNotificationEmission($ObjectName* name, $Targete
 			$nc(this->notificationAccessController)->fetchNotification(var$0, var$1, var$2, $(getSubject()));
 		}
 		return true;
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		if ($nc(ServerNotifForwarder::logger)->debugOn()) {
 			$nc(ServerNotifForwarder::logger)->debug("fetchNotifs"_s, $$str({"Notification "_s, $($nc(tn)->getNotification()), " not forwarded: the caller didn\'t have the required access rights"_s}));
 		}
 		return false;
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		if ($nc(ServerNotifForwarder::logger)->debugOn()) {
 			$nc(ServerNotifForwarder::logger)->debug("fetchNotifs"_s, $$str({"Notification "_s, $($nc(tn)->getNotification()), " not forwarded: got an unexpected exception: "_s, e}));
 		}

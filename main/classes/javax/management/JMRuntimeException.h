@@ -23,8 +23,10 @@ public:
 	void init$($String* message, $Throwable* cause);
 	static const int64_t serialVersionUID = (int64_t)0x5B39361CCA78B445;
 	JMRuntimeException(const JMRuntimeException& e);
-	JMRuntimeException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline JMRuntimeException* operator ->() {
+		return (JMRuntimeException*)throwing$;
+	}
 };
 
 	} // management

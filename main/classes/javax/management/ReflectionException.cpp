@@ -1,14 +1,5 @@
 #include <javax/management/ReflectionException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <jcpp.h>
 
@@ -69,16 +60,10 @@ $Throwable* ReflectionException::getCause() {
 ReflectionException::ReflectionException() {
 }
 
-ReflectionException::ReflectionException(const ReflectionException& e) {
+ReflectionException::ReflectionException(const ReflectionException& e) : $JMException(e) {
 }
 
-ReflectionException ReflectionException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void ReflectionException::throwWrapper$() {
-	$pendingException(this);
+void ReflectionException::throw$() {
 	throw *this;
 }
 

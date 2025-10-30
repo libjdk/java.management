@@ -18,32 +18,18 @@
 #include <java/io/IOException.h>
 #include <java/io/InvalidObjectException.h>
 #include <java/io/ObjectStreamException.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
 #include <java/lang/CharSequence.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
 #include <java/lang/Comparable.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchFieldException.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/annotation/ElementType.h>
 #include <java/lang/ref/WeakReference.h>
 #include <java/lang/reflect/Array.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Field.h>
 #include <java/lang/reflect/GenericArrayType.h>
 #include <java/lang/reflect/Method.h>
@@ -242,7 +228,6 @@ $Object* allocate$DefaultMXBeanMappingFactory($Class* clazz) {
 
 bool DefaultMXBeanMappingFactory::$assertionsDisabled = false;
 $DefaultMXBeanMappingFactory$Mappings* DefaultMXBeanMappingFactory::mappings = nullptr;
-
 $List* DefaultMXBeanMappingFactory::permanentMappings = nullptr;
 $StringArray* DefaultMXBeanMappingFactory::keyArray = nullptr;
 $StringArray* DefaultMXBeanMappingFactory::keyValueArray = nullptr;
@@ -301,12 +286,11 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::mappingForType($Type* objType, $MXB
 			try {
 				try {
 					$assign(mapping, makeMapping(objType, factory));
-				} catch ($OpenDataException&) {
-					$var($OpenDataException, e, $catch());
+				} catch ($OpenDataException& e) {
 					$throw($(openDataException($$str({"Cannot convert type: "_s, $($MXBeanIntrospector::typeName(objType))}), e)));
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$1) {
+				$assign(var$0, var$1);
 			} /*finally*/ {
 				$nc(DefaultMXBeanMappingFactory::inProgress)->remove(objType);
 			}
@@ -366,8 +350,7 @@ $MXBeanMapping* DefaultMXBeanMappingFactory::makeArrayOrCollectionMapping($Type*
 	}
 	try {
 		openArrayClass = $Class::forName(openArrayClassName);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throw($(openDataException("Cannot obtain array class"_s, e)));
 	}
 	if ($instanceOf($ParameterizedType, collectionType)) {
@@ -606,7 +589,7 @@ void clinit$DefaultMXBeanMappingFactory($Class* class$) {
 	$assignStatic(DefaultMXBeanMappingFactory::mappings, $new($DefaultMXBeanMappingFactory$Mappings));
 	$assignStatic(DefaultMXBeanMappingFactory::permanentMappings, $Util::newList());
 	{
-			$init($SimpleType);
+		$init($SimpleType);
 		$var($OpenTypeArray, simpleTypes, $new($OpenTypeArray, {
 			static_cast<$OpenType*>($SimpleType::BIGDECIMAL),
 			static_cast<$OpenType*>($SimpleType::BIGINTEGER),
@@ -630,8 +613,7 @@ void clinit$DefaultMXBeanMappingFactory($Class* class$) {
 				$var($String, var$0, $nc(t)->getClassName());
 				$load($ObjectName);
 				c = $Class::forName(var$0, false, $($ObjectName::class$->getClassLoader()));
-			} catch ($ClassNotFoundException&) {
-				$var($ClassNotFoundException, e, $catch());
+			} catch ($ClassNotFoundException& e) {
 				$throwNew($Error, static_cast<$Throwable*>(e));
 			}
 			$var($MXBeanMapping, mapping, $new($DefaultMXBeanMappingFactory$IdentityMapping, c, t));
@@ -649,10 +631,8 @@ void clinit$DefaultMXBeanMappingFactory($Class* class$) {
 						$var($MXBeanMapping, primitiveArrayMapping, $new($DefaultMXBeanMappingFactory$IdentityMapping, primitiveArrayType, primitiveArrayOpenType));
 						DefaultMXBeanMappingFactory::putPermanentMapping(primitiveArrayType, primitiveArrayMapping);
 					}
-				} catch ($NoSuchFieldException&) {
-					$catch();
-				} catch ($IllegalAccessException&) {
-					$var($IllegalAccessException, e, $catch());
+				} catch ($NoSuchFieldException& e) {
+				} catch ($IllegalAccessException& e) {
 					if (!DefaultMXBeanMappingFactory::$assertionsDisabled) {
 						$throwNew($AssertionError);
 					}

@@ -1,18 +1,6 @@
 #include <javax/management/MBeanPermission.h>
 
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/Permission.h>
 #include <javax/management/JMException.h>
 #include <javax/management/MalformedObjectNameException.h>
@@ -147,8 +135,7 @@ void MBeanPermission::parseName() {
 				} else {
 					$set(this, objectName, $new($ObjectName, on));
 				}
-			} catch ($MalformedObjectNameException&) {
-				$var($MalformedObjectNameException, e, $catch());
+			} catch ($MalformedObjectNameException& e) {
 				$throwNew($IllegalArgumentException, "MBeanPermission: The target name does not specify a valid ObjectName"_s, e);
 			}
 		}

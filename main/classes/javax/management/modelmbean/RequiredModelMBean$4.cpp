@@ -1,18 +1,7 @@
 #include <javax/management/modelmbean/RequiredModelMBean$4.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationTargetException.h>
 #include <java/lang/reflect/Method.h>
 #include <javax/management/modelmbean/RequiredModelMBean.h>
@@ -95,15 +84,12 @@ void RequiredModelMBean$4::init$($RequiredModelMBean* this$0, $Method* val$metho
 }
 
 $Object* RequiredModelMBean$4::run() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$ReflectUtil::checkPackageAccess($nc(this->val$method)->getDeclaringClass());
 		return $of($MethodUtil::invoke(this->val$method, this->val$targetObject, this->val$opArgs));
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		$nc(this->val$caughtException)->set(0, e);
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$nc(this->val$caughtException)->set(0, e);
 	}
 	return $of(nullptr);

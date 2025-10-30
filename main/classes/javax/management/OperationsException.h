@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xBB0F8C4E68566A68;
 	OperationsException(const OperationsException& e);
-	OperationsException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline OperationsException* operator ->() {
+		return (OperationsException*)throwing$;
+	}
 };
 
 	} // management

@@ -7,20 +7,8 @@
 #include <com/sun/jmx/mbeanserver/PerInterface$InitMaps.h>
 #include <com/sun/jmx/mbeanserver/PerInterface$MethodAndSig.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/Arrays.h>
@@ -212,8 +200,7 @@ $Object* PerInterface::noSuchMethod($String* msg, Object$* resource, $String* op
 	$var($String, invokeGettersS, nullptr);
 	try {
 		$assign(invokeGettersS, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$assign(invokeGettersS, nullptr);
 	}
 	if (invokeGettersS == nullptr) {

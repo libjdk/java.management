@@ -1,15 +1,6 @@
 #include <javax/management/monitor/GaugeMonitor$1.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/NoSuchFieldError.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/monitor/GaugeMonitor.h>
 #include <javax/management/monitor/Monitor$NumericalType.h>
 #include <javax/management/monitor/Monitor.h>
@@ -80,33 +71,27 @@ void clinit$GaugeMonitor$1($Class* class$) {
 	{
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::INTEGER->ordinal(), 1);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::BYTE->ordinal(), 2);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::SHORT->ordinal(), 3);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::LONG->ordinal(), 4);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::FLOAT->ordinal(), 5);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(GaugeMonitor$1::$SwitchMap$javax$management$monitor$Monitor$NumericalType)->set($Monitor$NumericalType::DOUBLE->ordinal(), 6);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 	}
 }

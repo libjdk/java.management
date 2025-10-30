@@ -1,17 +1,10 @@
 #include <javax/management/loading/DefaultLoaderRepository.h>
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
 #include <java/util/Iterator.h>
@@ -43,11 +36,11 @@ using $ClassLoaderRepository = ::javax::management::loading::ClassLoaderReposito
 namespace javax {
 	namespace management {
 		namespace loading {
+
 $CompoundAttribute _DefaultLoaderRepository_Annotations_[] = {
 	{"Ljava/lang/Deprecated;", nullptr},
 	{}
 };
-
 
 $MethodInfo _DefaultLoaderRepository_MethodInfo_[] = {
 	{"<init>", "()V", nullptr, $PUBLIC, $method(static_cast<void(DefaultLoaderRepository::*)()>(&DefaultLoaderRepository::init$))},
@@ -102,8 +95,7 @@ $Class* DefaultLoaderRepository::load($ClassLoader* without, $String* className)
 				$var($ClassLoaderRepository, clr, $nc(mbs)->getClassLoaderRepository());
 				try {
 					return $nc(clr)->loadClassWithout(without, className);
-				} catch ($ClassNotFoundException&) {
-					$catch();
+				} catch ($ClassNotFoundException& e) {
 				}
 			}
 		}

@@ -1,16 +1,6 @@
 #include <javax/management/remote/JMXConnectionNotification.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
 #include <java/lang/Math.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Notification.h>
 #include <jcpp.h>
 
@@ -61,13 +51,9 @@ $Object* allocate$JMXConnectionNotification($Class* clazz) {
 	return $of($alloc(JMXConnectionNotification));
 }
 
-
 $String* JMXConnectionNotification::OPENED = nullptr;
-
 $String* JMXConnectionNotification::CLOSED = nullptr;
-
 $String* JMXConnectionNotification::FAILED = nullptr;
-
 $String* JMXConnectionNotification::NOTIFS_LOST = nullptr;
 
 void JMXConnectionNotification::init$($String* type, Object$* source, $String* connectionId, int64_t sequenceNumber, $String* message, Object$* userData) {

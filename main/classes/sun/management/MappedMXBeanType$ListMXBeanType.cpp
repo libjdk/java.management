@@ -1,21 +1,9 @@
 #include <sun/management/MappedMXBeanType$ListMXBeanType.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Array.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/ParameterizedType.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/AbstractList.h>
@@ -117,8 +105,7 @@ void MappedMXBeanType$ListMXBeanType::init$($ParameterizedType* pt) {
 	$set(this, typeName, $str({"List<"_s, $($nc(this->paramType)->getName()), ">"_s}));
 	try {
 		$set(this, mappedTypeClass, $Class::forName($$str({"[L"_s, $($nc(this->paramType)->getTypeName()), ";"_s})));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$var($OpenDataException, ode, $new($OpenDataException, "Array class not found"_s));
 		ode->initCause(e);
 		$throw(ode);

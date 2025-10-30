@@ -1,12 +1,5 @@
 #include <javax/management/loading/MLetContent.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/net/URL.h>
 #include <java/util/Collections.h>
@@ -78,8 +71,7 @@ void MLetContent::init$($URL* url, $Map* attributes, $List* types, $List* values
 		}
 		try {
 			$set(this, baseURL, $new($URL, this->documentURL, att));
-		} catch ($MalformedURLException&) {
-			$catch();
+		} catch ($MalformedURLException& e) {
 		}
 	}
 	if (this->baseURL == nullptr) {
@@ -88,8 +80,7 @@ void MLetContent::init$($URL* url, $Map* attributes, $List* types, $List* values
 		if (i >= 0 && i < file->length() - 1) {
 			try {
 				$set(this, baseURL, $new($URL, this->documentURL, $(file->substring(0, i + 1))));
-			} catch ($MalformedURLException&) {
-				$catch();
+			} catch ($MalformedURLException& e) {
 			}
 		}
 	}

@@ -8,19 +8,8 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -113,7 +102,6 @@ $Object* allocate$MBeanServerNotificationFilter($Class* clazz) {
 $ObjectStreamFieldArray* MBeanServerNotificationFilter::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* MBeanServerNotificationFilter::newSerialPersistentFields = nullptr;
 int64_t MBeanServerNotificationFilter::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* MBeanServerNotificationFilter::serialPersistentFields = nullptr;
 bool MBeanServerNotificationFilter::compat = false;
 
@@ -300,12 +288,12 @@ void MBeanServerNotificationFilter::writeObject($ObjectOutputStream* out) {
 void clinit$MBeanServerNotificationFilter($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($Vector);
+	$load($Vector);
 	$assignStatic(MBeanServerNotificationFilter::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "mySelectObjNameList"_s, $Vector::class$),
 		$$new($ObjectStreamField, "myDeselectObjNameList"_s, $Vector::class$)
 	}));
-		$load($List);
+	$load($List);
 	$assignStatic(MBeanServerNotificationFilter::newSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "selectedNames"_s, $List::class$),
 		$$new($ObjectStreamField, "deselectedNames"_s, $List::class$)
@@ -316,8 +304,7 @@ void clinit$MBeanServerNotificationFilter($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			MBeanServerNotificationFilter::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (MBeanServerNotificationFilter::compat) {
 			$assignStatic(MBeanServerNotificationFilter::serialPersistentFields, MBeanServerNotificationFilter::oldSerialPersistentFields);

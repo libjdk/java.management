@@ -7,19 +7,7 @@
 #include <java/io/ObjectInputStream$GetField.h>
 #include <java/io/ObjectInputStream.h>
 #include <java/lang/CharSequence.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/NumberFormatException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/Inet4Address.h>
 #include <java/net/Inet6Address.h>
 #include <java/net/InetAddress.h>
@@ -175,8 +163,7 @@ void JMXServiceURL::init$($String* serviceURL) {
 		$var($String, portString, serviceURL->substring(portStart, portEnd));
 		try {
 			this->port = $Integer::parseInt(portString);
-		} catch ($NumberFormatException&) {
-			$var($NumberFormatException, e, $catch());
+		} catch ($NumberFormatException& e) {
 			$throwNew($MalformedURLException, $$str({"Bad port number: \""_s, portString, "\": "_s, e}));
 		}
 	} else {
@@ -211,22 +198,19 @@ void JMXServiceURL::init$($String* protocol$renamed, $String* host$renamed, int3
 			$assign(host, $nc(local)->getHostName());
 			try {
 				validateHost(host, port);
-			} catch ($MalformedURLException&) {
-				$var($MalformedURLException, e, $catch());
+			} catch ($MalformedURLException& e) {
 				if ($nc(JMXServiceURL::logger)->fineOn()) {
 					$nc(JMXServiceURL::logger)->fine("JMXServiceURL"_s, $$str({"Replacing illegal local host name "_s, host, " with numeric IP address (see RFC 1034)"_s}), e);
 				}
 				$assign(host, local->getHostAddress());
 			}
-		} catch ($UnknownHostException&) {
-			$var($UnknownHostException, e, $catch());
+		} catch ($UnknownHostException& e) {
 			try {
 				$assign(host, getActiveNetworkInterfaceIP());
 				if (host == nullptr) {
 					$throwNew($MalformedURLException, "Unable to resolve hostname or get valid IP address"_s);
 				}
-			} catch ($SocketException&) {
-				$var($SocketException, ex, $catch());
+			} catch ($SocketException& ex) {
 				$throwNew($MalformedURLException, "Unable to resolve hostname or get valid IP address"_s);
 			}
 		}
@@ -310,8 +294,7 @@ void JMXServiceURL::readObject($ObjectInputStream* inputStream) {
 		$set(this, host, h);
 		this->port = p;
 		$set(this, urlPath, url);
-	} catch ($MalformedURLException&) {
-		$var($MalformedURLException, e, $catch());
+	} catch ($MalformedURLException& e) {
 		$throwNew($InvalidObjectException, $$str({JMXServiceURL::INVALID_INSTANCE_MSG, ": "_s, $(e->getMessage())}));
 	}
 }
@@ -351,8 +334,7 @@ void JMXServiceURL::validateHost($String* h, int32_t port) {
 	if (isNumericIPv6Address(h)) {
 		try {
 			$InetAddress::getByName(h);
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$var($MalformedURLException, bad, $new($MalformedURLException, $$str({"Bad IPv6 address: "_s, h})));
 			$EnvHelp::initCause(bad, e);
 			$throw(bad);
@@ -406,8 +388,7 @@ void JMXServiceURL::validateHost($String* h, int32_t port) {
 					$throw(JMXServiceURL::randomException);
 				}
 			}
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$throwNew($MalformedURLException, $$str({"Bad host: \""_s, h, "\""_s}));
 		}
 	}

@@ -1,18 +1,7 @@
 #include <sun/management/MemoryUsageCompositeData.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
 #include <java/lang/management/MemoryUsage.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/CompositeData.h>
 #include <javax/management/openmbean/CompositeDataSupport.h>
@@ -119,8 +108,7 @@ $CompositeData* MemoryUsageCompositeData::getCompositeData() {
 	}));
 	try {
 		return $new($CompositeDataSupport, MemoryUsageCompositeData::memoryUsageCompositeType, MemoryUsageCompositeData::memoryUsageItemNames, memoryUsageItemValues);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -170,8 +158,7 @@ void clinit$MemoryUsageCompositeData($Class* class$) {
 		try {
 			$load($MemoryUsage);
 			$assignStatic(MemoryUsageCompositeData::memoryUsageCompositeType, $cast($CompositeType, $MappedMXBeanType::toOpenType($MemoryUsage::class$)));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 	}

@@ -17,8 +17,10 @@ public:
 	void init$($String* msg);
 	static const int64_t serialVersionUID = (int64_t)0x199B68BDCD90E532;
 	KeyAlreadyExistsException(const KeyAlreadyExistsException& e);
-	KeyAlreadyExistsException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline KeyAlreadyExistsException* operator ->() {
+		return (KeyAlreadyExistsException*)throwing$;
+	}
 };
 
 		} // openmbean

@@ -1,14 +1,5 @@
 #include <javax/management/MBeanException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <jcpp.h>
 
@@ -69,16 +60,10 @@ $Throwable* MBeanException::getCause() {
 MBeanException::MBeanException() {
 }
 
-MBeanException::MBeanException(const MBeanException& e) {
+MBeanException::MBeanException(const MBeanException& e) : $JMException(e) {
 }
 
-MBeanException MBeanException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void MBeanException::throwWrapper$() {
-	$pendingException(this);
+void MBeanException::throw$() {
 	throw *this;
 }
 

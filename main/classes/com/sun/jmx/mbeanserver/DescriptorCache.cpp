@@ -1,14 +1,6 @@
 #include <com/sun/jmx/mbeanserver/DescriptorCache.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/ref/WeakReference.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/WeakHashMap.h>
 #include <javax/management/Descriptor.h>
 #include <javax/management/ImmutableDescriptor.h>

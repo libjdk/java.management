@@ -6,20 +6,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <javax/management/relation/InvalidRoleInfoException.h>
@@ -108,7 +94,6 @@ $Object* allocate$RoleInfo($Class* clazz) {
 $ObjectStreamFieldArray* RoleInfo::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* RoleInfo::newSerialPersistentFields = nullptr;
 int64_t RoleInfo::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* RoleInfo::serialPersistentFields = nullptr;
 bool RoleInfo::compat = false;
 
@@ -126,8 +111,7 @@ void RoleInfo::init$($String* roleName, $String* mbeanClassName, bool read, bool
 	$set(this, referencedMBeanClassName, nullptr);
 	try {
 		init(roleName, mbeanClassName, read, write, 1, 1, nullptr);
-	} catch ($InvalidRoleInfoException&) {
-		$catch();
+	} catch ($InvalidRoleInfoException& exc) {
 	}
 	return;
 }
@@ -138,8 +122,7 @@ void RoleInfo::init$($String* roleName, $String* mbeanClassName) {
 	$set(this, referencedMBeanClassName, nullptr);
 	try {
 		init(roleName, mbeanClassName, true, true, 1, 1, nullptr);
-	} catch ($InvalidRoleInfoException&) {
-		$catch();
+	} catch ($InvalidRoleInfoException& exc) {
 	}
 	return;
 }
@@ -161,8 +144,7 @@ void RoleInfo::init$(RoleInfo* roleInfo) {
 		int32_t var$4 = roleInfo->getMinDegree();
 		int32_t var$5 = roleInfo->getMaxDegree();
 		init(var$0, var$1, var$2, var$3, var$4, var$5, $(roleInfo->getDescription()));
-	} catch ($InvalidRoleInfoException&) {
-		$catch();
+	} catch ($InvalidRoleInfoException& exc3) {
 	}
 }
 
@@ -311,9 +293,8 @@ void RoleInfo::writeObject($ObjectOutputStream* out) {
 void clinit$RoleInfo($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$init($Boolean);
-		$init($Integer);
+	$init($Boolean);
+	$init($Integer);
 	$assignStatic(RoleInfo::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "myName"_s, $String::class$),
 		$$new($ObjectStreamField, "myIsReadableFlg"_s, $Boolean::TYPE),
@@ -338,8 +319,7 @@ void clinit$RoleInfo($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			RoleInfo::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (RoleInfo::compat) {
 			$assignStatic(RoleInfo::serialPersistentFields, RoleInfo::oldSerialPersistentFields);

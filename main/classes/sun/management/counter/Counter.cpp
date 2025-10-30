@@ -1,11 +1,5 @@
 #include <sun/management/counter/Counter.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <sun/management/counter/Units.h>
 #include <sun/management/counter/Variability.h>
 #include <jcpp.h>

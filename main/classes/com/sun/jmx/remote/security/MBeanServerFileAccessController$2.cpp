@@ -2,16 +2,7 @@
 
 #include <com/sun/jmx/remote/security/MBeanServerFileAccessController$AccessType.h>
 #include <com/sun/jmx/remote/security/MBeanServerFileAccessController.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/NoSuchFieldError.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef CREATE
@@ -78,23 +69,19 @@ void clinit$MBeanServerFileAccessController$2($Class* class$) {
 	{
 		try {
 			$nc(MBeanServerFileAccessController$2::$SwitchMap$com$sun$jmx$remote$security$MBeanServerFileAccessController$AccessType)->set($MBeanServerFileAccessController$AccessType::READ->ordinal(), 1);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(MBeanServerFileAccessController$2::$SwitchMap$com$sun$jmx$remote$security$MBeanServerFileAccessController$AccessType)->set($MBeanServerFileAccessController$AccessType::WRITE->ordinal(), 2);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(MBeanServerFileAccessController$2::$SwitchMap$com$sun$jmx$remote$security$MBeanServerFileAccessController$AccessType)->set($MBeanServerFileAccessController$AccessType::UNREGISTER->ordinal(), 3);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 		try {
 			$nc(MBeanServerFileAccessController$2::$SwitchMap$com$sun$jmx$remote$security$MBeanServerFileAccessController$AccessType)->set($MBeanServerFileAccessController$AccessType::CREATE->ordinal(), 4);
-		} catch ($NoSuchFieldError&) {
-			$catch();
+		} catch ($NoSuchFieldError& ex) {
 		}
 	}
 }

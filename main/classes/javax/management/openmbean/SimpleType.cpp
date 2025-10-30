@@ -1,23 +1,6 @@
 #include <javax/management/openmbean/SimpleType.h>
 
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Double.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/Void.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/math/BigInteger.h>
 #include <java/util/AbstractMap.h>
@@ -117,33 +100,19 @@ $Object* allocate$SimpleType($Class* clazz) {
 	return $of($alloc(SimpleType));
 }
 
-
 SimpleType* SimpleType::VOID = nullptr;
-
 SimpleType* SimpleType::BOOLEAN = nullptr;
-
 SimpleType* SimpleType::CHARACTER = nullptr;
-
 SimpleType* SimpleType::BYTE = nullptr;
-
 SimpleType* SimpleType::SHORT = nullptr;
-
 SimpleType* SimpleType::INTEGER = nullptr;
-
 SimpleType* SimpleType::LONG = nullptr;
-
 SimpleType* SimpleType::FLOAT = nullptr;
-
 SimpleType* SimpleType::DOUBLE = nullptr;
-
 SimpleType* SimpleType::STRING = nullptr;
-
 SimpleType* SimpleType::BIGDECIMAL = nullptr;
-
 SimpleType* SimpleType::BIGINTEGER = nullptr;
-
 SimpleType* SimpleType::DATE = nullptr;
-
 SimpleType* SimpleType::OBJECTNAME = nullptr;
 $SimpleTypeArray* SimpleType::typeArray = nullptr;
 $Map* SimpleType::canonicalTypes = nullptr;
@@ -220,7 +189,6 @@ void clinit$SimpleType($Class* class$) {
 	$assignStatic(SimpleType::FLOAT, $new(SimpleType, $Float::class$));
 	$load($Double);
 	$assignStatic(SimpleType::DOUBLE, $new(SimpleType, $Double::class$));
-	$load($String);
 	$assignStatic(SimpleType::STRING, $new(SimpleType, $String::class$));
 	$load($BigDecimal);
 	$assignStatic(SimpleType::BIGDECIMAL, $new(SimpleType, $BigDecimal::class$));

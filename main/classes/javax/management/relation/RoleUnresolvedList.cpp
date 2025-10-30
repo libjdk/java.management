@@ -1,18 +1,7 @@
 #include <javax/management/relation/RoleUnresolvedList.h>
 
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractCollection.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
@@ -203,12 +192,10 @@ $Object* RoleUnresolvedList::set(int32_t index, Object$* element) {
 
 void RoleUnresolvedList::checkTypeSafe(Object$* o$renamed) {
 	$init(RoleUnresolvedList);
-	$useLocalCurrentObjectStackCache();
 	$var($Object, o, o$renamed);
 	try {
 		$assign(o, $cast($RoleUnresolved, o));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -225,8 +212,7 @@ void RoleUnresolvedList::checkTypeSafe($Collection* c) {
 				$assign(r, $cast($RoleUnresolved, o));
 			}
 		}
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -235,8 +221,7 @@ bool RoleUnresolvedList::isTainted(Object$* o) {
 	$init(RoleUnresolvedList);
 	try {
 		checkTypeSafe(o);
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		return true;
 	}
 	return false;
@@ -246,8 +231,7 @@ bool RoleUnresolvedList::isTainted($Collection* c) {
 	$init(RoleUnresolvedList);
 	try {
 		checkTypeSafe(c);
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		return true;
 	}
 	return false;

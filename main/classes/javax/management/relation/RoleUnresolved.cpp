@@ -7,19 +7,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -108,7 +95,6 @@ $Object* allocate$RoleUnresolved($Class* clazz) {
 $ObjectStreamFieldArray* RoleUnresolved::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* RoleUnresolved::newSerialPersistentFields = nullptr;
 int64_t RoleUnresolved::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* RoleUnresolved::serialPersistentFields = nullptr;
 bool RoleUnresolved::compat = false;
 
@@ -167,8 +153,7 @@ void RoleUnresolved::setProblemType(int32_t pbType) {
 $Object* RoleUnresolved::clone() {
 	try {
 		return $of($new(RoleUnresolved, this->roleName, this->roleValue, this->problemType));
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, exc, $catch());
+	} catch ($IllegalArgumentException& exc) {
 		return $of(nullptr);
 	}
 	$shouldNotReachHere();
@@ -231,15 +216,14 @@ void RoleUnresolved::writeObject($ObjectOutputStream* out) {
 void clinit$RoleUnresolved($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$load($ArrayList);
-		$init($Integer);
+	$load($ArrayList);
+	$init($Integer);
 	$assignStatic(RoleUnresolved::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "myRoleName"_s, $String::class$),
 		$$new($ObjectStreamField, "myRoleValue"_s, $ArrayList::class$),
 		$$new($ObjectStreamField, "myPbType"_s, $Integer::TYPE)
 	}));
-		$load($List);
+	$load($List);
 	$assignStatic(RoleUnresolved::newSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "roleName"_s, $String::class$),
 		$$new($ObjectStreamField, "roleValue"_s, $List::class$),
@@ -251,8 +235,7 @@ void clinit$RoleUnresolved($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			RoleUnresolved::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (RoleUnresolved::compat) {
 			$assignStatic(RoleUnresolved::serialPersistentFields, RoleUnresolved::oldSerialPersistentFields);

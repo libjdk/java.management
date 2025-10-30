@@ -18,8 +18,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x6FDB4A79A2E310ED;
 	InstrumentationException(const InstrumentationException& e);
-	InstrumentationException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InstrumentationException* operator ->() {
+		return (InstrumentationException*)throwing$;
+	}
 };
 
 			} // perf

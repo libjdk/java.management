@@ -2,23 +2,8 @@
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/ArrayList.h>
@@ -249,8 +234,7 @@ $RoleResult* RelationSupport::getAllRoles() {
 	$var($RoleResult, result, nullptr);
 	try {
 		$assign(result, getAllRolesInt(false, nullptr));
-	} catch ($IllegalArgumentException&) {
-		$catch();
+	} catch ($IllegalArgumentException& exc) {
 	}
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
 	return result;
@@ -286,8 +270,7 @@ $Integer* RelationSupport::getRoleCardinality($String* roleName) {
 		int32_t pbType = $RoleStatus::NO_ROLE_WITH_NAME;
 		try {
 			$RelationService::throwRoleProblemException(pbType, roleName);
-		} catch ($InvalidRoleValueException&) {
-			$catch();
+		} catch ($InvalidRoleValueException& exc) {
 		}
 	}
 	$var($List, roleValue, $nc(role)->getRoleValue());
@@ -442,8 +425,7 @@ $Object* RelationSupport::getRoleInt($String* roleName, bool relationServCallFlg
 		if (relationServCallFlg) {
 			try {
 				$assign(status, $nc(relationServ)->checkRoleReading(roleName, this->myRelTypeName));
-			} catch ($RelationTypeNotFoundException&) {
-				$var($RelationTypeNotFoundException, exc, $catch());
+			} catch ($RelationTypeNotFoundException& exc) {
 				$throwNew($RuntimeException, $(exc->getMessage()));
 			}
 		} else {
@@ -455,14 +437,11 @@ $Object* RelationSupport::getRoleInt($String* roleName, bool relationServCallFlg
 			signature->set(1, "java.lang.String"_s);
 			try {
 				$assign(status, ($cast($Integer, $nc(this->myRelServiceMBeanServer)->invoke(this->myRelServiceName, "checkRoleReading"_s, params, signature))));
-			} catch ($MBeanException&) {
-				$var($MBeanException, exc1, $catch());
+			} catch ($MBeanException& exc1) {
 				$throwNew($RuntimeException, "incorrect relation type"_s);
-			} catch ($ReflectionException&) {
-				$var($ReflectionException, exc2, $catch());
+			} catch ($ReflectionException& exc2) {
 				$throwNew($RuntimeException, $(exc2->getMessage()));
-			} catch ($InstanceNotFoundException&) {
-				$var($InstanceNotFoundException, exc3, $catch());
+			} catch ($InstanceNotFoundException& exc3) {
 				$throwNew($RelationServiceNotRegisteredException, $(exc3->getMessage()));
 			}
 		}
@@ -479,8 +458,7 @@ $Object* RelationSupport::getRoleInt($String* roleName, bool relationServCallFlg
 		try {
 			$RelationService::throwRoleProblemException(pbType, roleName);
 			return $of(nullptr);
-		} catch ($InvalidRoleValueException&) {
-			$var($InvalidRoleValueException, exc, $catch());
+		} catch ($InvalidRoleValueException& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	} else {
@@ -506,22 +484,19 @@ $RoleResult* RelationSupport::getRolesInt($StringArray* roleNameArray, bool rela
 		$var($Object, currResult, nullptr);
 		try {
 			$assign(currResult, getRoleInt(currRoleName, relationServCallFlg, relationServ, true));
-		} catch ($RoleNotFoundException&) {
-			$var($RoleNotFoundException, exc, $catch());
+		} catch ($RoleNotFoundException& exc) {
 			return nullptr;
 		}
 		if ($instanceOf($Role, currResult)) {
 			try {
 				roleList->add($cast($Role, currResult));
-			} catch ($IllegalArgumentException&) {
-				$var($IllegalArgumentException, exc, $catch());
+			} catch ($IllegalArgumentException& exc) {
 				$throwNew($RuntimeException, $(exc->getMessage()));
 			}
 		} else if ($instanceOf($RoleUnresolved, currResult)) {
 			try {
 				roleUnresList->add($cast($RoleUnresolved, currResult));
-			} catch ($IllegalArgumentException&) {
-				$var($IllegalArgumentException, exc, $catch());
+			} catch ($IllegalArgumentException& exc) {
 				$throwNew($RuntimeException, $(exc->getMessage()));
 			}
 		}
@@ -596,22 +571,18 @@ $Object* RelationSupport::setRoleInt($Role* aRole, bool relationServCallFlg, $Re
 			$assign(status, ($cast($Integer, $nc(this->myRelServiceMBeanServer)->invoke(this->myRelServiceName, "checkRoleWriting"_s, params, signature))));
 		}
 		pbType = $nc(status)->intValue();
-	} catch ($MBeanException&) {
-		$var($MBeanException, exc2, $catch());
+	} catch ($MBeanException& exc2) {
 		$var($Exception, wrappedExc, exc2->getTargetException());
 		if ($instanceOf($RelationTypeNotFoundException, wrappedExc)) {
 			$throw($cast($RelationTypeNotFoundException, wrappedExc));
 		} else {
 			$throwNew($RuntimeException, $($nc(wrappedExc)->getMessage()));
 		}
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, exc3, $catch());
+	} catch ($ReflectionException& exc3) {
 		$throwNew($RuntimeException, $(exc3->getMessage()));
-	} catch ($RelationTypeNotFoundException&) {
-		$var($RelationTypeNotFoundException, exc4, $catch());
+	} catch ($RelationTypeNotFoundException& exc4) {
 		$throwNew($RuntimeException, $(exc4->getMessage()));
-	} catch ($InstanceNotFoundException&) {
-		$var($InstanceNotFoundException, exc5, $catch());
+	} catch ($InstanceNotFoundException& exc5) {
 		$throwNew($RelationServiceNotRegisteredException, $(exc5->getMessage()));
 	}
 	$var($Object, result, nullptr);
@@ -653,8 +624,7 @@ void RelationSupport::sendRoleUpdateNotification($Role* newRole, $List* oldRoleV
 	if (relationServCallFlg) {
 		try {
 			$nc(relationServ)->sendRoleUpdateNotification(this->myRelId, newRole, oldRoleValue);
-		} catch ($RelationNotFoundException&) {
-			$var($RelationNotFoundException, exc, $catch());
+		} catch ($RelationNotFoundException& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	} else {
@@ -668,14 +638,11 @@ void RelationSupport::sendRoleUpdateNotification($Role* newRole, $List* oldRoleV
 		signature->set(2, "java.util.List"_s);
 		try {
 			$nc(this->myRelServiceMBeanServer)->invoke(this->myRelServiceName, "sendRoleUpdateNotification"_s, params, signature);
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc1, $catch());
+		} catch ($ReflectionException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc2, $catch());
+		} catch ($InstanceNotFoundException& exc2) {
 			$throwNew($RelationServiceNotRegisteredException, $(exc2->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc3, $catch());
+		} catch ($MBeanException& exc3) {
 			$var($Exception, wrappedExc, exc3->getTargetException());
 			if ($instanceOf($RelationNotFoundException, wrappedExc)) {
 				$throw($cast($RelationNotFoundException, wrappedExc));
@@ -705,8 +672,7 @@ void RelationSupport::updateRelationServiceMap($Role* newRole, $List* oldRoleVal
 	if (relationServCallFlg) {
 		try {
 			$nc(relationServ)->updateRoleMap(this->myRelId, newRole, oldRoleValue);
-		} catch ($RelationNotFoundException&) {
-			$var($RelationNotFoundException, exc, $catch());
+		} catch ($RelationNotFoundException& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	} else {
@@ -720,14 +686,11 @@ void RelationSupport::updateRelationServiceMap($Role* newRole, $List* oldRoleVal
 		signature->set(2, "java.util.List"_s);
 		try {
 			$nc(this->myRelServiceMBeanServer)->invoke(this->myRelServiceName, "updateRoleMap"_s, params, signature);
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc1, $catch());
+		} catch ($ReflectionException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc2, $catch());
+		} catch ($InstanceNotFoundException& exc2) {
 			$throwNew($RelationServiceNotRegisteredException, $(exc2->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc3, $catch());
+		} catch ($MBeanException& exc3) {
 			$var($Exception, wrappedExc, exc3->getTargetException());
 			if ($instanceOf($RelationNotFoundException, wrappedExc)) {
 				$throw($cast($RelationNotFoundException, wrappedExc));
@@ -763,23 +726,19 @@ $RoleResult* RelationSupport::setRolesInt($RoleList* list, bool relationServCall
 				$var($Object, currResult, nullptr);
 				try {
 					$assign(currResult, setRoleInt(currRole, relationServCallFlg, relationServ, true));
-				} catch ($RoleNotFoundException&) {
-					$catch();
-				} catch ($InvalidRoleValueException&) {
-					$catch();
+				} catch ($RoleNotFoundException& exc1) {
+				} catch ($InvalidRoleValueException& exc2) {
 				}
 				if ($instanceOf($Role, currResult)) {
 					try {
 						roleList->add($cast($Role, currResult));
-					} catch ($IllegalArgumentException&) {
-						$var($IllegalArgumentException, exc, $catch());
+					} catch ($IllegalArgumentException& exc) {
 						$throwNew($RuntimeException, $(exc->getMessage()));
 					}
 				} else if ($instanceOf($RoleUnresolved, currResult)) {
 					try {
 						roleUnresList->add($cast($RoleUnresolved, currResult));
-					} catch ($IllegalArgumentException&) {
-						$var($IllegalArgumentException, exc, $catch());
+					} catch ($IllegalArgumentException& exc) {
 						$throwNew($RuntimeException, $(exc->getMessage()));
 					}
 				}

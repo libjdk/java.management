@@ -1,26 +1,13 @@
 #include <sun/management/MappedMXBeanType$CompositeDataMXBeanType.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/management/LockInfo.h>
 #include <java/lang/management/MemoryNotificationInfo.h>
 #include <java/lang/management/MemoryUsage.h>
 #include <java/lang/management/MonitorInfo.h>
 #include <java/lang/management/ThreadInfo.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationTargetException.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
@@ -152,8 +139,7 @@ void MappedMXBeanType$CompositeDataMXBeanType::init$($Class* c) {
 	$set(this, mappedTypeClass, $MappedMXBeanType::COMPOSITE_DATA_CLASS);
 	try {
 		$set(this, fromMethod, $cast($Method, $AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($MappedMXBeanType$CompositeDataMXBeanType$1, this)))));
-	} catch ($PrivilegedActionException&) {
-		$catch();
+	} catch ($PrivilegedActionException& e) {
 	}
 	if ($nc($MappedMXBeanType::COMPOSITE_DATA_CLASS)->isAssignableFrom(c)) {
 		this->isCompositeData = true;
@@ -210,11 +196,9 @@ $Object* MappedMXBeanType$CompositeDataMXBeanType::toOpenTypeData(Object$* data)
 	if (this->toMethod != nullptr) {
 		try {
 			return $of($nc(this->toMethod)->invoke(nullptr, $$new($ObjectArray, {data})));
-		} catch ($IllegalAccessException&) {
-			$var($IllegalAccessException, e, $catch());
+		} catch ($IllegalAccessException& e) {
 			$throwNew($AssertionError, $of(e));
-		} catch ($InvocationTargetException&) {
-			$var($InvocationTargetException, e, $catch());
+		} catch ($InvocationTargetException& e) {
 			$var($String, var$1, $$str({"Failed to invoke "_s, $($nc(this->toMethod)->getName()), " to convert "_s}));
 			$var($String, var$0, $$concat(var$1, $($nc(this->javaClass)->getName())));
 			$var($OpenDataException, ode, $new($OpenDataException, $$concat(var$0, " to CompositeData")));
@@ -255,11 +239,9 @@ $Object* MappedMXBeanType$CompositeDataMXBeanType::toJavaTypeData(Object$* data)
 	}
 	try {
 		return $of($nc(this->fromMethod)->invoke(nullptr, $$new($ObjectArray, {data})));
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($AssertionError, $of(e));
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		$var($String, var$0, $$str({"Failed to invoke "_s, $($nc(this->fromMethod)->getName()), " to convert CompositeData  to "_s}));
 		$var($OpenDataException, ode, $new($OpenDataException, $$concat(var$0, $($nc(this->javaClass)->getName()))));
 		ode->initCause(e);

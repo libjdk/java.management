@@ -2,20 +2,8 @@
 
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/System.h>
 #include <java/lang/UnsupportedOperationException.h>
 #include <java/lang/reflect/Array.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/Arrays.h>
 #include <java/util/Collection.h>
@@ -113,7 +101,6 @@ $Object* allocate$ImmutableDescriptor($Class* clazz) {
 	return $of($alloc(ImmutableDescriptor));
 }
 
-
 ImmutableDescriptor* ImmutableDescriptor::EMPTY_DESCRIPTOR = nullptr;
 
 void ImmutableDescriptor::init$($StringArray* fieldNames, $ObjectArray* fieldValues) {
@@ -130,7 +117,6 @@ void ImmutableDescriptor::init$($Map* fields) {
 	if (fields == nullptr) {
 		$throwNew($IllegalArgumentException, "Null Map"_s);
 	}
-	$init($String);
 	$var($SortedMap, map, $new($TreeMap, $String::CASE_INSENSITIVE_ORDER));
 	{
 		$var($Iterator, i$, $nc($($nc(fields)->entrySet()))->iterator());
@@ -163,7 +149,6 @@ $Object* ImmutableDescriptor::readResolve() {
 		if ($nc(this->names)->length == 0 && $of(this)->getClass() == ImmutableDescriptor::class$) {
 			return $of(ImmutableDescriptor::EMPTY_DESCRIPTOR);
 		}
-		$init($String);
 		$var($Comparator, compare, $String::CASE_INSENSITIVE_ORDER);
 		$var($String, lastName, ""_s);
 		for (int32_t i = 0; i < $nc(this->names)->length; ++i) {
@@ -189,7 +174,6 @@ $SortedMap* ImmutableDescriptor::makeMap($StringArray* fieldNames, $ObjectArray*
 	if ($nc(fieldNames)->length != $nc(fieldValues)->length) {
 		$throwNew($IllegalArgumentException, "Different size arrays"_s);
 	}
-	$init($String);
 	$var($SortedMap, map, $new($TreeMap, $String::CASE_INSENSITIVE_ORDER));
 	for (int32_t i = 0; i < $nc(fieldNames)->length; ++i) {
 		$var($String, name, fieldNames->get(i));
@@ -234,7 +218,6 @@ ImmutableDescriptor* ImmutableDescriptor::union$($DescriptorArray* descriptors) 
 	if ($instanceOf(ImmutableDescriptor, $nc(descriptors)->get(index)) && findNonEmpty(descriptors, index + 1) < 0) {
 		return $cast(ImmutableDescriptor, descriptors->get(index));
 	}
-	$init($String);
 	$var($Map, map, static_cast<$Map*>(static_cast<$AbstractMap*>($new($TreeMap, $String::CASE_INSENSITIVE_ORDER))));
 	$var(ImmutableDescriptor, biggestImmutable, ImmutableDescriptor::EMPTY_DESCRIPTOR);
 	{
@@ -311,7 +294,6 @@ int32_t ImmutableDescriptor::findNonEmpty($DescriptorArray* ds, int32_t start) {
 }
 
 int32_t ImmutableDescriptor::fieldIndex($String* name) {
-	$init($String);
 	return $Arrays::binarySearch(this->names, name, $String::CASE_INSENSITIVE_ORDER);
 }
 
@@ -382,7 +364,6 @@ bool ImmutableDescriptor::equals(Object$* o) {
 		$assign(onames, $nc(($cast(ImmutableDescriptor, o)))->names);
 	} else {
 		$assign(onames, $nc(($cast($Descriptor, o)))->getFieldNames());
-		$init($String);
 		$Arrays::sort(onames, $String::CASE_INSENSITIVE_ORDER);
 	}
 	if ($nc(this->names)->length != $nc(onames)->length) {

@@ -1,19 +1,8 @@
 #include <sun/management/MemoryNotifInfoCompositeData.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
 #include <java/lang/management/MemoryNotificationInfo.h>
 #include <java/lang/management/MemoryUsage.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/CompositeData.h>
 #include <javax/management/openmbean/CompositeDataSupport.h>
@@ -117,8 +106,7 @@ $CompositeData* MemoryNotifInfoCompositeData::getCompositeData() {
 	}));
 	try {
 		return $new($CompositeDataSupport, MemoryNotifInfoCompositeData::memoryNotifInfoCompositeType, MemoryNotifInfoCompositeData::memoryNotifInfoItemNames, memoryNotifInfoItemValues);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -163,8 +151,7 @@ void clinit$MemoryNotifInfoCompositeData($Class* class$) {
 		try {
 			$load($MemoryNotificationInfo);
 			$assignStatic(MemoryNotifInfoCompositeData::memoryNotifInfoCompositeType, $cast($CompositeType, $MappedMXBeanType::toOpenType($MemoryNotificationInfo::class$)));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 	}

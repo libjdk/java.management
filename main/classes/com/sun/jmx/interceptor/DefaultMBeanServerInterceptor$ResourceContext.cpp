@@ -2,14 +2,6 @@
 
 #include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor$ResourceContext$1.h>
 #include <com/sun/jmx/interceptor/DefaultMBeanServerInterceptor.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef NONE
@@ -63,7 +55,6 @@ $ClassInfo _DefaultMBeanServerInterceptor$ResourceContext_ClassInfo_ = {
 $Object* allocate$DefaultMBeanServerInterceptor$ResourceContext($Class* clazz) {
 	return $of($alloc(DefaultMBeanServerInterceptor$ResourceContext));
 }
-
 
 DefaultMBeanServerInterceptor$ResourceContext* DefaultMBeanServerInterceptor$ResourceContext::NONE = nullptr;
 

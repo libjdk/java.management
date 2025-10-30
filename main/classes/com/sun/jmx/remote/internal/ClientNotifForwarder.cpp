@@ -6,25 +6,11 @@
 #include <com/sun/jmx/remote/util/ClassLogger.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
 #include <java/lang/InterruptedException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
 #include <java/lang/Runnable.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/util/AbstractList.h>
@@ -305,8 +291,7 @@ void ClientNotifForwarder::postReconnection($ClientListenerInfoArray* listenerIn
 		while (this->state == ClientNotifForwarder::STOPPING) {
 			try {
 				$of(this)->wait();
-			} catch ($InterruptedException&) {
-				$var($InterruptedException, ire, $catch());
+			} catch ($InterruptedException& ire) {
 				$var($IOException, ioe, $new($IOException, $(ire->toString())));
 				$EnvHelp::initCause(ioe, ire);
 				$throw(ioe);
@@ -325,8 +310,7 @@ void ClientNotifForwarder::postReconnection($ClientListenerInfoArray* listenerIn
 		if (this->currentFetchThread == $Thread::currentThread() || this->state == ClientNotifForwarder::STARTING || this->state == ClientNotifForwarder::STARTED) {
 			try {
 				$set(this, mbeanRemovedNotifID, addListenerForMBeanRemovedNotif());
-			} catch ($Exception&) {
-				$var($Exception, e, $catch());
+			} catch ($Exception& e) {
 				$var($String, msg, "Failed to register a listener to the mbean server: the client will not do clean when an MBean is unregistered"_s);
 				if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 					$nc(ClientNotifForwarder::logger)->trace("init"_s, msg, e);
@@ -336,8 +320,7 @@ void ClientNotifForwarder::postReconnection($ClientListenerInfoArray* listenerIn
 			while (this->state == ClientNotifForwarder::STOPPING) {
 				try {
 					$of(this)->wait();
-				} catch ($InterruptedException&) {
-					$var($InterruptedException, ire, $catch());
+				} catch ($InterruptedException& ire) {
 					$var($IOException, ioe, $new($IOException, $(ire->toString())));
 					$EnvHelp::initCause(ioe, ire);
 					$throw(ioe);
@@ -401,8 +384,7 @@ void ClientNotifForwarder::init(bool reconnected) {
 				while (this->state == ClientNotifForwarder::STOPPING) {
 					try {
 						$of(this)->wait();
-					} catch ($InterruptedException&) {
-						$var($InterruptedException, ire, $catch());
+					} catch ($InterruptedException& ire) {
 						$var($IOException, ioe, $new($IOException, $(ire->toString())));
 						$EnvHelp::initCause(ioe, ire);
 						$throw(ioe);
@@ -426,16 +408,14 @@ void ClientNotifForwarder::init(bool reconnected) {
 							return;
 						}
 						this->clientSequenceNumber = $nc(nr)->getNextSequenceNumber();
-					} catch ($ClassNotFoundException&) {
-						$var($ClassNotFoundException, e, $catch());
+					} catch ($ClassNotFoundException& e) {
 						$nc(ClientNotifForwarder::logger)->warning("init"_s, $$str({"Impossible exception: "_s, e}));
 						$nc(ClientNotifForwarder::logger)->debug("init"_s, static_cast<$Throwable*>(e));
 					}
 				}
 				try {
 					$set(this, mbeanRemovedNotifID, addListenerForMBeanRemovedNotif());
-				} catch ($Exception&) {
-					$var($Exception, e, $catch());
+				} catch ($Exception& e) {
 					$var($String, msg, "Failed to register a listener to the mbean server: the client will not do clean when an MBean is unregistered"_s);
 					if ($nc(ClientNotifForwarder::logger)->traceOn()) {
 						$nc(ClientNotifForwarder::logger)->trace("init"_s, msg, e);
@@ -462,8 +442,7 @@ void ClientNotifForwarder::beforeRemove() {
 			}
 			try {
 				$of(this)->wait();
-			} catch ($InterruptedException&) {
-				$var($InterruptedException, ire, $catch());
+			} catch ($InterruptedException& ire) {
 				$var($IOException, ioe, $new($IOException, $(ire->toString())));
 				$EnvHelp::initCause(ioe, ire);
 				$throw(ioe);

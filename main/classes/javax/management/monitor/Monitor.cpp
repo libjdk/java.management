@@ -5,40 +5,17 @@
 #include <com/sun/jmx/mbeanserver/Introspector.h>
 #include <java/io/IOException.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Comparable.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/NumberFormatException.h>
 #include <java/lang/Runnable.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/security/CodeSource.h>
@@ -376,17 +353,11 @@ void Monitor::finalize() {
 	this->$NotificationBroadcasterSupport::finalize();
 }
 
-
 $AccessControlContext* Monitor::noPermissionsACC = nullptr;
-
 $ScheduledExecutorService* Monitor::scheduler = nullptr;
-
 $Map* Monitor::executors = nullptr;
-
 $Object* Monitor::executorsLock = nullptr;
-
 int32_t Monitor::maximumPoolSize = 0;
-
 $Integer* Monitor::INTEGER_ZERO = nullptr;
 
 void Monitor::init$() {
@@ -621,8 +592,7 @@ $Object* Monitor::getAttribute($MBeanServerConnection* mbsc, $ObjectName* object
 	if (lookupMBeanInfo) {
 		try {
 			$assign(mbi, $nc(mbsc)->getMBeanInfo(object));
-		} catch ($IntrospectionException&) {
-			$var($IntrospectionException, e, $catch());
+		} catch ($IntrospectionException& e) {
 			$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 		}
 	} else {
@@ -905,8 +875,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 				$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			}
 		}
-	} catch ($NullPointerException&) {
-		$var($NullPointerException, np_ex, $catch());
+	} catch ($NullPointerException& np_ex) {
 		if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -918,8 +887,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$NullPointerException*>(np_ex))));
 		}
-	} catch ($InstanceNotFoundException&) {
-		$var($InstanceNotFoundException, inf_ex, $catch());
+	} catch ($InstanceNotFoundException& inf_ex) {
 		if (isAlreadyNotified(o, Monitor::OBSERVED_OBJECT_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -931,8 +899,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$InstanceNotFoundException*>(inf_ex))));
 		}
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, anf_ex, $catch());
+	} catch ($AttributeNotFoundException& anf_ex) {
 		if (isAlreadyNotified(o, Monitor::OBSERVED_ATTRIBUTE_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -944,8 +911,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$AttributeNotFoundException*>(anf_ex))));
 		}
-	} catch ($MBeanException&) {
-		$var($MBeanException, mb_ex, $catch());
+	} catch ($MBeanException& mb_ex) {
 		if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -957,8 +923,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$MBeanException*>(mb_ex))));
 		}
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, ref_ex, $catch());
+	} catch ($ReflectionException& ref_ex) {
 		if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -970,8 +935,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$ReflectionException*>(ref_ex))));
 		}
-	} catch ($IOException&) {
-		$var($IOException, io_ex, $catch());
+	} catch ($IOException& io_ex) {
 		if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -983,8 +947,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 			$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$IOException*>(io_ex))));
 		}
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, rt_ex, $catch());
+	} catch ($RuntimeException& rt_ex) {
 		if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 			return;
 		} else {
@@ -1007,8 +970,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 		if (msg == nullptr) {
 			try {
 				$assign(value, getComparableFromAttribute(object, attribute, attributeValue));
-			} catch ($ClassCastException&) {
-				$var($ClassCastException, e, $catch());
+			} catch ($ClassCastException& e) {
 				if (isAlreadyNotified(o, Monitor::OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED)) {
 					return;
 				} else {
@@ -1020,8 +982,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 					$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 					$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$ClassCastException*>(e))));
 				}
-			} catch ($AttributeNotFoundException&) {
-				$var($AttributeNotFoundException, e, $catch());
+			} catch ($AttributeNotFoundException& e) {
 				if (isAlreadyNotified(o, Monitor::OBSERVED_ATTRIBUTE_ERROR_NOTIFIED)) {
 					return;
 				} else {
@@ -1033,8 +994,7 @@ void Monitor::monitor($Monitor$ObservedObject* o, int32_t index, $ints* an) {
 					$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, msg);
 					$nc($JmxProperties::MONITOR_LOGGER)->log($System$Logger$Level::TRACE, static_cast<$Supplier*>($$new(Monitor$$Lambda$toString, static_cast<$AttributeNotFoundException*>(e))));
 				}
-			} catch ($RuntimeException&) {
-				$var($RuntimeException, e, $catch());
+			} catch ($RuntimeException& e) {
 				if (isAlreadyNotified(o, Monitor::RUNTIME_ERROR_NOTIFIED)) {
 					return;
 				} else {
@@ -1148,8 +1108,7 @@ void clinit$Monitor($Class* class$) {
 			int32_t maximumPoolSizeTmp = 10;
 			try {
 				maximumPoolSizeTmp = $Integer::parseInt(maximumPoolSizeStr);
-			} catch ($NumberFormatException&) {
-				$var($NumberFormatException, e, $catch());
+			} catch ($NumberFormatException& e) {
 				$init($JmxProperties);
 				$init($System$Logger$Level);
 				if ($nc($JmxProperties::MONITOR_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {

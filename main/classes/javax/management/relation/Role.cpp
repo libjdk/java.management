@@ -7,18 +7,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -101,7 +89,6 @@ $Object* allocate$Role($Class* clazz) {
 $ObjectStreamFieldArray* Role::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* Role::newSerialPersistentFields = nullptr;
 int64_t Role::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* Role::serialPersistentFields = nullptr;
 bool Role::compat = false;
 
@@ -163,8 +150,7 @@ $String* Role::toString() {
 $Object* Role::clone() {
 	try {
 		return $of($new(Role, this->name, this->objectNameList));
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, exc, $catch());
+	} catch ($IllegalArgumentException& exc) {
 		return $of(nullptr);
 	}
 	$shouldNotReachHere();
@@ -224,13 +210,12 @@ void Role::writeObject($ObjectOutputStream* out) {
 void clinit$Role($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$load($ArrayList);
+	$load($ArrayList);
 	$assignStatic(Role::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "myName"_s, $String::class$),
 		$$new($ObjectStreamField, "myObjNameList"_s, $ArrayList::class$)
 	}));
-		$load($List);
+	$load($List);
 	$assignStatic(Role::newSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "name"_s, $String::class$),
 		$$new($ObjectStreamField, "objectNameList"_s, $List::class$)
@@ -241,8 +226,7 @@ void clinit$Role($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			Role::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (Role::compat) {
 			$assignStatic(Role::serialPersistentFields, Role::oldSerialPersistentFields);

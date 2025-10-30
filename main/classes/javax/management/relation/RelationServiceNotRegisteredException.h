@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x755549AE018CE75E;
 	RelationServiceNotRegisteredException(const RelationServiceNotRegisteredException& e);
-	RelationServiceNotRegisteredException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline RelationServiceNotRegisteredException* operator ->() {
+		return (RelationServiceNotRegisteredException*)throwing$;
+	}
 };
 
 		} // relation

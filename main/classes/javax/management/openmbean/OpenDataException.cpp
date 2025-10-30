@@ -1,12 +1,5 @@
 #include <javax/management/openmbean/OpenDataException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void OpenDataException::init$($String* msg) {
 OpenDataException::OpenDataException() {
 }
 
-OpenDataException::OpenDataException(const OpenDataException& e) {
+OpenDataException::OpenDataException(const OpenDataException& e) : $JMException(e) {
 }
 
-OpenDataException OpenDataException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void OpenDataException::throwWrapper$() {
-	$pendingException(this);
+void OpenDataException::throw$() {
 	throw *this;
 }
 

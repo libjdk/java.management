@@ -1,14 +1,6 @@
 #include <javax/management/StringValueExp.h>
 
 #include <java/lang/CharSequence.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/MBeanServer.h>
 #include <javax/management/ObjectName.h>
 #include <javax/management/ValueExp.h>

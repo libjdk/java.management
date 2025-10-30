@@ -1,19 +1,8 @@
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/OpenType.h>
 #include <jcpp.h>
@@ -98,8 +87,7 @@ $Class* MXBeanMapping::makeOpenClass($Type* javaType, $OpenType* openType) {
 	try {
 		$var($String, className, $nc(openType)->getClassName());
 		return $Class::forName(className, false, $(MXBeanMapping::class$->getClassLoader()));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();

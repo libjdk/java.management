@@ -1,12 +1,5 @@
 #include <javax/management/monitor/MonitorNotification.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Notification.h>
 #include <javax/management/ObjectName.h>
 #include <jcpp.h>
@@ -73,25 +66,15 @@ $Object* allocate$MonitorNotification($Class* clazz) {
 	return $of($alloc(MonitorNotification));
 }
 
-
 $String* MonitorNotification::OBSERVED_OBJECT_ERROR = nullptr;
-
 $String* MonitorNotification::OBSERVED_ATTRIBUTE_ERROR = nullptr;
-
 $String* MonitorNotification::OBSERVED_ATTRIBUTE_TYPE_ERROR = nullptr;
-
 $String* MonitorNotification::THRESHOLD_ERROR = nullptr;
-
 $String* MonitorNotification::RUNTIME_ERROR = nullptr;
-
 $String* MonitorNotification::THRESHOLD_VALUE_EXCEEDED = nullptr;
-
 $String* MonitorNotification::THRESHOLD_HIGH_VALUE_EXCEEDED = nullptr;
-
 $String* MonitorNotification::THRESHOLD_LOW_VALUE_EXCEEDED = nullptr;
-
 $String* MonitorNotification::STRING_TO_COMPARE_VALUE_MATCHED = nullptr;
-
 $String* MonitorNotification::STRING_TO_COMPARE_VALUE_DIFFERED = nullptr;
 
 void MonitorNotification::init$($String* type, Object$* source, int64_t sequenceNumber, int64_t timeStamp, $String* msg, $ObjectName* obsObj, $String* obsAtt, Object$* derGauge, Object$* trigger) {

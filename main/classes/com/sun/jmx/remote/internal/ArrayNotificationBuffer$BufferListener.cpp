@@ -3,14 +3,6 @@
 #include <com/sun/jmx/remote/internal/ArrayNotificationBuffer$NamedNotification.h>
 #include <com/sun/jmx/remote/internal/ArrayNotificationBuffer.h>
 #include <com/sun/jmx/remote/util/ClassLogger.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Notification.h>
 #include <javax/management/ObjectName.h>
 #include <jcpp.h>

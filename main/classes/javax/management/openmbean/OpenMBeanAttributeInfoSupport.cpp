@@ -1,22 +1,10 @@
 #include <javax/management/openmbean/OpenMBeanAttributeInfoSupport.h>
 
 #include <com/sun/jmx/remote/util/EnvHelp.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
 #include <java/lang/Comparable.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoClassDefFoundError.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Array.h>
 #include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
@@ -223,8 +211,7 @@ void OpenMBeanAttributeInfoSupport::init$($String* name, $String* description, $
 	$set(this, maxValue, comparableValueFrom(descriptor, "maxValue"_s, openType));
 	try {
 		check(this);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($IllegalArgumentException, $(e->getMessage()), e);
 	}
 }
@@ -435,8 +422,7 @@ $Object* OpenMBeanAttributeInfoSupport::valueFrom($Descriptor* d, $String* name,
 	}
 	try {
 		return $of(convertFrom(x, openType));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, $str({"Cannot convert descriptor field "_s, name, "  to "_s, $($nc(openType)->getTypeName())}));
 		$throw($cast($IllegalArgumentException, $($EnvHelp::initCause($$new($IllegalArgumentException, msg), e))));
 	}
@@ -531,44 +517,37 @@ $Object* OpenMBeanAttributeInfoSupport::convertFromString($String* s, $OpenType*
 		$var($String, className, $nc(openType)->safeGetClassName());
 		$ReflectUtil::checkPackageAccess(className);
 		c = $cast($Class, cast($Class::forName(className)));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($NoClassDefFoundError, $(e->toString()));
 	}
 	$var($Method, valueOf, nullptr);
 	try {
-		$load($String);
 		$assign(valueOf, $nc(c)->getMethod("valueOf"_s, $$new($ClassArray, {$String::class$})));
 		bool var$0 = !$Modifier::isStatic($nc(valueOf)->getModifiers());
 		if (var$0 || $nc(valueOf)->getReturnType() != c) {
 			$assign(valueOf, nullptr);
 		}
-	} catch ($NoSuchMethodException&) {
-		$var($NoSuchMethodException, e, $catch());
+	} catch ($NoSuchMethodException& e) {
 		$assign(valueOf, nullptr);
 	}
 	if (valueOf != nullptr) {
 		try {
 			return $of($nc(c)->cast($($MethodUtil::invoke(valueOf, nullptr, $$new($ObjectArray, {$of(s)})))));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$var($String, msg, $str({"Could not convert \""_s, s, "\" using method: "_s, valueOf}));
 			$throwNew($IllegalArgumentException, msg, e);
 		}
 	}
 	$var($Constructor, con, nullptr);
 	try {
-		$load($String);
 		$assign(con, $nc(c)->getConstructor($$new($ClassArray, {$String::class$})));
-	} catch ($NoSuchMethodException&) {
-		$var($NoSuchMethodException, e, $catch());
+	} catch ($NoSuchMethodException& e) {
 		$assign(con, nullptr);
 	}
 	if (con != nullptr) {
 		try {
 			return $of(con->newInstance($$new($ObjectArray, {$of(s)})));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$var($String, msg, $str({"Could not convert \""_s, s, "\" using constructor: "_s, con}));
 			$throwNew($IllegalArgumentException, msg, e);
 		}
@@ -595,8 +574,7 @@ $Object* OpenMBeanAttributeInfoSupport::convertFromStringArray(Object$* x, $Open
 		$ReflectUtil::checkPackageAccess(baseClassName);
 		stringArrayClass = $Class::forName($$str({squareBrackets, "Ljava.lang.String;"_s}));
 		targetArrayClass = $Class::forName($$str({squareBrackets, "L"_s, baseClassName, ";"_s}));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($NoClassDefFoundError, $(e->toString()));
 	}
 	if (!$nc(stringArrayClass)->isInstance(x)) {
@@ -609,8 +587,7 @@ $Object* OpenMBeanAttributeInfoSupport::convertFromStringArray(Object$* x, $Open
 	} else {
 		try {
 			$assign(componentOpenType, $new($ArrayType, dim - 1, baseType));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($IllegalArgumentException, $(e->getMessage()), e);
 		}
 	}

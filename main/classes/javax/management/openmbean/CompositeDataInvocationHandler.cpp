@@ -4,17 +4,7 @@
 #include <com/sun/jmx/mbeanserver/MXBeanLookup.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMappingFactory.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationHandler.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Proxy.h>
@@ -99,7 +89,6 @@ $Object* CompositeDataInvocationHandler::invoke(Object$* proxy, $Method* method,
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, methodName, $nc(method)->getName());
-	$load($Object);
 	if (method->getDeclaringClass() == $Object::class$) {
 		if ($nc(methodName)->equals("toString"_s) && args == nullptr) {
 			return $of($str({"Proxy["_s, this->compositeData, "]"_s}));

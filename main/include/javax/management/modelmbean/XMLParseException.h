@@ -35,8 +35,10 @@ public:
 	static $Array<::java::io::ObjectStreamField>* serialPersistentFields;
 	static bool compat;
 	XMLParseException(const XMLParseException& e);
-	XMLParseException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline XMLParseException* operator ->() {
+		return (XMLParseException*)throwing$;
+	}
 };
 
 		} // modelmbean

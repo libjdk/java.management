@@ -1,24 +1,11 @@
 #include <com/sun/jmx/mbeanserver/MBeanServerDelegateImpl.h>
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Attribute.h>
 #include <javax/management/AttributeList.h>
 #include <javax/management/AttributeNotFoundException.h>
@@ -166,7 +153,6 @@ void MBeanServerDelegateImpl::postDeregister() {
 }
 
 $Object* MBeanServerDelegateImpl::getAttribute($String* attribute) {
-	$useLocalCurrentObjectStackCache();
 	try {
 		if (attribute == nullptr) {
 			$throwNew($AttributeNotFoundException, "null"_s);
@@ -188,17 +174,13 @@ $Object* MBeanServerDelegateImpl::getAttribute($String* attribute) {
 		} else {
 			$throwNew($AttributeNotFoundException, "null"_s);
 		}
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, x, $catch());
+	} catch ($AttributeNotFoundException& x) {
 		$throw(x);
-	} catch ($JMRuntimeException&) {
-		$var($JMRuntimeException, j, $catch());
+	} catch ($JMRuntimeException& j) {
 		$throw(j);
-	} catch ($SecurityException&) {
-		$var($SecurityException, s, $catch());
+	} catch ($SecurityException& s) {
 		$throw(s);
-	} catch ($Exception&) {
-		$var($Exception, x, $catch());
+	} catch ($Exception& x) {
 		$throwNew($MBeanException, x, $$str({"Failed to get "_s, attribute}));
 	}
 	$shouldNotReachHere();
@@ -224,8 +206,7 @@ $AttributeList* MBeanServerDelegateImpl::getAttributes($StringArray* attributes)
 		try {
 			$var($Attribute, a, $new($Attribute, attn->get(i), $(getAttribute(attn->get(i)))));
 			list->add(a);
-		} catch ($Exception&) {
-			$var($Exception, x, $catch());
+		} catch ($Exception& x) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
 			if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {

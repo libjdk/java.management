@@ -8,17 +8,6 @@
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
 #include <java/lang/invoke/CallSite.h>
@@ -26,8 +15,6 @@
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/function/Supplier.h>
@@ -272,7 +259,6 @@ void ModelMBeanInfoSupport::finalize() {
 $ObjectStreamFieldArray* ModelMBeanInfoSupport::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* ModelMBeanInfoSupport::newSerialPersistentFields = nullptr;
 int64_t ModelMBeanInfoSupport::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* ModelMBeanInfoSupport::serialPersistentFields = nullptr;
 bool ModelMBeanInfoSupport::compat = false;
 $String* ModelMBeanInfoSupport::ATTR = nullptr;
@@ -303,8 +289,7 @@ void ModelMBeanInfoSupport::init$($ModelMBeanInfo* mbi) {
 	try {
 		$var($Descriptor, mbeandescriptor, mbi->getMBeanDescriptor());
 		$set(this, modelMBeanDescriptor, validDescriptor(mbeandescriptor));
-	} catch ($MBeanException&) {
-		$var($MBeanException, mbe, $catch());
+	} catch ($MBeanException& mbe) {
 		$set(this, modelMBeanDescriptor, validDescriptor(nullptr));
 		$init($JmxProperties);
 		$init($System$Logger$Level);
@@ -881,12 +866,11 @@ void clinit$ModelMBeanInfoSupport($Class* class$) {
 	$assignStatic(ModelMBeanInfoSupport::ALL, "all"_s);
 	$assignStatic(ModelMBeanInfoSupport::currClass, "ModelMBeanInfoSupport"_s);
 	$beforeCallerSensitive();
-		$load($Descriptor);
-		$load($MBeanAttributeInfoArray);
-		$load($MBeanConstructorInfoArray);
-		$load($MBeanNotificationInfoArray);
-		$load($MBeanOperationInfoArray);
-		$load($String);
+	$load($Descriptor);
+	$load($MBeanAttributeInfoArray);
+	$load($MBeanConstructorInfoArray);
+	$load($MBeanNotificationInfoArray);
+	$load($MBeanOperationInfoArray);
 	$assignStatic(ModelMBeanInfoSupport::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "modelMBeanDescriptor"_s, $Descriptor::class$),
 		$$new($ObjectStreamField, "mmbAttributes"_s, $getClass($MBeanAttributeInfoArray)),
@@ -908,8 +892,7 @@ void clinit$ModelMBeanInfoSupport($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			ModelMBeanInfoSupport::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (ModelMBeanInfoSupport::compat) {
 			$assignStatic(ModelMBeanInfoSupport::serialPersistentFields, ModelMBeanInfoSupport::oldSerialPersistentFields);

@@ -26,8 +26,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x49344133431BDBBB;
 	::java::lang::RuntimeException* runtimeException = nullptr;
 	RuntimeMBeanException(const RuntimeMBeanException& e);
-	RuntimeMBeanException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline RuntimeMBeanException* operator ->() {
+		return (RuntimeMBeanException*)throwing$;
+	}
 };
 
 	} // management

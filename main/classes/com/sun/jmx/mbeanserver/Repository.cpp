@@ -6,23 +6,8 @@
 #include <com/sun/jmx/mbeanserver/Repository$ObjectNamePattern.h>
 #include <com/sun/jmx/mbeanserver/Repository$RegistrationContext.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/AbstractSet.h>
@@ -180,30 +165,25 @@ void Repository::addNewDomMoi($DynamicMBean* object, $String* dom, $ObjectName* 
 }
 
 void Repository::registering($Repository$RegistrationContext* context) {
-	$useLocalCurrentObjectStackCache();
 	if (context == nullptr) {
 		return;
 	}
 	try {
 		$nc(context)->registering();
-	} catch ($RuntimeOperationsException&) {
-		$var($RuntimeOperationsException, x, $catch());
+	} catch ($RuntimeOperationsException& x) {
 		$throw(x);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, x, $catch());
+	} catch ($RuntimeException& x) {
 		$throwNew($RuntimeOperationsException, x);
 	}
 }
 
 void Repository::unregistering($Repository$RegistrationContext* context, $ObjectName* name) {
-	$useLocalCurrentObjectStackCache();
 	if (context == nullptr) {
 		return;
 	}
 	try {
 		$nc(context)->unregistered();
-	} catch ($Exception&) {
-		$var($Exception, x, $catch());
+	} catch ($Exception& x) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"Unexpected exception while unregistering "_s, name}), static_cast<$Throwable*>(x));
@@ -268,8 +248,8 @@ $StringArray* Repository::getDomains() {
 					}
 				}
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			$nc($($cast($ReentrantReadWriteLock$ReadLock, $nc(this->lock)->readLock())))->unlock();
 		}
@@ -326,8 +306,8 @@ void Repository::addMBean($DynamicMBean* object, $ObjectName* name$renamed, $Rep
 					addMoiToTb(object, name, cstr, moiTb, context);
 				}
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			$nc($($cast($ReentrantReadWriteLock$WriteLock, $nc(this->lock)->writeLock())))->unlock();
 		}
@@ -356,8 +336,8 @@ bool Repository::contains($ObjectName* name) {
 			var$2 = (retrieveNamedObject(name) != nullptr);
 			return$1 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			$nc($($cast($ReentrantReadWriteLock$ReadLock, $nc(this->lock)->readLock())))->unlock();
 		}
@@ -394,8 +374,8 @@ $DynamicMBean* Repository::retrieve($ObjectName* name) {
 				return$1 = true;
 				goto $finally;
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			$nc($($cast($ReentrantReadWriteLock$ReadLock, $nc(this->lock)->readLock())))->unlock();
 		}
@@ -498,8 +478,8 @@ $Set* Repository::query($ObjectName* pattern, $QueryExp* query) {
 			$assign(var$3, result);
 			return$2 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$1, $catch());
+		} catch ($Throwable& var$4) {
+			$assign(var$1, var$4);
 		} $finally: {
 			$nc($($cast($ReentrantReadWriteLock$ReadLock, $nc(this->lock)->readLock())))->unlock();
 		}
@@ -543,8 +523,8 @@ void Repository::remove($ObjectName* name, $Repository$RegistrationContext* cont
 				}
 			}
 			unregistering(context, name);
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			$nc($($cast($ReentrantReadWriteLock$WriteLock, $nc(this->lock)->writeLock())))->unlock();
 		}

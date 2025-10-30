@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x5A5DCB5E38FD7F6E;
 	AttributeNotFoundException(const AttributeNotFoundException& e);
-	AttributeNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline AttributeNotFoundException* operator ->() {
+		return (AttributeNotFoundException*)throwing$;
+	}
 };
 
 	} // management

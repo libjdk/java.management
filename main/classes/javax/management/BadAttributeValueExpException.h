@@ -24,8 +24,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0xD4E7DAAB632D4640;
 	$String* val = nullptr;
 	BadAttributeValueExpException(const BadAttributeValueExpException& e);
-	BadAttributeValueExpException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline BadAttributeValueExpException* operator ->() {
+		return (BadAttributeValueExpException*)throwing$;
+	}
 };
 
 	} // management

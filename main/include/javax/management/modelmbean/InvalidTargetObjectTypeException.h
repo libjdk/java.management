@@ -36,8 +36,10 @@ public:
 	static bool compat;
 	::java::lang::Exception* exception = nullptr;
 	InvalidTargetObjectTypeException(const InvalidTargetObjectTypeException& e);
-	InvalidTargetObjectTypeException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InvalidTargetObjectTypeException* operator ->() {
+		return (InvalidTargetObjectTypeException*)throwing$;
+	}
 };
 
 		} // modelmbean

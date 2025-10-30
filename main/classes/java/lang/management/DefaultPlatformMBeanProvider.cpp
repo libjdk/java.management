@@ -1,11 +1,5 @@
 #include <java/lang/management/DefaultPlatformMBeanProvider.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider$1.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider$10.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider$11.h>
@@ -17,8 +11,6 @@
 #include <java/lang/management/DefaultPlatformMBeanProvider$7.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider$8.h>
 #include <java/lang/management/DefaultPlatformMBeanProvider$9.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
 #include <java/util/Collections.h>

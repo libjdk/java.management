@@ -1,22 +1,12 @@
 #include <sun/management/MappedMXBeanType.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchFieldException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Field.h>
 #include <java/lang/reflect/GenericArrayType.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/ParameterizedType.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/List.h>
@@ -311,13 +301,12 @@ void clinit$MappedMXBeanType($Class* class$) {
 		$var($OpenType, t, nullptr);
 		try {
 			$assign(t, $new($MappedMXBeanType$InProgress));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 		$assignStatic(MappedMXBeanType::inProgress, t);
 	}
-		$init($SimpleType);
+	$init($SimpleType);
 	$assignStatic(MappedMXBeanType::simpleTypes, $new($OpenTypeArray, {
 		static_cast<$OpenType*>($SimpleType::BIGDECIMAL),
 		static_cast<$OpenType*>($SimpleType::BIGINTEGER),
@@ -343,11 +332,9 @@ void clinit$MappedMXBeanType($Class* class$) {
 					$var($String, var$0, $nc(t)->getClassName());
 					c = $Class::forName(var$0, false, $(MappedMXBeanType::class$->getClassLoader()));
 					MappedMXBeanType::newBasicType(c, t);
-				} catch ($ClassNotFoundException&) {
-					$var($ClassNotFoundException, e, $catch());
+				} catch ($ClassNotFoundException& e) {
 					$throwNew($AssertionError, $of(e));
-				} catch ($OpenDataException&) {
-					$var($OpenDataException, e, $catch());
+				} catch ($OpenDataException& e) {
 					$throwNew($AssertionError, $of(e));
 				}
 				if ($nc($($nc(c)->getName()))->startsWith("java.lang."_s)) {
@@ -355,16 +342,13 @@ void clinit$MappedMXBeanType($Class* class$) {
 						$var($Field, typeField, c->getField("TYPE"_s));
 						$Class* primitiveType = $cast($Class, $nc(typeField)->get(nullptr));
 						MappedMXBeanType::newBasicType(primitiveType, t);
-					} catch ($NoSuchFieldException&) {
-						$catch();
-					} catch ($IllegalAccessException&) {
-						$var($IllegalAccessException, e, $catch());
+					} catch ($NoSuchFieldException& e) {
+					} catch ($IllegalAccessException& e) {
 						$throwNew($AssertionError, $of(e));
 					}
 				}
 			}
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 	}

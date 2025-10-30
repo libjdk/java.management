@@ -22,8 +22,10 @@ public:
 	void init$(::java::lang::Exception* e, $String* message);
 	static const int64_t serialVersionUID = (int64_t)0x3E349F182A3B9E1D;
 	MBeanRegistrationException(const MBeanRegistrationException& e);
-	MBeanRegistrationException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline MBeanRegistrationException* operator ->() {
+		return (MBeanRegistrationException*)throwing$;
+	}
 };
 
 	} // management

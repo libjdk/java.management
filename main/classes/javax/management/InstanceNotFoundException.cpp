@@ -1,12 +1,5 @@
 #include <javax/management/InstanceNotFoundException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/OperationsException.h>
 #include <jcpp.h>
 
@@ -53,16 +46,10 @@ void InstanceNotFoundException::init$($String* message) {
 InstanceNotFoundException::InstanceNotFoundException() {
 }
 
-InstanceNotFoundException::InstanceNotFoundException(const InstanceNotFoundException& e) {
+InstanceNotFoundException::InstanceNotFoundException(const InstanceNotFoundException& e) : $OperationsException(e) {
 }
 
-InstanceNotFoundException InstanceNotFoundException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InstanceNotFoundException::throwWrapper$() {
-	$pendingException(this);
+void InstanceNotFoundException::throw$() {
 	throw *this;
 }
 

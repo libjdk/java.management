@@ -16,8 +16,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0xD5B33FE3EA7C8A8B;
 	$Object* val = nullptr;
 	InvalidApplicationException(const InvalidApplicationException& e);
-	InvalidApplicationException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InvalidApplicationException* operator ->() {
+		return (InvalidApplicationException*)throwing$;
+	}
 };
 
 	} // management

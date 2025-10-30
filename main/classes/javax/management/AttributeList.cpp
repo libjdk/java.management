@@ -1,15 +1,6 @@
 #include <javax/management/AttributeList.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
 #include <java/lang/IndexOutOfBoundsException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractCollection.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
@@ -116,8 +107,7 @@ void AttributeList::add($Attribute* object) {
 void AttributeList::add(int32_t index, $Attribute* object) {
 	try {
 		$ArrayList::add(index, object);
-	} catch ($IndexOutOfBoundsException&) {
-		$var($IndexOutOfBoundsException, e, $catch());
+	} catch ($IndexOutOfBoundsException& e) {
 		$throwNew($RuntimeOperationsException, e, "The specified index is out of range"_s);
 	}
 }
@@ -125,8 +115,7 @@ void AttributeList::add(int32_t index, $Attribute* object) {
 void AttributeList::set(int32_t index, $Attribute* object) {
 	try {
 		$ArrayList::set(index, object);
-	} catch ($IndexOutOfBoundsException&) {
-		$var($IndexOutOfBoundsException, e, $catch());
+	} catch ($IndexOutOfBoundsException& e) {
 		$throwNew($RuntimeOperationsException, e, "The specified index is out of range"_s);
 	}
 }
@@ -138,8 +127,7 @@ bool AttributeList::addAll(AttributeList* list) {
 bool AttributeList::addAll(int32_t index, AttributeList* list) {
 	try {
 		return $ArrayList::addAll(index, static_cast<$Collection*>(static_cast<$AbstractCollection*>(static_cast<$AbstractList*>(static_cast<$ArrayList*>(list)))));
-	} catch ($IndexOutOfBoundsException&) {
-		$var($IndexOutOfBoundsException, e, $catch());
+	} catch ($IndexOutOfBoundsException& e) {
 		$throwNew($RuntimeOperationsException, e, "The specified index is out of range"_s);
 	}
 	$shouldNotReachHere();

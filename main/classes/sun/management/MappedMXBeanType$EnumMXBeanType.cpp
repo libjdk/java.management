@@ -1,20 +1,7 @@
 #include <sun/management/MappedMXBeanType$EnumMXBeanType.h>
 
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Enum.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/OpenType.h>
 #include <javax/management/openmbean/SimpleType.h>
@@ -85,7 +72,6 @@ void MappedMXBeanType$EnumMXBeanType::init$($Class* c) {
 	$set(this, enumClass, c);
 	$init($SimpleType);
 	$set(this, openType, $SimpleType::STRING);
-	$load($String);
 	$set(this, mappedTypeClass, $String::class$);
 }
 
@@ -105,8 +91,7 @@ $Object* MappedMXBeanType$EnumMXBeanType::toJavaTypeData(Object$* data) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($Enum::valueOf(this->enumClass, $cast($String, data)));
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		$var($InvalidObjectException, ioe, $new($InvalidObjectException, $$str({"Enum constant named "_s, $cast($String, data), " is missing"_s})));
 		ioe->initCause(e);
 		$throw(ioe);

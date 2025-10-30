@@ -1,13 +1,5 @@
 #include <javax/management/openmbean/InvalidOpenTypeException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClassInfo = ::java::lang::ClassInfo;
@@ -54,16 +46,10 @@ void InvalidOpenTypeException::init$($String* msg) {
 InvalidOpenTypeException::InvalidOpenTypeException() {
 }
 
-InvalidOpenTypeException::InvalidOpenTypeException(const InvalidOpenTypeException& e) {
+InvalidOpenTypeException::InvalidOpenTypeException(const InvalidOpenTypeException& e) : $IllegalArgumentException(e) {
 }
 
-InvalidOpenTypeException InvalidOpenTypeException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidOpenTypeException::throwWrapper$() {
-	$pendingException(this);
+void InvalidOpenTypeException::throw$() {
 	throw *this;
 }
 

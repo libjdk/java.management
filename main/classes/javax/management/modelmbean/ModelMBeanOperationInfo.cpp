@@ -6,18 +6,8 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
@@ -122,7 +112,6 @@ void ModelMBeanOperationInfo::finalize() {
 $ObjectStreamFieldArray* ModelMBeanOperationInfo::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* ModelMBeanOperationInfo::newSerialPersistentFields = nullptr;
 int64_t ModelMBeanOperationInfo::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* ModelMBeanOperationInfo::serialPersistentFields = nullptr;
 bool ModelMBeanOperationInfo::compat = false;
 $String* ModelMBeanOperationInfo::currClass = nullptr;
@@ -324,8 +313,7 @@ void clinit$ModelMBeanOperationInfo($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanOperationInfo::currClass, "ModelMBeanOperationInfo"_s);
 	$beforeCallerSensitive();
-		$load($Descriptor);
-		$load($String);
+	$load($Descriptor);
 	$assignStatic(ModelMBeanOperationInfo::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "operationDescriptor"_s, $Descriptor::class$),
 		$$new($ObjectStreamField, "currClass"_s, $String::class$)
@@ -337,8 +325,7 @@ void clinit$ModelMBeanOperationInfo($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			ModelMBeanOperationInfo::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (ModelMBeanOperationInfo::compat) {
 			$assignStatic(ModelMBeanOperationInfo::serialPersistentFields, ModelMBeanOperationInfo::oldSerialPersistentFields);

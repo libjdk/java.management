@@ -1,19 +1,7 @@
 #include <sun/management/StackTraceElementCompositeData.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/StackTraceElement.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/HashMap.h>
@@ -168,8 +156,7 @@ $CompositeData* StackTraceElementCompositeData::getCompositeData() {
 	items->put(StackTraceElementCompositeData::NATIVE_METHOD, $($Boolean::valueOf($nc(this->ste)->isNativeMethod())));
 	try {
 		return $new($CompositeDataSupport, StackTraceElementCompositeData::STACK_TRACE_ELEMENT_COMPOSITE_TYPE, items);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -224,8 +211,7 @@ void clinit$StackTraceElementCompositeData($Class* class$) {
 				types->set(i, $($nc(StackTraceElementCompositeData::STACK_TRACE_ELEMENT_COMPOSITE_TYPE)->getType(name)));
 			}
 			$assignStatic(StackTraceElementCompositeData::V5_COMPOSITE_TYPE, $new($CompositeType, "StackTraceElement"_s, "JDK 5 StackTraceElement"_s, StackTraceElementCompositeData::V5_ATTRIBUTES, StackTraceElementCompositeData::V5_ATTRIBUTES, types));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 	}

@@ -24,8 +24,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x4656D7B1D5D8F72B;
 	::javax::management::ValueExp* exp = nullptr;
 	BadBinaryOpValueExpException(const BadBinaryOpValueExpException& e);
-	BadBinaryOpValueExpException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline BadBinaryOpValueExpException* operator ->() {
+		return (BadBinaryOpValueExpException*)throwing$;
+	}
 };
 
 	} // management

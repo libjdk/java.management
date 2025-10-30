@@ -1,16 +1,7 @@
 #include <com/sun/jmx/remote/util/ClassLoaderWithRepository.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/loading/ClassLoaderRepository.h>
 #include <jcpp.h>
 
@@ -64,12 +55,10 @@ void ClassLoaderWithRepository::init$($ClassLoaderRepository* clr, $ClassLoader*
 }
 
 $Class* ClassLoaderWithRepository::findClass($String* name) {
-	$useLocalCurrentObjectStackCache();
 	$Class* cls = nullptr;
 	try {
 		cls = $nc(this->repository)->loadClass(name);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, cne, $catch());
+	} catch ($ClassNotFoundException& cne) {
 		if (this->cl2 != nullptr) {
 			return $nc(this->cl2)->loadClass(name);
 		} else {

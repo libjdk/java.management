@@ -1,18 +1,6 @@
 #include <javax/management/openmbean/OpenMBeanConstructorInfoSupport.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Arrays.h>
 #include <java/util/List.h>
 #include <javax/management/Descriptor.h>
@@ -132,8 +120,7 @@ bool OpenMBeanConstructorInfoSupport::equals(Object$* obj) {
 	$var($OpenMBeanConstructorInfo, other, nullptr);
 	try {
 		$assign(other, $cast($OpenMBeanConstructorInfo, obj));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		return false;
 	}
 	if (!$nc($(this->getName()))->equals($($nc(other)->getName()))) {

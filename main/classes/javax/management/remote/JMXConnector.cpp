@@ -1,12 +1,5 @@
 #include <javax/management/remote/JMXConnector.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Map.h>
 #include <javax/management/MBeanServerConnection.h>
 #include <javax/management/NotificationFilter.h>
@@ -60,7 +53,6 @@ $ClassInfo _JMXConnector_ClassInfo_ = {
 $Object* allocate$JMXConnector($Class* clazz) {
 	return $of($alloc(JMXConnector));
 }
-
 
 $String* JMXConnector::CREDENTIALS = nullptr;
 

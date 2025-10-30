@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xD68E277935234007;
 	RoleNotFoundException(const RoleNotFoundException& e);
-	RoleNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline RoleNotFoundException* operator ->() {
+		return (RoleNotFoundException*)throwing$;
+	}
 };
 
 		} // relation

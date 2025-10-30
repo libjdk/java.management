@@ -7,26 +7,11 @@
 #include <com/sun/jmx/remote/util/ClassLogger.h>
 #include <java/io/IOException.h>
 #include <java/io/NotSerializableException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
 #include <java/lang/Runnable.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
@@ -174,8 +159,8 @@ void ClientNotifForwarder$NotifFetcher::run() {
 		$var($Throwable, var$0, nullptr);
 		try {
 			doRun();
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			if (this->this$0->defaultClassLoader != nullptr) {
 				setContextClassLoader(previous);
@@ -253,8 +238,7 @@ void ClientNotifForwarder$NotifFetcher::doRun() {
 		this->this$0->setState(3);
 		try {
 			this->this$0->removeListenerForMBeanRemovedNotif(this->this$0->mbeanRemovedNotifID);
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			if ($nc($ClientNotifForwarder::logger)->traceOn()) {
 				$nc($ClientNotifForwarder::logger)->trace("NotifFetcher-run"_s, "removeListenerForMBeanRemovedNotif"_s, e);
 			}
@@ -262,8 +246,7 @@ void ClientNotifForwarder$NotifFetcher::doRun() {
 	} else {
 		try {
 			$nc(this->this$0->executor)->execute(this);
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			if (isRejectedExecutionException(e)) {
 				if (!($instanceOf($ClientNotifForwarder$LinearExecutor, this->this$0->executor))) {
 					$set(this->this$0, executor, $new($ClientNotifForwarder$LinearExecutor));
@@ -304,8 +287,7 @@ void ClientNotifForwarder$NotifFetcher::dispatchNotification($TargetedNotificati
 	$var($Object, h, li->getHandback());
 	try {
 		$nc(l)->handleNotification(notif, h);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$var($String, msg, "Failed to forward a notification to a listener"_s);
 		$init($ClientNotifForwarder);
 		$nc($ClientNotifForwarder::logger)->trace("NotifFetcher-run"_s, msg, e);
@@ -320,18 +302,15 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchNotifs() {
 			$nc($ClientNotifForwarder::logger)->trace("NotifFetcher-run"_s, $$str({"Got notifications from the server: "_s, nr}));
 		}
 		return nr;
-	} catch ($ClassNotFoundException&) {
-		$var($Exception, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$init($ClientNotifForwarder);
 		$nc($ClientNotifForwarder::logger)->trace("NotifFetcher.fetchNotifs"_s, static_cast<$Throwable*>(e));
 		return fetchOneNotif();
-	} catch ($NotSerializableException&) {
-		$var($Exception, e, $catch());
+	} catch ($NotSerializableException& e) {
 		$init($ClientNotifForwarder);
 		$nc($ClientNotifForwarder::logger)->trace("NotifFetcher.fetchNotifs"_s, static_cast<$Throwable*>(e));
 		return fetchOneNotif();
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		if (!shouldStop()) {
 			$init($ClientNotifForwarder);
 			$nc($ClientNotifForwarder::logger)->error("NotifFetcher-run"_s, $$str({"Failed to fetch notification, stopping thread. Error is: "_s, ioe}), ioe);
@@ -353,14 +332,12 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchOneNotif() {
 		$var($NotificationResult, nr, nullptr);
 		try {
 			$assign(nr, $nc(cnf)->fetchNotifs(startSequenceNumber, 0, 0));
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			$init($ClientNotifForwarder);
 			$nc($ClientNotifForwarder::logger)->warning("NotifFetcher.fetchOneNotif"_s, $$str({"Impossible exception: "_s, e}));
 			$nc($ClientNotifForwarder::logger)->debug("NotifFetcher.fetchOneNotif"_s, static_cast<$Throwable*>(e));
 			return nullptr;
-		} catch ($IOException&) {
-			$var($IOException, e, $catch());
+		} catch ($IOException& e) {
 			if (!shouldStop()) {
 				$init($ClientNotifForwarder);
 				$nc($ClientNotifForwarder::logger)->trace("NotifFetcher.fetchOneNotif"_s, static_cast<$Throwable*>(e));
@@ -376,8 +353,7 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchOneNotif() {
 		}
 		try {
 			$assign(result, $nc(cnf)->fetchNotifs(startSequenceNumber, 1, 0));
-		} catch ($ClassNotFoundException&) {
-			$var($Exception, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			$init($ClientNotifForwarder);
 			$nc($ClientNotifForwarder::logger)->warning("NotifFetcher.fetchOneNotif"_s, $$str({"Failed to deserialize a notification: "_s, $(e->toString())}));
 			if ($nc($ClientNotifForwarder::logger)->traceOn()) {
@@ -385,8 +361,7 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchOneNotif() {
 			}
 			++notFoundCount;
 			++startSequenceNumber;
-		} catch ($NotSerializableException&) {
-			$var($Exception, e, $catch());
+		} catch ($NotSerializableException& e) {
 			$init($ClientNotifForwarder);
 			$nc($ClientNotifForwarder::logger)->warning("NotifFetcher.fetchOneNotif"_s, $$str({"Failed to deserialize a notification: "_s, $(e->toString())}));
 			if ($nc($ClientNotifForwarder::logger)->traceOn()) {
@@ -394,8 +369,7 @@ $NotificationResult* ClientNotifForwarder$NotifFetcher::fetchOneNotif() {
 			}
 			++notFoundCount;
 			++startSequenceNumber;
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			if (!shouldStop()) {
 				$init($ClientNotifForwarder);
 				$nc($ClientNotifForwarder::logger)->trace("NotifFetcher.fetchOneNotif"_s, static_cast<$Throwable*>(e));

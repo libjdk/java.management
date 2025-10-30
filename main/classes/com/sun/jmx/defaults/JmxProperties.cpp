@@ -1,14 +1,6 @@
 #include <com/sun/jmx/defaults/JmxProperties.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef JMX_IMPL_NAME
@@ -92,53 +84,29 @@ $Object* allocate$JmxProperties($Class* clazz) {
 	return $of($alloc(JmxProperties));
 }
 
-
 $String* JmxProperties::JMX_INITIAL_BUILDER = nullptr;
-
 $String* JmxProperties::MLET_LIB_DIR = nullptr;
-
 $String* JmxProperties::JMX_SPEC_NAME = nullptr;
-
 $String* JmxProperties::JMX_SPEC_VERSION = nullptr;
-
 $String* JmxProperties::JMX_SPEC_VENDOR = nullptr;
-
 $String* JmxProperties::JMX_IMPL_NAME = nullptr;
-
 $String* JmxProperties::JMX_IMPL_VENDOR = nullptr;
-
 $String* JmxProperties::JMX_IMPL_VERSION = nullptr;
-
 $String* JmxProperties::MBEANSERVER_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::MBEANSERVER_LOGGER = nullptr;
-
 $String* JmxProperties::MLET_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::MLET_LOGGER = nullptr;
-
 $String* JmxProperties::MONITOR_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::MONITOR_LOGGER = nullptr;
-
 $String* JmxProperties::TIMER_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::TIMER_LOGGER = nullptr;
-
 $String* JmxProperties::NOTIFICATION_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::NOTIFICATION_LOGGER = nullptr;
-
 $String* JmxProperties::RELATION_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::RELATION_LOGGER = nullptr;
-
 $String* JmxProperties::MODELMBEAN_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::MODELMBEAN_LOGGER = nullptr;
-
 $String* JmxProperties::MISC_LOGGER_NAME = nullptr;
-
 $System$Logger* JmxProperties::MISC_LOGGER = nullptr;
 
 void JmxProperties::init$() {

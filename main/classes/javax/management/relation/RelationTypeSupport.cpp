@@ -8,22 +8,8 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -131,7 +117,6 @@ $Object* allocate$RelationTypeSupport($Class* clazz) {
 $ObjectStreamFieldArray* RelationTypeSupport::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* RelationTypeSupport::newSerialPersistentFields = nullptr;
 int64_t RelationTypeSupport::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* RelationTypeSupport::serialPersistentFields = nullptr;
 bool RelationTypeSupport::compat = false;
 
@@ -316,15 +301,14 @@ void RelationTypeSupport::writeObject($ObjectOutputStream* out) {
 void clinit$RelationTypeSupport($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$load($HashMap);
-		$init($Boolean);
+	$load($HashMap);
+	$init($Boolean);
 	$assignStatic(RelationTypeSupport::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "myTypeName"_s, $String::class$),
 		$$new($ObjectStreamField, "myRoleName2InfoMap"_s, $HashMap::class$),
 		$$new($ObjectStreamField, "myIsInRelServFlg"_s, $Boolean::TYPE)
 	}));
-		$load($Map);
+	$load($Map);
 	$assignStatic(RelationTypeSupport::newSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "typeName"_s, $String::class$),
 		$$new($ObjectStreamField, "roleName2InfoMap"_s, $Map::class$),
@@ -336,8 +320,7 @@ void clinit$RelationTypeSupport($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			RelationTypeSupport::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (RelationTypeSupport::compat) {
 			$assignStatic(RelationTypeSupport::serialPersistentFields, RelationTypeSupport::oldSerialPersistentFields);

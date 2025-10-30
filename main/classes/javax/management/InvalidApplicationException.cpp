@@ -1,13 +1,5 @@
 #include <javax/management/InvalidApplicationException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClassInfo = ::java::lang::ClassInfo;
@@ -50,16 +42,10 @@ void InvalidApplicationException::init$(Object$* val) {
 InvalidApplicationException::InvalidApplicationException() {
 }
 
-InvalidApplicationException::InvalidApplicationException(const InvalidApplicationException& e) {
+InvalidApplicationException::InvalidApplicationException(const InvalidApplicationException& e) : $Exception(e) {
 }
 
-InvalidApplicationException InvalidApplicationException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidApplicationException::throwWrapper$() {
-	$pendingException(this);
+void InvalidApplicationException::throw$() {
 	throw *this;
 }
 

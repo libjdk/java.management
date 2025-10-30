@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xC89E45A10346F855;
 	ServiceNotFoundException(const ServiceNotFoundException& e);
-	ServiceNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline ServiceNotFoundException* operator ->() {
+		return (ServiceNotFoundException*)throwing$;
+	}
 };
 
 	} // management

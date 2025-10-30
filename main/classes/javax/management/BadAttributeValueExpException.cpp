@@ -2,15 +2,6 @@
 
 #include <java/io/ObjectInputStream$GetField.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ObjectInputStream = ::java::io::ObjectInputStream;
@@ -73,16 +64,10 @@ void BadAttributeValueExpException::readObject($ObjectInputStream* ois) {
 BadAttributeValueExpException::BadAttributeValueExpException() {
 }
 
-BadAttributeValueExpException::BadAttributeValueExpException(const BadAttributeValueExpException& e) {
+BadAttributeValueExpException::BadAttributeValueExpException(const BadAttributeValueExpException& e) : $Exception(e) {
 }
 
-BadAttributeValueExpException BadAttributeValueExpException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void BadAttributeValueExpException::throwWrapper$() {
-	$pendingException(this);
+void BadAttributeValueExpException::throw$() {
 	throw *this;
 }
 

@@ -2,20 +2,9 @@
 
 #include <com/sun/jmx/mbeanserver/GetPropertyAction.h>
 #include <com/sun/jmx/mbeanserver/Introspector.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Void.h>
 #include <java/lang/reflect/AccessibleObject.h>
 #include <java/lang/reflect/AnnotatedElement.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Executable.h>
 #include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
@@ -142,8 +131,7 @@ void MBeanAttributeInfo::init$($String* name, $String* description, $Method* get
 $Object* MBeanAttributeInfo::clone() {
 	try {
 		return $of($MBeanFeatureInfo::clone());
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, e, $catch());
+	} catch ($CloneNotSupportedException& e) {
 		return $of(nullptr);
 	}
 	$shouldNotReachHere();
@@ -298,8 +286,7 @@ void clinit$MBeanAttributeInfo($Class* class$) {
 			if ("1.0"_s->equals(form)) {
 				uid = 0x61C0CD3EDFC681B1;
 			}
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		MBeanAttributeInfo::serialVersionUID = uid;
 	}

@@ -7,19 +7,9 @@
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector$PerInterfaceMap.h>
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector.h>
 #include <com/sun/jmx/mbeanserver/MXBeanLookup.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/System.h>
 #include <java/lang/annotation/Annotation.h>
 #include <java/lang/reflect/AccessibleObject.h>
 #include <java/lang/reflect/AnnotatedElement.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Executable.h>
 #include <java/lang/reflect/GenericArrayType.h>
 #include <java/lang/reflect/Method.h>
@@ -204,8 +194,7 @@ bool MXBeanIntrospector::validParameter($ConvertingMethod* m, Object$* value, in
 		$var($Object, v, nullptr);
 		try {
 			$assign(v, $nc(m)->fromOpenParameter($cast($MXBeanLookup, cookie), value, paramNo));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			return true;
 		}
 		return isValidParameter($($nc(m)->getMethod()), v, paramNo);

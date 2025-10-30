@@ -2,25 +2,9 @@
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/ArrayList.h>
@@ -448,8 +432,7 @@ void RelationService::removeRelationType($String* relationTypeName) {
 				{
 					try {
 						removeRelation(currRelId);
-					} catch ($RelationNotFoundException&) {
-						$var($RelationNotFoundException, exc1, $catch());
+					} catch ($RelationNotFoundException& exc1) {
 						$throwNew($RuntimeException, $(exc1->getMessage()));
 					}
 				}
@@ -497,14 +480,11 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	$var($String, relId, nullptr);
 	try {
 		$assign(relId, ($cast($String, $nc(this->myMBeanServer)->getAttribute(relationObjectName, "RelationId"_s))));
-	} catch ($MBeanException&) {
-		$var($MBeanException, exc1, $catch());
+	} catch ($MBeanException& exc1) {
 		$throwNew($RuntimeException, $($nc(($(exc1->getTargetException())))->getMessage()));
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, exc2, $catch());
+	} catch ($ReflectionException& exc2) {
 		$throwNew($RuntimeException, $(exc2->getMessage()));
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, exc3, $catch());
+	} catch ($AttributeNotFoundException& exc3) {
 		$throwNew($RuntimeException, $(exc3->getMessage()));
 	}
 	if (relId == nullptr) {
@@ -514,14 +494,11 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	$var($ObjectName, relServObjName, nullptr);
 	try {
 		$assign(relServObjName, ($cast($ObjectName, $nc(this->myMBeanServer)->getAttribute(relationObjectName, "RelationServiceName"_s))));
-	} catch ($MBeanException&) {
-		$var($MBeanException, exc1, $catch());
+	} catch ($MBeanException& exc1) {
 		$throwNew($RuntimeException, $($nc(($(exc1->getTargetException())))->getMessage()));
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, exc2, $catch());
+	} catch ($ReflectionException& exc2) {
 		$throwNew($RuntimeException, $(exc2->getMessage()));
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, exc3, $catch());
+	} catch ($AttributeNotFoundException& exc3) {
 		$throwNew($RuntimeException, $(exc3->getMessage()));
 	}
 	bool badRelServFlag = false;
@@ -537,14 +514,11 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	$var($String, relTypeName, nullptr);
 	try {
 		$assign(relTypeName, ($cast($String, $nc(this->myMBeanServer)->getAttribute(relationObjectName, "RelationTypeName"_s))));
-	} catch ($MBeanException&) {
-		$var($MBeanException, exc1, $catch());
+	} catch ($MBeanException& exc1) {
 		$throwNew($RuntimeException, $($nc(($(exc1->getTargetException())))->getMessage()));
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, exc2, $catch());
+	} catch ($ReflectionException& exc2) {
 		$throwNew($RuntimeException, $(exc2->getMessage()));
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, exc3, $catch());
+	} catch ($AttributeNotFoundException& exc3) {
 		$throwNew($RuntimeException, $(exc3->getMessage()));
 	}
 	if (relTypeName == nullptr) {
@@ -554,11 +528,9 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	$var($RoleList, roleList, nullptr);
 	try {
 		$assign(roleList, ($cast($RoleList, $nc(this->myMBeanServer)->invoke(relationObjectName, "retrieveAllRoles"_s, nullptr, nullptr))));
-	} catch ($MBeanException&) {
-		$var($MBeanException, exc1, $catch());
+	} catch ($MBeanException& exc1) {
 		$throwNew($RuntimeException, $($nc(($(exc1->getTargetException())))->getMessage()));
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, exc2, $catch());
+	} catch ($ReflectionException& exc2) {
 		$throwNew($RuntimeException, $(exc2->getMessage()));
 	}
 	addRelationInt(false, nullptr, relationObjectName, relId, relTypeName, roleList);
@@ -568,8 +540,7 @@ void RelationService::addRelation($ObjectName* relationObjectName) {
 	try {
 		$init($Boolean);
 		$nc(this->myMBeanServer)->setAttribute(relationObjectName, $$new($Attribute, "RelationServiceManagementFlag"_s, $Boolean::TRUE));
-	} catch ($Exception&) {
-		$catch();
+	} catch ($Exception& exc) {
 	}
 	$var($List, newRefList, $new($ArrayList));
 	newRefList->add(relationObjectName);
@@ -626,8 +597,7 @@ $Boolean* RelationService::hasRelation($String* relationId) {
 	try {
 		$var($Object, result, getRelation(relationId));
 		return $Boolean::valueOf(true);
-	} catch ($RelationNotFoundException&) {
-		$var($RelationNotFoundException, exc, $catch());
+	} catch ($RelationNotFoundException& exc) {
 		return $Boolean::valueOf(false);
 	}
 	$shouldNotReachHere();
@@ -659,8 +629,7 @@ $Integer* RelationService::checkRoleReading($String* roleName, $String* relation
 	try {
 		$var($RoleInfo, roleInfo, $nc(relType)->getRoleInfo(roleName));
 		$assign(result, checkRoleInt(1, roleName, nullptr, roleInfo, false));
-	} catch ($RoleInfoNotFoundException&) {
-		$var($RoleInfoNotFoundException, exc, $catch());
+	} catch ($RoleInfoNotFoundException& exc) {
 		$assign(result, $Integer::valueOf($RoleStatus::NO_ROLE_WITH_NAME));
 	}
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
@@ -690,8 +659,7 @@ $Integer* RelationService::checkRoleWriting($Role* role, $String* relationTypeNa
 	$var($RoleInfo, roleInfo, nullptr);
 	try {
 		$assign(roleInfo, $nc(relType)->getRoleInfo(roleName));
-	} catch ($RoleInfoNotFoundException&) {
-		$var($RoleInfoNotFoundException, exc, $catch());
+	} catch ($RoleInfoNotFoundException& exc) {
 		$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
 		return $Integer::valueOf($RoleStatus::NO_ROLE_WITH_NAME);
 	}
@@ -935,11 +903,9 @@ void RelationService::purgeRelations() {
 							$var($List, localRoleNameList, $cast($List, currRel->getValue()));
 							try {
 								handleReferenceUnregistration(currRelId, unregMBeanName, localRoleNameList);
-							} catch ($RelationNotFoundException&) {
-								$var($RelationNotFoundException, exc1, $catch());
+							} catch ($RelationNotFoundException& exc1) {
 								$throwNew($RuntimeException, $(exc1->getMessage()));
-							} catch ($RoleNotFoundException&) {
-								$var($RoleNotFoundException, exc2, $catch());
+							} catch ($RoleNotFoundException& exc2) {
 								$throwNew($RuntimeException, $(exc2->getMessage()));
 							}
 						}
@@ -1036,8 +1002,7 @@ $Map* RelationService::findAssociatedMBeans($ObjectName* mbeanName, $String* rel
 				$var($Map, objName2RoleNamesMap, nullptr);
 				try {
 					$assign(objName2RoleNamesMap, getReferencedMBeans(currRelId));
-				} catch ($RelationNotFoundException&) {
-					$var($RelationNotFoundException, exc, $catch());
+				} catch ($RelationNotFoundException& exc) {
 					$throwNew($RuntimeException, $(exc->getMessage()));
 				}
 				{
@@ -1117,14 +1082,11 @@ $List* RelationService::getRole($String* relationId, $String* roleName) {
 			} else {
 				$assign(result, $new($ArrayList, static_cast<$Collection*>(invokeResult)));
 			}
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc1, $catch());
+		} catch ($InstanceNotFoundException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc2, $catch());
+		} catch ($ReflectionException& exc2) {
 			$throwNew($RuntimeException, $(exc2->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc3, $catch());
+		} catch ($MBeanException& exc3) {
 			$var($Exception, wrappedExc, exc3->getTargetException());
 			if ($instanceOf($RoleNotFoundException, wrappedExc)) {
 				$throw($cast($RoleNotFoundException, wrappedExc));
@@ -1157,19 +1119,15 @@ $RoleResult* RelationService::getRoles($String* relationId, $StringArray* roleNa
 		$var($StringArray, signature, $new($StringArray, 1));
 		try {
 			signature->set(0, $(($nc($of(roleNameArray))->getClass())->getName()));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& exc) {
 		}
 		try {
 			$assign(result, ($cast($RoleResult, $nc(this->myMBeanServer)->invoke(($cast($ObjectName, relObj)), "getRoles"_s, params, signature))));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc1, $catch());
+		} catch ($InstanceNotFoundException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc2, $catch());
+		} catch ($ReflectionException& exc2) {
 			$throwNew($RuntimeException, $(exc2->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc3, $catch());
+		} catch ($MBeanException& exc3) {
 			$throwNew($RuntimeException, $($nc(($(exc3->getTargetException())))->getMessage()));
 		}
 	}
@@ -1193,8 +1151,7 @@ $RoleResult* RelationService::getAllRoles($String* relationId) {
 	} else {
 		try {
 			$assign(result, ($cast($RoleResult, $nc(this->myMBeanServer)->getAttribute(($cast($ObjectName, relObj)), "AllRoles"_s))));
-		} catch ($Exception&) {
-			$var($Exception, exc, $catch());
+		} catch ($Exception& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	}
@@ -1225,14 +1182,11 @@ $Integer* RelationService::getRoleCardinality($String* relationId, $String* role
 		signature->set(0, "java.lang.String"_s);
 		try {
 			$assign(result, ($cast($Integer, $nc(this->myMBeanServer)->invoke(($cast($ObjectName, relObj)), "getRoleCardinality"_s, params, signature))));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc1, $catch());
+		} catch ($InstanceNotFoundException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc2, $catch());
+		} catch ($ReflectionException& exc2) {
 			$throwNew($RuntimeException, $(exc2->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc3, $catch());
+		} catch ($MBeanException& exc3) {
 			$var($Exception, wrappedExc, exc3->getTargetException());
 			if ($instanceOf($RoleNotFoundException, wrappedExc)) {
 				$throw($cast($RoleNotFoundException, wrappedExc));
@@ -1262,8 +1216,7 @@ void RelationService::setRole($String* relationId, $Role* role) {
 	if ($instanceOf($RelationSupport, relObj)) {
 		try {
 			$nc(($cast($RelationSupport, relObj)))->setRoleInt(role, true, this, false);
-		} catch ($RelationTypeNotFoundException&) {
-			$var($RelationTypeNotFoundException, exc, $catch());
+		} catch ($RelationTypeNotFoundException& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	} else {
@@ -1273,14 +1226,11 @@ void RelationService::setRole($String* relationId, $Role* role) {
 		signature->set(0, "javax.management.relation.Role"_s);
 		try {
 			$nc(this->myMBeanServer)->setAttribute(($cast($ObjectName, relObj)), $$new($Attribute, "Role"_s, role));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc1, $catch());
+		} catch ($InstanceNotFoundException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc3, $catch());
+		} catch ($ReflectionException& exc3) {
 			$throwNew($RuntimeException, $(exc3->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc2, $catch());
+		} catch ($MBeanException& exc2) {
 			$var($Exception, wrappedExc, exc2->getTargetException());
 			if ($instanceOf($RoleNotFoundException, wrappedExc)) {
 				$throw($cast($RoleNotFoundException, wrappedExc));
@@ -1289,11 +1239,9 @@ void RelationService::setRole($String* relationId, $Role* role) {
 			} else {
 				$throwNew($RuntimeException, $($nc(wrappedExc)->getMessage()));
 			}
-		} catch ($AttributeNotFoundException&) {
-			$var($AttributeNotFoundException, exc4, $catch());
+		} catch ($AttributeNotFoundException& exc4) {
 			$throwNew($RuntimeException, $(exc4->getMessage()));
-		} catch ($InvalidAttributeValueException&) {
-			$var($InvalidAttributeValueException, exc5, $catch());
+		} catch ($InvalidAttributeValueException& exc5) {
 			$throwNew($RuntimeException, $(exc5->getMessage()));
 		}
 	}
@@ -1319,8 +1267,7 @@ $RoleResult* RelationService::setRoles($String* relationId, $RoleList* roleList)
 	if ($instanceOf($RelationSupport, relObj)) {
 		try {
 			$assign(result, $nc(($cast($RelationSupport, relObj)))->setRolesInt(roleList, true, this));
-		} catch ($RelationTypeNotFoundException&) {
-			$var($RelationTypeNotFoundException, exc, $catch());
+		} catch ($RelationTypeNotFoundException& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	} else {
@@ -1330,14 +1277,11 @@ $RoleResult* RelationService::setRoles($String* relationId, $RoleList* roleList)
 		signature->set(0, "javax.management.relation.RoleList"_s);
 		try {
 			$assign(result, ($cast($RoleResult, $nc(this->myMBeanServer)->invoke(($cast($ObjectName, relObj)), "setRoles"_s, params, signature))));
-		} catch ($InstanceNotFoundException&) {
-			$var($InstanceNotFoundException, exc1, $catch());
+		} catch ($InstanceNotFoundException& exc1) {
 			$throwNew($RuntimeException, $(exc1->getMessage()));
-		} catch ($ReflectionException&) {
-			$var($ReflectionException, exc3, $catch());
+		} catch ($ReflectionException& exc3) {
 			$throwNew($RuntimeException, $(exc3->getMessage()));
-		} catch ($MBeanException&) {
-			$var($MBeanException, exc2, $catch());
+		} catch ($MBeanException& exc2) {
 			$throwNew($RuntimeException, $($nc(($(exc2->getTargetException())))->getMessage()));
 		}
 	}
@@ -1361,8 +1305,7 @@ $Map* RelationService::getReferencedMBeans($String* relationId) {
 	} else {
 		try {
 			$assign(result, $cast($Map, $Util::cast($($nc(this->myMBeanServer)->getAttribute(($cast($ObjectName, relObj)), "ReferencedMBeans"_s)))));
-		} catch ($Exception&) {
-			$var($Exception, exc, $catch());
+		} catch ($Exception& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	}
@@ -1386,8 +1329,7 @@ $String* RelationService::getRelationTypeName($String* relationId) {
 	} else {
 		try {
 			$assign(result, ($cast($String, $nc(this->myMBeanServer)->getAttribute(($cast($ObjectName, relObj)), "RelationTypeName"_s))));
-		} catch ($Exception&) {
-			$var($Exception, exc, $catch());
+		} catch ($Exception& exc) {
 			$throwNew($RuntimeException, $(exc->getMessage()));
 		}
 	}
@@ -1421,8 +1363,7 @@ void RelationService::handleNotification($Notification* notif, Object$* handback
 				if (isRefedMBeanFlag && this->myPurgeFlag) {
 					try {
 						purgeRelations();
-					} catch ($Exception&) {
-						$var($Exception, exc, $catch());
+					} catch ($Exception& exc) {
 						$throwNew($RuntimeException, $(exc->getMessage()));
 					}
 				}
@@ -1434,8 +1375,7 @@ void RelationService::handleNotification($Notification* notif, Object$* handback
 			if (relId != nullptr) {
 				try {
 					removeRelation(relId);
-				} catch ($Exception&) {
-					$var($Exception, exc, $catch());
+				} catch ($Exception& exc) {
 					$throwNew($RuntimeException, $(exc->getMessage()));
 				}
 			}
@@ -1451,7 +1391,7 @@ $MBeanNotificationInfoArray* RelationService::getNotificationInfo() {
 	$init($System$Logger$Level);
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "ENTRY"_s);
 	$var($String, ntfClass, "javax.management.relation.RelationNotification"_s);
-		$init($RelationNotification);
+	$init($RelationNotification);
 	$var($StringArray, ntfTypes, $new($StringArray, {
 		$RelationNotification::RELATION_BASIC_CREATION,
 		$RelationNotification::RELATION_MBEAN_CREATION,
@@ -1484,8 +1424,7 @@ void RelationService::addRelationTypeInt($RelationType* relationTypeObj) {
 			excMsgStrB->append(relTypeName);
 			$throwNew($InvalidRelationTypeException, $(excMsgStrB->toString()));
 		}
-	} catch ($RelationTypeNotFoundException&) {
-		$catch();
+	} catch ($RelationTypeNotFoundException& exc) {
 	}
 	$synchronized(this->myRelType2ObjMap) {
 		$nc(this->myRelType2ObjMap)->put(relTypeName, relationTypeObj);
@@ -1664,8 +1603,7 @@ void RelationService::updateUnregistrationListener($List* newRefList, $List* obs
 				try {
 					$init($MBeanServerDelegate);
 					$nc(this->myMBeanServer)->addNotificationListener($MBeanServerDelegate::DELEGATE_NAME, static_cast<$NotificationListener*>(this), static_cast<$NotificationFilter*>(this->myUnregNtfFilter), ($Object*)nullptr);
-				} catch ($InstanceNotFoundException&) {
-					$var($InstanceNotFoundException, exc, $catch());
+				} catch ($InstanceNotFoundException& exc) {
 					$throwNew($RelationServiceNotRegisteredException, $(exc->getMessage()));
 				}
 			}
@@ -1700,8 +1638,7 @@ void RelationService::addRelationInt(bool relationBaseFlag, $RelationSupport* re
 			excMsgStrB->append(relationId);
 			$throwNew($InvalidRelationIdException, $(excMsgStrB->toString()));
 		}
-	} catch ($RelationNotFoundException&) {
-		$catch();
+	} catch ($RelationNotFoundException& exc) {
 	}
 	$var($RelationType, relType, getRelationType(relationTypeName));
 	$var($List, roleInfoList, $new($ArrayList, $(static_cast<$Collection*>($nc(relType)->getRoleInfos()))));
@@ -1716,8 +1653,7 @@ void RelationService::addRelationInt(bool relationBaseFlag, $RelationSupport* re
 					$var($RoleInfo, roleInfo, nullptr);
 					try {
 						$assign(roleInfo, $nc(relType)->getRoleInfo(currRoleName));
-					} catch ($RoleInfoNotFoundException&) {
-						$var($RoleInfoNotFoundException, exc, $catch());
+					} catch ($RoleInfoNotFoundException& exc) {
 						$throwNew($RoleNotFoundException, $(exc->getMessage()));
 					}
 					$var($Integer, status, checkRoleInt(2, currRoleName, currRoleValue, roleInfo, false));
@@ -1762,16 +1698,14 @@ void RelationService::addRelationInt(bool relationBaseFlag, $RelationSupport* re
 				$var($List, dummyList, $new($ArrayList));
 				try {
 					updateRoleMap(relationId, currRole, dummyList);
-				} catch ($RelationNotFoundException&) {
-					$catch();
+				} catch ($RelationNotFoundException& exc) {
 				}
 			}
 		}
 	}
 	try {
 		sendRelationCreationNotification(relationId);
-	} catch ($RelationNotFoundException&) {
-		$catch();
+	} catch ($RelationNotFoundException& exc) {
 	}
 	$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
 	return;
@@ -1841,8 +1775,7 @@ $Integer* RelationService::checkRoleInt(int32_t chkType, $String* roleName, $Lis
 						$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
 						return $Integer::valueOf($RoleStatus::REF_MBEAN_OF_INCORRECT_CLASS);
 					}
-				} catch ($InstanceNotFoundException&) {
-					$var($InstanceNotFoundException, exc, $catch());
+				} catch ($InstanceNotFoundException& exc) {
 					$nc($JmxProperties::RELATION_LOGGER)->log($System$Logger$Level::TRACE, "RETURN"_s);
 					return $Integer::valueOf($RoleStatus::REF_MBEAN_NOT_REGISTERED);
 				}
@@ -1881,14 +1814,11 @@ void RelationService::initializeMissingRoles(bool relationBaseFlag, $RelationSup
 				if (relationBaseFlag) {
 					try {
 						$nc(relationObj)->setRoleInt(role, true, this, false);
-					} catch ($RoleNotFoundException&) {
-						$var($RoleNotFoundException, exc1, $catch());
+					} catch ($RoleNotFoundException& exc1) {
 						$throwNew($RuntimeException, $(exc1->getMessage()));
-					} catch ($RelationNotFoundException&) {
-						$var($RelationNotFoundException, exc2, $catch());
+					} catch ($RelationNotFoundException& exc2) {
 						$throwNew($RuntimeException, $(exc2->getMessage()));
-					} catch ($RelationTypeNotFoundException&) {
-						$var($RelationTypeNotFoundException, exc3, $catch());
+					} catch ($RelationTypeNotFoundException& exc3) {
 						$throwNew($RuntimeException, $(exc3->getMessage()));
 					}
 				} else {
@@ -1898,25 +1828,20 @@ void RelationService::initializeMissingRoles(bool relationBaseFlag, $RelationSup
 					signature->set(0, "javax.management.relation.Role"_s);
 					try {
 						$nc(this->myMBeanServer)->setAttribute(relationObjName, $$new($Attribute, "Role"_s, role));
-					} catch ($InstanceNotFoundException&) {
-						$var($InstanceNotFoundException, exc1, $catch());
+					} catch ($InstanceNotFoundException& exc1) {
 						$throwNew($RuntimeException, $(exc1->getMessage()));
-					} catch ($ReflectionException&) {
-						$var($ReflectionException, exc3, $catch());
+					} catch ($ReflectionException& exc3) {
 						$throwNew($RuntimeException, $(exc3->getMessage()));
-					} catch ($MBeanException&) {
-						$var($MBeanException, exc2, $catch());
+					} catch ($MBeanException& exc2) {
 						$var($Exception, wrappedExc, exc2->getTargetException());
 						if ($instanceOf($InvalidRoleValueException, wrappedExc)) {
 							$throw($cast($InvalidRoleValueException, wrappedExc));
 						} else {
 							$throwNew($RuntimeException, $($nc(wrappedExc)->getMessage()));
 						}
-					} catch ($AttributeNotFoundException&) {
-						$var($AttributeNotFoundException, exc4, $catch());
+					} catch ($AttributeNotFoundException& exc4) {
 						$throwNew($RuntimeException, $(exc4->getMessage()));
-					} catch ($InvalidAttributeValueException&) {
-						$var($InvalidAttributeValueException, exc5, $catch());
+					} catch ($InvalidAttributeValueException& exc5) {
 						$throwNew($RuntimeException, $(exc5->getMessage()));
 					}
 				}
@@ -2107,11 +2032,9 @@ void RelationService::handleReferenceUnregistration($String* relationId, $Object
 				$var($RoleInfo, currRoleInfo, nullptr);
 				try {
 					$assign(currRoleInfo, getRoleInfo(currRelTypeName, currRoleName));
-				} catch ($RelationTypeNotFoundException&) {
-					$var($RelationTypeNotFoundException, exc1, $catch());
+				} catch ($RelationTypeNotFoundException& exc1) {
 					$throwNew($RuntimeException, $(exc1->getMessage()));
-				} catch ($RoleInfoNotFoundException&) {
-					$var($RoleInfoNotFoundException, exc2, $catch());
+				} catch ($RoleInfoNotFoundException& exc2) {
 					$throwNew($RuntimeException, $(exc2->getMessage()));
 				}
 				bool chkMinFlag = $nc(currRoleInfo)->checkMinDegree(currRoleNewRefNbr);
@@ -2132,11 +2055,9 @@ void RelationService::handleReferenceUnregistration($String* relationId, $Object
 					if ($instanceOf($RelationSupport, relObj)) {
 						try {
 							$nc(($cast($RelationSupport, relObj)))->handleMBeanUnregistrationInt(objectName, currRoleName, true, this);
-						} catch ($RelationTypeNotFoundException&) {
-							$var($RelationTypeNotFoundException, exc3, $catch());
+						} catch ($RelationTypeNotFoundException& exc3) {
 							$throwNew($RuntimeException, $(exc3->getMessage()));
-						} catch ($InvalidRoleValueException&) {
-							$var($InvalidRoleValueException, exc4, $catch());
+						} catch ($InvalidRoleValueException& exc4) {
 							$throwNew($RuntimeException, $(exc4->getMessage()));
 						}
 					} else {
@@ -2148,14 +2069,11 @@ void RelationService::handleReferenceUnregistration($String* relationId, $Object
 						signature->set(1, "java.lang.String"_s);
 						try {
 							$nc(this->myMBeanServer)->invoke(($cast($ObjectName, relObj)), "handleMBeanUnregistration"_s, params, signature);
-						} catch ($InstanceNotFoundException&) {
-							$var($InstanceNotFoundException, exc1, $catch());
+						} catch ($InstanceNotFoundException& exc1) {
 							$throwNew($RuntimeException, $(exc1->getMessage()));
-						} catch ($ReflectionException&) {
-							$var($ReflectionException, exc3, $catch());
+						} catch ($ReflectionException& exc3) {
 							$throwNew($RuntimeException, $(exc3->getMessage()));
-						} catch ($MBeanException&) {
-							$var($MBeanException, exc2, $catch());
+						} catch ($MBeanException& exc2) {
 							$var($Exception, wrappedExc, exc2->getTargetException());
 							$throwNew($RuntimeException, $($nc(wrappedExc)->getMessage()));
 						}

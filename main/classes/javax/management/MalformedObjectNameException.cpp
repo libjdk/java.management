@@ -1,12 +1,5 @@
 #include <javax/management/MalformedObjectNameException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/OperationsException.h>
 #include <jcpp.h>
 
@@ -53,16 +46,10 @@ void MalformedObjectNameException::init$($String* message) {
 MalformedObjectNameException::MalformedObjectNameException() {
 }
 
-MalformedObjectNameException::MalformedObjectNameException(const MalformedObjectNameException& e) {
+MalformedObjectNameException::MalformedObjectNameException(const MalformedObjectNameException& e) : $OperationsException(e) {
 }
 
-MalformedObjectNameException MalformedObjectNameException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void MalformedObjectNameException::throwWrapper$() {
-	$pendingException(this);
+void MalformedObjectNameException::throw$() {
 	throw *this;
 }
 

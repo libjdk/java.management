@@ -6,22 +6,7 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/Number.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <javax/management/MBeanServer.h>
@@ -127,7 +112,6 @@ void NumericValueExp::finalize() {
 $ObjectStreamFieldArray* NumericValueExp::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* NumericValueExp::newSerialPersistentFields = nullptr;
 int64_t NumericValueExp::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* NumericValueExp::serialPersistentFields = nullptr;
 bool NumericValueExp::compat = false;
 
@@ -228,9 +212,9 @@ void NumericValueExp::setMBeanServer($MBeanServer* s) {
 void clinit$NumericValueExp($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$init($Long);
-		$init($Double);
-		$init($Boolean);
+	$init($Long);
+	$init($Double);
+	$init($Boolean);
 	$assignStatic(NumericValueExp::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "longVal"_s, $Long::TYPE),
 		$$new($ObjectStreamField, "doubleVal"_s, $Double::TYPE),
@@ -244,8 +228,7 @@ void clinit$NumericValueExp($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			NumericValueExp::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (NumericValueExp::compat) {
 			$assignStatic(NumericValueExp::serialPersistentFields, NumericValueExp::oldSerialPersistentFields);

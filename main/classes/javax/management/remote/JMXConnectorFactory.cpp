@@ -6,31 +6,16 @@
 #include <java/io/IOException.h>
 #include <java/io/Serializable.h>
 #include <java/io/UncheckedIOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Module.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
@@ -243,11 +228,8 @@ $Object* allocate$JMXConnectorFactory($Class* clazz) {
 	return $of($alloc(JMXConnectorFactory));
 }
 
-
 $String* JMXConnectorFactory::DEFAULT_CLASS_LOADER = nullptr;
-
 $String* JMXConnectorFactory::PROTOCOL_PROVIDER_PACKAGES = nullptr;
-
 $String* JMXConnectorFactory::PROTOCOL_PROVIDER_CLASS_LOADER = nullptr;
 $String* JMXConnectorFactory::PROTOCOL_PROVIDER_DEFAULT_PACKAGE = nullptr;
 $ClassLogger* JMXConnectorFactory::logger = nullptr;
@@ -308,11 +290,9 @@ $JMXConnector* JMXConnectorFactory::newJMXConnector($JMXServiceURL* serviceURL, 
 				if (connection != nullptr) {
 					return connection;
 				}
-			} catch ($JMXProviderException&) {
-				$var($JMXProviderException, e, $catch());
+			} catch ($JMXProviderException& e) {
 				$throw(e);
-			} catch ($IOException&) {
-				$var($IOException, e, $catch());
+			} catch ($IOException& e) {
 				$assign(exception, e);
 			}
 		}
@@ -419,8 +399,7 @@ $Object* JMXConnectorFactory::getConnectorAsService($Class* providerClass, $Clas
 	try {
 		$nc($($nc(stream)->filter(finder)))->findFirst();
 		return $of(finder->get());
-	} catch ($UncheckedIOException&) {
-		$var($UncheckedIOException, e, $catch());
+	} catch ($UncheckedIOException& e) {
 		if ($instanceOf($JMXProviderException, $($cast($IOException, e->getCause())))) {
 			$throw($cast($JMXProviderException, $($cast($IOException, e->getCause()))));
 		} else {
@@ -441,8 +420,7 @@ $Object* JMXConnectorFactory::getProvider($String* protocol, $String* pkgs, $Cla
 		$Class* providerClass = nullptr;
 		try {
 			providerClass = $Class::forName(className, true, loader);
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			continue;
 		}
 		if (!$nc(targetInterface)->isAssignableFrom(providerClass)) {
@@ -454,8 +432,7 @@ $Object* JMXConnectorFactory::getProvider($String* protocol, $String* pkgs, $Cla
 		try {
 			$var($Object, result, $nc(providerClassT)->newInstance());
 			return $of(result);
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$var($String, msg, $str({"Exception when instantiating provider ["_s, className, "]"_s}));
 			$throwNew($JMXProviderException, msg, e);
 		}
@@ -471,8 +448,7 @@ $ClassLoader* JMXConnectorFactory::resolveClassLoader($Map* environment) {
 	if (environment != nullptr) {
 		try {
 			$assign(loader, $cast($ClassLoader, environment->get(JMXConnectorFactory::PROTOCOL_PROVIDER_CLASS_LOADER)));
-		} catch ($ClassCastException&) {
-			$var($ClassCastException, e, $catch());
+		} catch ($ClassCastException& e) {
 			$var($String, msg, $str({"The ClassLoader supplied in the environment map using the "_s, JMXConnectorFactory::PROTOCOL_PROVIDER_CLASS_LOADER, " attribute is not an instance of java.lang.ClassLoader"_s}));
 			$throwNew($IllegalArgumentException, msg);
 		}

@@ -2,15 +2,6 @@
 
 #include <java/io/InvalidObjectException.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/BasicPermission.h>
 #include <java/security/Permission.h>
 #include <jcpp.h>
@@ -80,8 +71,7 @@ void MBeanTrustPermission::readObject($ObjectInputStream* in) {
 	try {
 		$var($String, var$0, $BasicPermission::getName());
 		validate(var$0, $($BasicPermission::getActions()));
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		$throwNew($InvalidObjectException, $(e->getMessage()));
 	}
 }

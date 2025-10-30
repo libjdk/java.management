@@ -8,18 +8,8 @@
 #include <java/io/IOException.h>
 #include <java/io/InvalidObjectException.h>
 #include <java/io/ObjectStreamException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/AccessibleObject.h>
 #include <java/lang/reflect/AnnotatedElement.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Executable.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
@@ -120,8 +110,7 @@ ConvertingMethod* ConvertingMethod::from($Method* m) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		return $new(ConvertingMethod, m);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, ode, $catch());
+	} catch ($OpenDataException& ode) {
 		$var($String, var$1, $$str({"Method "_s, $($nc($nc(m)->getDeclaringClass())->getName()), "."_s}));
 		$var($String, var$0, $$concat(var$1, $(m->getName())));
 		$var($String, msg, $concat(var$0, " has parameter or return type that cannot be translated into an open type"));
@@ -175,8 +164,7 @@ void ConvertingMethod::checkCallFromOpen() {
 				$nc(paramConverter)->checkReconstructible();
 			}
 		}
-	} catch ($InvalidObjectException&) {
-		$var($InvalidObjectException, e, $catch());
+	} catch ($InvalidObjectException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -184,8 +172,7 @@ void ConvertingMethod::checkCallFromOpen() {
 void ConvertingMethod::checkCallToOpen() {
 	try {
 		$nc(this->returnMapping)->checkReconstructible();
-	} catch ($InvalidObjectException&) {
-		$var($InvalidObjectException, e, $catch());
+	} catch ($InvalidObjectException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -254,8 +241,8 @@ $Object* ConvertingMethod::invokeWithOpenReturn($MXBeanLookup* lookup, Object$* 
 			$assign(var$2, invokeWithOpenReturn(obj, params));
 			return$1 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			$MXBeanLookup::setLookup(old);
 		}
@@ -274,16 +261,14 @@ $Object* ConvertingMethod::invokeWithOpenReturn(Object$* obj, $ObjectArray* para
 	$var($ObjectArray, javaParams, nullptr);
 	try {
 		$assign(javaParams, fromOpenParameters(params));
-	} catch ($InvalidObjectException&) {
-		$var($InvalidObjectException, e, $catch());
+	} catch ($InvalidObjectException& e) {
 		$var($String, msg, $str({$(methodName()), ": cannot convert parameters from open values: "_s, e}));
 		$throwNew($MBeanException, e, msg);
 	}
 	$var($Object, javaReturn, $MethodUtil::invoke(this->method, obj, javaParams));
 	try {
 		return $of($nc(this->returnMapping)->toOpenValue(javaReturn));
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$var($String, msg, $str({$(methodName()), ": cannot convert return value to open value: "_s, e}));
 		$throwNew($MBeanException, e, msg);
 	}

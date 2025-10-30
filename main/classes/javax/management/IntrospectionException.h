@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x0EA26590EC7DD07D;
 	IntrospectionException(const IntrospectionException& e);
-	IntrospectionException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline IntrospectionException* operator ->() {
+		return (IntrospectionException*)throwing$;
+	}
 };
 
 	} // management

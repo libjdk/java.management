@@ -7,23 +7,8 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/ObjectStreamException.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/Arrays.h>
@@ -151,9 +136,7 @@ $String* OpenType::toString() {
 	 return this->$Serializable::toString();
 }
 
-
 $List* OpenType::ALLOWED_CLASSNAMES_LIST = nullptr;
-
 $StringArray* OpenType::ALLOWED_CLASSNAMES = nullptr;
 
 void OpenType::init$($String* className, $String* typeName, $String* description) {
@@ -284,8 +267,7 @@ void OpenType::readObject($ObjectInputStream* in) {
 		$assign(classNameField, validClassName($cast($String, $($nc(fields)->get("className"_s, ($Object*)nullptr)))));
 		$assign(descriptionField, valid("description"_s, $cast($String, $($nc(fields)->get("description"_s, ($Object*)nullptr)))));
 		$assign(typeNameField, valid("typeName"_s, $cast($String, $($nc(fields)->get("typeName"_s, ($Object*)nullptr)))));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($IOException, e2, $new($InvalidObjectException, $(e->getMessage())));
 		e2->initCause(e);
 		$throw(e2);
@@ -298,8 +280,8 @@ void OpenType::readObject($ObjectInputStream* in) {
 
 void clinit$OpenType($Class* class$) {
 	$useLocalCurrentObjectStackCache();
-		$load($CompositeData);
-		$load($TabularData);
+	$load($CompositeData);
+	$load($TabularData);
 	$assignStatic(OpenType::ALLOWED_CLASSNAMES_LIST, $Collections::unmodifiableList($($Arrays::asList($$new($StringArray, {
 		"java.lang.Void"_s,
 		"java.lang.Boolean"_s,

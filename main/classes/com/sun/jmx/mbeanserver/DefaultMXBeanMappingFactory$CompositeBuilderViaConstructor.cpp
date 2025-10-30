@@ -7,17 +7,6 @@
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/annotation/Annotation.h>
 #include <java/lang/reflect/AccessibleObject.h>
 #include <java/lang/reflect/Constructor.h>
@@ -335,8 +324,7 @@ $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor::fromComposi
 	try {
 		$ReflectUtil::checkPackageAccess($nc(max->constructor)->getDeclaringClass());
 		return $of($nc(max->constructor)->newInstance(params));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, $str({"Exception constructing "_s, $($nc(getTargetClass())->getName())}));
 		$throw($($DefaultMXBeanMappingFactory::invalidObjectException(msg, e)));
 	}

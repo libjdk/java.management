@@ -5,16 +5,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/Date.h>
@@ -97,7 +87,6 @@ $Object* allocate$Notification($Class* clazz) {
 $ObjectStreamFieldArray* Notification::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* Notification::newSerialPersistentFields = nullptr;
 int64_t Notification::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* Notification::serialPersistentFields = nullptr;
 bool Notification::compat = false;
 
@@ -211,10 +200,8 @@ void Notification::writeObject($ObjectOutputStream* out) {
 void clinit$Notification($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$init($Long);
-		$load($Object);
-		$load($ObjectName);
+	$init($Long);
+	$load($ObjectName);
 	$assignStatic(Notification::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "message"_s, $String::class$),
 		$$new($ObjectStreamField, "sequenceNumber"_s, $Long::TYPE),
@@ -238,8 +225,7 @@ void clinit$Notification($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			Notification::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (Notification::compat) {
 			$assignStatic(Notification::serialPersistentFields, Notification::oldSerialPersistentFields);

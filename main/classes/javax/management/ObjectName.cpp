@@ -8,23 +8,8 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Comparable.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractMap.h>
@@ -207,9 +192,7 @@ $ObjectStreamFieldArray* ObjectName::newSerialPersistentFields = nullptr;
 int64_t ObjectName::serialVersionUID = 0;
 $ObjectStreamFieldArray* ObjectName::serialPersistentFields = nullptr;
 bool ObjectName::compat = false;
-
 $ObjectName$PropertyArray* ObjectName::_Empty_property_array = nullptr;
-
 ObjectName* ObjectName::WILDCARD = nullptr;
 
 void ObjectName::construct($String* name) {
@@ -518,8 +501,7 @@ void ObjectName::construct($String* domain, $Map* props) {
 				$var($String, value, nullptr);
 				try {
 					$assign(value, $cast($String, entry->getValue()));
-				} catch ($ClassCastException&) {
-					$var($ClassCastException, e, $catch());
+				} catch ($ClassCastException& e) {
 					$throwNew($MalformedObjectNameException, $(e->getMessage()));
 				}
 				key_index = sb->length();
@@ -863,11 +845,9 @@ void ObjectName::readObject($ObjectInputStream* in) {
 	}
 	try {
 		construct(cn);
-	} catch ($NullPointerException&) {
-		$var($NullPointerException, e, $catch());
+	} catch ($NullPointerException& e) {
 		$throwNew($InvalidObjectException, $(e->toString()));
-	} catch ($MalformedObjectNameException&) {
-		$var($MalformedObjectNameException, e, $catch());
+	} catch ($MalformedObjectNameException& e) {
 		$throwNew($InvalidObjectException, $(e->toString()));
 	}
 }
@@ -1290,9 +1270,8 @@ int32_t ObjectName::compareTo(Object$* name) {
 void clinit$ObjectName($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$load($Hashtable);
-		$init($Boolean);
+	$load($Hashtable);
+	$init($Boolean);
 	$assignStatic(ObjectName::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "domain"_s, $String::class$),
 		$$new($ObjectStreamField, "propertyList"_s, $Hashtable::class$),
@@ -1308,8 +1287,7 @@ void clinit$ObjectName($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			ObjectName::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (ObjectName::compat) {
 			$assignStatic(ObjectName::serialPersistentFields, ObjectName::oldSerialPersistentFields);

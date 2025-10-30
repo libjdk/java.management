@@ -1,25 +1,10 @@
 #include <javax/management/MBeanServerInvocationHandler.h>
 
 #include <com/sun/jmx/mbeanserver/MXBeanProxy.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/StackTraceElement.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/ref/WeakReference.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationHandler.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Proxy.h>
@@ -208,14 +193,11 @@ $Object* MBeanServerInvocationHandler::invoke(Object$* proxy, $Method* method, $
 			}
 			return $of($nc(this->connection)->invoke(this->objectName, methodName, args, signature));
 		}
-	} catch ($MBeanException&) {
-		$var($MBeanException, e, $catch());
+	} catch ($MBeanException& e) {
 		$throw($(e->getTargetException()));
-	} catch ($RuntimeMBeanException&) {
-		$var($RuntimeMBeanException, re, $catch());
+	} catch ($RuntimeMBeanException& re) {
 		$throw($(re->getTargetException()));
-	} catch ($RuntimeErrorException&) {
-		$var($RuntimeErrorException, rre, $catch());
+	} catch ($RuntimeErrorException& rre) {
 		$throw($(rre->getTargetError()));
 	}
 	$shouldNotReachHere();
@@ -230,8 +212,7 @@ $MXBeanProxy* MBeanServerInvocationHandler::findMXBeanProxy($Class* mxbeanInterf
 		if (p == nullptr) {
 			try {
 				$assign(p, $new($MXBeanProxy, mxbeanInterface));
-			} catch ($IllegalArgumentException&) {
-				$var($IllegalArgumentException, e, $catch());
+			} catch ($IllegalArgumentException& e) {
 				$var($String, var$0, $$str({"Cannot make MXBean proxy for "_s, $($nc(mxbeanInterface)->getName()), ": "_s}));
 				$var($String, msg, $concat(var$0, $(e->getMessage())));
 				$var($IllegalArgumentException, iae, $new($IllegalArgumentException, msg, $(e->getCause())));
@@ -305,7 +286,6 @@ bool MBeanServerInvocationHandler::shouldDoLocally(Object$* proxy, $Method* meth
 		return true;
 	}
 	bool var$4 = $nc(methodName)->equals("equals"_s);
-	$load($Object);
 	bool var$3 = var$4 && $Arrays::equals($(method->getParameterTypes()), $$new($ClassArray, {$Object::class$}));
 	if (var$3 && isLocal(proxy, method)) {
 		return true;
@@ -367,8 +347,7 @@ bool MBeanServerInvocationHandler::isLocal(Object$* proxy, $Method* method) {
 				try {
 					$nc(intf)->getMethod(methodName, params);
 					return false;
-				} catch ($NoSuchMethodException&) {
-					$catch();
+				} catch ($NoSuchMethodException& nsme) {
 				}
 			}
 		}

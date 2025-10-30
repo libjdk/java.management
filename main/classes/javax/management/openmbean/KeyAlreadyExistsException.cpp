@@ -1,13 +1,5 @@
 #include <javax/management/openmbean/KeyAlreadyExistsException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClassInfo = ::java::lang::ClassInfo;
@@ -54,16 +46,10 @@ void KeyAlreadyExistsException::init$($String* msg) {
 KeyAlreadyExistsException::KeyAlreadyExistsException() {
 }
 
-KeyAlreadyExistsException::KeyAlreadyExistsException(const KeyAlreadyExistsException& e) {
+KeyAlreadyExistsException::KeyAlreadyExistsException(const KeyAlreadyExistsException& e) : $IllegalArgumentException(e) {
 }
 
-KeyAlreadyExistsException KeyAlreadyExistsException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void KeyAlreadyExistsException::throwWrapper$() {
-	$pendingException(this);
+void KeyAlreadyExistsException::throw$() {
 	throw *this;
 }
 

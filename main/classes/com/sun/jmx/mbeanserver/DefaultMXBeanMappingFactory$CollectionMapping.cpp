@@ -5,22 +5,8 @@
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Array.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/ParameterizedType.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/ArrayList.h>
@@ -177,8 +163,7 @@ $Object* DefaultMXBeanMappingFactory$CollectionMapping::fromNonNullOpenValue(Obj
 	try {
 		$var($Collection, tmp, $cast($Collection, $nc(this->collectionClass)->newInstance()));
 		$assign(valueCollection, $cast($Collection, $Util::cast(tmp)));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($($DefaultMXBeanMappingFactory::invalidObjectException("Cannot create collection"_s, e)));
 	}
 	{

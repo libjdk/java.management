@@ -8,29 +8,13 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
 #include <java/lang/Number.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/Thread.h>
 #include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractMap.h>
@@ -174,7 +158,6 @@ $Object* allocate$DescriptorSupport($Class* clazz) {
 $ObjectStreamFieldArray* DescriptorSupport::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* DescriptorSupport::newSerialPersistentFields = nullptr;
 int64_t DescriptorSupport::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* DescriptorSupport::serialPersistentFields = nullptr;
 $String* DescriptorSupport::serialForm = nullptr;
 $String* DescriptorSupport::currClass = nullptr;
@@ -364,7 +347,6 @@ void DescriptorSupport::init$($StringArray* fields) {
 }
 
 void DescriptorSupport::init($Map* initMap) {
-	$init($String);
 	$set(this, descriptorMap, $new($TreeMap, $String::CASE_INSENSITIVE_ORDER));
 	if (initMap != nullptr) {
 		$nc(this->descriptorMap)->putAll(initMap);
@@ -856,15 +838,12 @@ $String* DescriptorSupport::makeFieldValue(Object$* value) {
 	}
 	$Class* valueClass = $nc($of(value))->getClass();
 	try {
-		$load($String);
 		$nc(valueClass)->getConstructor($$new($ClassArray, {$String::class$}));
-	} catch ($NoSuchMethodException&) {
-		$var($NoSuchMethodException, e, $catch());
+	} catch ($NoSuchMethodException& e) {
 		$var($String, msg, $str({"Class "_s, valueClass, " does not have a public constructor with a single string arg"_s}));
 		$var($RuntimeException, iae, $new($IllegalArgumentException, msg));
 		$throwNew($RuntimeOperationsException, iae, "Cannot make XML descriptor"_s);
-	} catch ($SecurityException&) {
-		$catch();
+	} catch ($SecurityException& e) {
 	}
 	$var($String, quotedValueString, quote($($of(value)->toString())));
 	return $str({"("_s, $($nc(valueClass)->getName()), "/"_s, quotedValueString, ")"_s});
@@ -894,15 +873,13 @@ $Object* DescriptorSupport::parseQuotedFieldValue($String* s$renamed) {
 		$var($ClassLoader, contextClassLoader, $($Thread::currentThread())->getContextClassLoader());
 		$Class* c = $Class::forName(className, false, contextClassLoader);
 		$assign(constr, $nc(c)->getConstructor($$new($ClassArray, {$String::class$})));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($XMLParseException, e, $$str({"Cannot parse value: <"_s, s, ">"_s}));
 	}
 	$var($String, arg, s->substring(slash + 1, s->length() - 1));
 	try {
 		return $of($nc(constr)->newInstance($$new($ObjectArray, {$of(arg)})));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, $str({"Cannot construct instance of "_s, className, " with arg: <"_s, s, ">"_s}));
 		$throwNew($XMLParseException, e, msg);
 	}
@@ -945,8 +922,7 @@ $String* DescriptorSupport::toString() {
 int64_t DescriptorSupport::toNumeric($String* inStr) {
 	try {
 		return $Long::parseLong(inStr);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		return -2;
 	}
 	$shouldNotReachHere();
@@ -997,8 +973,7 @@ void clinit$DescriptorSupport($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$assignStatic(DescriptorSupport::currClass, "DescriptorSupport"_s);
 	$beforeCallerSensitive();
-		$load($HashMap);
-		$load($String);
+	$load($HashMap);
 	$assignStatic(DescriptorSupport::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "descriptor"_s, $HashMap::class$),
 		$$new($ObjectStreamField, "currClass"_s, $String::class$)
@@ -1011,8 +986,7 @@ void clinit$DescriptorSupport($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$assign(form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			compat = "1.0"_s->equals(form);
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		$assignStatic(DescriptorSupport::serialForm, form);
 		if (compat) {

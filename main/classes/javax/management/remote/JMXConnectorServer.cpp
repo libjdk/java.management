@@ -1,17 +1,6 @@
 #include <javax/management/remote/JMXConnectorServer.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
 #include <java/lang/IllegalStateException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
 #include <java/util/List.h>
@@ -133,7 +122,6 @@ void JMXConnectorServer::finalize() {
 	this->$NotificationBroadcasterSupport::finalize();
 }
 
-
 $String* JMXConnectorServer::AUTHENTICATOR = nullptr;
 $ints* JMXConnectorServer::sequenceNumberLock = nullptr;
 int64_t JMXConnectorServer::sequenceNumber = 0;
@@ -183,7 +171,7 @@ $JMXConnector* JMXConnectorServer::toJMXConnector($Map* env) {
 
 $MBeanNotificationInfoArray* JMXConnectorServer::getNotificationInfo() {
 	$useLocalCurrentObjectStackCache();
-		$init($JMXConnectionNotification);
+	$init($JMXConnectionNotification);
 	$var($StringArray, types, $new($StringArray, {
 		$JMXConnectionNotification::OPENED,
 		$JMXConnectionNotification::CLOSED,

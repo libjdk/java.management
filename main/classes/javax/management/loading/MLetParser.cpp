@@ -7,17 +7,8 @@
 #include <java/io/InputStream.h>
 #include <java/io/InputStreamReader.h>
 #include <java/io/Reader.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/URL.h>
 #include <java/net/URLConnection.h>
 #include <java/util/AbstractList.h>
@@ -89,7 +80,6 @@ $ClassInfo _MLetParser_ClassInfo_ = {
 $Object* allocate$MLetParser($Class* clazz) {
 	return $of($alloc(MLetParser));
 }
-
 
 $String* MLetParser::tag = nullptr;
 

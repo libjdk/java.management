@@ -1,12 +1,5 @@
 #include <javax/management/NotCompliantMBeanException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/OperationsException.h>
 #include <jcpp.h>
 
@@ -53,16 +46,10 @@ void NotCompliantMBeanException::init$($String* message) {
 NotCompliantMBeanException::NotCompliantMBeanException() {
 }
 
-NotCompliantMBeanException::NotCompliantMBeanException(const NotCompliantMBeanException& e) {
+NotCompliantMBeanException::NotCompliantMBeanException(const NotCompliantMBeanException& e) : $OperationsException(e) {
 }
 
-NotCompliantMBeanException NotCompliantMBeanException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void NotCompliantMBeanException::throwWrapper$() {
-	$pendingException(this);
+void NotCompliantMBeanException::throw$() {
 	throw *this;
 }
 

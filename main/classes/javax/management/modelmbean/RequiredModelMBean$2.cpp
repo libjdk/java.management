@@ -1,22 +1,11 @@
 #include <javax/management/modelmbean/RequiredModelMBean$2.h>
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Map.h>
 #include <javax/management/ReflectionException.h>
 #include <javax/management/modelmbean/RequiredModelMBean.h>
@@ -120,8 +109,7 @@ $Object* RequiredModelMBean$2::run() {
 			try {
 				$ReflectUtil::checkPackageAccess($nc(this->val$sig)->get(i));
 				$nc(this->val$argClasses)->set(i, $Class::forName($nc(this->val$sig)->get(i), false, this->val$targetClassLoader));
-			} catch ($ClassNotFoundException&) {
-				$var($ClassNotFoundException, e, $catch());
+			} catch ($ClassNotFoundException& e) {
 				if (this->val$tracing) {
 					$init($JmxProperties);
 					$init($System$Logger$Level);

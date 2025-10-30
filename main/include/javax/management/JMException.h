@@ -16,8 +16,10 @@ public:
 	void init$($String* msg);
 	static const int64_t serialVersionUID = (int64_t)0x04DD4CEC939D7E71;
 	JMException(const JMException& e);
-	JMException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline JMException* operator ->() {
+		return (JMException*)throwing$;
+	}
 };
 
 	} // management

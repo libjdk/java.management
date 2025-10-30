@@ -4,17 +4,6 @@
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
 #include <java/io/UncheckedIOException.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/util/ServiceLoader$Provider.h>
 #include <javax/management/remote/JMXConnectorFactory$ConnectorFactory.h>
@@ -101,11 +90,9 @@ bool JMXConnectorFactory$ProviderFinder::test($ServiceLoader$Provider* sp) {
 		try {
 			$set(this, connection, $nc(this->factory)->apply(provider));
 			return this->connection != nullptr;
-		} catch ($JMXProviderException&) {
-			$var($JMXProviderException, e, $catch());
+		} catch ($JMXProviderException& e) {
 			$throwNew($UncheckedIOException, e);
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$init($JMXConnectorFactory);
 			if ($nc($JMXConnectorFactory::logger)->traceOn()) {
 				$nc($JMXConnectorFactory::logger)->trace("getConnectorAsService"_s, $$str({"URL["_s, this->url, "] Service provider exception: "_s, e}));

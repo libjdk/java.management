@@ -1,19 +1,8 @@
 #include <sun/management/MonitorInfoCompositeData.h>
 
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/StackTraceElement.h>
-#include <java/lang/String.h>
 #include <java/lang/management/MonitorInfo.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/HashMap.h>
@@ -137,8 +126,7 @@ $CompositeData* MonitorInfoCompositeData::getCompositeData() {
 	items->put(MonitorInfoCompositeData::LOCKED_STACK_DEPTH, $($Integer::valueOf($nc(this->lock)->getLockedStackDepth())));
 	try {
 		return $new($CompositeDataSupport, MonitorInfoCompositeData::MONITOR_INFO_COMPOSITE_TYPE, items);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();
@@ -208,8 +196,7 @@ void clinit$MonitorInfoCompositeData($Class* class$) {
 				types->set(i, $nc(name)->equals(MonitorInfoCompositeData::LOCKED_STACK_FRAME) ? $(static_cast<$OpenType*>($StackTraceElementCompositeData::v5CompositeType())) : $($nc(MonitorInfoCompositeData::MONITOR_INFO_COMPOSITE_TYPE)->getType(name)));
 			}
 			$assignStatic(MonitorInfoCompositeData::V6_COMPOSITE_TYPE, $new($CompositeType, "MonitorInfo"_s, "JDK 6 MonitorInfo"_s, MonitorInfoCompositeData::MONITOR_INFO_ATTRIBUTES, MonitorInfoCompositeData::MONITOR_INFO_ATTRIBUTES, types));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 	}

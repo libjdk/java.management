@@ -5,17 +5,6 @@
 #include <com/sun/jmx/mbeanserver/MXBeanIntrospector.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Modifier.h>
 #include <java/lang/reflect/Type.h>
@@ -106,11 +95,9 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::applicable($Method
 		}
 		$set(this, fromMethod, fromMethod);
 		return nullptr;
-	} catch ($InvalidObjectException&) {
-		$var($InvalidObjectException, e, $catch());
+	} catch ($InvalidObjectException& e) {
 		$throw(e);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		return "no method from(CompositeData)"_s;
 	}
 	$shouldNotReachHere();
@@ -120,8 +107,7 @@ $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaFrom::fromCompositeData(
 	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($MethodUtil::invoke(this->fromMethod, nullptr, $$new($ObjectArray, {$of(cd)})));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, "Failed to invoke from(CompositeData)"_s);
 		$throw($($DefaultMXBeanMappingFactory::invalidObjectException(msg, e)));
 	}

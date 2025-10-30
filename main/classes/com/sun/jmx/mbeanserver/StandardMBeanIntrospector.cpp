@@ -4,17 +4,6 @@
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector$MBeanInfoMap.h>
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector$PerInterfaceMap.h>
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/WeakHashMap.h>
@@ -184,12 +173,10 @@ bool StandardMBeanIntrospector::validParameter($Method* m, Object$* value, int32
 }
 
 $MBeanAttributeInfo* StandardMBeanIntrospector::getMBeanAttributeInfo($String* attributeName, $Method* getter, $Method* setter) {
-	$useLocalCurrentObjectStackCache();
 	$var($String, description, "Attribute exposed for management"_s);
 	try {
 		return $new($MBeanAttributeInfo, attributeName, description, getter, setter);
-	} catch ($IntrospectionException&) {
-		$var($IntrospectionException, e, $catch());
+	} catch ($IntrospectionException& e) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();
@@ -231,8 +218,7 @@ bool StandardMBeanIntrospector::isDefinitelyImmutableInfo($Class* implClass) {
 				try {
 					$var($Method, m, $nc(implClass)->getMethod("getNotificationInfo"_s, $$new($ClassArray, 0)));
 					$assign(immutable, $Boolean::valueOf(($nc(m)->getDeclaringClass() == nbs)));
-				} catch ($Exception&) {
-					$var($Exception, e, $catch());
+				} catch ($Exception& e) {
 					return false;
 				}
 			} else {

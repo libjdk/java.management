@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x85C4016998605B69;
 	MonitorSettingException(const MonitorSettingException& e);
-	MonitorSettingException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline MonitorSettingException* operator ->() {
+		return (MonitorSettingException*)throwing$;
+	}
 };
 
 		} // monitor

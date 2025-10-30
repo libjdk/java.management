@@ -1,14 +1,6 @@
 #include <java/lang/management/MemoryNotificationInfo.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
 #include <java/lang/management/MemoryUsage.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/openmbean/CompositeData.h>
 #include <sun/management/MemoryNotifInfoCompositeData.h>
 #include <jcpp.h>
@@ -60,9 +52,7 @@ $Object* allocate$MemoryNotificationInfo($Class* clazz) {
 	return $of($alloc(MemoryNotificationInfo));
 }
 
-
 $String* MemoryNotificationInfo::MEMORY_THRESHOLD_EXCEEDED = nullptr;
-
 $String* MemoryNotificationInfo::MEMORY_COLLECTION_THRESHOLD_EXCEEDED = nullptr;
 
 void MemoryNotificationInfo::init$($String* poolName, $MemoryUsage* usage, int64_t count) {

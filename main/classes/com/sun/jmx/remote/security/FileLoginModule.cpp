@@ -8,20 +8,7 @@
 #include <java/io/File.h>
 #include <java/io/FilePermission.h>
 #include <java/io/IOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlException.h>
 #include <java/security/AccessController.h>
 #include <java/security/GeneralSecurityException.h>
@@ -177,8 +164,7 @@ void FileLoginModule::initialize($Subject* subject, $CallbackHandler* callbackHa
 			$System::getProperty("java.home"_s);
 			this->hasJavaHomePermission = true;
 			$set(this, passwordFileDisplayName, this->passwordFile);
-		} catch ($SecurityException&) {
-			$var($SecurityException, e, $catch());
+		} catch ($SecurityException& e) {
 			this->hasJavaHomePermission = false;
 			$set(this, passwordFileDisplayName, FileLoginModule::PASSWORD_FILE_NAME);
 		}
@@ -194,12 +180,10 @@ bool FileLoginModule::login() {
 			}
 		}
 		$nc(this->hashPwdMgr)->loadPasswords();
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$var($LoginException, le, $new($LoginException, $$str({"Error: unable to load the password file: "_s, this->passwordFileDisplayName})));
 		$throw($cast($LoginException, $($EnvHelp::initCause(le, ioe))));
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		if (this->userSuppliedPasswordFile || this->hasJavaHomePermission) {
 			$throw(e);
 		} else {
@@ -220,8 +204,7 @@ bool FileLoginModule::login() {
 				$nc(FileLoginModule::logger)->debug("login"_s, "Authentication using cached password has succeeded"_s);
 			}
 			return true;
-		} catch ($LoginException&) {
-			$var($LoginException, le, $catch());
+		} catch ($LoginException& le) {
 			cleanState();
 			$nc(FileLoginModule::logger)->debug("login"_s, "Authentication using cached password has failed"_s);
 		}
@@ -233,8 +216,7 @@ bool FileLoginModule::login() {
 				$nc(FileLoginModule::logger)->debug("login"_s, "Authentication using cached password has succeeded"_s);
 			}
 			return true;
-		} catch ($LoginException&) {
-			$var($LoginException, le, $catch());
+		} catch ($LoginException& le) {
 			cleanState();
 			$nc(FileLoginModule::logger)->debug("login"_s, "Authentication using cached password has failed"_s);
 			$throw(le);
@@ -250,8 +232,7 @@ bool FileLoginModule::login() {
 			$nc(FileLoginModule::logger)->debug("login"_s, "Authentication has succeeded"_s);
 		}
 		return true;
-	} catch ($LoginException&) {
-		$var($LoginException, le, $catch());
+	} catch ($LoginException& le) {
 		cleanState();
 		$nc(FileLoginModule::logger)->debug("login"_s, "Authentication has failed"_s);
 		$throw(le);
@@ -351,12 +332,10 @@ void FileLoginModule::getUsernamePassword(bool usePasswdFromSharedState) {
 		$set(this, password, $new($chars, $nc(tmpPassword)->length));
 		$System::arraycopy(tmpPassword, 0, this->password, 0, tmpPassword->length);
 		$nc(($cast($PasswordCallback, callbacks->get(1))))->clearPassword();
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$var($LoginException, le, $new($LoginException, $(ioe->toString())));
 		$throw($cast($LoginException, $($EnvHelp::initCause(le, ioe))));
-	} catch ($UnsupportedCallbackException&) {
-		$var($UnsupportedCallbackException, uce, $catch());
+	} catch ($UnsupportedCallbackException& uce) {
 		$var($LoginException, le, $new($LoginException, $$str({"Error: "_s, $($nc($of($(uce->getCallback())))->toString()), " not available to garner authentication information from the user"_s})));
 		$throw($cast($LoginException, $($EnvHelp::initCause(le, uce))));
 	}

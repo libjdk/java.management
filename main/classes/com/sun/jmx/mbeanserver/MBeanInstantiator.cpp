@@ -10,41 +10,19 @@
 #include <java/io/IOException.h>
 #include <java/io/InputStream.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Double.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InstantiationException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodError.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationTargetException.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Modifier.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
@@ -207,7 +185,6 @@ void MBeanInstantiator::testCreation($Class* c) {
 }
 
 $Class* MBeanInstantiator::findClassWithDefaultLoaderRepository($String* className) {
-	$useLocalCurrentObjectStackCache();
 	$Class* theClass = nullptr;
 	if (className == nullptr) {
 		$throwNew($RuntimeOperationsException, $$new($IllegalArgumentException, "The class name cannot be null"_s), "Exception occurred during object instantiation"_s);
@@ -218,8 +195,7 @@ $Class* MBeanInstantiator::findClassWithDefaultLoaderRepository($String* classNa
 			$throwNew($ClassNotFoundException, className);
 		}
 		theClass = $nc(this->clr)->loadClass(className);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, ee, $catch());
+	} catch ($ClassNotFoundException& ee) {
 		$throwNew($ReflectionException, ee, "The MBean class could not be loaded by the default loader repository"_s);
 	}
 	return theClass;
@@ -270,16 +246,14 @@ $ClassArray* MBeanInstantiator::findSignatureClasses($StringArray* signature, $C
 				tab->set(i, findClass(signature->get(i), $($of(this)->getClass()->getClassLoader())));
 			}
 		}
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 			$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, "The parameter class could not be found"_s, static_cast<$Throwable*>(e));
 		}
 		$throwNew($ReflectionException, e, "The parameter class could not be found"_s);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -303,8 +277,7 @@ $Object* MBeanInstantiator::instantiate($Class* theClass) {
 		$ReflectUtil::checkPackageAccess(theClass);
 		ensureClassAccess(theClass);
 		$assign(moi, $nc(cons)->newInstance($$new($ObjectArray, 0)));
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		$var($Throwable, t, e->getCause());
 		if ($instanceOf($RuntimeException, t)) {
 			$throwNew($RuntimeMBeanException, $cast($RuntimeException, t), "RuntimeException thrown in the MBean\'s empty constructor"_s);
@@ -313,17 +286,13 @@ $Object* MBeanInstantiator::instantiate($Class* theClass) {
 		} else {
 			$throwNew($MBeanException, $cast($Exception, t), "Exception thrown in the MBean\'s empty constructor"_s);
 		}
-	} catch ($NoSuchMethodError&) {
-		$var($NoSuchMethodError, error, $catch());
+	} catch ($NoSuchMethodError& error) {
 		$throwNew($ReflectionException, $$new($NoSuchMethodException, "No constructor"_s), "No such constructor"_s);
-	} catch ($InstantiationException&) {
-		$var($InstantiationException, e, $catch());
+	} catch ($InstantiationException& e) {
 		$throwNew($ReflectionException, e, "Exception thrown trying to invoke the MBean\'s empty constructor"_s);
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($ReflectionException, e, "Exception thrown trying to invoke the MBean\'s empty constructor"_s);
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		$throwNew($ReflectionException, e, "Exception thrown trying to invoke the MBean\'s empty constructor"_s);
 	}
 	return $of(moi);
@@ -338,8 +307,7 @@ $Object* MBeanInstantiator::instantiate($Class* theClass, $ObjectArray* params, 
 	try {
 		$var($ClassLoader, aLoader, $nc(theClass)->getClassLoader());
 		$assign(tab, (signature == nullptr) ? ($ClassArray*)nullptr : findSignatureClasses(signature, aLoader));
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		$throwNew($ReflectionException, e, "The constructor parameter classes could not be loaded"_s);
 	}
 	$var($Constructor, cons, findConstructor(theClass, tab));
@@ -350,17 +318,13 @@ $Object* MBeanInstantiator::instantiate($Class* theClass, $ObjectArray* params, 
 		$ReflectUtil::checkPackageAccess(theClass);
 		ensureClassAccess(theClass);
 		$assign(moi, $nc(cons)->newInstance(params));
-	} catch ($NoSuchMethodError&) {
-		$var($NoSuchMethodError, error, $catch());
+	} catch ($NoSuchMethodError& error) {
 		$throwNew($ReflectionException, $$new($NoSuchMethodException, "No such constructor found"_s), "No such constructor"_s);
-	} catch ($InstantiationException&) {
-		$var($InstantiationException, e, $catch());
+	} catch ($InstantiationException& e) {
 		$throwNew($ReflectionException, e, "Exception thrown trying to invoke the MBean\'s constructor"_s);
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($ReflectionException, e, "Exception thrown trying to invoke the MBean\'s constructor"_s);
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		$var($Throwable, th, e->getCause());
 		if ($instanceOf($RuntimeException, th)) {
 			$throwNew($RuntimeMBeanException, $cast($RuntimeException, th), "RuntimeException thrown in the MBean\'s constructor"_s);
@@ -386,8 +350,7 @@ $ObjectInputStream* MBeanInstantiator::deserialize($ClassLoader* loader, $bytes*
 	$assign(bIn, $new($ByteArrayInputStream, data));
 	try {
 		$assign(objIn, $new($ObjectInputStreamWithLoader, bIn, loader));
-	} catch ($IOException&) {
-		$var($IOException, e, $catch());
+	} catch ($IOException& e) {
 		$throwNew($OperationsException, "An IOException occurred trying to de-serialize the data"_s);
 	}
 	return objIn;
@@ -417,8 +380,7 @@ $ObjectInputStream* MBeanInstantiator::deserialize($String* className, $ObjectNa
 				$throwNew($ClassNotFoundException, className);
 			}
 			theClass = $Class::forName(className, false, instance);
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			$throwNew($ReflectionException, e, $$str({"The MBean class could not be loaded by the "_s, $($nc(loaderName)->toString()), " class loader"_s}));
 		}
 	}
@@ -427,8 +389,7 @@ $ObjectInputStream* MBeanInstantiator::deserialize($String* className, $ObjectNa
 	$assign(bIn, $new($ByteArrayInputStream, data));
 	try {
 		$assign(objIn, $new($ObjectInputStreamWithLoader, bIn, $($nc(theClass)->getClassLoader())));
-	} catch ($IOException&) {
-		$var($IOException, e, $catch());
+	} catch ($IOException& e) {
 		$throwNew($OperationsException, "An IOException occurred trying to de-serialize the data"_s);
 	}
 	return objIn;
@@ -481,8 +442,7 @@ $Class* MBeanInstantiator::loadClass($String* className, $ClassLoader* loader$re
 		} else {
 			theClass = $Class::forName(className);
 		}
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($ReflectionException, e, "The MBean class could not be loaded"_s);
 	}
 	return theClass;
@@ -511,16 +471,14 @@ $ClassArray* MBeanInstantiator::loadSignatureClasses($StringArray* signature, $C
 			$ReflectUtil::checkPackageAccess(signature->get(i));
 			tab->set(i, $Class::forName(signature->get(i), false, aLoader));
 		}
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 			$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, "The parameter class could not be found"_s, static_cast<$Throwable*>(e));
 		}
 		$throwNew($ReflectionException, e, "The parameter class could not be found"_s);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -534,8 +492,7 @@ $ClassArray* MBeanInstantiator::loadSignatureClasses($StringArray* signature, $C
 $Constructor* MBeanInstantiator::findConstructor($Class* c, $ClassArray* params) {
 	try {
 		return $ConstructorUtil::getConstructor(c, params);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		return nullptr;
 	}
 	$shouldNotReachHere();
@@ -586,14 +543,14 @@ void clinit$MBeanInstantiator($Class* class$) {
 	$assignStatic(MBeanInstantiator::primitiveClasses, $Util::newMap());
 	{
 		{
-				$init($Byte);
-				$init($Short);
-				$init($Integer);
-				$init($Long);
-				$init($Float);
-				$init($Double);
-				$init($Character);
-				$init($Boolean);
+			$init($Byte);
+			$init($Short);
+			$init($Integer);
+			$init($Long);
+			$init($Float);
+			$init($Double);
+			$init($Character);
+			$init($Boolean);
 			$var($ClassArray, arr$, $new($ClassArray, {
 				$Byte::TYPE,
 				$Short::TYPE,

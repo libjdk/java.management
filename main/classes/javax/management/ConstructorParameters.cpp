@@ -1,14 +1,5 @@
 #include <javax/management/ConstructorParameters.h>
 
-#include <java/lang/Attribute.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NamedAttribute.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $Attribute = ::java::lang::Attribute;
@@ -35,13 +26,13 @@ $NamedAttribute ConstructorParameters_Attribute_var$2[] = {
 	{"value", 'e', "Ljava/lang/annotation/RetentionPolicy; RUNTIME"},
 	{}
 };
+
 $CompoundAttribute _ConstructorParameters_Annotations_[] = {
 	{"Ljava/lang/annotation/Documented;", nullptr},
 	{"Ljava/lang/annotation/Target;", ConstructorParameters_Attribute_var$0},
 	{"Ljava/lang/annotation/Retention;", ConstructorParameters_Attribute_var$2},
 	{}
 };
-
 
 $MethodInfo _ConstructorParameters_MethodInfo_[] = {
 	{"value", "()[Ljava/lang/String;", nullptr, $PUBLIC | $ABSTRACT},

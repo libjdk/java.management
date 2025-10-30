@@ -6,17 +6,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <jcpp.h>
@@ -77,7 +66,6 @@ $Object* allocate$InvalidTargetObjectTypeException($Class* clazz) {
 $ObjectStreamFieldArray* InvalidTargetObjectTypeException::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* InvalidTargetObjectTypeException::newSerialPersistentFields = nullptr;
 int64_t InvalidTargetObjectTypeException::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* InvalidTargetObjectTypeException::serialPersistentFields = nullptr;
 bool InvalidTargetObjectTypeException::compat = false;
 
@@ -124,8 +112,7 @@ void InvalidTargetObjectTypeException::writeObject($ObjectOutputStream* out) {
 void clinit$InvalidTargetObjectTypeException($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
-		$load($String);
-		$load($Exception);
+	$load($Exception);
 	$assignStatic(InvalidTargetObjectTypeException::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "msgStr"_s, $String::class$),
 		$$new($ObjectStreamField, "relatedExcept"_s, $Exception::class$)
@@ -137,8 +124,7 @@ void clinit$InvalidTargetObjectTypeException($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			InvalidTargetObjectTypeException::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (InvalidTargetObjectTypeException::compat) {
 			$assignStatic(InvalidTargetObjectTypeException::serialPersistentFields, InvalidTargetObjectTypeException::oldSerialPersistentFields);
@@ -153,16 +139,10 @@ void clinit$InvalidTargetObjectTypeException($Class* class$) {
 InvalidTargetObjectTypeException::InvalidTargetObjectTypeException() {
 }
 
-InvalidTargetObjectTypeException::InvalidTargetObjectTypeException(const InvalidTargetObjectTypeException& e) {
+InvalidTargetObjectTypeException::InvalidTargetObjectTypeException(const InvalidTargetObjectTypeException& e) : $Exception(e) {
 }
 
-InvalidTargetObjectTypeException InvalidTargetObjectTypeException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidTargetObjectTypeException::throwWrapper$() {
-	$pendingException(this);
+void InvalidTargetObjectTypeException::throw$() {
 	throw *this;
 }
 

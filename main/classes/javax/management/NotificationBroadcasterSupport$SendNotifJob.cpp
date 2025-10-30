@@ -1,16 +1,6 @@
 #include <javax/management/NotificationBroadcasterSupport$SendNotifJob.h>
 
 #include <com/sun/jmx/remote/util/ClassLogger.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Notification.h>
 #include <javax/management/NotificationBroadcasterSupport$ListenerInfo.h>
 #include <javax/management/NotificationBroadcasterSupport.h>
@@ -79,8 +69,7 @@ void NotificationBroadcasterSupport$SendNotifJob::init$($NotificationBroadcaster
 void NotificationBroadcasterSupport$SendNotifJob::run() {
 	try {
 		this->this$0->handleNotification($nc(this->listenerInfo)->listener, this->notif, $nc(this->listenerInfo)->handback);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$init($NotificationBroadcasterSupport);
 		if ($nc($NotificationBroadcasterSupport::logger)->debugOn()) {
 			$nc($NotificationBroadcasterSupport::logger)->debug("SendNotifJob-run"_s, static_cast<$Throwable*>(e));

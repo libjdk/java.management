@@ -10,36 +10,15 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/ObjectOutput.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
 #include <java/lang/CharSequence.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Double.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
 #include <java/lang/IllegalStateException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
@@ -47,7 +26,6 @@
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
 #include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/net/URL.h>
 #include <java/net/URLClassLoader.h>
@@ -458,8 +436,7 @@ void MLet::init(bool delegateToCLR) {
 		if (this->libraryDirectory == nullptr) {
 			$set(this, libraryDirectory, getTmpDir());
 		}
-	} catch ($SecurityException&) {
-		$catch();
+	} catch ($SecurityException& e) {
 	}
 }
 
@@ -477,8 +454,7 @@ void MLet::addURL($String* url) {
 		if (!$nc($($Arrays::asList($(getURLs()))))->contains(ur)) {
 			$URLClassLoader::addURL(ur);
 		}
-	} catch ($MalformedURLException&) {
-		$var($MalformedURLException, e, $catch());
+	} catch ($MalformedURLException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -522,8 +498,7 @@ $Set* MLet::getMBeansFromURL($String* url$renamed) {
 	try {
 		$var($MLetParser, parser, $new($MLetParser));
 		$set(this, mletList, parser->parseURL(url));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, $str({"Problems while parsing URL ["_s, url, "], got exception ["_s, $(e->toString()), "]"_s}));
 		$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, msg);
 		$throw($cast($ServiceNotFoundException, $($EnvHelp::initCause($$new($ServiceNotFoundException, msg), e))));
@@ -563,8 +538,7 @@ $Set* MLet::getMBeansFromURL($String* url$renamed) {
 					}
 					try {
 						$assign(codebase, check(version, codebase, tok, elmt));
-					} catch ($Exception&) {
-						$var($Exception, ex, $catch());
+					} catch ($Exception& ex) {
 						$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, "Got unexpected exception"_s, static_cast<$Throwable*>(ex));
 						mbeans->add(ex);
 						continue;
@@ -573,8 +547,7 @@ $Set* MLet::getMBeansFromURL($String* url$renamed) {
 						if (!$nc($($Arrays::asList($(getURLs()))))->contains($$new($URL, $$str({$($nc(codebase)->toString()), tok})))) {
 							addURL($$str({codebase, tok}));
 						}
-					} catch ($MalformedURLException&) {
-						$catch();
+					} catch ($MalformedURLException& me) {
 					}
 				}
 				$var($Object, o, nullptr);
@@ -632,53 +605,43 @@ $Set* MLet::getMBeansFromURL($String* url$renamed) {
 						}
 						$assign(objInst, $new($ObjectInstance, name, $($nc($of(o))->getClass()->getName())));
 					}
-				} catch ($ReflectionException&) {
-					$var($ReflectionException, ex, $catch());
+				} catch ($ReflectionException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "ReflectionException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($InstanceAlreadyExistsException&) {
-					$var($InstanceAlreadyExistsException, ex, $catch());
+				} catch ($InstanceAlreadyExistsException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "InstanceAlreadyExistsException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($MBeanRegistrationException&) {
-					$var($MBeanRegistrationException, ex, $catch());
+				} catch ($MBeanRegistrationException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "MBeanRegistrationException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($MBeanException&) {
-					$var($MBeanException, ex, $catch());
+				} catch ($MBeanException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "MBeanException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($NotCompliantMBeanException&) {
-					$var($NotCompliantMBeanException, ex, $catch());
+				} catch ($NotCompliantMBeanException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "NotCompliantMBeanException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($InstanceNotFoundException&) {
-					$var($InstanceNotFoundException, ex, $catch());
+				} catch ($InstanceNotFoundException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "InstanceNotFoundException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($IOException&) {
-					$var($IOException, ex, $catch());
+				} catch ($IOException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "IOException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($SecurityException&) {
-					$var($SecurityException, ex, $catch());
+				} catch ($SecurityException& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "SecurityException"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($Exception&) {
-					$var($Exception, ex, $catch());
+				} catch ($Exception& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "Exception"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
-				} catch ($Error&) {
-					$var($Error, ex, $catch());
+				} catch ($Error& ex) {
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, "Error"_s, static_cast<$Throwable*>(ex));
 					mbeans->add(ex);
 					continue;
@@ -744,8 +707,8 @@ $Class* MLet::loadClass($String* name, $ClassLoaderRepository* clr) {
 				var$2 = loadClass(name);
 				return$1 = true;
 				goto $finally;
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$3) {
+				$assign(var$0, var$3);
 			} $finally: {
 				$set(this, currentClr, before);
 			}
@@ -775,8 +738,7 @@ $Class* MLet::findClass($String* name, $ClassLoaderRepository* clr) {
 		if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
 			$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Class "_s, name, " loaded through MLet classloader"_s}));
 		}
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
 			$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Class "_s, name, " not found locally"_s}));
 		}
@@ -790,8 +752,7 @@ $Class* MLet::findClass($String* name, $ClassLoaderRepository* clr) {
 			if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
 				$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Class "_s, name, " loaded through the default classloader repository"_s}));
 			}
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::TRACE)) {
 				$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Class "_s, name, " not found in CLR"_s}));
 			}
@@ -878,8 +839,7 @@ $String* MLet::getTmpDir() {
 				$assign(var$2, $nc(tmpDirFile)->getAbsolutePath());
 				return$1 = true;
 				goto $finally;
-			} catch ($Exception&) {
-				$var($Exception, x, $catch());
+			} catch ($Exception& x) {
 				$init($JmxProperties);
 				$init($System$Logger$Level);
 				$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, "Failed to determine system temporary dir"_s);
@@ -887,8 +847,8 @@ $String* MLet::getTmpDir() {
 				return$1 = true;
 				goto $finally;
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			if (tmpFile != nullptr) {
 				try {
@@ -898,8 +858,7 @@ $String* MLet::getTmpDir() {
 						$init($System$Logger$Level);
 						$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, "Failed to delete temp file"_s);
 					}
-				} catch ($Exception&) {
-					$var($Exception, x, $catch());
+				} catch ($Exception& x) {
 					$init($JmxProperties);
 					$init($System$Logger$Level);
 					$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, "Failed to delete temporary file"_s, static_cast<$Throwable*>(x));
@@ -937,8 +896,8 @@ $String* MLet::loadLibraryAsResource($String* libname) {
 						$assign(var$2, file->getAbsolutePath());
 						return$1 = true;
 						goto $finally;
-					} catch ($Throwable&) {
-						$assign(var$0, $catch());
+					} catch ($Throwable& var$3) {
+						$assign(var$0, var$3);
 					} $finally: {
 						is->close();
 					}
@@ -950,8 +909,7 @@ $String* MLet::loadLibraryAsResource($String* libname) {
 					}
 				}
 			}
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
 			$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"Failed to load library : "_s, libname}), static_cast<$Throwable*>(e));
@@ -989,14 +947,12 @@ $Object* MLet::loadSerializedObject($URL* codebase, $String* filename$renamed) {
 			$var($Object, serObject, ois->readObject());
 			ois->close();
 			return $of(serObject);
-		} catch ($IOException&) {
-			$var($IOException, e, $catch());
+		} catch ($IOException& e) {
 			if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 				$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"Exception while deserializing "_s, filename}), static_cast<$Throwable*>(e));
 			}
 			$throw(e);
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, e, $catch());
+		} catch ($ClassNotFoundException& e) {
 			if ($nc($JmxProperties::MLET_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 				$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"Exception while deserializing "_s, filename}), static_cast<$Throwable*>(e));
 			}
@@ -1017,13 +973,11 @@ $Object* MLet::constructParameter($String* param, $String* type) {
 	$Class* c = $cast($Class, $nc(this->primitiveClasses)->get(type));
 	if (c != nullptr) {
 		try {
-			$load($String);
 			$var($Constructor, cons, c->getConstructor($$new($ClassArray, {$String::class$})));
 			$var($ObjectArray, oo, $new($ObjectArray, 1));
 			oo->set(0, param);
 			return $of(($nc(cons)->newInstance(oo)));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
 			$nc($JmxProperties::MLET_LOGGER)->log($System$Logger$Level::DEBUG, "Got unexpected exception"_s, static_cast<$Throwable*>(e));

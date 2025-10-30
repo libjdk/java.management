@@ -4,17 +4,6 @@
 #include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <javax/management/openmbean/CompositeData.h>
@@ -95,8 +84,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::applicable($Met
 	$beforeCallerSensitive();
 	try {
 		$var($Constructor, c, $nc(getTargetClass())->getConstructor($$new($ClassArray, 0)));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		return "does not have a public no-arg constructor"_s;
 	}
 	$var($MethodArray, setters, $new($MethodArray, $nc(getters)->length));
@@ -112,8 +100,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::applicable($Met
 			if ($nc(setter)->getReturnType() != $Void::TYPE) {
 				$throwNew($Exception);
 			}
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			return $str({"not all getters have corresponding setters ("_s, getter, ")"_s});
 		}
 		setters->set(i, setter);
@@ -138,8 +125,7 @@ $Object* DefaultMXBeanMappingFactory$CompositeBuilderViaSetters::fromCompositeDa
 				$MethodUtil::invoke($nc(this->setters)->get(i), o, $$new($ObjectArray, {javaItem}));
 			}
 		}
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($($DefaultMXBeanMappingFactory::invalidObjectException(e)));
 	}
 	return $of(o);

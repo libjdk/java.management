@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x47D35A35A3DFFBB9;
 	NotCompliantMBeanException(const NotCompliantMBeanException& e);
-	NotCompliantMBeanException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline NotCompliantMBeanException* operator ->() {
+		return (NotCompliantMBeanException*)throwing$;
+	}
 };
 
 	} // management

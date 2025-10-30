@@ -1,23 +1,9 @@
 #include <java/lang/management/ManagementFactory.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
@@ -35,8 +21,6 @@
 #include <java/lang/management/PlatformManagedObject.h>
 #include <java/lang/management/RuntimeMXBean.h>
 #include <java/lang/management/ThreadMXBean.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
 #include <java/security/Permission.h>
@@ -630,23 +614,14 @@ $Object* allocate$ManagementFactory($Class* clazz) {
 }
 
 bool ManagementFactory::$assertionsDisabled = false;
-
 $String* ManagementFactory::CLASS_LOADING_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::COMPILATION_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::MEMORY_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::OPERATING_SYSTEM_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::RUNTIME_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::THREAD_MXBEAN_NAME = nullptr;
-
 $String* ManagementFactory::GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE = nullptr;
-
 $String* ManagementFactory::MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE = nullptr;
-
 $String* ManagementFactory::MEMORY_POOL_MXBEAN_DOMAIN_TYPE = nullptr;
 $MBeanServer* ManagementFactory::platformMBeanServer = nullptr;
 $String* ManagementFactory::NOTIF_EMITTER = nullptr;
@@ -743,11 +718,9 @@ $Object* ManagementFactory::newPlatformMXBeanProxy($MBeanServerConnection* conne
 		}
 		bool emitter = $nc(connection)->isInstanceOf(objName, ManagementFactory::NOTIF_EMITTER);
 		return $of($JMX::newMXBeanProxy(connection, objName, mxbeanInterface, emitter));
-	} catch ($InstanceNotFoundException&) {
-		$var($OperationsException, e, $catch());
+	} catch ($InstanceNotFoundException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
-	} catch ($MalformedObjectNameException&) {
-		$var($OperationsException, e, $catch());
+	} catch ($MalformedObjectNameException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();
@@ -858,11 +831,9 @@ void ManagementFactory::addMXBean($MBeanServer* mbs, $String* name, Object$* pmo
 	try {
 		$var($ObjectName, oname, $ObjectName::getInstance(name));
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new(ManagementFactory$$Lambda$lambda$addMXBean$7$9, pmo, mbs, oname)));
-	} catch ($MalformedObjectNameException&) {
-		$var($MalformedObjectNameException, mone, $catch());
+	} catch ($MalformedObjectNameException& mone) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(mone));
-	} catch ($PrivilegedActionException&) {
-		$var($PrivilegedActionException, e, $catch());
+	} catch ($PrivilegedActionException& e) {
 		$throwNew($RuntimeException, $(static_cast<$Throwable*>(e->getException())));
 	}
 }

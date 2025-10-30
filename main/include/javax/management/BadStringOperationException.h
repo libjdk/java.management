@@ -17,8 +17,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x6C46FCB0436D9694;
 	$String* op = nullptr;
 	BadStringOperationException(const BadStringOperationException& e);
-	BadStringOperationException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline BadStringOperationException* operator ->() {
+		return (BadStringOperationException*)throwing$;
+	}
 };
 
 	} // management

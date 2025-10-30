@@ -1,13 +1,5 @@
 #include <sun/management/counter/Variability.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef CONSTANT
@@ -61,13 +53,9 @@ $Object* allocate$Variability($Class* clazz) {
 }
 
 $VariabilityArray* Variability::map = nullptr;
-
 Variability* Variability::INVALID = nullptr;
-
 Variability* Variability::CONSTANT = nullptr;
-
 Variability* Variability::MONOTONIC = nullptr;
-
 Variability* Variability::VARIABLE = nullptr;
 
 $String* Variability::toString() {

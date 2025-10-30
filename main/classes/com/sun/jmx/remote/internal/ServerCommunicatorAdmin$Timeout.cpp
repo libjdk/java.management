@@ -2,19 +2,7 @@
 
 #include <com/sun/jmx/remote/internal/ServerCommunicatorAdmin.h>
 #include <com/sun/jmx/remote/util/ClassLogger.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InterruptedException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ServerCommunicatorAdmin = ::com::sun::jmx::remote::internal::ServerCommunicatorAdmin;
@@ -115,8 +103,7 @@ void ServerCommunicatorAdmin$Timeout::run() {
 					stopping = true;
 					break;
 				}
-			} catch ($InterruptedException&) {
-				$var($InterruptedException, ire, $catch());
+			} catch ($InterruptedException& ire) {
 				$nc($ServerCommunicatorAdmin::logger)->warning("Timeout-run"_s, $$str({"Unexpected Exception: "_s, ire}));
 				$nc($ServerCommunicatorAdmin::logger)->debug("Timeout-run"_s, static_cast<$Throwable*>(ire));
 				return;

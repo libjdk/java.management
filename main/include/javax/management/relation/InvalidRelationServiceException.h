@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x2F31CABC4E679067;
 	InvalidRelationServiceException(const InvalidRelationServiceException& e);
-	InvalidRelationServiceException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InvalidRelationServiceException* operator ->() {
+		return (InvalidRelationServiceException*)throwing$;
+	}
 };
 
 		} // relation

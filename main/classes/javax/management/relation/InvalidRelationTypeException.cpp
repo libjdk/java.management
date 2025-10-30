@@ -1,12 +1,5 @@
 #include <javax/management/relation/InvalidRelationTypeException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/relation/RelationException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void InvalidRelationTypeException::init$($String* message) {
 InvalidRelationTypeException::InvalidRelationTypeException() {
 }
 
-InvalidRelationTypeException::InvalidRelationTypeException(const InvalidRelationTypeException& e) {
+InvalidRelationTypeException::InvalidRelationTypeException(const InvalidRelationTypeException& e) : $RelationException(e) {
 }
 
-InvalidRelationTypeException InvalidRelationTypeException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidRelationTypeException::throwWrapper$() {
-	$pendingException(this);
+void InvalidRelationTypeException::throw$() {
 	throw *this;
 }
 

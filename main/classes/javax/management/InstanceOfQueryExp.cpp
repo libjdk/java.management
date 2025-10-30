@@ -1,18 +1,6 @@
 #include <javax/management/InstanceOfQueryExp.h>
 
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/BadStringOperationException.h>
 #include <javax/management/InstanceNotFoundException.h>
 #include <javax/management/MBeanServer.h>
@@ -111,16 +99,14 @@ bool InstanceOfQueryExp::apply($ObjectName* name) {
 	$var($StringValueExp, val, nullptr);
 	try {
 		$assign(val, $cast($StringValueExp, $nc(this->classNameValue)->apply(name)));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, x, $catch());
+	} catch ($ClassCastException& x) {
 		$var($BadStringOperationException, y, $new($BadStringOperationException, $(x->toString())));
 		y->initCause(x);
 		$throw(y);
 	}
 	try {
 		return $nc($(getMBeanServer()))->isInstanceOf(name, $($nc(val)->getValue()));
-	} catch ($InstanceNotFoundException&) {
-		$var($InstanceNotFoundException, infe, $catch());
+	} catch ($InstanceNotFoundException& infe) {
 		return false;
 	}
 	$shouldNotReachHere();

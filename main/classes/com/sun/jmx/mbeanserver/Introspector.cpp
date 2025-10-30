@@ -14,25 +14,10 @@
 #include <com/sun/jmx/mbeanserver/StandardMBeanSupport.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Character.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Enum.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/Number.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/annotation/Annotation.h>
 #include <java/lang/reflect/AnnotatedElement.h>
 #include <java/lang/reflect/Array.h>
@@ -220,16 +205,14 @@ void Introspector::checkCompliance($Class* mbeanClass) {
 	try {
 		getStandardMBeanInterface(mbeanClass);
 		return;
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$assign(mbeanException, e);
 	}
 	$var($Exception, mxbeanException, nullptr);
 	try {
 		getMXBeanInterface(mbeanClass);
 		return;
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$assign(mxbeanException, e);
 	}
 	$var($String, var$3, $$str({"MBean class "_s, $($nc(mbeanClass)->getName()), " does not implement DynamicMBean, and neither follows the Standard MBean conventions ("_s}));
@@ -249,16 +232,14 @@ $DynamicMBean* Introspector::makeDynamicMBean(Object$* mbean) {
 	$Class* c = nullptr;
 	try {
 		c = $cast($Class, $Util::cast(getStandardMBeanInterface(mbeanClass)));
-	} catch ($NotCompliantMBeanException&) {
-		$catch();
+	} catch ($NotCompliantMBeanException& e) {
 	}
 	if (c != nullptr) {
 		return $new($StandardMBeanSupport, mbean, c);
 	}
 	try {
 		c = $cast($Class, $Util::cast(getMXBeanInterface(mbeanClass)));
-	} catch ($NotCompliantMBeanException&) {
-		$catch();
+	} catch ($NotCompliantMBeanException& e) {
 	}
 	if (c != nullptr) {
 		return $new($MXBeanSupport, mbean, c);
@@ -311,8 +292,7 @@ $Class* Introspector::getMBeanInterface($Class* baseClass) {
 	}
 	try {
 		return getStandardMBeanInterface(baseClass);
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		return nullptr;
 	}
 	$shouldNotReachHere();
@@ -340,11 +320,9 @@ $Class* Introspector::getStandardMBeanInterface($Class* baseClass) {
 
 $Class* Introspector::getMXBeanInterface($Class* baseClass) {
 	$init(Introspector);
-	$useLocalCurrentObjectStackCache();
 	try {
 		return $MXBeanSupport::findMXBeanInterface(baseClass);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($(throwException(baseClass, e)));
 	}
 	$shouldNotReachHere();
@@ -416,11 +394,9 @@ $Descriptor* Introspector::descriptorForAnnotations($AnnotationArray* annots) {
 										packageAccess = true;
 									}
 									$assign(value, $MethodUtil::invoke(element, a, nullptr));
-								} catch ($RuntimeException&) {
-									$var($RuntimeException, e, $catch());
+								} catch ($RuntimeException& e) {
 									$throw(e);
-								} catch ($Exception&) {
-									$var($Exception, e, $catch());
+								} catch ($Exception& e) {
 									$throwNew($UndeclaredThrowableException, e);
 								}
 								$assign(value, annotationToField(value));
@@ -540,14 +516,11 @@ $Object* Introspector::elementFromComplex(Object$* complex, $String* element) {
 			}
 			$throwNew($AttributeNotFoundException, $$str({"Could not find the getter method for the property "_s, element, " using the Java Beans introspector"_s}));
 		}
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, e, $catch());
+	} catch ($InvocationTargetException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, e, $catch());
+	} catch ($AttributeNotFoundException& e) {
 		$throw(e);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($cast($AttributeNotFoundException, $($EnvHelp::initCause($$new($AttributeNotFoundException, $(e->getMessage())), e))));
 	}
 	$shouldNotReachHere();

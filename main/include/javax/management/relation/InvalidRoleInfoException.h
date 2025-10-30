@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x6854B6D5491A066A;
 	InvalidRoleInfoException(const InvalidRoleInfoException& e);
-	InvalidRoleInfoException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InvalidRoleInfoException* operator ->() {
+		return (InvalidRoleInfoException*)throwing$;
+	}
 };
 
 		} // relation

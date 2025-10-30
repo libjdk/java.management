@@ -3,18 +3,7 @@
 #include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory$NonNullMXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Enum.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/OpenType.h>
 #include <javax/management/openmbean/SimpleType.h>
@@ -93,8 +82,7 @@ $Object* DefaultMXBeanMappingFactory$EnumMapping::fromNonNullOpenValue(Object$* 
 	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($Enum::valueOf(this->enumClass, $cast($String, value)));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($($DefaultMXBeanMappingFactory::invalidObjectException($$str({"Cannot convert to enum: "_s, value}), e)));
 	}
 	$shouldNotReachHere();

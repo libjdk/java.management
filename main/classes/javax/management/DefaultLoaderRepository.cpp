@@ -1,13 +1,6 @@
 #include <javax/management/DefaultLoaderRepository.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/loading/DefaultLoaderRepository.h>
 #include <jcpp.h>
 
@@ -19,11 +12,11 @@ using $DefaultLoaderRepository = ::javax::management::loading::DefaultLoaderRepo
 
 namespace javax {
 	namespace management {
+
 $CompoundAttribute _DefaultLoaderRepository_Annotations_[] = {
 	{"Ljava/lang/Deprecated;", nullptr},
 	{}
 };
-
 
 $MethodInfo _DefaultLoaderRepository_MethodInfo_[] = {
 	{"<init>", "()V", nullptr, $PUBLIC, $method(static_cast<void(DefaultLoaderRepository::*)()>(&DefaultLoaderRepository::init$))},

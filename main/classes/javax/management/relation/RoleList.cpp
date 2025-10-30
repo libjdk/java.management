@@ -1,18 +1,7 @@
 #include <javax/management/relation/RoleList.h>
 
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractCollection.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
@@ -203,12 +192,10 @@ $Object* RoleList::set(int32_t index, Object$* element) {
 
 void RoleList::checkTypeSafe(Object$* o$renamed) {
 	$init(RoleList);
-	$useLocalCurrentObjectStackCache();
 	$var($Object, o, o$renamed);
 	try {
 		$assign(o, $cast($Role, o));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -225,8 +212,7 @@ void RoleList::checkTypeSafe($Collection* c) {
 				$assign(r, $cast($Role, o));
 			}
 		}
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 }
@@ -235,8 +221,7 @@ bool RoleList::isTainted(Object$* o) {
 	$init(RoleList);
 	try {
 		checkTypeSafe(o);
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		return true;
 	}
 	return false;
@@ -246,8 +231,7 @@ bool RoleList::isTainted($Collection* c) {
 	$init(RoleList);
 	try {
 		checkTypeSafe(c);
-	} catch ($IllegalArgumentException&) {
-		$var($IllegalArgumentException, e, $catch());
+	} catch ($IllegalArgumentException& e) {
 		return true;
 	}
 	return false;

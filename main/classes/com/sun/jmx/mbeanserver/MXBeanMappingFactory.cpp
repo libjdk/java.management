@@ -2,13 +2,6 @@
 
 #include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <jcpp.h>
 
@@ -49,7 +42,6 @@ $ClassInfo _MXBeanMappingFactory_ClassInfo_ = {
 $Object* allocate$MXBeanMappingFactory($Class* clazz) {
 	return $of($alloc(MXBeanMappingFactory));
 }
-
 
 MXBeanMappingFactory* MXBeanMappingFactory::DEFAULT = nullptr;
 

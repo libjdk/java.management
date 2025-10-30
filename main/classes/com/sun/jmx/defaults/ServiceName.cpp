@@ -1,12 +1,5 @@
 #include <com/sun/jmx/defaults/ServiceName.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef DELEGATE
@@ -57,21 +50,13 @@ $Object* allocate$ServiceName($Class* clazz) {
 	return $of($alloc(ServiceName));
 }
 
-
 $String* ServiceName::DELEGATE = nullptr;
-
 $String* ServiceName::MLET = nullptr;
-
 $String* ServiceName::DOMAIN = nullptr;
-
 $String* ServiceName::JMX_SPEC_NAME = nullptr;
-
 $String* ServiceName::JMX_SPEC_VERSION = nullptr;
-
 $String* ServiceName::JMX_SPEC_VENDOR = nullptr;
-
 $String* ServiceName::JMX_IMPL_NAME = nullptr;
-
 $String* ServiceName::JMX_IMPL_VENDOR = nullptr;
 
 void ServiceName::init$() {

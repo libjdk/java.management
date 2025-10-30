@@ -1,12 +1,5 @@
 #include <javax/management/relation/InvalidRoleValueException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/relation/RelationException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void InvalidRoleValueException::init$($String* message) {
 InvalidRoleValueException::InvalidRoleValueException() {
 }
 
-InvalidRoleValueException::InvalidRoleValueException(const InvalidRoleValueException& e) {
+InvalidRoleValueException::InvalidRoleValueException(const InvalidRoleValueException& e) : $RelationException(e) {
 }
 
-InvalidRoleValueException InvalidRoleValueException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidRoleValueException::throwWrapper$() {
-	$pendingException(this);
+void InvalidRoleValueException::throw$() {
 	throw *this;
 }
 

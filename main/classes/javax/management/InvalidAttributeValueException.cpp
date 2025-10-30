@@ -1,12 +1,5 @@
 #include <javax/management/InvalidAttributeValueException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/OperationsException.h>
 #include <jcpp.h>
 
@@ -53,16 +46,10 @@ void InvalidAttributeValueException::init$($String* message) {
 InvalidAttributeValueException::InvalidAttributeValueException() {
 }
 
-InvalidAttributeValueException::InvalidAttributeValueException(const InvalidAttributeValueException& e) {
+InvalidAttributeValueException::InvalidAttributeValueException(const InvalidAttributeValueException& e) : $OperationsException(e) {
 }
 
-InvalidAttributeValueException InvalidAttributeValueException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidAttributeValueException::throwWrapper$() {
-	$pendingException(this);
+void InvalidAttributeValueException::throw$() {
 	throw *this;
 }
 

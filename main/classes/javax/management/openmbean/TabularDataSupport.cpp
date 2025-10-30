@@ -3,24 +3,10 @@
 #include <com/sun/jmx/mbeanserver/GetPropertyAction.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Array.h>
 #include <java/lang/ArrayStoreException.h>
-#include <java/lang/Class.h>
 #include <java/lang/ClassCastException.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/IllegalArgumentException.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -184,12 +170,10 @@ $ObjectArray* TabularDataSupport::calculateIndex($CompositeData* value) {
 }
 
 bool TabularDataSupport::containsKey(Object$* key) {
-	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, k, nullptr);
 	try {
 		$assign(k, $cast($ObjectArray, key));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		return false;
 	}
 	return this->containsKey(k);
@@ -247,8 +231,7 @@ void TabularDataSupport::putAll($Map* t) {
 	$var($CompositeDataArray, values, nullptr);
 	try {
 		$assign(values, $fcast($CompositeDataArray, $nc($($nc(t)->values()))->toArray($$new($CompositeDataArray, t->size()))));
-	} catch ($ArrayStoreException&) {
-		$var($ArrayStoreException, e, $catch());
+	} catch ($ArrayStoreException& e) {
 		$throwNew($ClassCastException, "Map argument t contains values which are not instances of {@code CompositeData}"_s);
 	}
 	putAll(values);
@@ -303,8 +286,7 @@ $Object* TabularDataSupport::clone() {
 		$var(TabularDataSupport, c, $cast(TabularDataSupport, $TabularData::clone()));
 		$set($nc(c), dataMap, $new($HashMap, c->dataMap));
 		return $of(c);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, e, $catch());
+	} catch ($CloneNotSupportedException& e) {
 		$throwNew($InternalError, $(e->toString()), e);
 	}
 	$shouldNotReachHere();
@@ -318,8 +300,7 @@ bool TabularDataSupport::equals(Object$* obj) {
 	$var($TabularData, other, nullptr);
 	try {
 		$assign(other, $cast($TabularData, obj));
-	} catch ($ClassCastException&) {
-		$var($ClassCastException, e, $catch());
+	} catch ($ClassCastException& e) {
 		return false;
 	}
 	if (!$nc($(this->getTabularType()))->equals($($nc(other)->getTabularType()))) {

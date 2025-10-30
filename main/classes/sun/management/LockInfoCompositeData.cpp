@@ -1,18 +1,6 @@
 #include <sun/management/LockInfoCompositeData.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/management/LockInfo.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <java/util/Map.h>
 #include <javax/management/JMException.h>
@@ -116,8 +104,7 @@ $CompositeData* LockInfoCompositeData::getCompositeData() {
 	$var($Map, items, $Map::of(var$0, var$1, var$2, $($Integer::valueOf($nc(this->lock)->getIdentityHashCode()))));
 	try {
 		return $new($CompositeDataSupport, LockInfoCompositeData::LOCK_INFO_COMPOSITE_TYPE, items);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throw($($Util::newException(e)));
 	}
 	$shouldNotReachHere();
@@ -143,15 +130,13 @@ $LockInfo* LockInfoCompositeData::toLockInfo($CompositeData* cd) {
 }
 
 void clinit$LockInfoCompositeData($Class* class$) {
-	$useLocalCurrentObjectStackCache();
 	$assignStatic(LockInfoCompositeData::CLASS_NAME, "className"_s);
 	$assignStatic(LockInfoCompositeData::IDENTITY_HASH_CODE, "identityHashCode"_s);
 	{
 		try {
 			$load($LockInfo);
 			$assignStatic(LockInfoCompositeData::LOCK_INFO_COMPOSITE_TYPE, $cast($CompositeType, $MappedMXBeanType::toOpenType($LockInfo::class$)));
-		} catch ($OpenDataException&) {
-			$var($OpenDataException, e, $catch());
+		} catch ($OpenDataException& e) {
 			$throw($($Util::newException(e)));
 		}
 	}

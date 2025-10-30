@@ -1,20 +1,9 @@
 #include <sun/management/VMManagementImpl.h>
 
 #include <java/io/IOException.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/InetAddress.h>
 #include <java/net/UnknownHostException.h>
 #include <java/nio/ByteBuffer.h>
@@ -263,8 +252,7 @@ bool VMManagementImpl::isGcNotificationSupported() {
 	bool isSupported = true;
 	try {
 		$Class::forName("com.sun.management.GarbageCollectorMXBean"_s);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, x, $catch());
+	} catch ($ClassNotFoundException& x) {
 		isSupported = false;
 	}
 	return isSupported;
@@ -346,8 +334,7 @@ $String* VMManagementImpl::getVmId() {
 	$var($String, hostname, "localhost"_s);
 	try {
 		$assign(hostname, $nc($($InetAddress::getLocalHost()))->getHostName());
-	} catch ($UnknownHostException&) {
-		$catch();
+	} catch ($UnknownHostException& e) {
 	}
 	return $str({$$str(pid), "@"_s, hostname});
 }
@@ -607,11 +594,9 @@ $PerfInstrumentation* VMManagementImpl::getPerfInstrumentation() {
 				return nullptr;
 			}
 			$set(this, perfInstr, $new($PerfInstrumentation, bb));
-		} catch ($IllegalArgumentException&) {
-			$var($IllegalArgumentException, e, $catch());
+		} catch ($IllegalArgumentException& e) {
 			this->noPerfData = true;
-		} catch ($IOException&) {
-			$var($IOException, e, $catch());
+		} catch ($IOException& e) {
 			$throwNew($AssertionError, $of(e));
 		}
 		return this->perfInstr;

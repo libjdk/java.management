@@ -8,17 +8,6 @@
 #include <com/sun/jmx/mbeanserver/MXBeanProxy$Handler.h>
 #include <com/sun/jmx/mbeanserver/MXBeanProxy$Visitor.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/util/Map.h>
 #include <javax/management/JMException.h>
@@ -103,8 +92,7 @@ void MXBeanProxy::init$($Class* mxbeanInterface) {
 	$var($MBeanAnalyzer, analyzer, nullptr);
 	try {
 		$assign(analyzer, $nc($($MXBeanIntrospector::getInstance()))->getAnalyzer(mxbeanInterface));
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 	$nc(analyzer)->visit($$new($MXBeanProxy$Visitor, this));
@@ -127,8 +115,8 @@ $Object* MXBeanProxy::invoke($MBeanServerConnection* mbsc, $ObjectName* name, $M
 			$assign(var$2, cm->fromOpenReturnValue(lookup, result));
 			return$1 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			$MXBeanLookup::setLookup(oldLookup);
 		}

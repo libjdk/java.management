@@ -1,12 +1,5 @@
 #include <javax/management/OperationsException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <jcpp.h>
 
@@ -53,16 +46,10 @@ void OperationsException::init$($String* message) {
 OperationsException::OperationsException() {
 }
 
-OperationsException::OperationsException(const OperationsException& e) {
+OperationsException::OperationsException(const OperationsException& e) : $JMException(e) {
 }
 
-OperationsException OperationsException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void OperationsException::throwWrapper$() {
-	$pendingException(this);
+void OperationsException::throw$() {
 	throw *this;
 }
 

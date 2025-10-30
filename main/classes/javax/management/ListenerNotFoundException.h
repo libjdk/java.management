@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x9B7D1860A0C7B86B;
 	ListenerNotFoundException(const ListenerNotFoundException& e);
-	ListenerNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline ListenerNotFoundException* operator ->() {
+		return (ListenerNotFoundException*)throwing$;
+	}
 };
 
 	} // management

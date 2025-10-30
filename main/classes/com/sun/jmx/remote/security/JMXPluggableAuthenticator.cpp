@@ -5,23 +5,8 @@
 #include <com/sun/jmx/remote/security/JMXPluggableAuthenticator$JMXCallbackHandler.h>
 #include <com/sun/jmx/remote/util/ClassLogger.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
 #include <java/security/GeneralSecurityException.h>
@@ -156,16 +141,13 @@ void JMXPluggableAuthenticator::init$($Map* env) {
 			try {
 				$var($LoginContext, tmp, $cast($LoginContext, $AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($JMXPluggableAuthenticator$1, this, pf, hashPass)))));
 				$set(this, loginContext, tmp);
-			} catch ($PrivilegedActionException&) {
-				$var($PrivilegedActionException, pae, $catch());
+			} catch ($PrivilegedActionException& pae) {
 				$throw($cast($LoginException, $(pae->getException())));
 			}
 		}
-	} catch ($LoginException&) {
-		$var($LoginException, le, $catch());
+	} catch ($LoginException& le) {
 		authenticationFailure("authenticate"_s, static_cast<$Exception*>(le));
-	} catch ($SecurityException&) {
-		$var($SecurityException, se, $catch());
+	} catch ($SecurityException& se) {
 		authenticationFailure("authenticate"_s, static_cast<$Exception*>(se));
 	}
 }
@@ -196,8 +178,7 @@ $Subject* JMXPluggableAuthenticator::authenticate(Object$* credentials) {
 		$var($Subject, subject, $nc(this->loginContext)->getSubject());
 		$var($Void, dummy, $cast($Void, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>($$new($JMXPluggableAuthenticator$2, this, subject)))));
 		return subject;
-	} catch ($LoginException&) {
-		$var($LoginException, le, $catch());
+	} catch ($LoginException& le) {
 		authenticationFailure("authenticate"_s, static_cast<$Exception*>(le));
 	}
 	return nullptr;

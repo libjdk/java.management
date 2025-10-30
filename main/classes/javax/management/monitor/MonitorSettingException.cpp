@@ -1,12 +1,5 @@
 #include <javax/management/monitor/MonitorSettingException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMRuntimeException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void MonitorSettingException::init$($String* message) {
 MonitorSettingException::MonitorSettingException() {
 }
 
-MonitorSettingException::MonitorSettingException(const MonitorSettingException& e) {
+MonitorSettingException::MonitorSettingException(const MonitorSettingException& e) : $JMRuntimeException(e) {
 }
 
-MonitorSettingException MonitorSettingException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void MonitorSettingException::throwWrapper$() {
-	$pendingException(this);
+void MonitorSettingException::throw$() {
 	throw *this;
 }
 

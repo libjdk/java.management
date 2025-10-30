@@ -1,13 +1,5 @@
 #include <javax/management/openmbean/InvalidKeyException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClassInfo = ::java::lang::ClassInfo;
@@ -54,16 +46,10 @@ void InvalidKeyException::init$($String* msg) {
 InvalidKeyException::InvalidKeyException() {
 }
 
-InvalidKeyException::InvalidKeyException(const InvalidKeyException& e) {
+InvalidKeyException::InvalidKeyException(const InvalidKeyException& e) : $IllegalArgumentException(e) {
 }
 
-InvalidKeyException InvalidKeyException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InvalidKeyException::throwWrapper$() {
-	$pendingException(this);
+void InvalidKeyException::throw$() {
 	throw *this;
 }
 

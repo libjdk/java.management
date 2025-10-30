@@ -1,13 +1,5 @@
 #include <javax/management/remote/JMXConnectorFactory$ConnectorFactory.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/remote/JMXConnectorFactory.h>
 #include <jcpp.h>
 
@@ -20,11 +12,11 @@ using $JMXConnectorFactory = ::javax::management::remote::JMXConnectorFactory;
 namespace javax {
 	namespace management {
 		namespace remote {
+
 $CompoundAttribute _JMXConnectorFactory$ConnectorFactory_Annotations_[] = {
 	{"Ljava/lang/FunctionalInterface;", nullptr},
 	{}
 };
-
 
 $MethodInfo _JMXConnectorFactory$ConnectorFactory_MethodInfo_[] = {
 	{"apply", "(Ljava/lang/Object;)Ljava/lang/Object;", "(TP;)TC;", $PUBLIC | $ABSTRACT, nullptr, "java.lang.Exception"},

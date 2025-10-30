@@ -1,18 +1,7 @@
 #include <sun/management/ManagementFactoryHelper.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/Thread$State.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
@@ -32,8 +21,6 @@
 #include <java/lang/management/PlatformLoggingMXBean.h>
 #include <java/lang/management/RuntimeMXBean.h>
 #include <java/lang/management/ThreadMXBean.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedActionException.h>
 #include <java/security/PrivilegedExceptionAction.h>
@@ -618,8 +605,7 @@ void ManagementFactoryHelper::addMBean($MBeanServer* mbs, Object$* mbean, $Strin
 		$var($MBeanServer, mbs0, mbs);
 		$var($Object, mbean0, mbean);
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ManagementFactoryHelper$2, mbs0, mbean0, objName)));
-	} catch ($PrivilegedActionException&) {
-		$var($PrivilegedActionException, e, $catch());
+	} catch ($PrivilegedActionException& e) {
 		$throw($($Util::newException($(e->getException()))));
 	}
 }
@@ -644,8 +630,7 @@ void ManagementFactoryHelper::unregisterMBean($MBeanServer* mbs, $String* mbeanN
 		$var($ObjectName, objName, $Util::newObjectName(mbeanName));
 		$var($MBeanServer, mbs0, mbs);
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ManagementFactoryHelper$3, mbs0, objName)));
-	} catch ($PrivilegedActionException&) {
-		$var($PrivilegedActionException, e, $catch());
+	} catch ($PrivilegedActionException& e) {
 		$throw($($Util::newException($(e->getException()))));
 	}
 }
@@ -710,8 +695,7 @@ void clinit$ManagementFactoryHelper($Class* class$) {
 		try {
 			$load($ManagementFactory);
 			$nc($($MethodHandles::lookup()))->ensureInitialized($ManagementFactory::class$);
-		} catch ($IllegalAccessException&) {
-			$catch();
+		} catch ($IllegalAccessException& e) {
 		}
 	}
 	$assignStatic(ManagementFactoryHelper::jvm, $new($VMManagementImpl));

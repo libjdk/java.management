@@ -1,13 +1,5 @@
 #include <sun/management/counter/perf/InstrumentationException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClassInfo = ::java::lang::ClassInfo;
@@ -55,16 +47,10 @@ void InstrumentationException::init$($String* message) {
 InstrumentationException::InstrumentationException() {
 }
 
-InstrumentationException::InstrumentationException(const InstrumentationException& e) {
+InstrumentationException::InstrumentationException(const InstrumentationException& e) : $RuntimeException(e) {
 }
 
-InstrumentationException InstrumentationException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void InstrumentationException::throwWrapper$() {
-	$pendingException(this);
+void InstrumentationException::throw$() {
 	throw *this;
 }
 

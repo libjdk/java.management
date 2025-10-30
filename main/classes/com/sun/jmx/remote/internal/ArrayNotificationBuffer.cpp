@@ -16,27 +16,8 @@
 #include <com/sun/jmx/remote/internal/ServerNotifForwarder.h>
 #include <com/sun/jmx/remote/util/ClassLogger.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/security/PrivilegedActionException.h>
@@ -405,15 +386,13 @@ $NotificationResult* ArrayNotificationBuffer::fetchNotifications($NotificationBu
 				if (!($instanceOf($ServerNotifForwarder$NotifForwarderBufferFilter, filter))) {
 					try {
 						$ServerNotifForwarder::checkMBeanPermission(this->mBeanServer, $($nc(candidate)->getObjectName()), "addNotificationListener"_s);
-					} catch ($InstanceNotFoundException&) {
-						$var($Exception, e, $catch());
+					} catch ($InstanceNotFoundException& e) {
 						if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 							$nc(ArrayNotificationBuffer::logger)->debug("fetchNotifications"_s, $$str({"candidate: "_s, candidate, " skipped. exception "_s, e}));
 						}
 						++nextSeq;
 						continue;
-					} catch ($SecurityException&) {
-						$var($Exception, e, $catch());
+					} catch ($SecurityException& e) {
 						if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 							$nc(ArrayNotificationBuffer::logger)->debug("fetchNotifications"_s, $$str({"candidate: "_s, candidate, " skipped. exception "_s, e}));
 						}
@@ -539,8 +518,7 @@ void ArrayNotificationBuffer::createListeners() {
 		$init($MBeanServerDelegate);
 		addNotificationListener($MBeanServerDelegate::DELEGATE_NAME, this->creationListener, ArrayNotificationBuffer::creationFilter, nullptr);
 		$nc(ArrayNotificationBuffer::logger)->debug("createListeners"_s, "added creationListener"_s);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$var($String, msg, "Can\'t add listener to MBean server delegate: "_s);
 		$var($RuntimeException, re, $new($IllegalArgumentException, $$str({msg, e})));
 		$EnvHelp::initCause(re, e);
@@ -565,29 +543,25 @@ void ArrayNotificationBuffer::createListeners() {
 }
 
 void ArrayNotificationBuffer::addBufferListener($ObjectName* name) {
-	$useLocalCurrentObjectStackCache();
 	checkNoLocks();
 	if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 		$nc(ArrayNotificationBuffer::logger)->debug("addBufferListener"_s, $($nc(name)->toString()));
 	}
 	try {
 		addNotificationListener(name, this->bufferListener, nullptr, name);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(ArrayNotificationBuffer::logger)->trace("addBufferListener"_s, static_cast<$Throwable*>(e));
 	}
 }
 
 void ArrayNotificationBuffer::removeBufferListener($ObjectName* name) {
-	$useLocalCurrentObjectStackCache();
 	checkNoLocks();
 	if ($nc(ArrayNotificationBuffer::logger)->debugOn()) {
 		$nc(ArrayNotificationBuffer::logger)->debug("removeBufferListener"_s, $($nc(name)->toString()));
 	}
 	try {
 		removeNotificationListener(name, this->bufferListener);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(ArrayNotificationBuffer::logger)->trace("removeBufferListener"_s, static_cast<$Throwable*>(e));
 	}
 }
@@ -597,8 +571,7 @@ void ArrayNotificationBuffer::addNotificationListener($ObjectName* name, $Notifi
 	$beforeCallerSensitive();
 	try {
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ArrayNotificationBuffer$1, this, name, listener, filter, handback)));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($(extractException(e)));
 	}
 }
@@ -608,8 +581,7 @@ void ArrayNotificationBuffer::removeNotificationListener($ObjectName* name, $Not
 	$beforeCallerSensitive();
 	try {
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($ArrayNotificationBuffer$2, this, name, listener)));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throw($(extractException(e)));
 	}
 }
@@ -620,8 +592,7 @@ $Set* ArrayNotificationBuffer::queryNames($ObjectName* name, $QueryExp* query) {
 	$var($PrivilegedAction, act, $new($ArrayNotificationBuffer$3, this, name, query));
 	try {
 		return $cast($Set, $AccessController::doPrivileged(act));
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$nc(ArrayNotificationBuffer::logger)->fine("queryNames"_s, $$str({"Failed to query names: "_s, e}));
 		$nc(ArrayNotificationBuffer::logger)->debug("queryNames"_s, static_cast<$Throwable*>(e));
 		$throw(e);
@@ -636,8 +607,7 @@ bool ArrayNotificationBuffer::isInstanceOf($MBeanServer* mbs, $ObjectName* name,
 	$var($PrivilegedExceptionAction, act, $new($ArrayNotificationBuffer$4, mbs, name, className));
 	try {
 		return $nc(($cast($Boolean, $($AccessController::doPrivileged(act)))))->booleanValue();
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(ArrayNotificationBuffer::logger)->fine("isInstanceOf"_s, $$str({"failed: "_s, e}));
 		$nc(ArrayNotificationBuffer::logger)->debug("isInstanceOf"_s, static_cast<$Throwable*>(e));
 		return false;
@@ -678,8 +648,7 @@ void ArrayNotificationBuffer::destroyListeners() {
 	try {
 		$init($MBeanServerDelegate);
 		removeNotificationListener($MBeanServerDelegate::DELEGATE_NAME, this->creationListener);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(ArrayNotificationBuffer::logger)->warning("remove listener from MBeanServer delegate"_s, static_cast<$Throwable*>(e));
 	}
 	$var($Set, names, queryNames(nullptr, ArrayNotificationBuffer::broadcasterQuery));

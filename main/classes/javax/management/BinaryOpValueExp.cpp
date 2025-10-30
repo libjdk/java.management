@@ -1,13 +1,5 @@
 #include <javax/management/BinaryOpValueExp.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/BadBinaryOpValueExpException.h>
 #include <javax/management/BadStringOperationException.h>
 #include <javax/management/MBeanServer.h>
@@ -204,8 +196,7 @@ $String* BinaryOpValueExp::toString() {
 		$var($String, var$1, $$concat(var$2, $(opString())));
 		$var($String, var$0, $$concat(var$1, " "));
 		return $concat(var$0, $(parens(this->exp2, false)));
-	} catch ($BadBinaryOpValueExpException&) {
-		$var($BadBinaryOpValueExpException, ex, $catch());
+	} catch ($BadBinaryOpValueExpException& ex) {
 		return "invalid expression"_s;
 	}
 	$shouldNotReachHere();

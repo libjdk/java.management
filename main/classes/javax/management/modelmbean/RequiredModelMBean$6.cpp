@@ -1,16 +1,6 @@
 #include <javax/management/modelmbean/RequiredModelMBean$6.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/loading/ClassLoaderRepository.h>
 #include <javax/management/modelmbean/RequiredModelMBean.h>
 #include <sun/reflect/misc/ReflectUtil.h>
@@ -83,21 +73,18 @@ void RequiredModelMBean$6::init$($RequiredModelMBean* this$0, $String* val$class
 }
 
 $Object* RequiredModelMBean$6::run() {
-	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$ReflectUtil::checkPackageAccess(this->val$className);
 		return $of($Class::forName(this->val$className));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$var($ClassLoaderRepository, clr, this->this$0->getClassLoaderRepository());
 		try {
 			if (clr == nullptr) {
 				$throwNew($ClassNotFoundException, this->val$className);
 			}
 			return $of($nc(clr)->loadClass(this->val$className));
-		} catch ($ClassNotFoundException&) {
-			$var($ClassNotFoundException, ex, $catch());
+		} catch ($ClassNotFoundException& ex) {
 			$nc(this->val$caughtException)->set(0, ex);
 		}
 	}

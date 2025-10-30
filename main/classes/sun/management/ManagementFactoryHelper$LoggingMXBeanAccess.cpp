@@ -1,26 +1,14 @@
 #include <sun/management/ManagementFactoryHelper$LoggingMXBeanAccess.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
 #include <java/lang/ExceptionInInitializerError.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoClassDefFoundError.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
 #include <java/lang/management/PlatformLoggingMXBean.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationTargetException.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/UndeclaredThrowableException.h>
@@ -155,8 +143,7 @@ $Map* ManagementFactoryHelper$LoggingMXBeanAccess::initMethodMap(Object$* impl) 
 							$throwNew($RuntimeException, $$str({"unexpected polymorphic method: "_s, $($nc(m)->getName())}));
 						}
 					}
-				} catch ($NoSuchMethodException&) {
-					$var($NoSuchMethodException, x, $catch());
+				} catch ($NoSuchMethodException& x) {
 					$throwNew($InternalError, static_cast<$Throwable*>(x));
 				}
 			}
@@ -175,14 +162,11 @@ $Object* ManagementFactoryHelper$LoggingMXBeanAccess::getMXBeanImplementation() 
 	try {
 		$var($Method, m, $nc(ManagementFactoryHelper$LoggingMXBeanAccess::LOG_MANAGER_CLASS)->getMethod("getLoggingMXBean"_s, $$new($ClassArray, 0)));
 		return $of($nc(m)->invoke(nullptr, $$new($ObjectArray, 0)));
-	} catch ($NoSuchMethodException&) {
-		$var($ReflectiveOperationException, x, $catch());
+	} catch ($NoSuchMethodException& x) {
 		$throwNew($ExceptionInInitializerError, static_cast<$Throwable*>(x));
-	} catch ($IllegalAccessException&) {
-		$var($ReflectiveOperationException, x, $catch());
+	} catch ($IllegalAccessException& x) {
 		$throwNew($ExceptionInInitializerError, static_cast<$Throwable*>(x));
-	} catch ($InvocationTargetException&) {
-		$var($ReflectiveOperationException, x, $catch());
+	} catch ($InvocationTargetException& x) {
 		$throwNew($ExceptionInInitializerError, static_cast<$Throwable*>(x));
 	}
 	$shouldNotReachHere();
@@ -203,11 +187,9 @@ $Object* ManagementFactoryHelper$LoggingMXBeanAccess::invoke($String* methodName
 	try {
 		$var($Object, result, $nc(m)->invoke(this->impl, args));
 		return $of(result);
-	} catch ($IllegalAccessException&) {
-		$var($IllegalAccessException, ex, $catch());
+	} catch ($IllegalAccessException& ex) {
 		$throwNew($UnsupportedOperationException, static_cast<$Throwable*>(ex));
-	} catch ($InvocationTargetException&) {
-		$var($InvocationTargetException, ex, $catch());
+	} catch ($InvocationTargetException& ex) {
 		$throw($(unwrap(ex)));
 	}
 	$shouldNotReachHere();

@@ -2,17 +2,8 @@
 
 #include <com/sun/jmx/remote/security/JMXSubjectDomainCombiner.h>
 #include <com/sun/jmx/remote/security/SubjectDelegator$1.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
@@ -149,8 +140,7 @@ bool SubjectDelegator::checkRemoveCallerContext($Subject* subject) {
 					}
 				}
 			}
-		} catch ($SecurityException&) {
-			$var($SecurityException, e, $catch());
+		} catch ($SecurityException& e) {
 			return false;
 		}
 		return true;

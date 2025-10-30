@@ -4,15 +4,8 @@
 #include <com/sun/jmx/mbeanserver/DefaultMXBeanMappingFactory.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/NoSuchMethodException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationHandler.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Modifier.h>
@@ -108,13 +101,11 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderViaProxy::applicable($Metho
 				$var($String, mname, $nc(m)->getName());
 				$var($ClassArray, mparams, m->getParameterTypes());
 				try {
-					$load($Object);
 					$var($Method, om, $Object::class$->getMethod(mname, mparams));
 					if (!$Modifier::isPublic($nc(om)->getModifiers())) {
 						$assign(bad, mname);
 					}
-				} catch ($NoSuchMethodException&) {
-					$var($NoSuchMethodException, e, $catch());
+				} catch ($NoSuchMethodException& e) {
 					$assign(bad, mname);
 				}
 			}

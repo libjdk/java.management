@@ -1,13 +1,5 @@
 #include <javax/management/MBeanRegistrationException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/MBeanException.h>
 #include <jcpp.h>
 
@@ -55,16 +47,10 @@ void MBeanRegistrationException::init$($Exception* e, $String* message) {
 MBeanRegistrationException::MBeanRegistrationException() {
 }
 
-MBeanRegistrationException::MBeanRegistrationException(const MBeanRegistrationException& e) {
+MBeanRegistrationException::MBeanRegistrationException(const MBeanRegistrationException& e) : $MBeanException(e) {
 }
 
-MBeanRegistrationException MBeanRegistrationException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void MBeanRegistrationException::throwWrapper$() {
-	$pendingException(this);
+void MBeanRegistrationException::throw$() {
 	throw *this;
 }
 

@@ -1,20 +1,9 @@
 #include <javax/management/monitor/StringMonitor.h>
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Comparable.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Iterator.h>
 #include <java/util/List.h>
 #include <javax/management/MBeanNotificationInfo.h>
@@ -321,6 +310,7 @@ $String* StringMonitor::MemberClass0$::toString() {
 void StringMonitor::MemberClass0$::finalize() {
 	return ((StringMonitor*)(void*)((int8_t*)(void*)this - $offsetof(StringMonitor, memberClass0$)))->finalize();
 }
+
 $StringArray* StringMonitor::types = nullptr;
 $MBeanNotificationInfoArray* StringMonitor::notifsInfo = nullptr;
 

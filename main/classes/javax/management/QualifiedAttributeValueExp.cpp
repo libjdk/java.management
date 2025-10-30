@@ -1,14 +1,5 @@
 #include <javax/management/QualifiedAttributeValueExp.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/AttributeValueExp.h>
 #include <javax/management/InvalidApplicationException.h>
 #include <javax/management/MBeanServer.h>
@@ -89,8 +80,7 @@ $ValueExp* QualifiedAttributeValueExp::apply($ObjectName* name) {
 			return $AttributeValueExp::apply(name);
 		}
 		$throwNew($InvalidApplicationException, $$str({"Class name is "_s, v, ", should be "_s, this->className}));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($InvalidApplicationException, $$str({"Qualified attribute: "_s, e}));
 	}
 	$shouldNotReachHere();

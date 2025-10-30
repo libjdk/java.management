@@ -5,19 +5,7 @@
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
 #include <java/io/InterruptedIOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InterruptedException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 using $ClientCommunicatorAdmin = ::com::sun::jmx::remote::internal::ClientCommunicatorAdmin;
@@ -87,16 +75,14 @@ void ClientCommunicatorAdmin$Checker::run() {
 	while (this->this$0->state != 3 && !$nc(this->myThread)->isInterrupted()) {
 		try {
 			$Thread::sleep(this->this$0->period);
-		} catch ($InterruptedException&) {
-			$catch();
+		} catch ($InterruptedException& ire) {
 		}
 		if (this->this$0->state == 3 || $nc(this->myThread)->isInterrupted()) {
 			break;
 		}
 		try {
 			this->this$0->checkConnection();
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$synchronized(this->this$0->lock) {
 				if (this->this$0->state == 3 || $nc(this->myThread)->isInterrupted()) {
 					break;
@@ -106,8 +92,7 @@ void ClientCommunicatorAdmin$Checker::run() {
 			if ($instanceOf($IOException, e) && !($instanceOf($InterruptedIOException, e))) {
 				try {
 					this->this$0->gotIOException($cast($IOException, e));
-				} catch ($Exception&) {
-					$var($Exception, ee, $catch());
+				} catch ($Exception& ee) {
 					$init($ClientCommunicatorAdmin);
 					$nc($ClientCommunicatorAdmin::logger)->warning("Checker-run"_s, $$str({"Failed to check connection: "_s, e}));
 					$nc($ClientCommunicatorAdmin::logger)->warning("Checker-run"_s, "stopping"_s);

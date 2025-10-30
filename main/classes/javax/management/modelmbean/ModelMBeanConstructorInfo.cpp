@@ -6,19 +6,9 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
 #include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <javax/management/Descriptor.h>
@@ -122,7 +112,6 @@ void ModelMBeanConstructorInfo::finalize() {
 $ObjectStreamFieldArray* ModelMBeanConstructorInfo::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* ModelMBeanConstructorInfo::newSerialPersistentFields = nullptr;
 int64_t ModelMBeanConstructorInfo::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* ModelMBeanConstructorInfo::serialPersistentFields = nullptr;
 bool ModelMBeanConstructorInfo::compat = false;
 $String* ModelMBeanConstructorInfo::currClass = nullptr;
@@ -309,8 +298,7 @@ void clinit$ModelMBeanConstructorInfo($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	$assignStatic(ModelMBeanConstructorInfo::currClass, "ModelMBeanConstructorInfo"_s);
 	$beforeCallerSensitive();
-		$load($Descriptor);
-		$load($String);
+	$load($Descriptor);
 	$assignStatic(ModelMBeanConstructorInfo::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "consDescriptor"_s, $Descriptor::class$),
 		$$new($ObjectStreamField, "currClass"_s, $String::class$)
@@ -322,8 +310,7 @@ void clinit$ModelMBeanConstructorInfo($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			ModelMBeanConstructorInfo::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (ModelMBeanConstructorInfo::compat) {
 			$assignStatic(ModelMBeanConstructorInfo::serialPersistentFields, ModelMBeanConstructorInfo::oldSerialPersistentFields);

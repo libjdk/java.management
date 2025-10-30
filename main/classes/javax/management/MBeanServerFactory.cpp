@@ -3,33 +3,17 @@
 #include <com/sun/jmx/defaults/JmxProperties.h>
 #include <com/sun/jmx/mbeanserver/GetPropertyAction.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
 #include <java/security/Permission.h>
@@ -180,7 +164,6 @@ $Object* allocate$MBeanServerFactory($Class* clazz) {
 	return $of($alloc(MBeanServerFactory));
 }
 
-
 $MBeanServerBuilder* MBeanServerFactory::builder = nullptr;
 $ArrayList* MBeanServerFactory::mBeanServerList = nullptr;
 
@@ -264,12 +247,10 @@ $ClassLoaderRepository* MBeanServerFactory::getClassLoaderRepository($MBeanServe
 
 $String* MBeanServerFactory::mBeanServerId($MBeanServer* mbs) {
 	$init(MBeanServerFactory);
-	$useLocalCurrentObjectStackCache();
 	try {
 		$init($MBeanServerDelegate);
 		return $cast($String, $nc(mbs)->getAttribute($MBeanServerDelegate::DELEGATE_NAME, "MBeanServerId"_s));
-	} catch ($JMException&) {
-		$var($JMException, e, $catch());
+	} catch ($JMException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MISC_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Ignoring exception while getting MBeanServerId: "_s, e}));
@@ -328,11 +309,9 @@ $MBeanServerBuilder* MBeanServerFactory::newBuilder($Class* builderClass) {
 	try {
 		$var($Object, abuilder, $nc(builderClass)->newInstance());
 		return $cast($MBeanServerBuilder, abuilder);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, x, $catch());
+	} catch ($RuntimeException& x) {
 		$throw(x);
-	} catch ($Exception&) {
-		$var($Exception, x, $catch());
+	} catch ($Exception& x) {
 		$var($String, msg, $str({"Failed to instantiate a MBeanServerBuilder from "_s, builderClass, ": "_s, x}));
 		$throwNew($JMRuntimeException, msg, x);
 	}
@@ -363,13 +342,11 @@ void MBeanServerFactory::checkMBeanServerBuilder() {
 					}
 				}
 				$assignStatic(MBeanServerFactory::builder, newBuilder(newBuilderClass));
-			} catch ($ClassNotFoundException&) {
-				$var($ClassNotFoundException, x, $catch());
+			} catch ($ClassNotFoundException& x) {
 				$var($String, msg, $str({"Failed to load MBeanServerBuilder class "_s, builderClassName, ": "_s, x}));
 				$throwNew($JMRuntimeException, msg, x);
 			}
-		} catch ($RuntimeException&) {
-			$var($RuntimeException, x, $catch());
+		} catch ($RuntimeException& x) {
 			$init($JmxProperties);
 			$init($System$Logger$Level);
 			if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {

@@ -9,27 +9,12 @@
 #include <java/io/OutputStream.h>
 #include <java/io/OutputStreamWriter.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/nio/ByteBuffer.h>
 #include <java/nio/CharBuffer.h>
 #include <java/nio/channels/FileChannel.h>
@@ -224,8 +209,7 @@ $StringArray* HashedPasswordManager::getHash($String* algorithm, $String* passwo
 			saltStr,
 			hashStr
 		});
-	} catch ($NoSuchAlgorithmException&) {
-		$var($NoSuchAlgorithmException, ex, $catch());
+	} catch ($NoSuchAlgorithmException& ex) {
 		if ($nc(HashedPasswordManager::logger)->debugOn()) {
 			$nc(HashedPasswordManager::logger)->debug("getHash"_s, $$str({"Invalid algorithm : "_s, algorithm}));
 		}
@@ -259,20 +243,18 @@ $StringArray* HashedPasswordManager::readPasswordFile() {
 										$throwNew($IOException, "Failed to read data from the password file"_s);
 									}
 									$nc(lock)->release();
-								} catch ($Throwable&) {
-									$var($Throwable, t$, $catch());
+								} catch ($Throwable& t$) {
 									if (lock != nullptr) {
 										try {
 											lock->close();
-										} catch ($Throwable&) {
-											$var($Throwable, x2, $catch());
+										} catch ($Throwable& x2) {
 											t$->addSuppressed(x2);
 										}
 									}
 									$throw(t$);
 								}
-							} catch ($Throwable&) {
-								$assign(var$1, $catch());
+							} catch ($Throwable& var$2) {
+								$assign(var$1, var$2);
 							} /*finally*/ {
 								if (lock != nullptr) {
 									lock->close();
@@ -282,18 +264,16 @@ $StringArray* HashedPasswordManager::readPasswordFile() {
 								$throw(var$1);
 							}
 						}
-					} catch ($Throwable&) {
-						$var($Throwable, t$, $catch());
+					} catch ($Throwable& t$) {
 						try {
 							fin->close();
-						} catch ($Throwable&) {
-							$var($Throwable, x2, $catch());
+						} catch ($Throwable& x2) {
 							t$->addSuppressed(x2);
 						}
 						$throw(t$);
 					}
-				} catch ($Throwable&) {
-					$assign(var$0, $catch());
+				} catch ($Throwable& var$3) {
+					$assign(var$0, var$3);
 				} /*finally*/ {
 					fin->close();
 				}
@@ -330,20 +310,18 @@ void HashedPasswordManager::writePasswordFile($String* input) {
 											try {
 												out->write(input);
 												$nc(lock)->release();
-											} catch ($Throwable&) {
-												$var($Throwable, t$, $catch());
+											} catch ($Throwable& t$) {
 												if (lock != nullptr) {
 													try {
 														lock->close();
-													} catch ($Throwable&) {
-														$var($Throwable, x2, $catch());
+													} catch ($Throwable& x2) {
 														t$->addSuppressed(x2);
 													}
 												}
 												$throw(t$);
 											}
-										} catch ($Throwable&) {
-											$assign(var$2, $catch());
+										} catch ($Throwable& var$3) {
+											$assign(var$2, var$3);
 										} /*finally*/ {
 											if (lock != nullptr) {
 												lock->close();
@@ -353,18 +331,16 @@ void HashedPasswordManager::writePasswordFile($String* input) {
 											$throw(var$2);
 										}
 									}
-								} catch ($Throwable&) {
-									$var($Throwable, t$, $catch());
+								} catch ($Throwable& t$) {
 									try {
 										out->close();
-									} catch ($Throwable&) {
-										$var($Throwable, x2, $catch());
+									} catch ($Throwable& x2) {
 										t$->addSuppressed(x2);
 									}
 									$throw(t$);
 								}
-							} catch ($Throwable&) {
-								$assign(var$1, $catch());
+							} catch ($Throwable& var$4) {
+								$assign(var$1, var$4);
 							} /*finally*/ {
 								out->close();
 							}
@@ -372,18 +348,16 @@ void HashedPasswordManager::writePasswordFile($String* input) {
 								$throw(var$1);
 							}
 						}
-					} catch ($Throwable&) {
-						$var($Throwable, t$, $catch());
+					} catch ($Throwable& t$) {
 						try {
 							fout->close();
-						} catch ($Throwable&) {
-							$var($Throwable, x2, $catch());
+						} catch ($Throwable& x2) {
 							t$->addSuppressed(x2);
 						}
 						$throw(t$);
 					}
-				} catch ($Throwable&) {
-					$assign(var$0, $catch());
+				} catch ($Throwable& var$5) {
+					$assign(var$0, var$5);
 				} /*finally*/ {
 					fout->close();
 				}
@@ -411,8 +385,7 @@ bool HashedPasswordManager::authenticate($String* userName, $chars* inputPasswor
 				byteBuffer->get(passwordBytes);
 				$var($bytes, hash, digest->digest(passwordBytes));
 				return $Arrays::equals(hash, targetHash);
-			} catch ($NoSuchAlgorithmException&) {
-				$var($NoSuchAlgorithmException, ex, $catch());
+			} catch ($NoSuchAlgorithmException& ex) {
 				if ($nc(HashedPasswordManager::logger)->debugOn()) {
 					$nc(HashedPasswordManager::logger)->debug("authenticate"_s, $$str({"Unrecognized hash algorithm : "_s, $nc(($cast($HashedPasswordManager$UserCredentials, $($nc(this->userCredentialsMap)->get(userName)))))->hashAlgorithm, " - for user : "_s, userName}));
 				}

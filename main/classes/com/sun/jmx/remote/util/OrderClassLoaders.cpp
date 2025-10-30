@@ -1,15 +1,7 @@
 #include <com/sun/jmx/remote/util/OrderClassLoaders.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <sun/reflect/misc/ReflectUtil.h>
 #include <jcpp.h>
 
@@ -60,8 +52,7 @@ $Class* OrderClassLoaders::loadClass($String* name, bool resolve) {
 	$ReflectUtil::checkPackageAccess(name);
 	try {
 		return $ClassLoader::loadClass(name, resolve);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, cne, $catch());
+	} catch ($ClassNotFoundException& cne) {
 		if (this->cl2 != nullptr) {
 			return $nc(this->cl2)->loadClass(name);
 		} else {

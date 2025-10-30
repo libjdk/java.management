@@ -17,8 +17,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xCB592D4AF2CD5674;
 	RelationNotFoundException(const RelationNotFoundException& e);
-	RelationNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline RelationNotFoundException* operator ->() {
+		return (RelationNotFoundException*)throwing$;
+	}
 };
 
 		} // relation

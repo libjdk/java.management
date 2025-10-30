@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xF3C072AD486A71C7;
 	InstanceNotFoundException(const InstanceNotFoundException& e);
-	InstanceNotFoundException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InstanceNotFoundException* operator ->() {
+		return (InstanceNotFoundException*)throwing$;
+	}
 };
 
 	} // management

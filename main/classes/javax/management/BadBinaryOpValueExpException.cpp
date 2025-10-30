@@ -1,13 +1,5 @@
 #include <javax/management/BadBinaryOpValueExpException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/ValueExp.h>
 #include <jcpp.h>
 
@@ -62,16 +54,10 @@ $String* BadBinaryOpValueExpException::toString() {
 BadBinaryOpValueExpException::BadBinaryOpValueExpException() {
 }
 
-BadBinaryOpValueExpException::BadBinaryOpValueExpException(const BadBinaryOpValueExpException& e) {
+BadBinaryOpValueExpException::BadBinaryOpValueExpException(const BadBinaryOpValueExpException& e) : $Exception(e) {
 }
 
-BadBinaryOpValueExpException BadBinaryOpValueExpException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void BadBinaryOpValueExpException::throwWrapper$() {
-	$pendingException(this);
+void BadBinaryOpValueExpException::throw$() {
 	throw *this;
 }
 

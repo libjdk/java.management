@@ -26,8 +26,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x7F45427E1D6D9161;
 	::java::lang::Exception* exception = nullptr;
 	ReflectionException(const ReflectionException& e);
-	ReflectionException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline ReflectionException* operator ->() {
+		return (ReflectionException*)throwing$;
+	}
 };
 
 	} // management

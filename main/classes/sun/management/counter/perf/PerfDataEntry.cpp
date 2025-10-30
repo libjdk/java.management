@@ -2,19 +2,8 @@
 
 #include <java/io/IOException.h>
 #include <java/io/UnsupportedEncodingException.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/nio/ByteBuffer.h>
 #include <java/nio/ByteOrder.h>
 #include <java/nio/LongBuffer.h>
@@ -153,8 +142,7 @@ void PerfDataEntry::init$($ByteBuffer* b) {
 	}
 	try {
 		$set(this, name$, $new($String, symbolBytes, "UTF-8"_s));
-	} catch ($UnsupportedEncodingException&) {
-		$var($UnsupportedEncodingException, e, $catch());
+	} catch ($UnsupportedEncodingException& e) {
 		$throwNew($InternalError, $(e->getMessage()), e);
 	}
 	if (this->variability$ == $Variability::INVALID) {

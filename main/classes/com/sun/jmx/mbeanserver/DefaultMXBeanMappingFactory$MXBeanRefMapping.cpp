@@ -5,18 +5,7 @@
 #include <com/sun/jmx/mbeanserver/MXBeanLookup.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/ObjectName.h>
 #include <javax/management/openmbean/OpenDataException.h>
@@ -120,11 +109,9 @@ $MXBeanLookup* DefaultMXBeanMappingFactory$MXBeanRefMapping::lookupNotNull($Clas
 		$var($String, msg, "Cannot convert MXBean interface in this context"_s);
 		$var($Exception, exc, nullptr);
 		try {
-			$load($String);
 			$var($Constructor, con, $nc(excClass)->getConstructor($$new($ClassArray, {$String::class$})));
 			$assign(exc, $cast($Exception, $nc(con)->newInstance($$new($ObjectArray, {$of(msg)}))));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$throwNew($RuntimeException, static_cast<$Throwable*>(e));
 		}
 		$throw(exc);

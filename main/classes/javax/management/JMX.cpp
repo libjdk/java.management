@@ -1,20 +1,9 @@
 #include <javax/management/JMX.h>
 
 #include <com/sun/jmx/mbeanserver/Introspector.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/annotation/Annotation.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/InvocationHandler.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Modifier.h>
 #include <java/lang/reflect/Proxy.h>
 #include <javax/management/JMException.h>
@@ -101,23 +90,14 @@ $Object* allocate$JMX($Class* clazz) {
 }
 
 JMX* JMX::proof = nullptr;
-
 $String* JMX::DEFAULT_VALUE_FIELD = nullptr;
-
 $String* JMX::IMMUTABLE_INFO_FIELD = nullptr;
-
 $String* JMX::INTERFACE_CLASS_NAME_FIELD = nullptr;
-
 $String* JMX::LEGAL_VALUES_FIELD = nullptr;
-
 $String* JMX::MAX_VALUE_FIELD = nullptr;
-
 $String* JMX::MIN_VALUE_FIELD = nullptr;
-
 $String* JMX::MXBEAN_FIELD = nullptr;
-
 $String* JMX::OPEN_TYPE_FIELD = nullptr;
-
 $String* JMX::ORIGINAL_TYPE_FIELD = nullptr;
 
 void JMX::init$() {
@@ -171,14 +151,13 @@ $Object* JMX::createProxy($MBeanServerConnection* connection, $ObjectName* objec
 		} else {
 			$Introspector::testComplianceMBeanInterface(interfaceClass);
 		}
-	} catch ($NotCompliantMBeanException&) {
-		$var($NotCompliantMBeanException, e, $catch());
+	} catch ($NotCompliantMBeanException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 	$var($InvocationHandler, handler, $new($MBeanServerInvocationHandler, connection, objectName, isMXBean));
 	$var($ClassArray, interfaces, nullptr);
 	if (notificationEmitter) {
-			$load($NotificationEmitter);
+		$load($NotificationEmitter);
 		$assign(interfaces, $new($ClassArray, {
 			interfaceClass,
 			$NotificationEmitter::class$

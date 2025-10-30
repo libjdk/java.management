@@ -1,17 +1,6 @@
 #include <javax/management/modelmbean/RequiredModelMBean$5.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/modelmbean/RequiredModelMBean.h>
 #include <sun/reflect/misc/ReflectUtil.h>
 #include <jcpp.h>
@@ -85,14 +74,12 @@ void RequiredModelMBean$5::init$($RequiredModelMBean* this$0, $String* val$respT
 }
 
 $Object* RequiredModelMBean$5::run() {
-	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$ReflectUtil::checkPackageAccess(this->val$respType);
 		$var($ClassLoader, cl, $nc(this->val$respClass)->getClassLoader());
 		return $of($Class::forName(this->val$respType, true, cl));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(this->val$caughException)->set(0, e);
 	}
 	return $of(nullptr);

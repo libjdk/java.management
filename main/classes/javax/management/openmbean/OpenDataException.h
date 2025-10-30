@@ -17,8 +17,10 @@ public:
 	void init$($String* msg);
 	static const int64_t serialVersionUID = (int64_t)0x73D40DDDBCF30AEE;
 	OpenDataException(const OpenDataException& e);
-	OpenDataException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline OpenDataException* operator ->() {
+		return (OpenDataException*)throwing$;
+	}
 };
 
 		} // openmbean

@@ -14,32 +14,15 @@
 #include <com/sun/jmx/mbeanserver/SecureClassLoaderRepository.h>
 #include <com/sun/jmx/mbeanserver/SunJmxMBeanServer.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
 #include <java/lang/IllegalStateException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
 #include <java/security/Permission.h>
@@ -444,8 +427,7 @@ $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $bytes* data
 			$throwNew($ClassNotFoundException, className);
 		}
 		theClass = $nc(clr)->loadClass(className);
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($ReflectionException, e, "The given class could not be loaded by the default loader repository"_s);
 	}
 	return $nc(this->instantiator)->deserialize($($nc(theClass)->getClassLoader()), data);
@@ -458,11 +440,9 @@ $ObjectInputStream* JmxMBeanServer::deserialize($String* className, $ObjectName*
 	$assign(loaderName, cloneObjectName(loaderName));
 	try {
 		getClassLoader(loaderName);
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		$throw(e);
-	} catch ($Exception&) {
-		$catch();
+	} catch ($Exception& e) {
 	}
 	$var($ClassLoader, myLoader, $nc($of(this->outerShell))->getClass()->getClassLoader());
 	return $nc(this->instantiator)->deserialize(className, loaderName, data, myLoader);
@@ -476,16 +456,14 @@ void JmxMBeanServer::initialize() {
 	}
 	try {
 		$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new($JmxMBeanServer$2, this)));
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
 			$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, "Unexpected security exception occurred"_s, static_cast<$Throwable*>(e));
 		}
 		$throw(e);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {

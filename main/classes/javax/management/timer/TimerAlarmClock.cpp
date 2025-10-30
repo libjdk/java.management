@@ -1,18 +1,9 @@
 #include <javax/management/timer/TimerAlarmClock.h>
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/Math.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Date.h>
 #include <java/util/TimerTask.h>
 #include <javax/management/timer/Timer.h>
@@ -85,12 +76,10 @@ void TimerAlarmClock::init$($Timer* listener, $Date* next) {
 }
 
 void TimerAlarmClock::run() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var($TimerAlarmClockNotification, notif, $new($TimerAlarmClockNotification, this));
 		$nc(this->listener)->notifyAlarmClock(notif);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::TIMER_LOGGER)->log($System$Logger$Level::TRACE, "Got unexpected exception when sending a notification"_s, static_cast<$Throwable*>(e));

@@ -15,33 +15,16 @@
 #include <com/sun/jmx/mbeanserver/Repository.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
 #include <com/sun/jmx/remote/util/EnvHelp.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
 #include <java/lang/InterruptedException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
 #include <java/lang/ref/WeakReference.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessController.h>
 #include <java/security/BasicPermission.h>
@@ -343,8 +326,7 @@ $ObjectInstance* DefaultMBeanServerInterceptor::createMBean($String* className, 
 	$useLocalCurrentObjectStackCache();
 	try {
 		return createMBean(className, name, nullptr, true, params, signature);
-	} catch ($InstanceNotFoundException&) {
-		$var($InstanceNotFoundException, e, $catch());
+	} catch ($InstanceNotFoundException& e) {
 		$throw($cast($IllegalArgumentException, $($EnvHelp::initCause($$new($IllegalArgumentException, $$str({"Unexpected exception: "_s, e})), e))));
 	}
 	$shouldNotReachHere();
@@ -422,8 +404,7 @@ $String* DefaultMBeanServerInterceptor::getNewMBeanClassName(Object$* mbeanToReg
 		$var($String, name, nullptr);
 		try {
 			$assign(name, $nc($($nc(mbean)->getMBeanInfo()))->getClassName());
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$var($NotCompliantMBeanException, ncmbe, $new($NotCompliantMBeanException, "Bad getMBeanInfo()"_s));
 			ncmbe->initCause(e);
 			$throw(ncmbe);
@@ -450,8 +431,7 @@ void DefaultMBeanServerInterceptor::unregisterMBean($ObjectName* name$renamed) {
 		while ($nc(this->beingUnregistered)->contains(name)) {
 			try {
 				$nc($of(this->beingUnregistered))->wait();
-			} catch ($InterruptedException&) {
-				$var($InterruptedException, e, $catch());
+			} catch ($InterruptedException& e) {
 				$throwNew($MBeanRegistrationException, e, $(e->toString()));
 			}
 		}
@@ -461,8 +441,8 @@ void DefaultMBeanServerInterceptor::unregisterMBean($ObjectName* name$renamed) {
 		$var($Throwable, var$0, nullptr);
 		try {
 			exclusiveUnregisterMBean(name);
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			$synchronized(this->beingUnregistered) {
 				$nc(this->beingUnregistered)->remove(name);
@@ -490,8 +470,8 @@ void DefaultMBeanServerInterceptor::exclusiveUnregisterMBean($ObjectName* name) 
 			if ($instanceOf($MBeanRegistration, instance)) {
 				postDeregisterInvoke(name, $cast($MBeanRegistration, instance));
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			$nc(context)->done();
 		}
@@ -527,8 +507,7 @@ $Set* DefaultMBeanServerInterceptor::queryMBeans($ObjectName* name, $QueryExp* q
 						$var($String, var$0, $nc(oi)->getClassName());
 						checkMBeanPermission(var$0, ($String*)nullptr, $(oi->getObjectName()), "queryMBeans"_s);
 						allowedList->add(oi);
-					} catch ($SecurityException&) {
-						$catch();
+					} catch ($SecurityException& e) {
 					}
 				}
 			}
@@ -561,8 +540,7 @@ $Set* DefaultMBeanServerInterceptor::queryNames($ObjectName* name, $QueryExp* qu
 						$var($String, var$0, $nc(oi)->getClassName());
 						checkMBeanPermission(var$0, ($String*)nullptr, $(oi->getObjectName()), "queryNames"_s);
 						allowedList->add(oi);
-					} catch ($SecurityException&) {
-						$catch();
+					} catch ($SecurityException& e) {
 					}
 				}
 			}
@@ -611,8 +589,7 @@ $StringArray* DefaultMBeanServerInterceptor::getDomains() {
 				$var($ObjectName, dom, $Util::newObjectName($$str({domains->get(i), ":x=x"_s})));
 				checkMBeanPermission(($String*)nullptr, ($String*)nullptr, dom, "getDomains"_s);
 				result->add(domains->get(i));
-			} catch ($SecurityException&) {
-				$catch();
+			} catch ($SecurityException& e) {
 			}
 		}
 		return $fcast($StringArray, result->toArray($$new($StringArray, result->size())));
@@ -644,11 +621,9 @@ $Object* DefaultMBeanServerInterceptor::getAttribute($ObjectName* name$renamed, 
 	checkMBeanPermission(instance, attribute, name, "getAttribute"_s);
 	try {
 		return $of($nc(instance)->getAttribute(attribute));
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, e, $catch());
+	} catch ($AttributeNotFoundException& e) {
 		$throw(e);
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		rethrowMaybeMBeanException(t);
 		$throwNew($AssertionError);
 	}
@@ -689,8 +664,7 @@ $AttributeList* DefaultMBeanServerInterceptor::getAttributes($ObjectName* name$r
 					try {
 						checkMBeanPermission(classname, attr, name, "getAttribute"_s);
 						allowedList->add(attr);
-					} catch ($SecurityException&) {
-						$catch();
+					} catch ($SecurityException& e) {
 					}
 				}
 			}
@@ -699,8 +673,7 @@ $AttributeList* DefaultMBeanServerInterceptor::getAttributes($ObjectName* name$r
 	}
 	try {
 		return $nc(instance)->getAttributes(allowedAttributes);
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		rethrow(t);
 		$throwNew($AssertionError);
 	}
@@ -727,14 +700,11 @@ void DefaultMBeanServerInterceptor::setAttribute($ObjectName* name$renamed, $Att
 	checkMBeanPermission(instance, $($nc(attribute)->getName()), name, "setAttribute"_s);
 	try {
 		$nc(instance)->setAttribute(attribute);
-	} catch ($AttributeNotFoundException&) {
-		$var($AttributeNotFoundException, e, $catch());
+	} catch ($AttributeNotFoundException& e) {
 		$throw(e);
-	} catch ($InvalidAttributeValueException&) {
-		$var($InvalidAttributeValueException, e, $catch());
+	} catch ($InvalidAttributeValueException& e) {
 		$throw(e);
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		rethrowMaybeMBeanException(t);
 		$throwNew($AssertionError);
 	}
@@ -767,8 +737,7 @@ $AttributeList* DefaultMBeanServerInterceptor::setAttributes($ObjectName* name$r
 					try {
 						checkMBeanPermission(classname, $($nc(attribute)->getName()), name, "setAttribute"_s);
 						allowedAttributes->add(attribute);
-					} catch ($SecurityException&) {
-						$catch();
+					} catch ($SecurityException& e) {
 					}
 				}
 			}
@@ -776,8 +745,7 @@ $AttributeList* DefaultMBeanServerInterceptor::setAttributes($ObjectName* name$r
 	}
 	try {
 		return $nc(instance)->setAttributes(allowedAttributes);
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		rethrow(t);
 		$throwNew($AssertionError);
 	}
@@ -792,8 +760,7 @@ $Object* DefaultMBeanServerInterceptor::invoke($ObjectName* name$renamed, $Strin
 	checkMBeanPermission(instance, operationName, name, "invoke"_s);
 	try {
 		return $of($nc(instance)->invoke(operationName, params, signature));
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		rethrowMaybeMBeanException(t);
 		$throwNew($AssertionError);
 	}
@@ -805,23 +772,17 @@ void DefaultMBeanServerInterceptor::rethrow($Throwable* t) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		$throw(t);
-	} catch ($ReflectionException&) {
-		$var($ReflectionException, e, $catch());
+	} catch ($ReflectionException& e) {
 		$throw(e);
-	} catch ($RuntimeOperationsException&) {
-		$var($RuntimeOperationsException, e, $catch());
+	} catch ($RuntimeOperationsException& e) {
 		$throw(e);
-	} catch ($RuntimeErrorException&) {
-		$var($RuntimeErrorException, e, $catch());
+	} catch ($RuntimeErrorException& e) {
 		$throw(e);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$throwNew($RuntimeMBeanException, e, $(e->toString()));
-	} catch ($Error&) {
-		$var($Error, e, $catch());
+	} catch ($Error& e) {
 		$throwNew($RuntimeErrorException, e, $(e->toString()));
-	} catch ($Throwable&) {
-		$var($Throwable, t2, $catch());
+	} catch ($Throwable& t2) {
 		$throwNew($RuntimeException, "Unexpected exception"_s, t2);
 	}
 }
@@ -864,8 +825,7 @@ $ObjectInstance* DefaultMBeanServerInterceptor::registerDynamicMBean($String* cl
 				try {
 					$nc(($cast($DynamicMBean2, mbean)))->preRegister2(this->server, logicalName);
 					registerFailed = true;
-				} catch ($Exception&) {
-					$var($Exception, e, $catch());
+				} catch ($Exception& e) {
 					if ($instanceOf($RuntimeException, e)) {
 						$throw($cast($RuntimeException, e));
 					}
@@ -887,22 +847,22 @@ $ObjectInstance* DefaultMBeanServerInterceptor::registerDynamicMBean($String* cl
 			$assign(context, registerWithRepository(resource, mbean, logicalName));
 			registerFailed = false;
 			registered = true;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$1) {
+			$assign(var$0, var$1);
 		} /*finally*/ {
 			{
-				$var($Throwable, var$1, nullptr);
+				$var($Throwable, var$2, nullptr);
 				try {
 					postRegister(logicalName, mbean, registered, registerFailed);
-				} catch ($Throwable&) {
-					$assign(var$1, $catch());
+				} catch ($Throwable& var$3) {
+					$assign(var$2, var$3);
 				} /*finally*/ {
 					if (registered && context != nullptr) {
 						context->done();
 					}
 				}
-				if (var$1 != nullptr) {
-					$throw(var$1);
+				if (var$2 != nullptr) {
+					$throw(var$2);
 				}
 			}
 		}
@@ -931,14 +891,12 @@ void DefaultMBeanServerInterceptor::throwMBeanRegistrationException($Throwable* 
 
 $ObjectName* DefaultMBeanServerInterceptor::preRegister($DynamicMBean* mbean, $MBeanServer* mbs, $ObjectName* name) {
 	$init(DefaultMBeanServerInterceptor);
-	$useLocalCurrentObjectStackCache();
 	$var($ObjectName, newName, nullptr);
 	try {
 		if ($instanceOf($MBeanRegistration, mbean)) {
 			$assign(newName, $nc(($cast($MBeanRegistration, mbean)))->preRegister(mbs, name));
 		}
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		throwMBeanRegistrationException(t, "in preRegister method"_s);
 	}
 	if (newName != nullptr) {
@@ -958,14 +916,12 @@ void DefaultMBeanServerInterceptor::postRegister($ObjectName* logicalName, $Dyna
 		if ($instanceOf($MBeanRegistration, mbean)) {
 			$nc(($cast($MBeanRegistration, mbean)))->postRegister($($Boolean::valueOf(registrationDone)));
 		}
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"While registering MBean ["_s, logicalName, "]: Exception thrown by postRegister: rethrowing <"_s, e, ">, but keeping the MBean registered"_s}));
 		$throwNew($RuntimeMBeanException, e, $$str({"RuntimeException thrown in postRegister method: rethrowing <"_s, e, ">, but keeping the MBean registered"_s}));
-	} catch ($Error&) {
-		$var($Error, er, $catch());
+	} catch ($Error& er) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"While registering MBean ["_s, logicalName, "]: Error thrown by postRegister: rethrowing <"_s, er, ">, but keeping the MBean registered"_s}));
@@ -977,8 +933,7 @@ void DefaultMBeanServerInterceptor::preDeregisterInvoke($MBeanRegistration* moi)
 	$init(DefaultMBeanServerInterceptor);
 	try {
 		$nc(moi)->preDeregister();
-	} catch ($Throwable&) {
-		$var($Throwable, t, $catch());
+	} catch ($Throwable& t) {
 		throwMBeanRegistrationException(t, "in preDeregister method"_s);
 	}
 }
@@ -988,14 +943,12 @@ void DefaultMBeanServerInterceptor::postDeregisterInvoke($ObjectName* mbean, $MB
 	$useLocalCurrentObjectStackCache();
 	try {
 		$nc(moi)->postDeregister();
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"While unregistering MBean ["_s, mbean, "]: Exception thrown by postDeregister: rethrowing <"_s, e, ">, although the MBean is succesfully unregistered"_s}));
 		$throwNew($RuntimeMBeanException, e, $$str({"RuntimeException thrown in postDeregister method: rethrowing <"_s, e, ">, although the MBean is sucessfully unregistered"_s}));
-	} catch ($Error&) {
-		$var($Error, er, $catch());
+	} catch ($Error& er) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::DEBUG, $$str({"While unregistering MBean ["_s, mbean, "]: Error thrown by postDeregister: rethrowing <"_s, er, ">, although the MBean is succesfully unregistered"_s}));
@@ -1111,8 +1064,7 @@ $NotificationListener* DefaultMBeanServerInterceptor::getListener($ObjectName* l
 	$var($DynamicMBean, instance, nullptr);
 	try {
 		$assign(instance, getMBean(listener));
-	} catch ($InstanceNotFoundException&) {
-		$var($InstanceNotFoundException, e, $catch());
+	} catch ($InstanceNotFoundException& e) {
 		$throw($cast($ListenerNotFoundException, $($EnvHelp::initCause($$new($ListenerNotFoundException, $(e->getMessage())), e))));
 	}
 	$var($Object, resource, getResource(instance));
@@ -1176,17 +1128,13 @@ $MBeanInfo* DefaultMBeanServerInterceptor::getMBeanInfo($ObjectName* name) {
 	$var($MBeanInfo, mbi, nullptr);
 	try {
 		$assign(mbi, $nc(moi)->getMBeanInfo());
-	} catch ($RuntimeMBeanException&) {
-		$var($RuntimeMBeanException, e, $catch());
+	} catch ($RuntimeMBeanException& e) {
 		$throw(e);
-	} catch ($RuntimeErrorException&) {
-		$var($RuntimeErrorException, e, $catch());
+	} catch ($RuntimeErrorException& e) {
 		$throw(e);
-	} catch ($RuntimeException&) {
-		$var($RuntimeException, e, $catch());
+	} catch ($RuntimeException& e) {
 		$throwNew($RuntimeMBeanException, e, "getMBeanInfo threw RuntimeException"_s);
-	} catch ($Error&) {
-		$var($Error, e, $catch());
+	} catch ($Error& e) {
 		$throwNew($RuntimeErrorException, e, "getMBeanInfo threw Error"_s);
 	}
 	if (mbi == nullptr) {
@@ -1214,8 +1162,7 @@ bool DefaultMBeanServerInterceptor::isInstanceOf($ObjectName* name, $String* cla
 		}
 		$Class* resourceClass = $Class::forName(resourceClassName, false, cl);
 		return $nc(classNameClass)->isAssignableFrom(resourceClass);
-	} catch ($Exception&) {
-		$var($Exception, x, $catch());
+	} catch ($Exception& x) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -1289,8 +1236,7 @@ $Set* DefaultMBeanServerInterceptor::objectNamesFromFilteredNamedObjects($Set* l
 							bool res = false;
 							try {
 								res = query->apply($($nc(no)->getName()));
-							} catch ($Exception&) {
-								$var($Exception, e, $catch());
+							} catch ($Exception& e) {
 								res = false;
 							}
 							if (res) {
@@ -1299,8 +1245,8 @@ $Set* DefaultMBeanServerInterceptor::objectNamesFromFilteredNamedObjects($Set* l
 						}
 					}
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$1) {
+				$assign(var$0, var$1);
 			} /*finally*/ {
 				query->setMBeanServer(oldServer);
 			}
@@ -1342,8 +1288,7 @@ $Set* DefaultMBeanServerInterceptor::objectInstancesFromFilteredNamedObjects($Se
 							bool res = false;
 							try {
 								res = query->apply($(no->getName()));
-							} catch ($Exception&) {
-								$var($Exception, e, $catch());
+							} catch ($Exception& e) {
 								res = false;
 							}
 							if (res) {
@@ -1353,8 +1298,8 @@ $Set* DefaultMBeanServerInterceptor::objectInstancesFromFilteredNamedObjects($Se
 						}
 					}
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$1) {
+				$assign(var$0, var$1);
 			} /*finally*/ {
 				query->setMBeanServer(oldServer);
 			}
@@ -1370,8 +1315,7 @@ $String* DefaultMBeanServerInterceptor::safeGetClassName($DynamicMBean* mbean) {
 	$init(DefaultMBeanServerInterceptor);
 	try {
 		return getClassName(mbean);
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$init($JmxProperties);
 		$init($System$Logger$Level);
 		if ($nc($JmxProperties::MBEANSERVER_LOGGER)->isLoggable($System$Logger$Level::DEBUG)) {
@@ -1401,12 +1345,11 @@ $Set* DefaultMBeanServerInterceptor::filterListOfObjectInstances($Set* list, $Qu
 						try {
 							try {
 								res = query->apply($($nc(oi)->getObjectName()));
-							} catch ($Exception&) {
-								$var($Exception, e, $catch());
+							} catch ($Exception& e) {
 								res = false;
 							}
-						} catch ($Throwable&) {
-							$assign(var$0, $catch());
+						} catch ($Throwable& var$1) {
+							$assign(var$0, var$1);
 						} /*finally*/ {
 							query->setMBeanServer(oldServer);
 						}

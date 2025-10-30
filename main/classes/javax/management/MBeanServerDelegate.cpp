@@ -3,18 +3,9 @@
 #include <com/sun/jmx/defaults/JmxProperties.h>
 #include <com/sun/jmx/defaults/ServiceName.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/InetAddress.h>
 #include <java/net/UnknownHostException.h>
 #include <javax/management/MBeanNotificationInfo.h>
@@ -132,7 +123,6 @@ void MBeanServerDelegate::finalize() {
 
 int64_t MBeanServerDelegate::oldStamp = 0;
 $MBeanNotificationInfoArray* MBeanServerDelegate::notifsInfo = nullptr;
-
 $ObjectName* MBeanServerDelegate::DELEGATE_NAME = nullptr;
 
 void MBeanServerDelegate::init$() {
@@ -148,8 +138,7 @@ $String* MBeanServerDelegate::getMBeanServerId() {
 			$var($String, localHost, nullptr);
 			try {
 				$assign(localHost, $nc($($InetAddress::getLocalHost()))->getHostName());
-			} catch ($UnknownHostException&) {
-				$var($UnknownHostException, e, $catch());
+			} catch ($UnknownHostException& e) {
 				$init($JmxProperties);
 				$init($System$Logger$Level);
 				$nc($JmxProperties::MISC_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Can\'t get local host name, using \"localhost\" instead. Cause is: "_s, e}));
@@ -184,8 +173,7 @@ $String* MBeanServerDelegate::getImplementationName() {
 $String* MBeanServerDelegate::getImplementationVersion() {
 	try {
 		return $System::getProperty("java.runtime.version"_s);
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		return ""_s;
 	}
 	$shouldNotReachHere();
@@ -247,7 +235,7 @@ void clinit$MBeanServerDelegate($Class* class$) {
 	$useLocalCurrentObjectStackCache();
 	MBeanServerDelegate::oldStamp = 0;
 	{
-			$init($MBeanServerNotification);
+		$init($MBeanServerNotification);
 		$var($StringArray, types, $new($StringArray, {
 			$MBeanServerNotification::UNREGISTRATION_NOTIFICATION,
 			$MBeanServerNotification::REGISTRATION_NOTIFICATION

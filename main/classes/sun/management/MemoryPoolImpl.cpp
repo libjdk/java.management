@@ -1,20 +1,10 @@
 #include <sun/management/MemoryPoolImpl.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/UnsupportedOperationException.h>
 #include <java/lang/management/ManagementFactory.h>
 #include <java/lang/management/MemoryManagerMXBean.h>
 #include <java/lang/management/MemoryType.h>
 #include <java/lang/management/MemoryUsage.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/ObjectName.h>
 #include <sun/management/MemoryPoolImpl$CollectionSensor.h>
 #include <sun/management/MemoryPoolImpl$PoolSensor.h>

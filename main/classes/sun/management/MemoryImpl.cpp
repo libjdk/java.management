@@ -1,21 +1,12 @@
 #include <sun/management/MemoryImpl.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Runtime.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
 #include <java/lang/management/ManagementFactory.h>
 #include <java/lang/management/MemoryMXBean.h>
 #include <java/lang/management/MemoryManagerMXBean.h>
 #include <java/lang/management/MemoryNotificationInfo.h>
 #include <java/lang/management/MemoryPoolMXBean.h>
 #include <java/lang/management/MemoryUsage.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/MBeanNotificationInfo.h>
 #include <javax/management/Notification.h>
 #include <javax/management/ObjectName.h>
@@ -270,7 +261,7 @@ void clinit$MemoryImpl($Class* class$) {
 	$assignStatic(MemoryImpl::notifName, "javax.management.Notification"_s);
 	$assignStatic(MemoryImpl::pools, nullptr);
 	$assignStatic(MemoryImpl::mgrs, nullptr);
-		$init($MemoryNotificationInfo);
+	$init($MemoryNotificationInfo);
 	$assignStatic(MemoryImpl::notifTypes, $new($StringArray, {
 		$MemoryNotificationInfo::MEMORY_THRESHOLD_EXCEEDED,
 		$MemoryNotificationInfo::MEMORY_COLLECTION_THRESHOLD_EXCEEDED

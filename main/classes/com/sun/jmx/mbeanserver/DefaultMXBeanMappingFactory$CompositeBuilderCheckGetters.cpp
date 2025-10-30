@@ -6,17 +6,7 @@
 #include <java/io/IOException.h>
 #include <java/io/InvalidObjectException.h>
 #include <java/io/ObjectStreamException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <javax/management/openmbean/CompositeData.h>
 #include <jcpp.h>
@@ -93,8 +83,7 @@ $String* DefaultMXBeanMappingFactory$CompositeBuilderCheckGetters::applicable($M
 	for (int32_t i = 0; i < $nc(getters)->length; ++i) {
 		try {
 			$nc($nc(this->getterConverters)->get(i))->checkReconstructible();
-		} catch ($InvalidObjectException&) {
-			$var($InvalidObjectException, e, $catch());
+		} catch ($InvalidObjectException& e) {
 			$set(this, possibleCause$, e);
 			return $str({"method "_s, $($nc(getters->get(i))->getName()), " returns type that cannot be mapped back from OpenData"_s});
 		}

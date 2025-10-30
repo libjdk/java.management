@@ -1,16 +1,6 @@
 #include <javax/management/AttributeValueExp.h>
 
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Number.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/BadAttributeValueExpException.h>
 #include <javax/management/BooleanValueExp.h>
 #include <javax/management/MBeanServer.h>
@@ -112,12 +102,10 @@ void AttributeValueExp::setMBeanServer($MBeanServer* s) {
 }
 
 $Object* AttributeValueExp::getAttribute($ObjectName* name) {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var($MBeanServer, server, $QueryEval::getMBeanServer());
 		return $of($nc(server)->getAttribute(name, this->attr));
-	} catch ($Exception&) {
-		$var($Exception, re, $catch());
+	} catch ($Exception& re) {
 		return $of(nullptr);
 	}
 	$shouldNotReachHere();

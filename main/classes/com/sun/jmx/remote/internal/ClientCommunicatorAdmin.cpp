@@ -5,22 +5,9 @@
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
 #include <java/io/InterruptedIOException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InterruptedException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/Runnable.h>
-#include <java/lang/String.h>
-#include <java/lang/Thread.h>
 #include <java/lang/ThreadGroup.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef CONNECTED
@@ -145,8 +132,7 @@ void ClientCommunicatorAdmin::restart($IOException* ioe) {
 			while (this->state == ClientCommunicatorAdmin::RE_CONNECTING) {
 				try {
 					$nc($of(this->lock))->wait();
-				} catch ($InterruptedException&) {
-					$var($InterruptedException, ire, $catch());
+				} catch ($InterruptedException& ire) {
 					$var($InterruptedIOException, iioe, $new($InterruptedIOException, $(ire->toString())));
 					$EnvHelp::initCause(iioe, ire);
 					$throw(iioe);
@@ -173,8 +159,7 @@ void ClientCommunicatorAdmin::restart($IOException* ioe) {
 			$nc($of(this->lock))->notifyAll();
 		}
 		return;
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$nc(ClientCommunicatorAdmin::logger)->warning("restart"_s, $$str({"Failed to restart: "_s, e}));
 		$nc(ClientCommunicatorAdmin::logger)->debug("restart"_s, static_cast<$Throwable*>(e));
 		$synchronized(this->lock) {
@@ -186,8 +171,7 @@ void ClientCommunicatorAdmin::restart($IOException* ioe) {
 		}
 		try {
 			doStop();
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& eee) {
 		}
 		terminate();
 		$throw(ioe);

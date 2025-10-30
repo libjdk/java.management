@@ -4,17 +4,8 @@
 #include <com/sun/jmx/mbeanserver/Introspector.h>
 #include <com/sun/jmx/mbeanserver/MBeanIntrospector.h>
 #include <com/sun/jmx/mbeanserver/Util.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/reflect/AnnotatedElement.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/GenericDeclaration.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/List.h>
 #include <javax/management/Descriptor.h>
 #include <javax/management/ImmutableDescriptor.h>

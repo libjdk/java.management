@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0xF80D65BD2C1C3010;
 	MalformedObjectNameException(const MalformedObjectNameException& e);
-	MalformedObjectNameException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline MalformedObjectNameException* operator ->() {
+		return (MalformedObjectNameException*)throwing$;
+	}
 };
 
 	} // management

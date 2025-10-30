@@ -1,19 +1,7 @@
 #include <javax/management/NotificationBroadcasterSupport.h>
 
 #include <com/sun/jmx/remote/util/ClassLogger.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Runnable.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Collection.h>
 #include <java/util/Collections.h>
 #include <java/util/Iterator.h>
@@ -182,8 +170,7 @@ void NotificationBroadcasterSupport::sendNotification($Notification* notificatio
 			{
 				try {
 					enabled = $nc(li)->filter == nullptr || $nc($nc(li)->filter)->isNotificationEnabled(notification);
-				} catch ($Exception&) {
-					$var($Exception, e, $catch());
+				} catch ($Exception& e) {
 					if ($nc(NotificationBroadcasterSupport::logger)->debugOn()) {
 						$nc(NotificationBroadcasterSupport::logger)->debug("sendNotification"_s, static_cast<$Throwable*>(e));
 					}

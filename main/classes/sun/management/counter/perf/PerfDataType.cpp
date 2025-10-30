@@ -2,17 +2,7 @@
 
 #include <java/io/IOException.h>
 #include <java/io/UnsupportedEncodingException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <jcpp.h>
 
 #undef BOOLEAN
@@ -112,14 +102,12 @@ PerfDataType* PerfDataType::toPerfDataType(int8_t type) {
 }
 
 void PerfDataType::init$($String* name, $String* c, int32_t size) {
-	$useLocalCurrentObjectStackCache();
 	$set(this, name, name);
 	this->size$ = size;
 	try {
 		$var($bytes, b, $nc(c)->getBytes("UTF-8"_s));
 		this->value = b->get(0);
-	} catch ($UnsupportedEncodingException&) {
-		$var($UnsupportedEncodingException, e, $catch());
+	} catch ($UnsupportedEncodingException& e) {
 		$throwNew($InternalError, "Unknown encoding"_s, e);
 	}
 }

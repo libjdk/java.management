@@ -8,16 +8,6 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/ObjectStreamField.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractList.h>
@@ -139,20 +129,13 @@ $Object* allocate$RelationNotification($Class* clazz) {
 $ObjectStreamFieldArray* RelationNotification::oldSerialPersistentFields = nullptr;
 $ObjectStreamFieldArray* RelationNotification::newSerialPersistentFields = nullptr;
 int64_t RelationNotification::serialVersionUID = 0;
-
 $ObjectStreamFieldArray* RelationNotification::serialPersistentFields = nullptr;
 bool RelationNotification::compat = false;
-
 $String* RelationNotification::RELATION_BASIC_CREATION = nullptr;
-
 $String* RelationNotification::RELATION_MBEAN_CREATION = nullptr;
-
 $String* RelationNotification::RELATION_BASIC_UPDATE = nullptr;
-
 $String* RelationNotification::RELATION_MBEAN_UPDATE = nullptr;
-
 $String* RelationNotification::RELATION_BASIC_REMOVAL = nullptr;
-
 $String* RelationNotification::RELATION_MBEAN_REMOVAL = nullptr;
 
 void RelationNotification::init$($String* notifType, Object$* sourceObj, int64_t sequence, int64_t timeStamp, $String* message, $String* id, $String* typeName, $ObjectName* objectName, $List* unregMBeanList) {
@@ -382,9 +365,8 @@ void clinit$RelationNotification($Class* class$) {
 	$assignStatic(RelationNotification::RELATION_BASIC_REMOVAL, "jmx.relation.removal.basic"_s);
 	$assignStatic(RelationNotification::RELATION_MBEAN_REMOVAL, "jmx.relation.removal.mbean"_s);
 	$beforeCallerSensitive();
-		$load($ArrayList);
-		$load($String);
-		$load($ObjectName);
+	$load($ArrayList);
+	$load($ObjectName);
 	$assignStatic(RelationNotification::oldSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "myNewRoleValue"_s, $ArrayList::class$),
 		$$new($ObjectStreamField, "myOldRoleValue"_s, $ArrayList::class$),
@@ -394,7 +376,7 @@ void clinit$RelationNotification($Class* class$) {
 		$$new($ObjectStreamField, "myRoleName"_s, $String::class$),
 		$$new($ObjectStreamField, "myUnregMBeanList"_s, $ArrayList::class$)
 	}));
-		$load($List);
+	$load($List);
 	$assignStatic(RelationNotification::newSerialPersistentFields, $new($ObjectStreamFieldArray, {
 		$$new($ObjectStreamField, "newRoleValue"_s, $List::class$),
 		$$new($ObjectStreamField, "oldRoleValue"_s, $List::class$),
@@ -410,8 +392,7 @@ void clinit$RelationNotification($Class* class$) {
 			$var($GetPropertyAction, act, $new($GetPropertyAction, "jmx.serial.form"_s));
 			$var($String, form, $cast($String, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(act))));
 			RelationNotification::compat = (form != nullptr && form->equals("1.0"_s));
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& e) {
 		}
 		if (RelationNotification::compat) {
 			$assignStatic(RelationNotification::serialPersistentFields, RelationNotification::oldSerialPersistentFields);

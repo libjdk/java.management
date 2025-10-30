@@ -26,8 +26,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0xD40D9BD422EA29A2;
 	$Throwable* cause = nullptr;
 	JMXProviderException(const JMXProviderException& e);
-	JMXProviderException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline JMXProviderException* operator ->() {
+		return (JMXProviderException*)throwing$;
+	}
 };
 
 		} // remote

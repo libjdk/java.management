@@ -1,12 +1,5 @@
 #include <javax/management/relation/RelationException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/JMException.h>
 #include <jcpp.h>
 
@@ -54,16 +47,10 @@ void RelationException::init$($String* message) {
 RelationException::RelationException() {
 }
 
-RelationException::RelationException(const RelationException& e) {
+RelationException::RelationException(const RelationException& e) : $JMException(e) {
 }
 
-RelationException RelationException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void RelationException::throwWrapper$() {
-	$pendingException(this);
+void RelationException::throw$() {
 	throw *this;
 }
 

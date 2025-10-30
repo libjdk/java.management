@@ -4,24 +4,12 @@
 #include <com/sun/jmx/remote/util/EnvHelp.h>
 #include <java/io/IOException.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/Collections.h>
@@ -189,13 +177,9 @@ $Object* allocate$JMXConnectorServerFactory($Class* clazz) {
 	return $of($alloc(JMXConnectorServerFactory));
 }
 
-
 $String* JMXConnectorServerFactory::DEFAULT_CLASS_LOADER = nullptr;
-
 $String* JMXConnectorServerFactory::DEFAULT_CLASS_LOADER_NAME = nullptr;
-
 $String* JMXConnectorServerFactory::PROTOCOL_PROVIDER_PACKAGES = nullptr;
-
 $String* JMXConnectorServerFactory::PROTOCOL_PROVIDER_CLASS_LOADER = nullptr;
 $String* JMXConnectorServerFactory::PROTOCOL_PROVIDER_DEFAULT_PACKAGE = nullptr;
 $ClassLogger* JMXConnectorServerFactory::logger = nullptr;
@@ -237,11 +221,9 @@ $JMXConnectorServer* JMXConnectorServerFactory::newJMXConnectorServer($JMXServic
 				if (connection != nullptr) {
 					return connection;
 				}
-			} catch ($JMXProviderException&) {
-				$var($JMXProviderException, e, $catch());
+			} catch ($JMXProviderException& e) {
 				$throw(e);
-			} catch ($IOException&) {
-				$var($IOException, e, $catch());
+			} catch ($IOException& e) {
 				$assign(exception, e);
 			}
 		}

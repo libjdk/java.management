@@ -1,12 +1,5 @@
 #include <javax/management/MBeanServerNotification.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/management/Notification.h>
 #include <javax/management/ObjectName.h>
 #include <jcpp.h>
@@ -51,9 +44,7 @@ $Object* allocate$MBeanServerNotification($Class* clazz) {
 	return $of($alloc(MBeanServerNotification));
 }
 
-
 $String* MBeanServerNotification::REGISTRATION_NOTIFICATION = nullptr;
-
 $String* MBeanServerNotification::UNREGISTRATION_NOTIFICATION = nullptr;
 
 void MBeanServerNotification::init$($String* type, Object$* source, int64_t sequenceNumber, $ObjectName* objectName) {

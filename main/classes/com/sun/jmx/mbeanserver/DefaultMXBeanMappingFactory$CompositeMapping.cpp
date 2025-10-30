@@ -12,19 +12,7 @@
 #include <com/sun/jmx/mbeanserver/MXBeanMapping.h>
 #include <com/sun/jmx/mbeanserver/MXBeanMappingFactory.h>
 #include <java/io/InvalidObjectException.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
-#include <java/lang/StringBuilder.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Type.h>
 #include <javax/management/openmbean/CompositeData.h>
@@ -152,8 +140,7 @@ $Object* DefaultMXBeanMappingFactory$CompositeMapping::toNonNullOpenValue(Object
 		try {
 			$var($Object, got, $MethodUtil::invoke($nc(this->getters)->get(i), value, ($ObjectArray*)nullptr));
 			values->set(i, $($nc($nc(this->getterMappings)->get(i))->toOpenValue(got)));
-		} catch ($Exception&) {
-			$var($Exception, e, $catch());
+		} catch ($Exception& e) {
 			$throw($($DefaultMXBeanMappingFactory::openDataException($$str({"Error calling getter for "_s, $nc(this->itemNames)->get(i), ": "_s, e}), e)));
 		}
 	}

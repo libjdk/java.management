@@ -1,15 +1,5 @@
 #include <com/sun/jmx/mbeanserver/Util.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractList.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/AbstractSet.h>
@@ -106,8 +96,7 @@ void Util::init$() {
 $ObjectName* Util::newObjectName($String* string) {
 	try {
 		return $new($ObjectName, string);
-	} catch ($MalformedObjectNameException&) {
-		$var($MalformedObjectNameException, e, $catch());
+	} catch ($MalformedObjectNameException& e) {
 		$throwNew($IllegalArgumentException, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();

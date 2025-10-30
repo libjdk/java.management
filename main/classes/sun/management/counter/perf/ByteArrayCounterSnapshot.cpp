@@ -1,13 +1,5 @@
 #include <sun/management/counter/perf/ByteArrayCounterSnapshot.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <sun/management/counter/AbstractCounter.h>
 #include <sun/management/counter/Units.h>
 #include <sun/management/counter/Variability.h>

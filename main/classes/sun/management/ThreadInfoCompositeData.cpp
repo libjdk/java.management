@@ -1,24 +1,11 @@
 #include <sun/management/ThreadInfoCompositeData.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
 #include <java/lang/AssertionError.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/Runtime$Version.h>
 #include <java/lang/Runtime.h>
 #include <java/lang/StackTraceElement.h>
-#include <java/lang/String.h>
 #include <java/lang/Thread$State.h>
-#include <java/lang/Thread.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
@@ -27,8 +14,6 @@
 #include <java/lang/management/LockInfo.h>
 #include <java/lang/management/MonitorInfo.h>
 #include <java/lang/management/ThreadInfo.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/AbstractMap.h>
 #include <java/util/Arrays.h>
 #include <java/util/HashMap.h>
@@ -332,8 +317,7 @@ $CompositeData* ThreadInfoCompositeData::getCompositeData() {
 	items->put(ThreadInfoCompositeData::PRIORITY, $($Integer::valueOf($nc(this->threadInfo)->getPriority())));
 	try {
 		return $new($CompositeDataSupport, $($ThreadInfoCompositeData$ThreadInfoCompositeTypes::ofVersion(ThreadInfoCompositeData::RUNTIME_VERSION)), items);
-	} catch ($OpenDataException&) {
-		$var($OpenDataException, e, $catch());
+	} catch ($OpenDataException& e) {
 		$throwNew($AssertionError, $of(e));
 	}
 	$shouldNotReachHere();

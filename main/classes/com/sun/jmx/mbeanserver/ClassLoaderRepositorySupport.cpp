@@ -2,22 +2,11 @@
 
 #include <com/sun/jmx/defaults/JmxProperties.h>
 #include <com/sun/jmx/mbeanserver/ClassLoaderRepositorySupport$LoaderEntry.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
 #include <java/lang/System$Logger$Level.h>
 #include <java/lang/System$Logger.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/Permission.h>
 #include <java/util/AbstractList.h>
 #include <java/util/ArrayList.h>
@@ -177,8 +166,8 @@ $Class* ClassLoaderRepositorySupport::loadClassWithout($ClassLoader* without, $S
 			var$2 = loadClass(this->loaders, className, without, nullptr);
 			return$1 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			stopValidSearch(without, className);
 		}
@@ -211,8 +200,8 @@ $Class* ClassLoaderRepositorySupport::loadClassBefore($ClassLoader* stop, $Strin
 			var$2 = loadClass(this->loaders, className, nullptr, stop);
 			return$1 = true;
 			goto $finally;
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$3) {
+			$assign(var$0, var$3);
 		} $finally: {
 			stopValidSearch(stop, className);
 		}
@@ -249,8 +238,7 @@ $Class* ClassLoaderRepositorySupport::loadClass($ClassLoaderRepositorySupport$Lo
 				$nc($JmxProperties::MBEANSERVER_LOGGER)->log($System$Logger$Level::TRACE, $$str({"Trying loader = "_s, cl}));
 			}
 			return $Class::forName(className, false, cl);
-		} catch ($ClassNotFoundException&) {
-			$catch();
+		} catch ($ClassNotFoundException& e) {
 		}
 	}
 	$throwNew($ClassNotFoundException, className);

@@ -1,16 +1,7 @@
 #include <java/lang/management/DefaultPlatformMBeanProvider$5.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
 #include <java/lang/CharSequence.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/EnclosingMethodInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
@@ -19,8 +10,6 @@
 #include <java/lang/management/DefaultPlatformMBeanProvider.h>
 #include <java/lang/management/ManagementFactory.h>
 #include <java/lang/management/MemoryManagerMXBean.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Collections.h>
 #include <java/util/List.h>
 #include <java/util/Map.h>

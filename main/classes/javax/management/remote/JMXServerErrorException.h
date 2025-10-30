@@ -25,8 +25,10 @@ public:
 	static const int64_t serialVersionUID = (int64_t)0x37773ECBD9401A5A;
 	::java::lang::Error* cause = nullptr;
 	JMXServerErrorException(const JMXServerErrorException& e);
-	JMXServerErrorException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline JMXServerErrorException* operator ->() {
+		return (JMXServerErrorException*)throwing$;
+	}
 };
 
 		} // remote

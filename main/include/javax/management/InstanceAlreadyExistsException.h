@@ -16,8 +16,10 @@ public:
 	void init$($String* message);
 	static const int64_t serialVersionUID = (int64_t)0x7B6CECFB762166EB;
 	InstanceAlreadyExistsException(const InstanceAlreadyExistsException& e);
-	InstanceAlreadyExistsException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline InstanceAlreadyExistsException* operator ->() {
+		return (InstanceAlreadyExistsException*)throwing$;
+	}
 };
 
 	} // management

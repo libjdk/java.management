@@ -3,19 +3,8 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/StreamCorruptedException.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
 #include <java/lang/Cloneable.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessController.h>
 #include <java/security/PrivilegedAction.h>
 #include <java/util/AbstractMap.h>
@@ -148,7 +137,6 @@ void MBeanInfo::finalize() {
 	this->$Cloneable::finalize();
 }
 
-
 $Map* MBeanInfo::arrayGettersSafeMap = nullptr;
 
 void MBeanInfo::init$($String* className, $String* description, $MBeanAttributeInfoArray* attributes, $MBeanConstructorInfoArray* constructors, $MBeanOperationInfoArray* operations, $MBeanNotificationInfoArray* notifications) {
@@ -195,8 +183,7 @@ void MBeanInfo::init$($String* className, $String* description, $MBeanAttributeI
 $Object* MBeanInfo::clone() {
 	try {
 		return $of($Cloneable::clone());
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, e, $catch());
+	} catch ($CloneNotSupportedException& e) {
 		return $of(nullptr);
 	}
 	$shouldNotReachHere();
@@ -386,8 +373,7 @@ bool MBeanInfo::arrayGettersSafe($Class* subclass, $Class* immutableClass) {
 			try {
 				$var($MBeanInfo$ArrayGettersSafeAction, action, $new($MBeanInfo$ArrayGettersSafeAction, subclass, immutableClass));
 				$assign(safe, $cast($Boolean, $AccessController::doPrivileged(static_cast<$PrivilegedAction*>(action))));
-			} catch ($Exception&) {
-				$var($Exception, e, $catch());
+			} catch ($Exception& e) {
 				$assign(safe, $Boolean::valueOf(false));
 			}
 			$nc(MBeanInfo::arrayGettersSafeMap)->put(subclass, safe);
