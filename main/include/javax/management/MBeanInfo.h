@@ -37,7 +37,6 @@ class $import MBeanInfo : public ::java::lang::Cloneable, public ::java::io::Ser
 	$class(MBeanInfo, 0, ::java::lang::Cloneable, ::java::io::Serializable, ::javax::management::DescriptorRead)
 public:
 	MBeanInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($String* className, $String* description, $Array<::javax::management::MBeanAttributeInfo>* attributes, $Array<::javax::management::MBeanConstructorInfo>* constructors, $Array<::javax::management::MBeanOperationInfo>* operations, $Array<::javax::management::MBeanNotificationInfo>* notifications);
 	void init$($String* className, $String* description, $Array<::javax::management::MBeanAttributeInfo>* attributes, $Array<::javax::management::MBeanConstructorInfo>* constructors, $Array<::javax::management::MBeanOperationInfo>* operations, $Array<::javax::management::MBeanNotificationInfo>* notifications, ::javax::management::Descriptor* descriptor);

@@ -20,7 +20,6 @@ class AndQueryExp : public ::javax::management::QueryEval, public ::javax::manag
 	$class(AndQueryExp, $NO_CLASS_INIT, ::javax::management::QueryEval, ::javax::management::QueryExp)
 public:
 	AndQueryExp();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

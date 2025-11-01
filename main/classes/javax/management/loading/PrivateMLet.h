@@ -28,7 +28,6 @@ class $export PrivateMLet : public ::javax::management::loading::MLet, public ::
 	$class(PrivateMLet, $NO_CLASS_INIT, ::javax::management::loading::MLet, ::javax::management::loading::PrivateClassLoader)
 public:
 	PrivateMLet();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	using ::javax::management::loading::MLet::findClass;
 	using ::javax::management::loading::MLet::definePackage;
 	using ::javax::management::loading::MLet::findResource;

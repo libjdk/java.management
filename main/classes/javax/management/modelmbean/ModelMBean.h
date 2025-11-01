@@ -22,7 +22,6 @@ namespace javax {
 class $export ModelMBean : public ::javax::management::DynamicMBean, public ::javax::management::PersistentMBean, public ::javax::management::modelmbean::ModelMBeanNotificationBroadcaster {
 	$interface(ModelMBean, $NO_CLASS_INIT, ::javax::management::DynamicMBean, ::javax::management::PersistentMBean, ::javax::management::modelmbean::ModelMBeanNotificationBroadcaster)
 public:
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

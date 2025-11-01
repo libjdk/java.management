@@ -176,27 +176,27 @@ bool StringMonitor::isActive() {
 }
 
 int32_t StringMonitor::hashCode() {
-	 return $as($StringMonitorMBean, this)->$StringMonitorMBean::hashCode();
+	 return this->$Monitor::hashCode();
 }
 
 bool StringMonitor::equals(Object$* arg0) {
-	 return $as($StringMonitorMBean, this)->$StringMonitorMBean::equals(arg0);
+	 return this->$Monitor::equals(arg0);
 }
 
 $Object* StringMonitor::clone() {
-	 return $as($StringMonitorMBean, this)->$StringMonitorMBean::clone();
+	 return this->$Monitor::clone();
 }
 
 $String* StringMonitor::toString() {
-	 return $as($StringMonitorMBean, this)->$StringMonitorMBean::toString();
+	 return this->$Monitor::toString();
 }
 
 void StringMonitor::finalize() {
-	$as($StringMonitorMBean, this)->$StringMonitorMBean::finalize();
+	this->$Monitor::finalize();
 }
 
-$Object0* StringMonitor::MemberClass0$::toObject0$() const {
-	return ($Object0*)(void*)((int8_t*)(void*)this - $offsetof(StringMonitor, memberClass0$));
+StringMonitor::MemberClass0$::MemberClass0$() {
+	$patchMemberClass(StringMonitor, $StringMonitorMBean, memberClass0$);
 }
 
 $String* StringMonitor::MemberClass0$::getDerivedGauge() {

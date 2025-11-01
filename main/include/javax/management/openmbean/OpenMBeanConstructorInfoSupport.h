@@ -35,7 +35,6 @@ class $import OpenMBeanConstructorInfoSupport : public ::javax::management::MBea
 	$class(OpenMBeanConstructorInfoSupport, $NO_CLASS_INIT, ::javax::management::MBeanConstructorInfo, ::javax::management::openmbean::OpenMBeanConstructorInfo)
 public:
 	OpenMBeanConstructorInfoSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	virtual $String* getDescription() override;

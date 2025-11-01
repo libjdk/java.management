@@ -29,7 +29,6 @@ class $export MemoryManagerImpl : public ::sun::management::NotificationEmitterS
 	$class(MemoryManagerImpl, $NO_CLASS_INIT, ::sun::management::NotificationEmitterSupport, ::java::lang::management::MemoryManagerMXBean)
 public:
 	MemoryManagerImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

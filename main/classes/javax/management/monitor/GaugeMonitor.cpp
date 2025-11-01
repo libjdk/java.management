@@ -210,27 +210,27 @@ bool GaugeMonitor::isActive() {
 }
 
 int32_t GaugeMonitor::hashCode() {
-	 return $as($GaugeMonitorMBean, this)->$GaugeMonitorMBean::hashCode();
+	 return this->$Monitor::hashCode();
 }
 
 bool GaugeMonitor::equals(Object$* arg0) {
-	 return $as($GaugeMonitorMBean, this)->$GaugeMonitorMBean::equals(arg0);
+	 return this->$Monitor::equals(arg0);
 }
 
 $Object* GaugeMonitor::clone() {
-	 return $as($GaugeMonitorMBean, this)->$GaugeMonitorMBean::clone();
+	 return this->$Monitor::clone();
 }
 
 $String* GaugeMonitor::toString() {
-	 return $as($GaugeMonitorMBean, this)->$GaugeMonitorMBean::toString();
+	 return this->$Monitor::toString();
 }
 
 void GaugeMonitor::finalize() {
-	$as($GaugeMonitorMBean, this)->$GaugeMonitorMBean::finalize();
+	this->$Monitor::finalize();
 }
 
-$Object0* GaugeMonitor::MemberClass0$::toObject0$() const {
-	return ($Object0*)(void*)((int8_t*)(void*)this - $offsetof(GaugeMonitor, memberClass0$));
+GaugeMonitor::MemberClass0$::MemberClass0$() {
+	$patchMemberClass(GaugeMonitor, $GaugeMonitorMBean, memberClass0$);
 }
 
 $Number* GaugeMonitor::MemberClass0$::getDerivedGauge() {

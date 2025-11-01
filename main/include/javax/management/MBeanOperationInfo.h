@@ -47,7 +47,6 @@ class $import MBeanOperationInfo : public ::javax::management::MBeanFeatureInfo,
 	$class(MBeanOperationInfo, 0, ::javax::management::MBeanFeatureInfo, ::java::lang::Cloneable)
 public:
 	MBeanOperationInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($String* description, ::java::lang::reflect::Method* method);
 	void init$($String* name, $String* description, $Array<::javax::management::MBeanParameterInfo>* signature, $String* type, int32_t impact);

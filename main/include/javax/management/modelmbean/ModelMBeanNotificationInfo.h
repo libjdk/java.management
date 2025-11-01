@@ -29,7 +29,6 @@ class $import ModelMBeanNotificationInfo : public ::javax::management::MBeanNoti
 	$class(ModelMBeanNotificationInfo, 0, ::javax::management::MBeanNotificationInfo, ::javax::management::DescriptorAccess)
 public:
 	ModelMBeanNotificationInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual bool equals(Object$* o) override;
 	virtual void finalize() override;
 	virtual int32_t hashCode() override;

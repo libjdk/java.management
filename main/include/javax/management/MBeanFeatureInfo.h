@@ -26,7 +26,6 @@ class $import MBeanFeatureInfo : public ::java::io::Serializable, public ::javax
 	$class(MBeanFeatureInfo, $NO_CLASS_INIT, ::java::io::Serializable, ::javax::management::DescriptorRead)
 public:
 	MBeanFeatureInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	void init$($String* name, $String* description);

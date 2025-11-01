@@ -31,7 +31,6 @@ class $export CompositeDataSupport : public ::javax::management::openmbean::Comp
 	$class(CompositeDataSupport, $NO_CLASS_INIT, ::javax::management::openmbean::CompositeData, ::java::io::Serializable)
 public:
 	CompositeDataSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	void init$(::javax::management::openmbean::CompositeType* compositeType, $StringArray* itemNames, $ObjectArray* itemValues);

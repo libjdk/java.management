@@ -36,7 +36,6 @@ class MemoryImpl : public ::sun::management::NotificationEmitterSupport, public 
 	$class(MemoryImpl, 0, ::sun::management::NotificationEmitterSupport, ::java::lang::management::MemoryMXBean)
 public:
 	MemoryImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

@@ -88,7 +88,7 @@ public:
 	void updateThreshold(::javax::management::monitor::CounterMonitor$CounterMonitorObservedObject* o);
 	class $export MemberClass0$ : public ::javax::management::monitor::CounterMonitorMBean {
 	public:
-		virtual ::java::lang::Object0* toObject0$() const override;
+		MemberClass0$();
 		virtual ::java::lang::Number* getDerivedGauge() override;
 		virtual int64_t getDerivedGaugeTimeStamp() override;
 		virtual ::java::lang::Number* getThreshold() override;
@@ -126,7 +126,7 @@ public:
 		virtual void finalize() override;
 	};
 	MemberClass0$ memberClass0$;
-	::javax::management::monitor::CounterMonitorMBean* as$(::javax::management::monitor::CounterMonitorMBean*) {
+	::javax::management::monitor::CounterMonitorMBean* as$(::javax::management::monitor::CounterMonitorMBean**) {
 		return &memberClass0$;
 	}
 	::java::lang::Number* modulus = nullptr;

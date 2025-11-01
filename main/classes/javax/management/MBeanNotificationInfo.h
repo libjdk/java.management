@@ -31,7 +31,6 @@ class $export MBeanNotificationInfo : public ::javax::management::MBeanFeatureIn
 	$class(MBeanNotificationInfo, 0, ::javax::management::MBeanFeatureInfo, ::java::lang::Cloneable)
 public:
 	MBeanNotificationInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($StringArray* notifTypes, $String* name, $String* description);
 	void init$($StringArray* notifTypes, $String* name, $String* description, ::javax::management::Descriptor* descriptor);

@@ -32,7 +32,6 @@ class $import MBeanConstructorInfo : public ::javax::management::MBeanFeatureInf
 	$class(MBeanConstructorInfo, 0, ::javax::management::MBeanFeatureInfo, ::java::lang::Cloneable)
 public:
 	MBeanConstructorInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($String* description, ::java::lang::reflect::Constructor* constructor);
 	void init$($String* name, $String* description, $Array<::javax::management::MBeanParameterInfo>* signature);

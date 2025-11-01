@@ -26,7 +26,6 @@ class ByteArrayCounterSnapshot : public ::sun::management::counter::AbstractCoun
 	$class(ByteArrayCounterSnapshot, $NO_CLASS_INIT, ::sun::management::counter::AbstractCounter, ::sun::management::counter::ByteArrayCounter)
 public:
 	ByteArrayCounterSnapshot();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

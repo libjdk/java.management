@@ -64,7 +64,6 @@ class $import ModelMBeanInfoSupport : public ::javax::management::MBeanInfo, pub
 	$class(ModelMBeanInfoSupport, 0, ::javax::management::MBeanInfo, ::javax::management::modelmbean::ModelMBeanInfo)
 public:
 	ModelMBeanInfoSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual bool equals(Object$* o) override;
 	virtual void finalize() override;
 	virtual $Array<::javax::management::MBeanAttributeInfo>* getAttributes() override;

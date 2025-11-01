@@ -267,27 +267,27 @@ bool CounterMonitor::isActive() {
 }
 
 int32_t CounterMonitor::hashCode() {
-	 return $as($CounterMonitorMBean, this)->$CounterMonitorMBean::hashCode();
+	 return this->$Monitor::hashCode();
 }
 
 bool CounterMonitor::equals(Object$* arg0) {
-	 return $as($CounterMonitorMBean, this)->$CounterMonitorMBean::equals(arg0);
+	 return this->$Monitor::equals(arg0);
 }
 
 $Object* CounterMonitor::clone() {
-	 return $as($CounterMonitorMBean, this)->$CounterMonitorMBean::clone();
+	 return this->$Monitor::clone();
 }
 
 $String* CounterMonitor::toString() {
-	 return $as($CounterMonitorMBean, this)->$CounterMonitorMBean::toString();
+	 return this->$Monitor::toString();
 }
 
 void CounterMonitor::finalize() {
-	$as($CounterMonitorMBean, this)->$CounterMonitorMBean::finalize();
+	this->$Monitor::finalize();
 }
 
-$Object0* CounterMonitor::MemberClass0$::toObject0$() const {
-	return ($Object0*)(void*)((int8_t*)(void*)this - $offsetof(CounterMonitor, memberClass0$));
+CounterMonitor::MemberClass0$::MemberClass0$() {
+	$patchMemberClass(CounterMonitor, $CounterMonitorMBean, memberClass0$);
 }
 
 $Number* CounterMonitor::MemberClass0$::getDerivedGauge() {

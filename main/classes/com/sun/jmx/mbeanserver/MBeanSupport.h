@@ -42,7 +42,6 @@ class MBeanSupport : public ::com::sun::jmx::mbeanserver::DynamicMBean2, public 
 	$class(MBeanSupport, $NO_CLASS_INIT, ::com::sun::jmx::mbeanserver::DynamicMBean2, ::javax::management::MBeanRegistration)
 public:
 	MBeanSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

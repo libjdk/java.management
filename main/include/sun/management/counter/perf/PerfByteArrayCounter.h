@@ -31,7 +31,6 @@ class $import PerfByteArrayCounter : public ::sun::management::counter::Abstract
 	$class(PerfByteArrayCounter, $NO_CLASS_INIT, ::sun::management::counter::AbstractCounter, ::sun::management::counter::ByteArrayCounter)
 public:
 	PerfByteArrayCounter();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

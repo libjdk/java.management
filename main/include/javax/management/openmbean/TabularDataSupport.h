@@ -39,7 +39,6 @@ class $import TabularDataSupport : public ::javax::management::openmbean::Tabula
 	$class(TabularDataSupport, $NO_CLASS_INIT, ::javax::management::openmbean::TabularData, ::java::util::Map, ::java::lang::Cloneable, ::java::io::Serializable)
 public:
 	TabularDataSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(::javax::management::openmbean::TabularType* tabularType);
 	void init$(::javax::management::openmbean::TabularType* tabularType, int32_t initialCapacity, float loadFactor);

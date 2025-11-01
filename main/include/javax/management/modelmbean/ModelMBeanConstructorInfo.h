@@ -37,7 +37,6 @@ class $import ModelMBeanConstructorInfo : public ::javax::management::MBeanConst
 	$class(ModelMBeanConstructorInfo, 0, ::javax::management::MBeanConstructorInfo, ::javax::management::DescriptorAccess)
 public:
 	ModelMBeanConstructorInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual bool equals(Object$* o) override;
 	virtual void finalize() override;
 	virtual int32_t hashCode() override;

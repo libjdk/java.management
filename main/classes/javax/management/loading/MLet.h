@@ -58,7 +58,6 @@ class $export MLet : public ::java::net::URLClassLoader, public ::javax::managem
 	$class(MLet, $NO_CLASS_INIT, ::java::net::URLClassLoader, ::javax::management::loading::MLetMBean, ::javax::management::MBeanRegistration, ::java::io::Externalizable)
 public:
 	MLet();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	using ::java::net::URLClassLoader::definePackage;
 	using ::java::net::URLClassLoader::findResource;
 	using ::java::net::URLClassLoader::defineClass;

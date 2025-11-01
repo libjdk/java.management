@@ -29,7 +29,6 @@ class $import HotspotInternal : public ::sun::management::HotspotInternalMBean, 
 	$class(HotspotInternal, 0, ::sun::management::HotspotInternalMBean, ::javax::management::MBeanRegistration)
 public:
 	HotspotInternal();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

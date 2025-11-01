@@ -25,7 +25,6 @@ class LongCounterSnapshot : public ::sun::management::counter::AbstractCounter, 
 	$class(LongCounterSnapshot, $NO_CLASS_INIT, ::sun::management::counter::AbstractCounter, ::sun::management::counter::LongCounter)
 public:
 	LongCounterSnapshot();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

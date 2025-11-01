@@ -34,7 +34,6 @@ class MBeanServerDelegateImpl : public ::javax::management::MBeanServerDelegate,
 	$class(MBeanServerDelegateImpl, 0, ::javax::management::MBeanServerDelegate, ::javax::management::DynamicMBean, ::javax::management::MBeanRegistration)
 public:
 	MBeanServerDelegateImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

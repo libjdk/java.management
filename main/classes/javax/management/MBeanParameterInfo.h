@@ -24,7 +24,6 @@ class $export MBeanParameterInfo : public ::javax::management::MBeanFeatureInfo,
 	$class(MBeanParameterInfo, 0, ::javax::management::MBeanFeatureInfo, ::java::lang::Cloneable)
 public:
 	MBeanParameterInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($String* name, $String* type, $String* description);
 	void init$($String* name, $String* type, $String* description, ::javax::management::Descriptor* descriptor);

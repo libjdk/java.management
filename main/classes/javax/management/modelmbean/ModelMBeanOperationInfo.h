@@ -37,7 +37,6 @@ class $export ModelMBeanOperationInfo : public ::javax::management::MBeanOperati
 	$class(ModelMBeanOperationInfo, 0, ::javax::management::MBeanOperationInfo, ::javax::management::DescriptorAccess)
 public:
 	ModelMBeanOperationInfo();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual bool equals(Object$* o) override;
 	virtual void finalize() override;
 	virtual int32_t hashCode() override;

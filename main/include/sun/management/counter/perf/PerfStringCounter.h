@@ -36,7 +36,6 @@ class $import PerfStringCounter : public ::sun::management::counter::perf::PerfB
 	$class(PerfStringCounter, 0, ::sun::management::counter::perf::PerfByteArrayCounter, ::sun::management::counter::StringCounter)
 public:
 	PerfStringCounter();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

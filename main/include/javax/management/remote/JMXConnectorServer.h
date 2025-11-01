@@ -48,7 +48,6 @@ class $import JMXConnectorServer : public ::javax::management::NotificationBroad
 	$class(JMXConnectorServer, 0, ::javax::management::NotificationBroadcasterSupport, ::javax::management::remote::JMXConnectorServerMBean, ::javax::management::MBeanRegistration, ::javax::management::remote::JMXAddressable)
 public:
 	JMXConnectorServer();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

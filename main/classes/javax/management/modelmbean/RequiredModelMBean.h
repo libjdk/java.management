@@ -80,7 +80,6 @@ class $export RequiredModelMBean : public ::javax::management::modelmbean::Model
 	$class(RequiredModelMBean, 0, ::javax::management::modelmbean::ModelMBean, ::javax::management::MBeanRegistration, ::javax::management::NotificationEmitter)
 public:
 	RequiredModelMBean();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

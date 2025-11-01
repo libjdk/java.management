@@ -40,7 +40,6 @@ class $export OpenMBeanParameterInfoSupport : public ::javax::management::MBeanP
 	$class(OpenMBeanParameterInfoSupport, $NO_CLASS_INIT, ::javax::management::MBeanParameterInfo, ::javax::management::openmbean::OpenMBeanParameterInfo)
 public:
 	OpenMBeanParameterInfoSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	virtual $String* getDescription() override;

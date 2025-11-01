@@ -29,7 +29,6 @@ class $export MBeanServerDelegate : public ::javax::management::MBeanServerDeleg
 	$class(MBeanServerDelegate, 0, ::javax::management::MBeanServerDelegateMBean, ::javax::management::NotificationEmitter)
 public:
 	MBeanServerDelegate();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

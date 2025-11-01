@@ -93,7 +93,7 @@ public:
 	::javax::management::monitor::MonitorNotification* updateNotifications(::javax::management::monitor::GaugeMonitor$GaugeMonitorObservedObject* o);
 	class $export MemberClass0$ : public ::javax::management::monitor::GaugeMonitorMBean {
 	public:
-		virtual ::java::lang::Object0* toObject0$() const override;
+		MemberClass0$();
 		virtual ::java::lang::Number* getDerivedGauge() override;
 		virtual int64_t getDerivedGaugeTimeStamp() override;
 		virtual ::java::lang::Number* getDerivedGauge(::javax::management::ObjectName* object) override;
@@ -127,7 +127,7 @@ public:
 		virtual void finalize() override;
 	};
 	MemberClass0$ memberClass0$;
-	::javax::management::monitor::GaugeMonitorMBean* as$(::javax::management::monitor::GaugeMonitorMBean*) {
+	::javax::management::monitor::GaugeMonitorMBean* as$(::javax::management::monitor::GaugeMonitorMBean**) {
 		return &memberClass0$;
 	}
 	::java::lang::Number* highThreshold = nullptr;

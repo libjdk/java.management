@@ -80,7 +80,7 @@ public:
 	virtual $String* toString() override;
 	class $import MemberClass0$ : public ::javax::management::monitor::StringMonitorMBean {
 	public:
-		virtual ::java::lang::Object0* toObject0$() const override;
+		MemberClass0$();
 		virtual $String* getDerivedGauge() override;
 		virtual int64_t getDerivedGaugeTimeStamp() override;
 		virtual $String* getDerivedGauge(::javax::management::ObjectName* object) override;
@@ -111,7 +111,7 @@ public:
 		virtual void finalize() override;
 	};
 	MemberClass0$ memberClass0$;
-	::javax::management::monitor::StringMonitorMBean* as$(::javax::management::monitor::StringMonitorMBean*) {
+	::javax::management::monitor::StringMonitorMBean* as$(::javax::management::monitor::StringMonitorMBean**) {
 		return &memberClass0$;
 	}
 	$String* stringToCompare = nullptr;

@@ -48,7 +48,6 @@ class $export ObjectName : public ::java::lang::Comparable, public ::javax::mana
 	$class(ObjectName, 0, ::java::lang::Comparable, ::javax::management::QueryExp)
 public:
 	ObjectName();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	void init$($String* name);

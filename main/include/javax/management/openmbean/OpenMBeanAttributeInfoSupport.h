@@ -41,7 +41,6 @@ class $import OpenMBeanAttributeInfoSupport : public ::javax::management::MBeanA
 	$class(OpenMBeanAttributeInfoSupport, $NO_CLASS_INIT, ::javax::management::MBeanAttributeInfo, ::javax::management::openmbean::OpenMBeanAttributeInfo)
 public:
 	OpenMBeanAttributeInfoSupport();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void finalize() override;
 	virtual $String* getDescription() override;
